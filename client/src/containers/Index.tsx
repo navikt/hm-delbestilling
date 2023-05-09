@@ -50,7 +50,7 @@ const Index = () => {
               <Panel>
                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                   <Heading size="xsmall" level="4" spacing>
-                    Bestill del {hjelpemiddel.navn}
+                    Bestill del til {hjelpemiddel.navn}
                   </Heading>
                   <Button
                     icon={<PencilIcon />}
@@ -64,7 +64,7 @@ const Index = () => {
                   </Button>
                 </div>
                 <BodyShort>
-                  <strong>Art.nr:</strong> {artNr} | <strong>Serienr</strong> {serieNr}
+                  <strong>Art.nr:</strong> {artNr} | <strong>Serienr:</strong> {serieNr}
                 </BodyShort>
               </Panel>
               <Avstand marginBottom={6} />
