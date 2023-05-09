@@ -1,0 +1,14 @@
+.idea
+.vscode
+coverage
+dist
+downloads
+node_modules
+screenshots
+videos
+.DS_Store
+yarn-error.log
+*.iml
+.dccache
+**/.dccache
+.iac-data

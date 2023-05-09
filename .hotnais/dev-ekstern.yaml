@@ -1,0 +1,38 @@
+apiVersion: 'nais.io/v1alpha1'
+kind: 'Application'
+metadata:
+  name: hm-delbestilling-ekstern
+  namespace: teamdigihot
+  labels:
+    team: teamdigihot
+spec:
+  image: {{ image }}
+  team: teamdigihot
+  port: 5000
+  replicas:
+    min: 1
+    max: 1
+    cpuThresholdPercentage: 90
+  vault:
+    enabled: false
+  ingresses:
+    - https://hjelpemidler.ekstern.dev.nav.no/hjelpemidler/delbestilling
+  liveness:
+    path: /hjelpemidler/delbestilling/internal/isAlive
+    initialDelay: 5
+  readiness:
+    path: /hjelpemidler/delbestilling/internal/isReady
+    initialDelay: 5
+  prometheus:
+    enabled: true
+    path: /hjelpemidler/delbestilling/internal/metrics
+  accessPolicy:
+    outbound:
+      external:
+        - host: www.nav.no
+        - host: dekoratoren.ekstern.dev.nav.no
+  env:
+    - name: USE_MSW
+      value: 'true'
+    - name: GIT_COMMIT
+      value: {{commit}}

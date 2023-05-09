@@ -1,0 +1,7 @@
+.github
+.hotnais
+.idea
+**/cypress
+**/dist
+**/node_modules
+**/*.iml

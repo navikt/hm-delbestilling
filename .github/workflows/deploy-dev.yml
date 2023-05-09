@@ -1,0 +1,106 @@
+name: Build, deploy to & dev-gcp and create release
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENCE'
+      - 'CODEOWNERS'
+    branches:
+      - main
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+jobs:
+  # cypress-test:
+  #   name: Run Cypress tests
+  #   runs-on: ubuntu-latest-8-cores
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Cypress run
+  #       uses: cypress-io/github-action@v4
+  #       with:
+  #         working-directory: client
+  #         config-file: cypress.config.ts
+  #         start: yarn mock:ci
+  #         wait-on: 'http://localhost:3000'
+  #         record: false
+  #         video: false
+
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Pre-deploy
+        uses: navikt/digihot-deploy/actions/pre-deploy@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_IMAGE: ghcr.io/${{ github.repository }}
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE }}
+      - name: Deploy to dev-gcp (intern)
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .hotnais/dev-intern.yaml
+          PRINT_PAYLOAD: true
+          VAR: commit=${{ github.sha }},image=${{ env.IMAGE }}
+      - name: Deploy to dev-gcp (ekstern)
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .hotnais/dev-ekstern.yaml
+          PRINT_PAYLOAD: true
+          VAR: commit=${{ github.sha }},image=${{ env.IMAGE }}
+      - name: post-deploy
+        if: github.ref == 'refs/heads/main'
+        uses: navikt/digihot-deploy/actions/post-deploy@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        if: github.ref == 'refs/heads/main'
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.VERSION_TAG }}
+          release_name: ${{ env.APPLICATION }} ${{ env.VERSION_TAG }}
+          body: ${{ env.CHANGE_LOG }}
+          draft: true
+          prerelease: false
+
+  # sentry-release:
+  #   name: Lag sentry release
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   needs: cypress-test
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: yarn install & build client
+  #       run: |
+  #         yarn install:client
+  #         yarn build:client
+  #     - name: Lag sentry release
+  #       env:
+  #         SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  #       run: |
+  #         npx -p @sentry/cli sentry-cli releases new "${{ github.sha }}"
+  #         npx -p @sentry/cli sentry-cli releases files "${{ github.sha }}" upload-sourcemaps client/dist/assets \
+  #             --url-prefix '~/hjelpemidler/delbestilling/assets'
+  #         npx -p @sentry/cli sentry-cli releases finalize "${{ github.sha }}"

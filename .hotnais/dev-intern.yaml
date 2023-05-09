@@ -1,0 +1,60 @@
+apiVersion: 'nais.io/v1alpha1'
+kind: 'Application'
+metadata:
+  name: hm-delbestilling
+  namespace: teamdigihot
+  labels:
+    team: teamdigihot
+  annotations:
+    snorlax.nais.io/enabled: "true"
+spec:
+  image: {{image}}
+  team: teamdigihot
+  port: 5000
+  replicas:
+    min: 1
+    max: 1
+    cpuThresholdPercentage: 90
+  liveness:
+    path: /hjelpemidler/delbestilling/internal/isAlive
+    initialDelay: 5
+  readiness:
+    path: /hjelpemidler/delbestilling/internal/isReady
+    initialDelay: 5
+  prometheus:
+    enabled: true
+    path: /hjelpemidler/delbestilling/internal/metrics
+  ingresses:
+    - https://hjelpemidler.intern.dev.nav.no/hjelpemidler/delbestilling
+  tokenx:
+    enabled: true
+  idporten:
+    enabled: true
+    sidecar:
+      enabled: true
+      level: Level4
+  env:
+    - name: API_URL
+      value: http://hm-delbestilling-api.teamdigihot.svc.cluster.local
+    - name: HJELPEMIDDELDATABASEN_URL
+      value: http://hm-grunndata-api.teamdigihot.svc.cluster.local
+    - name: ROLLER_URL
+      value: http://hm-roller.teamdigihot.svc.cluster.local
+    - name: ROLLER_AUDIENCE
+      value: dev-gcp:teamdigihot:hm-roller
+    - name: REDIRECT_URL
+      value: https://hjelpemidler.intern.dev.nav.no/hjelpemidler/delbestilling
+    - name: USE_MSW
+      value: 'false'
+    - name: GIT_COMMIT
+      value: {{commit}}
+  accessPolicy:
+    outbound:
+      external:
+        - host: loginservice.dev.nav.no
+        - host: dekoratoren.dev.nav.no
+        - host: tokendings.dev-gcp.nais.io
+      rules:
+        - application: hm-delbestilling-api
+        - application: hm-grunndata-api
+        - application: hm-roller
