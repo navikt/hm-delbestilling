@@ -1,7 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { Route, Routes as Switch } from 'react-router-dom'
-import Startside from './Startside'
+import Index from './containers/Index'
 
 const Routes = () => {
   const erLoggetInn = true
@@ -11,7 +11,7 @@ const Routes = () => {
         <title>Delbestilling</title>
       </Helmet>
       <Switch>
-        <Route path="/" element={<Startside />} />
+        <Route path="/" element={<Index />} />
         {erLoggetInn && <Route path="/checkout" element={<div>Checkout kommer her...</div>} />}
       </Switch>
     </>
