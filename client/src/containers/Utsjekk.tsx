@@ -118,6 +118,7 @@ const Utsjekk = () => {
               <Heading level="2" size="large" spacing>
                 Deler lagt til i bestillingen
               </Heading>
+              {session.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
               {session.handlekurv.deler.map((del) => (
                 <Panel key={del.hmsnr} border>
                   <Heading level="3" size="medium">

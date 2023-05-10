@@ -67,9 +67,11 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                 {del.navn}
               </Heading>
               <BodyShort spacing>{del.beskrivelse}</BodyShort>
-              <Button variant="secondary" onClick={() => onLeggTil(del)}>
-                {knappeTekst}
-              </Button>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button variant="secondary" onClick={() => onLeggTil(del)}>
+                  {knappeTekst}
+                </Button>
+              </div>
             </Panel>
           </Avstand>
         ))}
