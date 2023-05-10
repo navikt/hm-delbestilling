@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 
 const Index = () => {
-  const [artNr, setArtNr] = useState('222222')
-  const [serieNr, setSerieNr] = useState('123123')
+  const [artNr, setArtNr] = useState('')
+  const [serieNr, setSerieNr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
 
   const navigate = useNavigate()
