@@ -26,6 +26,7 @@ export const routes = {
     return router
   },
   api(): Router {
+    console.log('routes.api()')
     reverseProxy.setup()
     const router = Router()
     router.use(reverseProxy.handlers.api())

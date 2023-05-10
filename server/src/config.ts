@@ -38,7 +38,7 @@ const app = {
   sessionSecret: process.env.SESSION_SECRET,
   useSecureCookies: !!process.env.NAIS_CLUSTER_NAME,
   port: process.env.PORT || 5000,
-  targetAudienceAPI: process.env.HJELPEMIDLERSOKNAD_API_AUDIENCE || 'local:hjelpemidlerdigitalsoknad-api',
+  targetAudienceAPI: process.env.DELBESTILLING_API_AUDIENCE || 'local:hjelpemidlerdigitalsoknad-api',
   cluster: process.env.NAIS_CLUSTER_NAME || '',
   redirectUrl: process.env.REDIRECT_URL,
   targetAudienceRoller: process.env.ROLLER_AUDIENCE || 'local:hm-roller',
