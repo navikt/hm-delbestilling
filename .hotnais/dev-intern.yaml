@@ -36,6 +36,8 @@ spec:
   env:
     - name: API_URL
       value: http://hm-delbestilling-api.teamdigihot.svc.cluster.local
+    - name: DELBESTILLING_API_AUDIENCE
+      value: dev-gcp:teamdigihot:hm-delbestilling-api
     - name: HJELPEMIDDELDATABASEN_URL
       value: http://hm-grunndata-api.teamdigihot.svc.cluster.local
     - name: ROLLER_URL
