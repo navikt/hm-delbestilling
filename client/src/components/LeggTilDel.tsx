@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { BodyShort, Button, Chips, Heading, Panel } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
-import { Handlekurv, Del, Hjelpemiddel } from '../types/Types'
+import { Del, Hjelpemiddel } from '../types/Types'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -12,7 +12,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
   const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
 
   const delKategorier = useMemo(() => {
-    if (hjelpemiddel?.deler) {
+    if (hjelpemiddel.deler) {
       return hjelpemiddel.deler.reduce((acc, del) => {
         if (!acc.includes(del.kategori)) {
           acc.push(del.kategori)
@@ -21,6 +21,10 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       }, [] as string[])
     }
   }, [hjelpemiddel])
+
+  if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
+    return <div>Dette hjelpemiddelet har ingen deler du kan legge til</div>
+  }
 
   return (
     <>
@@ -55,7 +59,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       </Avstand>
 
       {hjelpemiddel.deler
-        ?.filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
+        .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => (
           <Avstand marginBottom={4} key={del.hmsnr}>
             <Panel>

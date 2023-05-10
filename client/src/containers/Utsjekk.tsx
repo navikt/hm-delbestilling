@@ -1,10 +1,11 @@
-import { BodyShort, Button, Heading, Panel } from '@navikt/ds-react'
+import { BodyShort, Button, Heading, Panel, Select } from '@navikt/ds-react'
 import React, { useEffect, useState } from 'react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
+import { TrashIcon } from '@navikt/aksel-icons'
 
 interface Session {
   handlekurv: Handlekurv
@@ -36,6 +37,37 @@ const Utsjekk = () => {
     setVisFlereDeler(false)
   }
 
+  const setAntall = (del: Del, antall: number) => {
+    setSession((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        handlekurv: {
+          ...prev.handlekurv,
+          deler: prev.handlekurv.deler.map((handlekurvDel) => {
+            if (handlekurvDel.hmsnr === del.hmsnr) return { ...handlekurvDel, antall: antall }
+            return handlekurvDel
+          }),
+        },
+      }
+    })
+  }
+
+  const handleSlett = (del: Del) => {
+    setSession((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        handlekurv: {
+          ...prev.handlekurv,
+          deler: prev.handlekurv.deler.filter((handlekurvDel) => {
+            return handlekurvDel.hmsnr !== del.hmsnr
+          }),
+        },
+      }
+    })
+  }
+
   if (!session) {
     return <>Fant ingen session...</>
   }
@@ -51,6 +83,13 @@ const Utsjekk = () => {
       </Header>
       <main>
         <Content>
+          {visFlereDeler && (
+            <Avstand marginBottom={2}>
+              <Button variant="tertiary" onClick={() => setVisFlereDeler(false)}>
+                Tilbake til bestillingen
+              </Button>
+            </Avstand>
+          )}
           <Panel>
             <Heading level="3" size="small" spacing>
               Bestill deler til {session.hjelpemiddel.navn}
@@ -63,7 +102,16 @@ const Utsjekk = () => {
           <Avstand marginBottom={4} />
           {visFlereDeler ? (
             <>
-              <LeggTilDel hjelpemiddel={session.hjelpemiddel} onLeggTil={(del) => leggTilDel(del)} />
+              <LeggTilDel
+                hjelpemiddel={{
+                  ...session.hjelpemiddel,
+                  // Filtrer bort allerede lagt til deler
+                  deler: session.hjelpemiddel.deler?.filter(
+                    (del) => !session.handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
+                  ),
+                }}
+                onLeggTil={(del) => leggTilDel(del)}
+              />
             </>
           ) : (
             <>
@@ -76,13 +124,34 @@ const Utsjekk = () => {
                     {del.navn}
                   </Heading>
                   <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                  <div style={{ padding: '1rem', background: '#f1f1f1' }}></div>
+                  <div
+                    style={{
+                      padding: '1rem',
+                      background: '#f1f1f1',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlett(del)}>
+                      Slett del
+                    </Button>
+                    <Select label="Antall" value={del.antall} onChange={(e) => setAntall(del, Number(e.target.value))}>
+                      {Array.from(Array(5), (_, x: number) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
                 </Panel>
               ))}
+              <Avstand marginBottom={4} />
+              <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
+                Legg til flere deler
+              </Button>
             </>
           )}
-
-          <Button onClick={() => setVisFlereDeler(!visFlereDeler)}>Legg til flere deler</Button>
         </Content>
       </main>
     </>

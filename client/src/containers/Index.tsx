@@ -17,9 +17,6 @@ const Index = () => {
   const navigate = useNavigate()
 
   const handleBestill = (hjelpemiddel: Hjelpemiddel, del: Del) => {
-    console.log('hjelpemiddel:', hjelpemiddel)
-    console.log('del:', del)
-
     const handlekurv: Handlekurv = {
       serieNr,
       deler: [{ ...del, antall: 1 }],
