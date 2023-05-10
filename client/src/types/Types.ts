@@ -12,3 +12,13 @@ export interface Del {
   img: string
   kategori: string
 }
+
+// TODO: dette føles klønete...
+export interface Delbestilling extends Del {
+  antall: number
+}
+
+export interface Handlekurv {
+  serieNr: string
+  deler: Delbestilling[]
+}

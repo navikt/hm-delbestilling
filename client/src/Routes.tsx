@@ -2,6 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { Route, Routes as Switch } from 'react-router-dom'
 import Index from './containers/Index'
+import Utsjekk from './containers/Utsjekk'
 
 const Routes = () => {
   const erLoggetInn = true
@@ -12,7 +13,8 @@ const Routes = () => {
       </Helmet>
       <Switch>
         <Route path="/" element={<Index />} />
-        {erLoggetInn && <Route path="/checkout" element={<div>Checkout kommer her...</div>} />}
+        {/* TODO: hvordan håndterer vi sjekk av login her? */}
+        <Route path="/utsjekk" element={<Utsjekk />} />
       </Switch>
     </>
   )

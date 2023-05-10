@@ -5,13 +5,16 @@ import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
 import { Avstand } from '../components/Avstand'
-import { Hjelpemiddel } from '../types/Types'
+import { Handlekurv, Del, Hjelpemiddel } from '../types/Types'
+import { useNavigate } from 'react-router-dom'
 
 const Index = () => {
-  const [artNr, setArtNr] = useState('')
-  const [serieNr, setSerieNr] = useState('')
+  const [artNr, setArtNr] = useState('222222')
+  const [serieNr, setSerieNr] = useState('123123')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
+
+  const navigate = useNavigate()
 
   const delKategorier = useMemo(() => {
     if (hjelpemiddel?.deler) {
@@ -23,6 +26,20 @@ const Index = () => {
       }, [] as string[])
     }
   }, [hjelpemiddel])
+
+  const handleBestill = (hjelpemiddel: Hjelpemiddel, del: Del) => {
+    console.log('hjelpemiddel:', hjelpemiddel)
+    console.log('del:', del)
+
+    const handlekurv: Handlekurv = {
+      serieNr,
+      deler: [{ ...del, antall: 1 }],
+    }
+
+    window.localStorage.setItem('hm-delbestilling-session', JSON.stringify({ hjelpemiddel, handlekurv }))
+
+    navigate('/utsjekk')
+  }
 
   return (
     <>
@@ -109,7 +126,9 @@ const Index = () => {
                         {del.navn}
                       </Heading>
                       <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                      <Button variant="secondary">Bestill</Button>
+                      <Button variant="secondary" onClick={() => handleBestill(hjelpemiddel, del)}>
+                        Bestill
+                      </Button>
                     </Panel>
                   </Avstand>
                 ))}
