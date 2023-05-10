@@ -15,9 +15,9 @@ const Index = () => {
 
   const delKategorier = useMemo(() => {
     if (hjelpemiddel?.deler) {
-      return hjelpemiddel.deler.reduce((acc, curr) => {
-        if (!acc.includes(curr.kategori)) {
-          acc.push(curr.kategori)
+      return hjelpemiddel.deler.reduce((acc, del) => {
+        if (!acc.includes(del.kategori)) {
+          acc.push(del.kategori)
         }
         return acc
       }, [] as string[])
@@ -27,9 +27,11 @@ const Index = () => {
   return (
     <>
       <Header>
-        <Heading level="1" size="xlarge">
-          Bestill del til hjelpemiddel
-        </Heading>
+        <Content>
+          <Heading level="1" size="xlarge">
+            Bestill del til hjelpemiddel
+          </Heading>
+        </Content>
       </Header>
       <main>
         <Content>

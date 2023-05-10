@@ -1,6 +1,7 @@
 import React, { SetStateAction, useState } from 'react'
 import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
 import { Hjelpemiddel } from '../types/Types'
+import styled from 'styled-components'
 
 const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)
@@ -16,6 +17,10 @@ export interface OppslagResponse {
   hjelpemiddel?: Hjelpemiddel
   serieNrKobletMotBruker: boolean
 }
+
+const StyledTextField = styled(TextField)`
+  width: 130px;
+`
 
 interface Props {
   artNr: string
@@ -53,6 +58,11 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
     doFetch()
   }
 
+  const reset = () => {
+    setArtNr('')
+    setSerieNr('')
+  }
+
   return (
     <Panel>
       <Heading size="xsmall" level="3" spacing>
@@ -60,19 +70,22 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
       </Heading>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
-          <TextField
+        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', alignItems: 'end' }}>
+          <StyledTextField
             label="Art.nr(6 siffer)"
             value={artNr}
             onChange={(e) => erGyldig(e.target.value) && setArtNr(e.target.value)}
-          ></TextField>
-          <TextField
+          ></StyledTextField>
+          <StyledTextField
             label="Serienr(6 siffer)"
             value={serieNr}
             onChange={(e) => erGyldig(e.target.value) && setSerieNr(e.target.value)}
-          ></TextField>
+          ></StyledTextField>
+          <Button onClick={handleSubmit}>Vis deler</Button>
+          <Button type="button" onClick={reset} variant="tertiary">
+            Start på nytt
+          </Button>
         </div>
-        <Button onClick={handleSubmit}>Vis deler som kan bestilles digitalt</Button>
       </form>
     </Panel>
   )
