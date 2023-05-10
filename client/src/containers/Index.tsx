@@ -72,32 +72,34 @@ const Index = () => {
                 Deler til {hjelpemiddel.navn}
               </Heading>
               <Avstand marginBottom={4}>
-                <Chips>
-                  <Chips.Toggle
-                    key={'alle_kategorier'}
-                    selected={kategoriFilter === undefined}
-                    onClick={() => {
-                      setKategoriFilter(undefined)
-                    }}
-                  >
-                    Alle deler
-                  </Chips.Toggle>
-                  {delKategorier?.map((kategori) => (
+                {delKategorier && (
+                  <Chips>
                     <Chips.Toggle
-                      key={kategori}
-                      selected={kategoriFilter === kategori}
+                      key={'alleKategorier'}
+                      selected={kategoriFilter === undefined}
                       onClick={() => {
-                        setKategoriFilter(kategori)
+                        setKategoriFilter(undefined)
                       }}
                     >
-                      {kategori}
+                      Alle deler
                     </Chips.Toggle>
-                  ))}
-                </Chips>
+                    {delKategorier.map((kategori) => (
+                      <Chips.Toggle
+                        key={kategori}
+                        selected={kategoriFilter === kategori}
+                        onClick={() => {
+                          setKategoriFilter(kategori)
+                        }}
+                      >
+                        {kategori}
+                      </Chips.Toggle>
+                    ))}
+                  </Chips>
+                )}
               </Avstand>
 
               {hjelpemiddel.deler
-                ?.filter((del) => (kategoriFilter ? kategoriFilter.includes(del.kategori) : del))
+                ?.filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
                 .map((del) => (
                   <Avstand marginBottom={4} key={del.hmsnr}>
                     <Panel>
