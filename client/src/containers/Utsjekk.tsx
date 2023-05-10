@@ -1,6 +1,7 @@
 import { BodyShort, Button, Heading, Panel } from '@navikt/ds-react'
 import React, { useEffect, useState } from 'react'
 import { Avstand } from '../components/Avstand'
+import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
@@ -62,27 +63,7 @@ const Utsjekk = () => {
           <Avstand marginBottom={4} />
           {visFlereDeler ? (
             <>
-              {session.hjelpemiddel.deler?.map((del) => {
-                const harDelIHandlekurv = session.handlekurv.deler.find(
-                  (handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr
-                )
-
-                if (harDelIHandlekurv) return null
-
-                return (
-                  <Avstand marginBottom={4} key={del.hmsnr}>
-                    <Panel>
-                      <Heading size="xsmall" level="4">
-                        {del.navn}
-                      </Heading>
-                      <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                      <Button variant="secondary" onClick={() => leggTilDel(del)}>
-                        Legg til
-                      </Button>
-                    </Panel>
-                  </Avstand>
-                )
-              })}
+              <LeggTilDel hjelpemiddel={session.hjelpemiddel} onLeggTil={(del) => leggTilDel(del)} />
             </>
           ) : (
             <>

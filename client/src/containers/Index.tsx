@@ -7,25 +7,14 @@ import Header from '../styledcomponents/Header'
 import { Avstand } from '../components/Avstand'
 import { Handlekurv, Del, Hjelpemiddel } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
+import LeggTilDel from '../components/LeggTilDel'
 
 const Index = () => {
   const [artNr, setArtNr] = useState('222222')
   const [serieNr, setSerieNr] = useState('123123')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
-  const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
 
   const navigate = useNavigate()
-
-  const delKategorier = useMemo(() => {
-    if (hjelpemiddel?.deler) {
-      return hjelpemiddel.deler.reduce((acc, del) => {
-        if (!acc.includes(del.kategori)) {
-          acc.push(del.kategori)
-        }
-        return acc
-      }, [] as string[])
-    }
-  }, [hjelpemiddel])
 
   const handleBestill = (hjelpemiddel: Hjelpemiddel, del: Del) => {
     console.log('hjelpemiddel:', hjelpemiddel)
@@ -75,7 +64,6 @@ const Index = () => {
                     icon={<PencilIcon />}
                     variant="tertiary"
                     onClick={() => {
-                      setKategoriFilter(undefined)
                       setHjelpemiddel(undefined)
                     }}
                   >
@@ -87,51 +75,11 @@ const Index = () => {
                 </BodyShort>
               </Panel>
               <Avstand marginBottom={6} />
-              <Heading size="medium" level="3" spacing>
-                Deler til {hjelpemiddel.navn}
-              </Heading>
-              <Avstand marginBottom={4}>
-                {delKategorier && (
-                  <Chips>
-                    <Chips.Toggle
-                      key={'alleKategorier'}
-                      selected={kategoriFilter === undefined}
-                      onClick={() => {
-                        setKategoriFilter(undefined)
-                      }}
-                    >
-                      Alle deler
-                    </Chips.Toggle>
-                    {delKategorier.map((kategori) => (
-                      <Chips.Toggle
-                        key={kategori}
-                        selected={kategoriFilter === kategori}
-                        onClick={() => {
-                          setKategoriFilter(kategori)
-                        }}
-                      >
-                        {kategori}
-                      </Chips.Toggle>
-                    ))}
-                  </Chips>
-                )}
-              </Avstand>
-
-              {hjelpemiddel.deler
-                ?.filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
-                .map((del) => (
-                  <Avstand marginBottom={4} key={del.hmsnr}>
-                    <Panel>
-                      <Heading size="xsmall" level="4">
-                        {del.navn}
-                      </Heading>
-                      <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                      <Button variant="secondary" onClick={() => handleBestill(hjelpemiddel, del)}>
-                        Bestill
-                      </Button>
-                    </Panel>
-                  </Avstand>
-                ))}
+              <LeggTilDel
+                hjelpemiddel={hjelpemiddel}
+                onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
+                knappeTekst="Bestill"
+              />
             </>
           )}
         </Content>
