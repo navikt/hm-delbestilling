@@ -23,7 +23,7 @@ const Index = () => {
       deler: [{ ...del, antall: 1 }],
     }
 
-    window.localStorage.setItem('hm-delbestilling-session', JSON.stringify({ hjelpemiddel, handlekurv }))
+    window.localStorage.setItem('hm-delbestilling-bestilling', JSON.stringify({ hjelpemiddel, handlekurv }))
 
     try {
       const erLoggetInn = await loginStatus()

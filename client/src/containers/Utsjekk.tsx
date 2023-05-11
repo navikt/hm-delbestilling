@@ -7,23 +7,23 @@ import Header from '../styledcomponents/Header'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
 import { TrashIcon } from '@navikt/aksel-icons'
 
-interface Session {
+interface Bestilling {
   handlekurv: Handlekurv
   hjelpemiddel: Hjelpemiddel
 }
 
 const Utsjekk = () => {
-  const [session, setSession] = useState<Session | undefined>(
-    JSON.parse(window.localStorage.getItem('hm-delbestilling-session') ?? '') || undefined
+  const [bestilling, setBestilling] = useState<Bestilling | undefined>(
+    JSON.parse(window.localStorage.getItem('hm-delbestilling-bestilling') ?? '') || undefined
   )
   const [visFlereDeler, setVisFlereDeler] = useState(false)
 
-  console.log('session:', session)
+  console.log('bestilling:', bestilling)
 
   const leggTilDel = (del: Del) => {
-    if (!session) return
+    if (!bestilling) return
 
-    setSession((prev) => {
+    setBestilling((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
@@ -38,7 +38,7 @@ const Utsjekk = () => {
   }
 
   const setAntall = (del: Del, antall: number) => {
-    setSession((prev) => {
+    setBestilling((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
@@ -54,7 +54,7 @@ const Utsjekk = () => {
   }
 
   const handleSlett = (del: Del) => {
-    setSession((prev) => {
+    setBestilling((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
@@ -68,8 +68,8 @@ const Utsjekk = () => {
     })
   }
 
-  if (!session) {
-    return <>Fant ingen session...</>
+  if (!bestilling) {
+    return <>Fant ingen bestilling...</>
   }
 
   return (
@@ -92,11 +92,11 @@ const Utsjekk = () => {
           )}
           <Panel>
             <Heading level="3" size="small" spacing>
-              Bestill deler til {session.hjelpemiddel.navn}
+              Bestill deler til {bestilling.hjelpemiddel.navn}
             </Heading>
             <BodyShort>
-              <strong>Art.nr:</strong> {session.hjelpemiddel.hmsnr} | <strong>Serienr:</strong>{' '}
-              {session.handlekurv.serieNr}
+              <strong>Art.nr:</strong> {bestilling.hjelpemiddel.hmsnr} | <strong>Serienr:</strong>{' '}
+              {bestilling.handlekurv.serieNr}
             </BodyShort>
           </Panel>
           <Avstand marginBottom={4} />
@@ -104,10 +104,10 @@ const Utsjekk = () => {
             <>
               <LeggTilDel
                 hjelpemiddel={{
-                  ...session.hjelpemiddel,
+                  ...bestilling.hjelpemiddel,
                   // Filtrer bort allerede lagt til deler
-                  deler: session.hjelpemiddel.deler?.filter(
-                    (del) => !session.handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
+                  deler: bestilling.hjelpemiddel.deler?.filter(
+                    (del) => !bestilling.handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
                   ),
                 }}
                 onLeggTil={(del) => leggTilDel(del)}
@@ -118,8 +118,8 @@ const Utsjekk = () => {
               <Heading level="2" size="large" spacing>
                 Deler lagt til i bestillingen
               </Heading>
-              {session.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
-              {session.handlekurv.deler.map((del) => (
+              {bestilling.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
+              {bestilling.handlekurv.deler.map((del) => (
                 <Panel key={del.hmsnr} border>
                   <Heading level="3" size="medium">
                     {del.navn}
