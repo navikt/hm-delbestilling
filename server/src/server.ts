@@ -21,6 +21,7 @@ server.use(session())
 const router = express.Router()
 router.use('/internal/', routes.internal())
 router.use('/api/', authMiddleware.requiresValidToken(), routes.api())
+router.use('/session', authMiddleware.requiresValidToken(), routes.session())
 router.use('/', routes.auth())
 router.use('/', routes.public(server))
 

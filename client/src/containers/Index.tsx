@@ -9,6 +9,27 @@ import { Handlekurv, Del, Hjelpemiddel } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 
+const loginStatus = async () => {
+  try {
+    const result = await fetch('/hjelpemidler/delbestilling/session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (result.status === 401) {
+      console.log(`Ikke logget inn, returner til `)
+      return false
+    }
+
+    return true
+  } catch (err) {
+    console.log(`Kunne ikke sjekke loginstatus`, err)
+    throw err
+  }
+}
+
 const Index = () => {
   const [artNr, setArtNr] = useState('')
   const [serieNr, setSerieNr] = useState('')
@@ -16,7 +37,7 @@ const Index = () => {
 
   const navigate = useNavigate()
 
-  const handleBestill = (hjelpemiddel: Hjelpemiddel, del: Del) => {
+  const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
     const handlekurv: Handlekurv = {
       serieNr,
       deler: [{ ...del, antall: 1 }],
@@ -24,7 +45,17 @@ const Index = () => {
 
     window.localStorage.setItem('hm-delbestilling-session', JSON.stringify({ hjelpemiddel, handlekurv }))
 
-    navigate('/utsjekk')
+    try {
+      const erLoggetInn = await loginStatus()
+      if (erLoggetInn) {
+        navigate('/utsjekk')
+      } else {
+        // navigate('/utsjekk/login', { replace: true })
+        window.location.replace('hjelpemidler/delbestilling/login')
+      }
+    } catch {
+      // TODO: vis feilmelding
+    }
   }
 
   return (
