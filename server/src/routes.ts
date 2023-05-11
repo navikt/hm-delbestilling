@@ -54,7 +54,7 @@ export const routes = {
     router.get('/logout', authMiddleware.logout())
     router.get('/auth/status', authMiddleware.requiresValidToken(), (req, res) => {
       console.log('har gyldig token')
-      return res.status(200)
+      return res.sendStatus(200)
     })
 
     return router
