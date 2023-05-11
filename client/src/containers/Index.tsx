@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react'
-import { BodyShort, Button, Chips, Heading, Panel } from '@navikt/ds-react'
+import React, { useState } from 'react'
+import { BodyShort, Button, Heading, Panel } from '@navikt/ds-react'
 import { PencilIcon } from '@navikt/aksel-icons'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'

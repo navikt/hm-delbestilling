@@ -39,7 +39,6 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
       try {
         setHenterHjelpemiddel(true)
         const result = await fetch('/hjelpemidler/delbestilling/api/oppslag', {
-          // const result = await fetch('/api/oppslag', {
           body: JSON.stringify({ artNr, serieNr }),
           method: 'POST',
           headers: {
