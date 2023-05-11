@@ -10,6 +10,18 @@ import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
 import useAuth from '../hooks/useAuth'
 import { DelbestillerResponse } from '../types/ResponseTypes'
+import styled from 'styled-components'
+
+const Toolbar = styled.div`
+  padding: 1rem;
+  background: #f1f1f1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: -16px;
+  margin-left: -16px;
+  width: calc(100% + 32px);
+`
 
 const Utsjekk = () => {
   const [bestilling, setBestilling] = useState<Bestilling | undefined>(() => {
@@ -161,15 +173,7 @@ const Utsjekk = () => {
                               {del.navn}
                             </Heading>
                             <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                            <div
-                              style={{
-                                padding: '1rem',
-                                background: '#f1f1f1',
-                                display: 'flex',
-                                alignItems: 'flex-end',
-                                justifyContent: 'space-between',
-                              }}
-                            >
+                            <Toolbar>
                               <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(del)}>
                                 Slett del
                               </Button>
@@ -177,6 +181,7 @@ const Utsjekk = () => {
                                 label="Antall"
                                 value={del.antall}
                                 onChange={(e) => setAntall(del, Number(e.target.value))}
+                                style={{ width: 80 }}
                               >
                                 {Array.from(Array(5), (_, x: number) => (
                                   <option key={x + 1} value={x + 1}>
@@ -184,7 +189,7 @@ const Utsjekk = () => {
                                   </option>
                                 ))}
                               </Select>
-                            </div>
+                            </Toolbar>
                           </Panel>
                         ))}
                         <Avstand marginBottom={4} />
