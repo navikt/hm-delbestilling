@@ -6,7 +6,7 @@ import { Hjelpemiddel } from '../../types/Types'
 
 const oppslagHandlers = [
   rest.post<{ artNr: string; serieNr: string }, {}, OppslagResponse>(
-    '/hjelpemidler/delbestilling/api/delbestilling/oppslag',
+    '/hjelpemidler/delbestilling/api/oppslag',
     (req, res, ctx) => {
       const { artNr, serieNr } = req.body
 
