@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 
+export const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
+
 const Index = () => {
   const [artNr, setArtNr] = useState('')
   const [serieNr, setSerieNr] = useState('')
@@ -23,7 +25,7 @@ const Index = () => {
       deler: [{ ...del, antall: 1 }],
     }
 
-    window.localStorage.setItem('hm-delbestilling-bestilling', JSON.stringify({ hjelpemiddel, handlekurv }))
+    window.localStorage.setItem(LOCALSTORAGE_BESTILLING_KEY, JSON.stringify({ hjelpemiddel, handlekurv }))
 
     try {
       const erLoggetInn = await loginStatus()

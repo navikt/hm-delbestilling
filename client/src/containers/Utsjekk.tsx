@@ -7,8 +7,7 @@ import Header from '../styledcomponents/Header'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
 import { TrashIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
-
-const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
+import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
 
 interface Bestilling {
   handlekurv: Handlekurv
