@@ -30,11 +30,14 @@ interface Props {
   setHjelpemiddel: React.Dispatch<SetStateAction<Hjelpemiddel | undefined>>
 }
 const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemiddel }: Props) => {
+  const [henterHjelpemiddel, setHenterHjelpemiddel] = useState(false)
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
     const doFetch = async () => {
       try {
+        setHenterHjelpemiddel(true)
         const result = await fetch('/hjelpemidler/delbestilling/api/oppslag', {
           // const result = await fetch('/api/oppslag', {
           body: JSON.stringify({ artNr, serieNr }),
@@ -53,6 +56,8 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
       } catch (err) {
         alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${artNr} og serienr ${serieNr}`)
         console.log(`Kunne ikke hente hjelpemiddel`, err)
+      } finally {
+        setHenterHjelpemiddel(false)
       }
     }
 
@@ -82,7 +87,9 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
             value={serieNr}
             onChange={(e) => erGyldig(e.target.value) && setSerieNr(e.target.value)}
           ></StyledTextField>
-          <Button onClick={handleSubmit}>Vis deler</Button>
+          <Button loading={henterHjelpemiddel} onClick={handleSubmit}>
+            Vis deler
+          </Button>
           <Button type="button" onClick={reset} variant="tertiary">
             Start på nytt
           </Button>

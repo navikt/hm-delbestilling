@@ -21,7 +21,7 @@ const oppslagHandlers = [
 
       if (!hjelpemiddel) return res(ctx.status(404))
 
-      return res(ctx.json({ serieNrKobletMotBruker: true, hjelpemiddel }))
+      return res(ctx.delay(250), ctx.json({ serieNrKobletMotBruker: true, hjelpemiddel }))
     }
   ),
 ]
