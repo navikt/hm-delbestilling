@@ -72,17 +72,17 @@ jobs:
         uses: navikt/digihot-deploy/actions/post-deploy@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create release
-        if: github.ref == 'refs/heads/main'
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.VERSION_TAG }}
-          release_name: ${{ env.APPLICATION }} ${{ env.VERSION_TAG }}
-          body: ${{ env.CHANGE_LOG }}
-          draft: true
-          prerelease: false
+      # - name: Create release
+      #   if: github.ref == 'refs/heads/main'
+      #   uses: actions/create-release@latest
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ env.VERSION_TAG }}
+      #     release_name: ${{ env.APPLICATION }} ${{ env.VERSION_TAG }}
+      #     body: ${{ env.CHANGE_LOG }}
+      #     draft: true
+      #     prerelease: false
 
   # sentry-release:
   #   name: Lag sentry release
