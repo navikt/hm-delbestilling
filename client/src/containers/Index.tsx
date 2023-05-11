@@ -34,6 +34,7 @@ const Index = () => {
       }
     } catch {
       // TODO: vis feilmelding
+      alert('Vi klarte ikke å sjekke loginstatus akkurat nå. Prøv igjen senere.')
     }
   }
 
