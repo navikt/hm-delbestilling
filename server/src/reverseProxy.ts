@@ -32,8 +32,8 @@ const envProperties = {
 
 function pathRewriteBasedOnEnvironment(req: Request): string {
   return req.originalUrl
-    .replace('/hjelpemidler/delbestilling/api', '/api')
-    .replace('/hjelpemidler/delbestilling/roller', '/roller')
+    .replace('/hjelpemidler/delbestilling/api/delbestilling', '/delbestilling')
+    .replace('/hjelpemidler/delbestilling/api/roller', '/api')
     .replace('/hjelpemidler/delbestilling/hjelpemiddeldatabasen', '/graphql')
 }
 
