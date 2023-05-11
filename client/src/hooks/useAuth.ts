@@ -22,7 +22,7 @@ const useAuth = () => {
 
   const rolle = async (): Promise<DelbestillerResponse> => {
     try {
-      const result = await fetch('/hjelpemidler/delbestilling/roller/delbestiller')
+      const result = await fetch('/hjelpemidler/delbestilling/api/roller/delbestiller')
 
       if (!result.ok) {
         throw Error(result.statusText)
