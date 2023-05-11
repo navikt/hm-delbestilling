@@ -46,7 +46,7 @@ const Index = () => {
         navigate('/utsjekk')
       } else {
         // navigate('/utsjekk/login', { replace: true })
-        window.location.replace('/login')
+        window.location.replace('/hjelpemidler/delbestilling/login')
       }
     } catch {
       // TODO: vis feilmelding
