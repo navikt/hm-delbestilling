@@ -31,6 +31,12 @@ export const routes = {
     router.use(reverseProxy.handlers.api())
     return router
   },
+  roller(): Router {
+    reverseProxy.setup()
+    const router = Router()
+    router.use(reverseProxy.handlers.roller())
+    return router
+  },
   hjelpemiddeldatabasen(): Router {
     const router = Router()
     router.use(reverseProxy.handlers.hjelpemiddeldatabasen())

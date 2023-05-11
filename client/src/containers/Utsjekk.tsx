@@ -1,5 +1,5 @@
-import { BodyShort, Button, Heading, Panel, Select } from '@navikt/ds-react'
-import React, { useState } from 'react'
+import { BodyShort, Button, Heading, Loader, Panel, Select } from '@navikt/ds-react'
+import React, { useEffect, useState } from 'react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
@@ -8,6 +8,8 @@ import { Bestilling, Del } from '../types/Types'
 import { TrashIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
+import useAuth from '../hooks/useAuth'
+import { DelbestillerResponse } from '../types/ResponseTypes'
 
 const Utsjekk = () => {
   const [bestilling, setBestilling] = useState<Bestilling | undefined>(() => {
@@ -19,6 +21,20 @@ const Utsjekk = () => {
   })
   const [visFlereDeler, setVisFlereDeler] = useState(false)
   const navigate = useNavigate()
+
+  const { rolle } = useAuth()
+  const [henterRolle, setHenterRolle] = useState(false)
+  const [rolleResponse, setRolleResponse] = useState<DelbestillerResponse | undefined>(undefined)
+
+  useEffect(() => {
+    const doFetch = async () => {
+      setHenterRolle(true)
+      const delbestiller = await rolle()
+      setRolleResponse(delbestiller)
+      setHenterRolle(false)
+    }
+    doFetch()
+  }, [])
 
   console.log('bestilling:', bestilling)
 
@@ -78,6 +94,18 @@ const Utsjekk = () => {
 
   if (!bestilling) {
     return <>Fant ingen bestilling...</>
+  }
+
+  if (henterRolle) {
+    return <Loader />
+  }
+
+  if (rolleResponse === undefined) {
+    return <Loader />
+  }
+
+  if (rolleResponse.kanBestilleDeler === false) {
+    return <>Du kan ikke bestille deler akkurat nå.</>
   }
 
   return (
