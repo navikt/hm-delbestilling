@@ -109,7 +109,7 @@ const Utsjekk = () => {
         <Content>
           {henterRolle ? (
             <div style={{ textAlign: 'center' }}>
-              <Loader />
+              <Loader size="large" />
             </div>
           ) : (
             <>
