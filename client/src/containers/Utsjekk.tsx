@@ -6,6 +6,9 @@ import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
 import { TrashIcon } from '@navikt/aksel-icons'
+import { useNavigate } from 'react-router-dom'
+
+const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
 
 interface Bestilling {
   handlekurv: Handlekurv
@@ -14,9 +17,10 @@ interface Bestilling {
 
 const Utsjekk = () => {
   const [bestilling, setBestilling] = useState<Bestilling | undefined>(
-    JSON.parse(window.localStorage.getItem('hm-delbestilling-bestilling') ?? '') || undefined
+    JSON.parse(window.localStorage.getItem(LOCALSTORAGE_BESTILLING_KEY) ?? '') || undefined
   )
   const [visFlereDeler, setVisFlereDeler] = useState(false)
+  const navigate = useNavigate()
 
   console.log('bestilling:', bestilling)
 
@@ -53,7 +57,7 @@ const Utsjekk = () => {
     })
   }
 
-  const handleSlett = (del: Del) => {
+  const handleSlettDel = (del: Del) => {
     setBestilling((prev) => {
       if (!prev) return undefined
       return {
@@ -66,6 +70,11 @@ const Utsjekk = () => {
         },
       }
     })
+  }
+
+  const handleSlettBestilling = () => {
+    window.localStorage.removeItem(LOCALSTORAGE_BESTILLING_KEY)
+    navigate('/')
   }
 
   if (!bestilling) {
@@ -115,42 +124,62 @@ const Utsjekk = () => {
             </>
           ) : (
             <>
-              <Heading level="2" size="large" spacing>
-                Deler lagt til i bestillingen
-              </Heading>
-              {bestilling.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
-              {bestilling.handlekurv.deler.map((del) => (
-                <Panel key={del.hmsnr} border>
-                  <Heading level="3" size="medium">
-                    {del.navn}
-                  </Heading>
-                  <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                  <div
-                    style={{
-                      padding: '1rem',
-                      background: '#f1f1f1',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlett(del)}>
-                      Slett del
-                    </Button>
-                    <Select label="Antall" value={del.antall} onChange={(e) => setAntall(del, Number(e.target.value))}>
-                      {Array.from(Array(5), (_, x: number) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </Select>
-                  </div>
-                </Panel>
-              ))}
-              <Avstand marginBottom={4} />
-              <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
-                Legg til flere deler
-              </Button>
+              <Avstand marginBottom={8}>
+                <Heading level="2" size="large" spacing>
+                  Deler lagt til i bestillingen
+                </Heading>
+                {bestilling.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
+                {bestilling.handlekurv.deler.map((del) => (
+                  <Panel key={del.hmsnr} border>
+                    <Heading level="3" size="medium">
+                      {del.navn}
+                    </Heading>
+                    <BodyShort spacing>{del.beskrivelse}</BodyShort>
+                    <div
+                      style={{
+                        padding: '1rem',
+                        background: '#f1f1f1',
+                        display: 'flex',
+                        alignItems: 'flex-end',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(del)}>
+                        Slett del
+                      </Button>
+                      <Select
+                        label="Antall"
+                        value={del.antall}
+                        onChange={(e) => setAntall(del, Number(e.target.value))}
+                      >
+                        {Array.from(Array(5), (_, x: number) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </Select>
+                    </div>
+                  </Panel>
+                ))}
+                <Avstand marginBottom={4} />
+                <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
+                  Legg til flere deler
+                </Button>
+              </Avstand>
+
+              <Avstand marginBottom={8}>
+                <Heading spacing level="3" size="medium">
+                  Levering
+                </Heading>
+                <div>TODO: implementer</div>
+              </Avstand>
+
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+                <Button>Send inn bestilling</Button>
+                <Button icon={<TrashIcon />} variant="tertiary" onClick={handleSlettBestilling}>
+                  Slett bestilling
+                </Button>
+              </div>
             </>
           )}
         </Content>
