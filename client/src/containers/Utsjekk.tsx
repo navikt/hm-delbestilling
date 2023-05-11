@@ -15,9 +15,13 @@ interface Bestilling {
 }
 
 const Utsjekk = () => {
-  const [bestilling, setBestilling] = useState<Bestilling | undefined>(
-    JSON.parse(window.localStorage.getItem(LOCALSTORAGE_BESTILLING_KEY) ?? '') || undefined
-  )
+  const [bestilling, setBestilling] = useState<Bestilling | undefined>(() => {
+    try {
+      return JSON.parse(window.localStorage.getItem(LOCALSTORAGE_BESTILLING_KEY) || '')
+    } catch {
+      return undefined
+    }
+  })
   const [visFlereDeler, setVisFlereDeler] = useState(false)
   const navigate = useNavigate()
 
