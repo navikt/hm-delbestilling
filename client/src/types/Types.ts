@@ -22,3 +22,8 @@ export interface Handlekurv {
   serieNr: string
   deler: Delbestilling[]
 }
+
+export interface Bestilling {
+  handlekurv: Handlekurv
+  hjelpemiddel: Hjelpemiddel
+}

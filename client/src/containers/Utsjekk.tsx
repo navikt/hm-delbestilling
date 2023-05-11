@@ -1,18 +1,13 @@
 import { BodyShort, Button, Heading, Panel, Select } from '@navikt/ds-react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
-import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
+import { Bestilling, Del } from '../types/Types'
 import { TrashIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
-
-interface Bestilling {
-  handlekurv: Handlekurv
-  hjelpemiddel: Hjelpemiddel
-}
 
 const Utsjekk = () => {
   const [bestilling, setBestilling] = useState<Bestilling | undefined>(() => {

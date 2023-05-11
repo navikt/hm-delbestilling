@@ -5,7 +5,7 @@ import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
 import { Avstand } from '../components/Avstand'
-import { Handlekurv, Del, Hjelpemiddel } from '../types/Types'
+import { Del, Hjelpemiddel, Bestilling } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
@@ -20,12 +20,15 @@ const Index = () => {
   const navigate = useNavigate()
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
-    const handlekurv: Handlekurv = {
-      serieNr,
-      deler: [{ ...del, antall: 1 }],
+    const bestilling: Bestilling = {
+      hjelpemiddel,
+      handlekurv: {
+        serieNr,
+        deler: [{ ...del, antall: 1 }],
+      },
     }
 
-    window.localStorage.setItem(LOCALSTORAGE_BESTILLING_KEY, JSON.stringify({ hjelpemiddel, handlekurv }))
+    window.localStorage.setItem(LOCALSTORAGE_BESTILLING_KEY, JSON.stringify(bestilling))
 
     try {
       const erLoggetInn = await loginStatus()
