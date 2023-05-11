@@ -11,12 +11,7 @@ import LeggTilDel from '../components/LeggTilDel'
 
 const loginStatus = async () => {
   try {
-    const result = await fetch('/hjelpemidler/delbestilling/session', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    const result = await fetch('/hjelpemidler/delbestilling/session')
 
     if (result.status === 401) {
       console.log(`Ikke logget inn, returner til `)

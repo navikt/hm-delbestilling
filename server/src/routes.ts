@@ -58,7 +58,7 @@ export const routes = {
   },
   session(): Router {
     const router = Router()
-    router.get('/exp', (req, res) => {
+    router.get('/', (req, res) => {
       const idportenToken = req.headers['authorization']?.split(' ')[1]
       if (!idportenToken) {
         return res.sendStatus(401)
