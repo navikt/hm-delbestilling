@@ -73,6 +73,7 @@ const Utsjekk = () => {
   const handleSlettBestilling = () => {
     window.localStorage.removeItem(LOCALSTORAGE_BESTILLING_KEY)
     navigate('/')
+    window.scrollTo(0, 0)
   }
 
   if (!bestilling) {
