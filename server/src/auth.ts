@@ -219,6 +219,7 @@ const requiresValidToken = (): RequestHandler => async (req, res, next) => {
 
 const requiresLogin = (): RequestHandler => async (req, res, next) => {
   await setIsAuthenticated(req, res, next)
+  // TODO: denne kan vel fjernes? Vi har ikke lokal login
   if (!config.isProduction()) {
     if (!req.isAuthenticated) {
       debugLogger('requiresLogin: token not present or invalid, redirecting to login page')
@@ -231,12 +232,12 @@ const requiresLogin = (): RequestHandler => async (req, res, next) => {
     next()
   } else {
     debugLogger('requiresLogin: token not present or invalid, redirecting to login page')
-    res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}`)
+    res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}/utsjekk`)
   }
 }
 
 const loginHandler = (): RequestHandler => (req, res) => {
-  res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}`)
+  res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}/utsjekk`)
 }
 
 const logoutHandler = (): RequestHandler => (req, res) => {

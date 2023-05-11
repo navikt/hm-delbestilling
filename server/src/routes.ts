@@ -41,8 +41,12 @@ export const routes = {
     const router = Router()
     router.get('/settings.js', settingsHandler)
     router.get('*', express.static(config.buildPath(), { index: false }))
-    server.get('/', authMiddleware.requiresLogin(), spaHandler)
-    router.get('*', authMiddleware.requiresLogin(), spaHandler)
+    server.get('/utsjekk', authMiddleware.requiresLogin(), spaHandler)
+    router.get('/utsjekk', authMiddleware.requiresLogin(), spaHandler)
+
+    server.get('/', spaHandler)
+    router.get('/', spaHandler)
+
     return router
   },
   auth(): Router {
