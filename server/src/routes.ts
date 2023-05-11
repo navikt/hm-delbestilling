@@ -52,6 +52,7 @@ export const routes = {
     const router = Router()
     router.get('/login', authMiddleware.login())
     router.get('/logout', authMiddleware.logout())
+    router.get('/auth/status', authMiddleware.requiresValidToken(), (req, res) => res.status(200))
 
     return router
   },

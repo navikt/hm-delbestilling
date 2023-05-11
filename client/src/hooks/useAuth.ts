@@ -1,7 +1,7 @@
 const useAuth = () => {
   const loginStatus = async () => {
     try {
-      const result = await fetch('/hjelpemidler/delbestilling/session')
+      const result = await fetch('/hjelpemidler/delbestilling/auth/status')
 
       if (result.status === 401) {
         return false
