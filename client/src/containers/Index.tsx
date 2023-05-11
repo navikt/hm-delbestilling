@@ -8,28 +8,13 @@ import { Avstand } from '../components/Avstand'
 import { Handlekurv, Del, Hjelpemiddel } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
-
-const loginStatus = async () => {
-  try {
-    const result = await fetch('/hjelpemidler/delbestilling/session')
-
-    if (result.status === 401) {
-      console.log(`Ikke logget inn, returner til `)
-      return false
-    }
-
-    return true
-  } catch (err) {
-    console.log(`Kunne ikke sjekke loginstatus`, err)
-    throw err
-  }
-}
+import useAuth from '../hooks/useAuth'
 
 const Index = () => {
   const [artNr, setArtNr] = useState('')
   const [serieNr, setSerieNr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
-
+  const { loginStatus } = useAuth()
   const navigate = useNavigate()
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
@@ -45,7 +30,6 @@ const Index = () => {
       if (erLoggetInn) {
         navigate('/utsjekk')
       } else {
-        // navigate('/utsjekk/login', { replace: true })
         window.location.replace('/hjelpemidler/delbestilling/login')
       }
     } catch {
