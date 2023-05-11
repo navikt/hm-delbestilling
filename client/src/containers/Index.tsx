@@ -28,9 +28,9 @@ const Index = () => {
     try {
       const erLoggetInn = await loginStatus()
       if (erLoggetInn) {
-        // navigate('/utsjekk')
+        navigate('/utsjekk')
       } else {
-        // window.location.replace('/hjelpemidler/delbestilling/login')
+        window.location.replace('/hjelpemidler/delbestilling/login')
       }
     } catch {
       // TODO: vis feilmelding

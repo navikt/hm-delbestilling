@@ -52,22 +52,7 @@ export const routes = {
     const router = Router()
     router.get('/login', authMiddleware.login())
     router.get('/logout', authMiddleware.logout())
-    router.get('/auth/status', authMiddleware.requiresValidToken(), (req, res) => {
-      console.log('har gyldig token')
-      return res.sendStatus(200)
-    })
-
-    return router
-  },
-  session(): Router {
-    const router = Router()
-    router.get('/', (req, res) => {
-      const idportenToken = req.headers['authorization']?.split(' ')[1]
-      if (!idportenToken) {
-        return res.sendStatus(401)
-      }
-      return res.json({ exp: auth.getExp(idportenToken) })
-    })
+    router.get('/auth/status', authMiddleware.requiresValidToken(), (req, res) => res.sendStatus(200))
 
     return router
   },
