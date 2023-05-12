@@ -1,6 +1,5 @@
 import { rest } from 'msw'
-import { OppslagResponse } from '../../components/HjelpemiddelLookup'
-
+import { OppslagResponse } from '../../types/ResponseTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import { Hjelpemiddel } from '../../types/Types'
 

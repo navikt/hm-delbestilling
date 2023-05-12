@@ -2,6 +2,7 @@ import React, { SetStateAction, useState } from 'react'
 import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
 import { Hjelpemiddel } from '../types/Types'
 import styled from 'styled-components'
+import { OppslagResponse } from '../types/ResponseTypes'
 
 const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)
@@ -13,10 +14,16 @@ const innenforMaksLengde = (input: string): boolean => {
 
 const erGyldig = (input: string) => innenforMaksLengde(input) && erBareTall(input)
 
-export interface OppslagResponse {
-  hjelpemiddel?: Hjelpemiddel
-  serieNrKobletMotBruker: boolean
-}
+const StyledForm = styled.form`
+  display: flex;
+  gap: 12px;
+  align-items: end;
+
+  @media only screen and (max-width: 750px) {
+    flex-direction: column;
+    align-items: baseline;
+  }
+`
 
 const StyledTextField = styled(TextField)`
   width: 130px;
@@ -74,26 +81,24 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
         Oppgi hjelpemiddelet som trenger del
       </Heading>
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', alignItems: 'end' }}>
-          <StyledTextField
-            label="Art.nr(6 siffer)"
-            value={artNr}
-            onChange={(e) => erGyldig(e.target.value) && setArtNr(e.target.value)}
-          ></StyledTextField>
-          <StyledTextField
-            label="Serienr(6 siffer)"
-            value={serieNr}
-            onChange={(e) => erGyldig(e.target.value) && setSerieNr(e.target.value)}
-          ></StyledTextField>
-          <Button loading={henterHjelpemiddel} onClick={handleSubmit}>
-            Vis deler
-          </Button>
-          <Button type="button" onClick={reset} variant="tertiary">
-            Start på nytt
-          </Button>
-        </div>
-      </form>
+      <StyledForm onSubmit={handleSubmit}>
+        <StyledTextField
+          label="Art.nr(6 siffer)"
+          value={artNr}
+          onChange={(e) => erGyldig(e.target.value) && setArtNr(e.target.value)}
+        />
+        <StyledTextField
+          label="Serienr(6 siffer)"
+          value={serieNr}
+          onChange={(e) => erGyldig(e.target.value) && setSerieNr(e.target.value)}
+        />
+        <Button loading={henterHjelpemiddel} onClick={handleSubmit}>
+          Vis deler
+        </Button>
+        <Button type="button" onClick={reset} variant="tertiary">
+          Start på nytt
+        </Button>
+      </StyledForm>
     </Panel>
   )
 }

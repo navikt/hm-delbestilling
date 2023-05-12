@@ -54,7 +54,7 @@ const Index = () => {
       </Header>
       <main>
         <Content>
-          <Heading level="2" size="medium" spacing>
+          <Heading level="2" size="large" spacing>
             Bestill del
           </Heading>
           {!hjelpemiddel && (

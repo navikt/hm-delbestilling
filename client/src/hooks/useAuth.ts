@@ -30,7 +30,7 @@ const useAuth = () => {
 
       return await result.json()
     } catch (err) {
-      console.log(`Kunne ikke sjekke loginstatus`, err)
+      console.log(`Kunne ikke sjekke roller`, err)
       throw err
     }
   }
