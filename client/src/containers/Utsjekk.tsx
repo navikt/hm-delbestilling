@@ -97,6 +97,30 @@ const Utsjekk = () => {
     })
   }
 
+  const handleSendInnBestilling = async (bestilling: Bestilling) => {
+    const result = await fetch('/hjelpemidler/delbestilling/api/delbestilling', {
+      body: JSON.stringify({
+        id: bestilling.id,
+        hmsnr: bestilling.hjelpemiddel.hmsnr,
+        serienr: bestilling.handlekurv.serieNr,
+        deler: bestilling.handlekurv.deler,
+      }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    console.log('result:', result)
+
+    if (!result.ok) {
+      alert(`Noe gikk gærent med innsending, se konsoll`)
+    } else {
+      alert('Bestilling sendt inn!')
+    }
+
+    handleSlettBestilling()
+  }
+
   const handleSlettBestilling = () => {
     window.localStorage.removeItem(LOCALSTORAGE_BESTILLING_KEY)
     navigate('/')
@@ -214,7 +238,7 @@ const Utsjekk = () => {
                       </Avstand>
 
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-                        <Button>Send inn bestilling</Button>
+                        <Button onClick={() => handleSendInnBestilling(bestilling)}>Send inn bestilling</Button>
                         <Button icon={<TrashIcon />} variant="tertiary" onClick={handleSlettBestilling}>
                           Slett bestilling
                         </Button>

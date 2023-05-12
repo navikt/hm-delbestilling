@@ -3,7 +3,7 @@ import { OppslagResponse } from '../../types/ResponseTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import { Hjelpemiddel } from '../../types/Types'
 
-const oppslagHandlers = [
+const apiHandlers = [
   rest.post<{ artNr: string; serieNr: string }, {}, OppslagResponse>(
     '/hjelpemidler/delbestilling/api/oppslag',
     (req, res, ctx) => {
@@ -22,6 +22,11 @@ const oppslagHandlers = [
       return res(ctx.delay(250), ctx.json({ serieNrKobletMotBruker: true, hjelpemiddel }))
     }
   ),
+
+  rest.post<{ id: string }>('/hjelpemidler/delbestilling/api/delbestilling', (req, res, ctx) => {
+    const { id } = req.body
+    return res(ctx.delay(250), ctx.status(201), ctx.body(id))
+  }),
 ]
 
-export default oppslagHandlers
+export default apiHandlers
