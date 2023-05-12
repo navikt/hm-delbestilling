@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BodyShort, Button, Heading, Panel } from '@navikt/ds-react'
 import { PencilIcon } from '@navikt/aksel-icons'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
 import { Avstand } from '../components/Avstand'
-import { Del, Hjelpemiddel, Bestilling } from '../types/Types'
+import { Del, Hjelpemiddel, Bestilling, TidligereBestillinger } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
@@ -17,8 +17,20 @@ const Index = () => {
   const [artNr, setArtNr] = useState('')
   const [serieNr, setSerieNr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
+
+  const [tidligereBestillinger, setTidligereBestillinger] = useState<TidligereBestillinger[] | undefined>(undefined)
+
   const { loginStatus } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    ;(async () => {
+      const result = await fetch('/hjelpemidler/delbestilling/api/delbestilling')
+      const json = await result.json()
+      console.log('json:', json)
+      setTidligereBestillinger(json)
+    })()
+  }, [])
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
     const bestilling: Bestilling = {
@@ -60,13 +72,39 @@ const Index = () => {
             Bestill del
           </Heading>
           {!hjelpemiddel && (
-            <HjelpemiddelLookup
-              artNr={artNr}
-              setArtNr={setArtNr}
-              serieNr={serieNr}
-              setSerieNr={setSerieNr}
-              setHjelpemiddel={setHjelpemiddel}
-            />
+            <>
+              <HjelpemiddelLookup
+                artNr={artNr}
+                setArtNr={setArtNr}
+                serieNr={serieNr}
+                setSerieNr={setSerieNr}
+                setHjelpemiddel={setHjelpemiddel}
+              />
+              <Avstand marginBottom={4} />
+              {tidligereBestillinger && tidligereBestillinger.length > 0 && (
+                <>
+                  <Heading level="2" size="medium">
+                    Tidligere bestillinger
+                  </Heading>
+                  <div>
+                    {tidligereBestillinger.map((bestilling) => (
+                      <Panel key={bestilling.id}>
+                        <Heading size="small" level="3">
+                          Hmsnr: {bestilling.hmsnr}
+                        </Heading>
+                        Deler:
+                        {bestilling.deler.map((del) => (
+                          <div style={{ paddingLeft: 20 }} key={del.hmsnr}>
+                            <BodyShort>Navn: {del.navn}</BodyShort>
+                            <BodyShort>Antall: {del.antall}</BodyShort>
+                          </div>
+                        ))}
+                      </Panel>
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
           )}
           {hjelpemiddel && (
             <>

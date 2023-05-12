@@ -1,7 +1,9 @@
 import { rest } from 'msw'
 import { OppslagResponse } from '../../types/ResponseTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
-import { Hjelpemiddel } from '../../types/Types'
+import { Delbestilling, Hjelpemiddel, TidligereBestillinger } from '../../types/Types'
+
+let tidligereBestillinger: TidligereBestillinger[] = []
 
 const apiHandlers = [
   rest.post<{ artNr: string; serieNr: string }, {}, OppslagResponse>(
@@ -23,10 +25,21 @@ const apiHandlers = [
     }
   ),
 
-  rest.post<{ id: string }>('/hjelpemidler/delbestilling/api/delbestilling', (req, res, ctx) => {
-    const { id } = req.body
-    return res(ctx.delay(250), ctx.status(201), ctx.body(id))
-  }),
+  rest.post<{ id: string; hmsnr: string; serienr: string; deler: Delbestilling[] }>(
+    '/hjelpemidler/delbestilling/api/delbestilling',
+    (req, res, ctx) => {
+      const { id } = req.body
+      tidligereBestillinger.push(req.body as TidligereBestillinger)
+      return res(ctx.delay(250), ctx.status(201), ctx.body(id))
+    }
+  ),
+
+  rest.get<{ id: string }, {}, TidligereBestillinger[]>(
+    '/hjelpemidler/delbestilling/api/delbestilling',
+    (req, res, ctx) => {
+      return res(ctx.delay(250), ctx.json(tidligereBestillinger))
+    }
+  ),
 ]
 
 export default apiHandlers

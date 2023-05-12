@@ -28,3 +28,10 @@ export interface Bestilling {
   handlekurv: Handlekurv
   hjelpemiddel: Hjelpemiddel
 }
+
+export interface TidligereBestillinger {
+  id: string
+  hmsnr: string
+  serienr: string
+  deler: Delbestilling[]
+}
