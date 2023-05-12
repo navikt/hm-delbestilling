@@ -25,10 +25,14 @@ const Index = () => {
 
   useEffect(() => {
     ;(async () => {
-      const result = await fetch('/hjelpemidler/delbestilling/api/delbestilling')
-      const json = await result.json()
-      console.log('json:', json)
-      setTidligereBestillinger(json)
+      try {
+        const result = await fetch('/hjelpemidler/delbestilling/api/delbestilling')
+
+        const json = await result.json()
+        setTidligereBestillinger(json)
+      } catch (err) {
+        console.log(`Klarte ikke hente tidliger bestillinger`, err)
+      }
     })()
   }, [])
 
