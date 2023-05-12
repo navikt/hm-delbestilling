@@ -9,6 +9,7 @@ import { Del, Hjelpemiddel, Bestilling } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
+import { v4 as uuidv4 } from 'uuid'
 
 export const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
 
@@ -21,6 +22,7 @@ const Index = () => {
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
     const bestilling: Bestilling = {
+      id: uuidv4(),
       hjelpemiddel,
       handlekurv: {
         serieNr,

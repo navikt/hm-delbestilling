@@ -24,6 +24,7 @@ export interface Handlekurv {
 }
 
 export interface Bestilling {
+  id: string
   handlekurv: Handlekurv
   hjelpemiddel: Hjelpemiddel
 }
