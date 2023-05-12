@@ -35,12 +35,11 @@ const Utsjekk = () => {
   const navigate = useNavigate()
 
   const { rolle } = useAuth()
-  const [henterRolle, setHenterRolle] = useState(false)
+  const [henterRolle, setHenterRolle] = useState(true)
   const [rolleResponse, setRolleResponse] = useState<DelbestillerResponse | undefined>(undefined)
 
   useEffect(() => {
     const doFetch = async () => {
-      setHenterRolle(true)
       const delbestiller = await rolle()
       setRolleResponse(delbestiller)
       setHenterRolle(false)
