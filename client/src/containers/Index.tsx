@@ -87,7 +87,7 @@ const Index = () => {
                   <strong>Art.nr:</strong> {artNr} | <strong>Serienr:</strong> {serieNr}
                 </BodyShort>
               </Panel>
-              <Avstand marginBottom={6} />
+              <Avstand marginBottom={8} />
               <LeggTilDel
                 hjelpemiddel={hjelpemiddel}
                 onLeggTil={(del) => handleBestill(hjelpemiddel, del)}

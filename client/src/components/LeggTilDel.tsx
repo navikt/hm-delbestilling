@@ -63,10 +63,16 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
         .map((del) => (
           <Avstand marginBottom={4} key={del.hmsnr}>
             <Panel>
-              <Heading size="xsmall" level="4">
-                {del.navn}
-              </Heading>
-              <BodyShort spacing>{del.beskrivelse}</BodyShort>
+              <div style={{ display: 'flex', gap: 20 }}>
+                <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
+                <div>
+                  <Heading size="xsmall" level="4" spacing>
+                    {del.navn}
+                  </Heading>
+                  <BodyShort spacing>{del.beskrivelse}</BodyShort>
+                  <BodyShort>HMS-nr: 154312 | Lev.art.nr: 123454</BodyShort>
+                </div>
+              </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button variant="secondary" onClick={() => onLeggTil(del)}>
                   {knappeTekst}

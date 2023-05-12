@@ -5,7 +5,7 @@ import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
 import { Bestilling, Del } from '../types/Types'
-import { TrashIcon } from '@navikt/aksel-icons'
+import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
 import useAuth from '../hooks/useAuth'
@@ -131,7 +131,7 @@ const Utsjekk = () => {
                 <>
                   {visFlereDeler && (
                     <Avstand marginBottom={2}>
-                      <Button variant="tertiary" onClick={() => setVisFlereDeler(false)}>
+                      <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => setVisFlereDeler(false)}>
                         Tilbake til bestillingen
                       </Button>
                     </Avstand>
@@ -145,7 +145,7 @@ const Utsjekk = () => {
                       {bestilling.handlekurv.serieNr}
                     </BodyShort>
                   </Panel>
-                  <Avstand marginBottom={4} />
+                  <Avstand marginBottom={12} />
                   {visFlereDeler ? (
                     <>
                       <LeggTilDel
@@ -168,29 +168,38 @@ const Utsjekk = () => {
                         </Heading>
                         {bestilling.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
                         {bestilling.handlekurv.deler.map((del) => (
-                          <Panel key={del.hmsnr} border>
-                            <Heading level="3" size="medium">
-                              {del.navn}
-                            </Heading>
-                            <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                            <Toolbar>
-                              <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(del)}>
-                                Slett del
-                              </Button>
-                              <Select
-                                label="Antall"
-                                value={del.antall}
-                                onChange={(e) => setAntall(del, Number(e.target.value))}
-                                style={{ width: 80 }}
-                              >
-                                {Array.from(Array(5), (_, x: number) => (
-                                  <option key={x + 1} value={x + 1}>
-                                    {x + 1}
-                                  </option>
-                                ))}
-                              </Select>
-                            </Toolbar>
-                          </Panel>
+                          <Avstand marginBottom={2} key={del.hmsnr}>
+                            <Panel border>
+                              <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                                <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
+
+                                <div>
+                                  <Heading level="3" size="medium" spacing>
+                                    {del.navn}
+                                  </Heading>
+                                  <BodyShort spacing>{del.beskrivelse}</BodyShort>
+                                  <BodyShort>HMS-nr: 154312 | Lev.art.nr: 123454</BodyShort>
+                                </div>
+                              </div>
+                              <Toolbar>
+                                <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(del)}>
+                                  Slett del
+                                </Button>
+                                <Select
+                                  label="Antall"
+                                  value={del.antall}
+                                  onChange={(e) => setAntall(del, Number(e.target.value))}
+                                  style={{ width: 80 }}
+                                >
+                                  {Array.from(Array(5), (_, x: number) => (
+                                    <option key={x + 1} value={x + 1}>
+                                      {x + 1}
+                                    </option>
+                                  ))}
+                                </Select>
+                              </Toolbar>
+                            </Panel>
+                          </Avstand>
                         ))}
                         <Avstand marginBottom={4} />
                         <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
