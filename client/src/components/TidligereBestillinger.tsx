@@ -29,6 +29,7 @@ const TidligereBestillinger = () => {
       setTidligereBestillinger(bestillinger)
     } catch (err) {
       console.log(`Klarte ikke hente tidliger bestillinger`, err)
+      setTidligereBestillinger(undefined)
     } finally {
       setHenterTidligereBestillinger(false)
     }
