@@ -8,11 +8,11 @@ const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)
 }
 
-const innenforMaksLengde = (input: string): boolean => {
-  return input.length <= 6
+const innenforMaksLengde = (input: string, maksLengde: number): boolean => {
+  return input.length <= maksLengde
 }
 
-const erGyldig = (input: string) => innenforMaksLengde(input) && erBareTall(input)
+const erGyldig = (input: string, maksLengde: number = 6) => innenforMaksLengde(input, maksLengde) && erBareTall(input)
 
 const StyledForm = styled.form`
   display: flex;
