@@ -70,7 +70,9 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                     {del.navn}
                   </Heading>
                   <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                  <BodyShort>HMS-nr: 154312 | Lev.art.nr: 123454</BodyShort>
+                  <BodyShort>
+                    HMS-nr: {del.hmsnr} | Lev.art.nr: {del.levArtNr}
+                  </BodyShort>
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
