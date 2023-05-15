@@ -2,7 +2,7 @@ import { Hjelpemiddel } from './Types'
 
 export interface OppslagResponse {
   hjelpemiddel?: Hjelpemiddel
-  serieNrKobletMotBruker: boolean
+  serienrKobletMotBruker: boolean
 }
 
 export interface DelbestillerResponse {

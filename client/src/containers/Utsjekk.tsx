@@ -105,7 +105,7 @@ const Utsjekk = () => {
       const innsendtBestilling: InnsendtBestilling = {
         id: bestilling.id,
         hmsnr: bestilling.hjelpemiddel.hmsnr,
-        serienr: bestilling.handlekurv.serieNr,
+        serienr: bestilling.handlekurv.serienr,
         deler: bestilling.handlekurv.deler,
       }
       await rest.sendInnBestilling(innsendtBestilling)
@@ -163,7 +163,7 @@ const Utsjekk = () => {
                     </Heading>
                     <BodyShort>
                       <strong>Art.nr:</strong> {bestilling.hjelpemiddel.hmsnr} | <strong>Serienr:</strong>{' '}
-                      {bestilling.handlekurv.serieNr}
+                      {bestilling.handlekurv.serienr}
                     </BodyShort>
                   </Panel>
                   <Avstand marginBottom={12} />

@@ -30,13 +30,13 @@ const StyledTextField = styled(TextField)`
 `
 
 interface Props {
-  artNr: string
-  setArtNr: React.Dispatch<SetStateAction<string>>
-  serieNr: string
-  setSerieNr: React.Dispatch<SetStateAction<string>>
+  artnr: string
+  setArtnr: React.Dispatch<SetStateAction<string>>
+  serienr: string
+  setSerienr: React.Dispatch<SetStateAction<string>>
   setHjelpemiddel: React.Dispatch<SetStateAction<Hjelpemiddel | undefined>>
 }
-const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemiddel }: Props) => {
+const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
   const [gjørOppslag, setGjørOppslag] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,15 +44,15 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
 
     try {
       setGjørOppslag(true)
-      const oppslag = await rest.hjelpemiddelOppslag(artNr, serieNr)
+      const oppslag = await rest.hjelpemiddelOppslag(artnr, serienr)
 
-      if (oppslag.serieNrKobletMotBruker === false) {
-        alert(`Vi klarte ikke å koble serienr ${serieNr} til en bruker`)
+      if (oppslag.serienrKobletMotBruker === false) {
+        alert(`Vi klarte ikke å koble serienr ${serienr} til en bruker`)
       } else {
         setHjelpemiddel(oppslag.hjelpemiddel)
       }
     } catch (err) {
-      alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${artNr} og serienr ${serieNr}`)
+      alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${artnr} og serienr ${serienr}`)
       console.log(`Kunne ikke hente hjelpemiddel`, err)
     } finally {
       setGjørOppslag(false)
@@ -60,8 +60,8 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
   }
 
   const reset = () => {
-    setArtNr('')
-    setSerieNr('')
+    setArtnr('')
+    setSerienr('')
   }
 
   return (
@@ -73,13 +73,13 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
       <StyledForm onSubmit={handleSubmit}>
         <StyledTextField
           label="Art.nr(6 siffer)"
-          value={artNr}
-          onChange={(e) => erGyldig(e.target.value) && setArtNr(e.target.value)}
+          value={artnr}
+          onChange={(e) => erGyldig(e.target.value) && setArtnr(e.target.value)}
         />
         <StyledTextField
           label="Serienr(6 siffer)"
-          value={serieNr}
-          onChange={(e) => erGyldig(e.target.value) && setSerieNr(e.target.value)}
+          value={serienr}
+          onChange={(e) => erGyldig(e.target.value) && setSerienr(e.target.value)}
         />
         <Button loading={gjørOppslag} onClick={handleSubmit}>
           Vis deler

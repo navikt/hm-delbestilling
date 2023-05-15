@@ -9,9 +9,9 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
   return fetch(url, { method: 'POST', ...otherParams })
 }
 
-const hjelpemiddelOppslag = async (artNr: string, serieNr: string): Promise<OppslagResponse> => {
+const hjelpemiddelOppslag = async (artnr: string, serienr: string): Promise<OppslagResponse> => {
   const response = await fetchPost(API_PATH + '/oppslag', {
-    body: JSON.stringify({ artNr, serieNr }),
+    body: JSON.stringify({ artnr, serienr }),
     headers: {
       'Content-Type': 'application/json',
     },

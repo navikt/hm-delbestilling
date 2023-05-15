@@ -15,8 +15,8 @@ import rest from '../services/rest'
 export const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
 
 const Index = () => {
-  const [artNr, setArtNr] = useState('')
-  const [serieNr, setSerieNr] = useState('')
+  const [artnr, setArtnr] = useState('')
+  const [serienr, setSerienr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
 
   const [tidligereBestillinger, setTidligereBestillinger] = useState<InnsendtBestilling[] | undefined>(undefined)
@@ -40,7 +40,7 @@ const Index = () => {
       id: uuidv4(),
       hjelpemiddel,
       handlekurv: {
-        serieNr,
+        serienr,
         deler: [{ ...del, antall: 1 }],
       },
     }
@@ -77,10 +77,10 @@ const Index = () => {
           {!hjelpemiddel && (
             <>
               <HjelpemiddelLookup
-                artNr={artNr}
-                setArtNr={setArtNr}
-                serieNr={serieNr}
-                setSerieNr={setSerieNr}
+                artnr={artnr}
+                setArtnr={setArtnr}
+                serienr={serienr}
+                setSerienr={setSerienr}
                 setHjelpemiddel={setHjelpemiddel}
               />
               <Avstand marginBottom={4} />
@@ -127,7 +127,7 @@ const Index = () => {
                   </Button>
                 </div>
                 <BodyShort>
-                  <strong>Art.nr:</strong> {artNr} | <strong>Serienr:</strong> {serieNr}
+                  <strong>Art.nr:</strong> {artnr} | <strong>Serienr:</strong> {serienr}
                 </BodyShort>
               </Panel>
               <Avstand marginBottom={8} />

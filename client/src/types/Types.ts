@@ -20,7 +20,7 @@ export interface Bestilling {
 }
 
 export interface Handlekurv {
-  serieNr: string
+  serienr: string
   deler: BestillingDel[]
 }
 
