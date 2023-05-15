@@ -41,19 +41,21 @@ const Utsjekk = () => {
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
 
   useEffect(() => {
-    const doFetch = async () => {
-      const delbestiller = await rolle()
-      setRolleResponse(delbestiller)
-      setHenterRolle(false)
+    const sjekkRolle = async () => {
+      try {
+        const delbestiller = await rolle()
+        setRolleResponse(delbestiller)
+      } catch (err) {
+        alert('Kunne ikke sjekke rolle, se konsoll for detaljer')
+        console.log(err)
+      } finally {
+        setHenterRolle(false)
+      }
     }
-    doFetch()
+    sjekkRolle()
   }, [])
 
-  console.log('bestilling:', bestilling)
-
   const leggTilDel = (del: Del) => {
-    if (!bestilling) return
-
     setBestilling((prev) => {
       if (!prev) return undefined
       return {
@@ -99,7 +101,7 @@ const Utsjekk = () => {
     })
   }
 
-  const handleSendInnBestilling = async (bestilling: Bestilling) => {
+  const sendInnBestilling = async (bestilling: Bestilling) => {
     try {
       setSenderInnBestilling(true)
       const innsendtBestilling: InnsendtBestilling = {
@@ -110,7 +112,7 @@ const Utsjekk = () => {
       }
       await rest.sendInnBestilling(innsendtBestilling)
       alert('Bestilling sendt inn!')
-      handleSlettBestilling()
+      slettBestilling()
     } catch (err) {
       alert(`Noe gikk gærent med innsending, se konsoll`)
       console.log(err)
@@ -119,7 +121,7 @@ const Utsjekk = () => {
     }
   }
 
-  const handleSlettBestilling = () => {
+  const slettBestilling = () => {
     window.localStorage.removeItem(LOCALSTORAGE_BESTILLING_KEY)
     navigate('/')
     window.scrollTo(0, 0)
@@ -238,10 +240,10 @@ const Utsjekk = () => {
                       </Avstand>
 
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-                        <Button loading={senderInnBestilling} onClick={() => handleSendInnBestilling(bestilling)}>
+                        <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(bestilling)}>
                           Send inn bestilling
                         </Button>
-                        <Button icon={<TrashIcon />} variant="tertiary" onClick={handleSlettBestilling}>
+                        <Button icon={<TrashIcon />} variant="tertiary" onClick={slettBestilling}>
                           Slett bestilling
                         </Button>
                       </div>

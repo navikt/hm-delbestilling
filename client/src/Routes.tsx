@@ -5,7 +5,6 @@ import Index from './containers/Index'
 import Utsjekk from './containers/Utsjekk'
 
 const Routes = () => {
-  const erLoggetInn = true
   return (
     <>
       <Helmet htmlAttributes={{ lang: 'no' }}>
@@ -13,7 +12,6 @@ const Routes = () => {
       </Helmet>
       <Switch>
         <Route path="/" element={<Index />} />
-        {/* TODO: hvordan håndterer vi sjekk av login her? */}
         <Route path="/utsjekk" element={<Utsjekk />} />
       </Switch>
     </>
