@@ -38,6 +38,7 @@ const Utsjekk = () => {
   const { rolle } = useAuth()
   const [henterRolle, setHenterRolle] = useState(true)
   const [rolleResponse, setRolleResponse] = useState<DelbestillerResponse | undefined>(undefined)
+  const [senderInnBestilling, setSenderInnBestilling] = useState(false)
 
   useEffect(() => {
     const doFetch = async () => {
@@ -100,6 +101,7 @@ const Utsjekk = () => {
 
   const handleSendInnBestilling = async (bestilling: Bestilling) => {
     try {
+      setSenderInnBestilling(true)
       const innsendtBestilling: InnsendtBestilling = {
         id: bestilling.id,
         hmsnr: bestilling.hjelpemiddel.hmsnr,
@@ -108,12 +110,13 @@ const Utsjekk = () => {
       }
       await rest.sendInnBestilling(innsendtBestilling)
       alert('Bestilling sendt inn!')
+      handleSlettBestilling()
     } catch (err) {
       alert(`Noe gikk gærent med innsending, se konsoll`)
       console.log(err)
+    } finally {
+      setSenderInnBestilling(false)
     }
-
-    handleSlettBestilling()
   }
 
   const handleSlettBestilling = () => {
@@ -233,7 +236,9 @@ const Utsjekk = () => {
                       </Avstand>
 
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-                        <Button onClick={() => handleSendInnBestilling(bestilling)}>Send inn bestilling</Button>
+                        <Button loading={senderInnBestilling} onClick={() => handleSendInnBestilling(bestilling)}>
+                          Send inn bestilling
+                        </Button>
                         <Button icon={<TrashIcon />} variant="tertiary" onClick={handleSlettBestilling}>
                           Slett bestilling
                         </Button>

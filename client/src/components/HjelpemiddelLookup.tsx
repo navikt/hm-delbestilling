@@ -37,31 +37,26 @@ interface Props {
   setHjelpemiddel: React.Dispatch<SetStateAction<Hjelpemiddel | undefined>>
 }
 const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemiddel }: Props) => {
-  const [henterHjelpemiddel, setHenterHjelpemiddel] = useState(false)
+  const [gjørOppslag, setGjørOppslag] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const doFetch = async () => {
-      try {
-        setHenterHjelpemiddel(true)
+    try {
+      setGjørOppslag(true)
+      const oppslag = await rest.hjelpemiddelOppslag(artNr, serieNr)
 
-        const oppslag = await rest.hjelpemiddelOppslag(artNr, serieNr)
-
-        if (oppslag.serieNrKobletMotBruker === false) {
-          alert(`Vi klarte ikke å koble serienr ${serieNr} til en bruker`)
-        } else {
-          setHjelpemiddel(oppslag.hjelpemiddel)
-        }
-      } catch (err) {
-        alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${artNr} og serienr ${serieNr}`)
-        console.log(`Kunne ikke hente hjelpemiddel`, err)
-      } finally {
-        setHenterHjelpemiddel(false)
+      if (oppslag.serieNrKobletMotBruker === false) {
+        alert(`Vi klarte ikke å koble serienr ${serieNr} til en bruker`)
+      } else {
+        setHjelpemiddel(oppslag.hjelpemiddel)
       }
+    } catch (err) {
+      alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${artNr} og serienr ${serieNr}`)
+      console.log(`Kunne ikke hente hjelpemiddel`, err)
+    } finally {
+      setGjørOppslag(false)
     }
-
-    doFetch()
   }
 
   const reset = () => {
@@ -86,7 +81,7 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
           value={serieNr}
           onChange={(e) => erGyldig(e.target.value) && setSerieNr(e.target.value)}
         />
-        <Button loading={henterHjelpemiddel} onClick={handleSubmit}>
+        <Button loading={gjørOppslag} onClick={handleSubmit}>
           Vis deler
         </Button>
         <Button type="button" onClick={reset} variant="tertiary">
