@@ -13,25 +13,24 @@ export interface Del {
   kategori: string
 }
 
-// TODO: dette føles klønete...
-export interface Delbestilling extends Del {
-  antall: number
+export interface Bestilling {
+  id: string
+  hjelpemiddel: Hjelpemiddel
+  handlekurv: Handlekurv
 }
 
 export interface Handlekurv {
   serieNr: string
-  deler: Delbestilling[]
+  deler: BestillingDel[]
 }
 
-export interface Bestilling {
-  id: string
-  handlekurv: Handlekurv
-  hjelpemiddel: Hjelpemiddel
+export interface BestillingDel extends Del {
+  antall: number
 }
 
-export interface TidligereBestillinger {
+export interface InnsendtBestilling {
   id: string
   hmsnr: string
   serienr: string
-  deler: Delbestilling[]
+  deler: BestillingDel[]
 }

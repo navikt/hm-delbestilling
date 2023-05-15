@@ -1,9 +1,9 @@
 import { rest } from 'msw'
 import { DkifResponse } from '../../interfaces/Dkif'
-import { HM_SOKNAD_API_PATH } from '../../services/rest-service'
+import { API_PATH } from '../../services/rest'
 
 const dkifHandlers = [
-  rest.get<{}, DkifResponse>(`${HM_SOKNAD_API_PATH}/dkif/spraak/`, (req, res, ctx) => {
+  rest.get<{}, DkifResponse>(`${API_PATH}/dkif/spraak/`, (req, res, ctx) => {
     return res(ctx.json({ spraak: 'nb' }))
   }),
 ]

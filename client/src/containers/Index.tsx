@@ -5,11 +5,12 @@ import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
 import { Avstand } from '../components/Avstand'
-import { Del, Hjelpemiddel, Bestilling, TidligereBestillinger } from '../types/Types'
+import { Del, Hjelpemiddel, Bestilling, InnsendtBestilling } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
+import rest from '../services/rest'
 
 export const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
 
@@ -18,7 +19,7 @@ const Index = () => {
   const [serieNr, setSerieNr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
 
-  const [tidligereBestillinger, setTidligereBestillinger] = useState<TidligereBestillinger[] | undefined>(undefined)
+  const [tidligereBestillinger, setTidligereBestillinger] = useState<InnsendtBestilling[] | undefined>(undefined)
 
   const { loginStatus } = useAuth()
   const navigate = useNavigate()
@@ -26,10 +27,8 @@ const Index = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const result = await fetch('/hjelpemidler/delbestilling/api/delbestilling')
-
-        const json = await result.json()
-        setTidligereBestillinger(json)
+        const bestillinger = await rest.hentBestillingerForBruker()
+        setTidligereBestillinger(bestillinger)
       } catch (err) {
         console.log(`Klarte ikke hente tidliger bestillinger`, err)
       }

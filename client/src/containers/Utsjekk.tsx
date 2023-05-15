@@ -4,13 +4,14 @@ import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
-import { Bestilling, Del } from '../types/Types'
+import { Bestilling, Del, InnsendtBestilling } from '../types/Types'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
 import useAuth from '../hooks/useAuth'
 import { DelbestillerResponse } from '../types/ResponseTypes'
 import styled from 'styled-components'
+import rest from '../services/rest'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -98,24 +99,18 @@ const Utsjekk = () => {
   }
 
   const handleSendInnBestilling = async (bestilling: Bestilling) => {
-    const result = await fetch('/hjelpemidler/delbestilling/api/delbestilling', {
-      body: JSON.stringify({
+    try {
+      const innsendtBestilling: InnsendtBestilling = {
         id: bestilling.id,
         hmsnr: bestilling.hjelpemiddel.hmsnr,
         serienr: bestilling.handlekurv.serieNr,
         deler: bestilling.handlekurv.deler,
-      }),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    console.log('result:', result)
-
-    if (!result.ok) {
-      alert(`Noe gikk gærent med innsending, se konsoll`)
-    } else {
+      }
+      await rest.sendInnBestilling(innsendtBestilling)
       alert('Bestilling sendt inn!')
+    } catch (err) {
+      alert(`Noe gikk gærent med innsending, se konsoll`)
+      console.log(err)
     }
 
     handleSlettBestilling()

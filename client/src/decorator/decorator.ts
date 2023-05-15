@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser'
 import i18next from 'i18next'
 import Cookies from 'universal-cookie'
 import { BASE_PATH } from '../App'
-import restService from '../services/rest-service'
+// import restService from '../services/rest-service'
 import { digihot_customevents, logCustomEvent } from '../utils/amplitude'
 
 interface Params {
@@ -31,16 +31,16 @@ export const initDecorator = () => {
   const language = cookies.get(DECORATOR_LANGUAGE_COOKIE)
 
   if (language === undefined || !SPRAAK.includes(language)) {
-    restService
-      .hentSpraak()
-      .then((response) => {
-        setLanguage(response.spraak)
-        changeLanguage(response.spraak)
-      })
-      .catch((error) => {
-        console.log('Henting av språk feilet', error)
-        Sentry.captureException(error)
-      })
+    // restService
+    //   .hentSpraak()
+    //   .then((response) => {
+    //     setLanguage(response.spraak)
+    //     changeLanguage(response.spraak)
+    //   })
+    //   .catch((error) => {
+    //     console.log('Henting av språk feilet', error)
+    //     Sentry.captureException(error)
+    //   })
   } else {
     console.log('hentet språk fra cookies: ' + language)
     changeLanguage(language)

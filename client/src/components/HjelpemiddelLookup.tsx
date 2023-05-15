@@ -3,6 +3,7 @@ import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
 import { Hjelpemiddel } from '../types/Types'
 import styled from 'styled-components'
 import { OppslagResponse } from '../types/ResponseTypes'
+import rest from '../services/rest'
 
 const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)
@@ -45,19 +46,13 @@ const HjelpemiddelLookup = ({ artNr, setArtNr, serieNr, setSerieNr, setHjelpemid
     const doFetch = async () => {
       try {
         setHenterHjelpemiddel(true)
-        const result = await fetch('/hjelpemidler/delbestilling/api/oppslag', {
-          body: JSON.stringify({ artNr, serieNr }),
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        const json: OppslagResponse = await result.json()
 
-        if (json.serieNrKobletMotBruker == false) {
+        const oppslag = await rest.hjelpemiddelOppslag(artNr, serieNr)
+
+        if (oppslag.serieNrKobletMotBruker === false) {
           alert(`Vi klarte ikke å koble serienr ${serieNr} til en bruker`)
         } else {
-          setHjelpemiddel(json.hjelpemiddel)
+          setHjelpemiddel(oppslag.hjelpemiddel)
         }
       } catch (err) {
         alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${artNr} og serienr ${serieNr}`)
