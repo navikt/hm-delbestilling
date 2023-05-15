@@ -2,7 +2,6 @@ import React, { SetStateAction, useState } from 'react'
 import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
 import { Hjelpemiddel } from '../types/Types'
 import styled from 'styled-components'
-import { OppslagResponse } from '../types/ResponseTypes'
 import rest from '../services/rest'
 
 const erBareTall = (input: string): boolean => {
