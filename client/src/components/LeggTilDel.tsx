@@ -62,7 +62,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => (
           <Avstand marginBottom={4} key={del.hmsnr}>
-            <Panel>
+            <Panel border>
               <div style={{ display: 'flex', gap: 20 }}>
                 <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
                 <div>

@@ -138,7 +138,7 @@ const Utsjekk = () => {
           </Heading>
         </Content>
       </Header>
-      <main>
+      <main style={{ background: 'white' }}>
         <Content>
           {henterRolle ? (
             <div style={{ textAlign: 'center' }}>
@@ -157,7 +157,7 @@ const Utsjekk = () => {
                       </Button>
                     </Avstand>
                   )}
-                  <Panel>
+                  <Panel border>
                     <Heading level="3" size="small" spacing>
                       Bestill deler til {bestilling.hjelpemiddel.navn}
                     </Heading>
@@ -172,7 +172,7 @@ const Utsjekk = () => {
                       <LeggTilDel
                         hjelpemiddel={{
                           ...bestilling.hjelpemiddel,
-                          // Filtrer bort allerede lagt til deler
+                          // Filtrer bort deler som allerede er lagt til
                           deler: bestilling.hjelpemiddel.deler?.filter(
                             (del) =>
                               !bestilling.handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
