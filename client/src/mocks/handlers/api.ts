@@ -29,7 +29,11 @@ const apiHandlers = [
     return res(ctx.delay(250), ctx.status(201), ctx.body(id))
   }),
 
-  rest.get<{ id: string }, {}, InnsendtBestilling[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+  rest.get<{}, {}, InnsendtBestilling[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+    return res(ctx.delay(250), ctx.json(tidligereBestillinger))
+  }),
+
+  rest.get<{}, {}, InnsendtBestilling[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillinger))
   }),
 ]

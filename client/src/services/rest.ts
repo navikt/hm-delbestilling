@@ -25,6 +25,11 @@ const hentBestillingerForBruker = async (): Promise<InnsendtBestilling[]> => {
   return await response.json()
 }
 
+const hentBestillingerForKommune = async (): Promise<InnsendtBestilling[]> => {
+  const response = await fetch(API_PATH + '/delbestilling/kommune')
+  return await response.json()
+}
+
 const sendInnBestilling = async (bestilling: InnsendtBestilling): Promise<string> => {
   const response = await fetchPost(`${API_PATH}/delbestilling`, {
     body: JSON.stringify(bestilling),
@@ -60,6 +65,7 @@ export default {
   hjelpemiddelOppslag,
   sendInnBestilling,
   hentBestillingerForBruker,
+  hentBestillingerForKommune,
   hentRolle,
   sjekkLoginStatus,
 }

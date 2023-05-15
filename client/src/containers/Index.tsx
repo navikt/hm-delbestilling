@@ -11,6 +11,7 @@ import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
 import rest from '../services/rest'
+import TidligereBestillinger from '../components/TidligereBestillinger'
 
 export const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
 
@@ -19,21 +20,8 @@ const Index = () => {
   const [serienr, setSerienr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
 
-  const [tidligereBestillinger, setTidligereBestillinger] = useState<InnsendtBestilling[] | undefined>(undefined)
-
   const { loginStatus } = useAuth()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const bestillinger = await rest.hentBestillingerForBruker()
-        setTidligereBestillinger(bestillinger)
-      } catch (err) {
-        console.log(`Klarte ikke hente tidliger bestillinger`, err)
-      }
-    })()
-  }, [])
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
     const bestilling: Bestilling = {
@@ -83,30 +71,8 @@ const Index = () => {
                 setSerienr={setSerienr}
                 setHjelpemiddel={setHjelpemiddel}
               />
-              <Avstand marginBottom={4} />
-              {tidligereBestillinger && tidligereBestillinger.length > 0 && (
-                <>
-                  <Heading level="2" size="medium">
-                    Tidligere bestillinger
-                  </Heading>
-                  <div>
-                    {tidligereBestillinger.map((bestilling) => (
-                      <Panel key={bestilling.id}>
-                        <Heading size="small" level="3">
-                          Hmsnr: {bestilling.hmsnr}
-                        </Heading>
-                        Deler:
-                        {bestilling.deler.map((del) => (
-                          <div style={{ paddingLeft: 20 }} key={del.hmsnr}>
-                            <BodyShort>Navn: {del.navn}</BodyShort>
-                            <BodyShort>Antall: {del.antall}</BodyShort>
-                          </div>
-                        ))}
-                      </Panel>
-                    ))}
-                  </div>
-                </>
-              )}
+              <Avstand marginBottom={8} />
+              <TidligereBestillinger />
             </>
           )}
           {hjelpemiddel && (
