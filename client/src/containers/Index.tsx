@@ -71,7 +71,7 @@ const Index = () => {
                 setHjelpemiddel={setHjelpemiddel}
               />
               <Avstand marginBottom={8} />
-              <TidligereBestillinger />
+              {/* <TidligereBestillinger /> */}
             </>
           )}
           {hjelpemiddel && (
