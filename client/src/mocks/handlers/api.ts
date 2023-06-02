@@ -1,5 +1,5 @@
 import { rest } from 'msw'
-import { OppslagResponse } from '../../types/ResponseTypes'
+import { OppslagFeil, OppslagResponse } from '../../types/ResponseTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import { Hjelpemiddel, InnsendtBestilling } from '../../types/Types'
 import { API_PATH } from '../../services/rest'
@@ -10,15 +10,15 @@ const apiHandlers = [
   rest.post<{ artnr: string; serienr: string }, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
     const { artnr, serienr } = req.body
 
-    if (!artnr || !serienr) return res(ctx.status(400))
-
-    if (serienr === '000000') {
-      return res(ctx.json({ serienrKobletMotBruker: false }))
+    if (artnr === '333333') {
+      return res(ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN }))
     }
 
     const hjelpemiddel: Hjelpemiddel | undefined = hjelpemiddelMock.find((hm) => hm.hmsnr === artnr)
 
-    if (!hjelpemiddel) return res(ctx.status(404))
+    if (!hjelpemiddel) {
+      return res(ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL }))
+    }
 
     return res(ctx.delay(250), ctx.json({ serienrKobletMotBruker: true, hjelpemiddel }))
   }),

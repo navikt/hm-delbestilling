@@ -1,8 +1,10 @@
 import React, { SetStateAction, useState } from 'react'
-import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
+import { Alert, Button, Heading, Panel, TextField } from '@navikt/ds-react'
 import { Hjelpemiddel } from '../types/Types'
 import styled from 'styled-components'
 import rest from '../services/rest'
+import { OppslagFeil } from '../types/ResponseTypes'
+import { Avstand } from './Avstand'
 
 const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)
@@ -38,6 +40,7 @@ interface Props {
 }
 const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
   const [gjørOppslag, setGjørOppslag] = useState(false)
+  const [feil, setFeil] = useState<OppslagFeil | undefined>(undefined)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,8 +49,8 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
       setGjørOppslag(true)
       const oppslag = await rest.hjelpemiddelOppslag(artnr, serienr)
 
-      if (oppslag.serienrKobletMotBruker === false) {
-        alert(`Vi klarte ikke å koble serienr ${serienr} til en bruker`)
+      if (oppslag.feil) {
+        setFeil(oppslag.feil)
       } else {
         setHjelpemiddel(oppslag.hjelpemiddel)
       }
@@ -62,6 +65,7 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
   const reset = () => {
     setArtnr('')
     setSerienr('')
+    setFeil(undefined)
   }
 
   return (
@@ -88,6 +92,19 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
           Start på nytt
         </Button>
       </StyledForm>
+
+      {feil && (
+        <Avstand marginTop={6}>
+          {feil === OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL && (
+            <Alert variant="error">
+              Vi tilbyr dessverre ikke deler for hjelpemiddel med dette artikkelnummeret ennå.
+            </Alert>
+          )}
+          {feil === OppslagFeil.INGET_UTLÅN && (
+            <Alert variant="error">Vi finner dessverre ikke et utlån på dette art.nr og serienr.</Alert>
+          )}
+        </Avstand>
+      )}
     </Panel>
   )
 }
