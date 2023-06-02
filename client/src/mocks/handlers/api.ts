@@ -20,7 +20,7 @@ const apiHandlers = [
       return res(ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL }))
     }
 
-    return res(ctx.delay(250), ctx.json({ serienrKobletMotBruker: true, hjelpemiddel }))
+    return res(ctx.delay(250), ctx.json({ hjelpemiddel, feil: undefined }))
   }),
 
   rest.post<InnsendtBestilling>(`${API_PATH}/delbestilling`, (req, res, ctx) => {

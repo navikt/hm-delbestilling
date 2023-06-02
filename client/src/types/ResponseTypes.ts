@@ -1,8 +1,8 @@
 import { Hjelpemiddel } from './Types'
 
 export interface OppslagResponse {
-  hjelpemiddel?: Hjelpemiddel
-  feil?: OppslagFeil
+  hjelpemiddel: Hjelpemiddel | undefined
+  feil: OppslagFeil | undefined
 }
 
 export enum OppslagFeil {
