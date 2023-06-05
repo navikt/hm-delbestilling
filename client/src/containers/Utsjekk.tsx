@@ -1,5 +1,5 @@
-import { BodyShort, Button, Heading, Loader, Panel, Select } from '@navikt/ds-react'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { BodyShort, Button, Heading, Panel, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
@@ -8,10 +8,9 @@ import { Bestilling, Del, InnsendtBestilling } from '../types/Types'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
-import useAuth from '../hooks/useAuth'
-import { DelbestillerResponse } from '../types/ResponseTypes'
 import styled from 'styled-components'
 import rest from '../services/rest'
+import { RolleContext } from '../context/rolle'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -25,6 +24,7 @@ const Toolbar = styled.div`
 `
 
 const Utsjekk = () => {
+  const { delbestillerRolle } = useContext(RolleContext)
   const [bestilling, setBestilling] = useState<Bestilling | undefined>(() => {
     try {
       return JSON.parse(window.localStorage.getItem(LOCALSTORAGE_BESTILLING_KEY) || '')
@@ -35,25 +35,9 @@ const Utsjekk = () => {
   const [visFlereDeler, setVisFlereDeler] = useState(false)
   const navigate = useNavigate()
 
-  const { rolle } = useAuth()
-  const [henterRolle, setHenterRolle] = useState(true)
-  const [rolleResponse, setRolleResponse] = useState<DelbestillerResponse | undefined>(undefined)
-  const [senderInnBestilling, setSenderInnBestilling] = useState(false)
+  console.log('delbestillerRolle:', delbestillerRolle)
 
-  useEffect(() => {
-    const sjekkRolle = async () => {
-      try {
-        const delbestiller = await rolle()
-        setRolleResponse(delbestiller)
-      } catch (err) {
-        alert('Kunne ikke sjekke rolle, se konsoll for detaljer')
-        console.log(err)
-      } finally {
-        setHenterRolle(false)
-      }
-    }
-    sjekkRolle()
-  }, [])
+  const [senderInnBestilling, setSenderInnBestilling] = useState(false)
 
   const leggTilDel = (del: Del) => {
     setBestilling((prev) => {
@@ -131,130 +115,109 @@ const Utsjekk = () => {
   }
 
   return (
-    <>
-      <Header>
-        <Content>
-          <Heading level="1" size="xlarge">
-            Bestill del til hjelpemiddel
-          </Heading>
-        </Content>
-      </Header>
-      <main style={{ background: 'white' }}>
-        <Content>
-          {henterRolle ? (
-            <div style={{ textAlign: 'center' }}>
-              <Loader size="large" />
-            </div>
+    <main style={{ background: 'white' }}>
+      <Content>
+        <>
+          {visFlereDeler && (
+            <Avstand marginBottom={2}>
+              <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => setVisFlereDeler(false)}>
+                Tilbake til bestillingen
+              </Button>
+            </Avstand>
+          )}
+          <Panel border>
+            <Heading level="3" size="small" spacing>
+              Bestill deler til {bestilling.hjelpemiddel.navn}
+            </Heading>
+            <BodyShort>
+              <strong>Art.nr:</strong> {bestilling.hjelpemiddel.hmsnr} | <strong>Serienr:</strong>{' '}
+              {bestilling.handlekurv.serienr}
+            </BodyShort>
+          </Panel>
+          <Avstand marginBottom={12} />
+          {visFlereDeler ? (
+            <>
+              <LeggTilDel
+                hjelpemiddel={{
+                  ...bestilling.hjelpemiddel,
+                  // Filtrer bort deler som allerede er lagt til
+                  deler: bestilling.hjelpemiddel.deler?.filter(
+                    (del) => !bestilling.handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
+                  ),
+                }}
+                onLeggTil={(del) => leggTilDel(del)}
+              />
+            </>
           ) : (
             <>
-              {rolleResponse && rolleResponse.kanBestilleDeler === false ? (
-                <div>Du kan ikke bestille deler akkurat nå</div>
-              ) : (
-                <>
-                  {visFlereDeler && (
-                    <Avstand marginBottom={2}>
-                      <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => setVisFlereDeler(false)}>
-                        Tilbake til bestillingen
-                      </Button>
-                    </Avstand>
-                  )}
-                  <Panel border>
-                    <Heading level="3" size="small" spacing>
-                      Bestill deler til {bestilling.hjelpemiddel.navn}
-                    </Heading>
-                    <BodyShort>
-                      <strong>Art.nr:</strong> {bestilling.hjelpemiddel.hmsnr} | <strong>Serienr:</strong>{' '}
-                      {bestilling.handlekurv.serienr}
-                    </BodyShort>
-                  </Panel>
-                  <Avstand marginBottom={12} />
-                  {visFlereDeler ? (
-                    <>
-                      <LeggTilDel
-                        hjelpemiddel={{
-                          ...bestilling.hjelpemiddel,
-                          // Filtrer bort deler som allerede er lagt til
-                          deler: bestilling.hjelpemiddel.deler?.filter(
-                            (del) =>
-                              !bestilling.handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
-                          ),
-                        }}
-                        onLeggTil={(del) => leggTilDel(del)}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Avstand marginBottom={8}>
-                        <Heading level="2" size="large" spacing>
-                          Deler lagt til i bestillingen
-                        </Heading>
-                        {bestilling.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
-                        {bestilling.handlekurv.deler.map((del) => (
-                          <Avstand marginBottom={2} key={del.hmsnr}>
-                            <Panel border>
-                              <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-                                <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
+              <Avstand marginBottom={8}>
+                <Heading level="2" size="large" spacing>
+                  Deler lagt til i bestillingen
+                </Heading>
+                {bestilling.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
+                {bestilling.handlekurv.deler.map((del) => (
+                  <Avstand marginBottom={2} key={del.hmsnr}>
+                    <Panel border>
+                      <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                        <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
 
-                                <div>
-                                  <Heading level="3" size="medium" spacing>
-                                    {del.navn}
-                                  </Heading>
-                                  <BodyShort spacing>{del.beskrivelse}</BodyShort>
-                                  <BodyShort>
-                                    HMS-nr: {del.hmsnr} | Lev.art.nr: {del.levArtNr}
-                                  </BodyShort>
-                                </div>
-                              </div>
-                              <Toolbar>
-                                <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(del)}>
-                                  Slett del
-                                </Button>
-                                <Select
-                                  label="Antall"
-                                  value={del.antall}
-                                  onChange={(e) => setAntall(del, Number(e.target.value))}
-                                  style={{ width: 80 }}
-                                >
-                                  {Array.from(Array(5), (_, x: number) => (
-                                    <option key={x + 1} value={x + 1}>
-                                      {x + 1}
-                                    </option>
-                                  ))}
-                                </Select>
-                              </Toolbar>
-                            </Panel>
-                          </Avstand>
-                        ))}
-                        <Avstand marginBottom={4} />
-                        <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
-                          Legg til flere deler
-                        </Button>
-                      </Avstand>
-
-                      <Avstand marginBottom={8}>
-                        <Heading spacing level="3" size="medium">
-                          Levering
-                        </Heading>
-                        <div>TODO: implementer</div>
-                      </Avstand>
-
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-                        <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(bestilling)}>
-                          Send inn bestilling
-                        </Button>
-                        <Button icon={<TrashIcon />} variant="tertiary" onClick={slettBestilling}>
-                          Slett bestilling
-                        </Button>
+                        <div>
+                          <Heading level="3" size="medium" spacing>
+                            {del.navn}
+                          </Heading>
+                          <BodyShort spacing>{del.beskrivelse}</BodyShort>
+                          <BodyShort>
+                            HMS-nr: {del.hmsnr} | Lev.art.nr: {del.levArtNr}
+                          </BodyShort>
+                        </div>
                       </div>
-                    </>
-                  )}
-                </>
-              )}
+                      <Toolbar>
+                        <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(del)}>
+                          Slett del
+                        </Button>
+                        <Select
+                          label="Antall"
+                          value={del.antall}
+                          onChange={(e) => setAntall(del, Number(e.target.value))}
+                          style={{ width: 80 }}
+                        >
+                          {Array.from(Array(5), (_, x: number) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Select>
+                      </Toolbar>
+                    </Panel>
+                  </Avstand>
+                ))}
+                <Avstand marginBottom={4} />
+                <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
+                  Legg til flere deler
+                </Button>
+              </Avstand>
+
+              <Avstand marginBottom={8}>
+                <Heading spacing level="3" size="medium">
+                  Levering
+                </Heading>
+                <div>TODO: implementer</div>
+                {delbestillerRolle?.harXKLager && <div>TODO: XK-lager</div>}
+              </Avstand>
+
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+                <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(bestilling)}>
+                  Send inn bestilling
+                </Button>
+                <Button icon={<TrashIcon />} variant="tertiary" onClick={slettBestilling}>
+                  Slett bestilling
+                </Button>
+              </div>
             </>
           )}
-        </Content>
-      </main>
-    </>
+        </>
+      </Content>
+    </main>
   )
 }
 

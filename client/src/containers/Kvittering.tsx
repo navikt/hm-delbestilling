@@ -41,32 +41,23 @@ const Kvittering = () => {
   }
 
   return (
-    <>
-      <Header>
-        <Content>
-          <Heading level="1" size="xlarge">
-            Bestill del til hjelpemiddel
-          </Heading>
-        </Content>
-      </Header>
-      <main style={{ background: 'white' }}>
-        <Content>
-          <Heading level="2" size="large" spacing>
-            Kvittering
-          </Heading>
-          <Alert variant="success">
-            Vi har mottatt bestilling til av del til {bestilling.hjelpemiddel.navn} med art.nr:{' '}
-            {bestilling.hjelpemiddel.hmsnr} og serienr: {bestilling.handlekurv.serienr}
-          </Alert>
-          <Avstand marginTop={10} />
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant="secondary" onClick={handleNyBestillingClick}>
-              Start ny bestilling
-            </Button>
-          </div>
-        </Content>
-      </main>
-    </>
+    <main style={{ background: 'white' }}>
+      <Content>
+        <Heading level="2" size="large" spacing>
+          Kvittering
+        </Heading>
+        <Alert variant="success">
+          Vi har mottatt bestilling til av del til {bestilling.hjelpemiddel.navn} med art.nr:{' '}
+          {bestilling.hjelpemiddel.hmsnr} og serienr: {bestilling.handlekurv.serienr}
+        </Alert>
+        <Avstand marginTop={10} />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button variant="secondary" onClick={handleNyBestillingClick}>
+            Start ny bestilling
+          </Button>
+        </div>
+      </Content>
+    </main>
   )
 }
 

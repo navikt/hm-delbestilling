@@ -26,7 +26,7 @@ const apiHandlers = [
   rest.post<InnsendtBestilling>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
     const { id } = req.body
     tidligereBestillinger.push(req.body)
-    return res(ctx.delay(250), ctx.status(201), ctx.body(id))
+    return res(ctx.delay(450), ctx.status(201), ctx.body(id))
   }),
 
   rest.get<{}, {}, InnsendtBestilling[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {

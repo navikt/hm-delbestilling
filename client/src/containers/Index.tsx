@@ -48,64 +48,55 @@ const Index = () => {
   }
 
   return (
-    <>
-      <Header>
-        <Content>
-          <Heading level="1" size="xlarge">
-            Bestill del til hjelpemiddel
-          </Heading>
-        </Content>
-      </Header>
-      <main>
-        <Content>
-          <Heading level="2" size="large" spacing>
-            Bestill del
-          </Heading>
-          {!hjelpemiddel && (
-            <>
-              <HjelpemiddelLookup
-                artnr={artnr}
-                setArtnr={setArtnr}
-                serienr={serienr}
-                setSerienr={setSerienr}
-                setHjelpemiddel={setHjelpemiddel}
-              />
-              <Avstand marginBottom={8} />
-              {/* <TidligereBestillinger /> */}
-            </>
-          )}
-          {hjelpemiddel && (
-            <>
-              <Panel>
-                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                  <Heading size="xsmall" level="4" spacing>
-                    Bestill del til {hjelpemiddel.navn}
-                  </Heading>
-                  <Button
-                    icon={<PencilIcon />}
-                    variant="tertiary"
-                    onClick={() => {
-                      setHjelpemiddel(undefined)
-                    }}
-                  >
-                    Endre
-                  </Button>
-                </div>
-                <BodyShort>
-                  <strong>Art.nr:</strong> {artnr} | <strong>Serienr:</strong> {serienr}
-                </BodyShort>
-              </Panel>
-              <Avstand marginBottom={8} />
-              <LeggTilDel
-                hjelpemiddel={hjelpemiddel}
-                onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
-                knappeTekst="Bestill"
-              />
-            </>
-          )}
-        </Content>
-      </main>
-    </>
+    <main>
+      <Content>
+        <Heading level="2" size="large" spacing>
+          Bestill del
+        </Heading>
+        {!hjelpemiddel && (
+          <>
+            <HjelpemiddelLookup
+              artnr={artnr}
+              setArtnr={setArtnr}
+              serienr={serienr}
+              setSerienr={setSerienr}
+              setHjelpemiddel={setHjelpemiddel}
+            />
+            <Avstand marginBottom={8} />
+            {/* <TidligereBestillinger /> */}
+          </>
+        )}
+        {hjelpemiddel && (
+          <>
+            <Panel>
+              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <Heading size="xsmall" level="4" spacing>
+                  Bestill del til {hjelpemiddel.navn}
+                </Heading>
+                <Button
+                  icon={<PencilIcon />}
+                  variant="tertiary"
+                  onClick={() => {
+                    setHjelpemiddel(undefined)
+                  }}
+                >
+                  Endre
+                </Button>
+              </div>
+              <BodyShort>
+                <strong>Art.nr:</strong> {artnr} | <strong>Serienr:</strong> {serienr}
+              </BodyShort>
+            </Panel>
+            <Avstand marginBottom={8} />
+            <LeggTilDel
+              hjelpemiddel={hjelpemiddel}
+              onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
+              knappeTekst="Bestill"
+            />
+          </>
+        )}
+      </Content>
+    </main>
   )
 }
 
