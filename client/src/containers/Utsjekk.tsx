@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BodyShort, Button, Heading, Panel, Select } from '@navikt/ds-react'
+import { Alert, AlertProps, BodyShort, Button, Heading, Panel, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
@@ -22,6 +22,12 @@ const Toolbar = styled.div`
   width: calc(100% + 32px);
 `
 
+interface Feilmelding {
+  level: AlertProps['variant']
+  melding: string
+  stack?: string
+}
+
 const Utsjekk = () => {
   const { delbestillerRolle } = useRolleContext()
   const [bestilling, setBestilling] = useState<Bestilling | undefined>(() => {
@@ -32,6 +38,7 @@ const Utsjekk = () => {
     }
   })
   const [visFlereDeler, setVisFlereDeler] = useState(false)
+  const [feilmelding, setFeilmelding] = useState<Feilmelding | undefined>()
   const navigate = useNavigate()
 
   console.log('delbestillerRolle:', delbestillerRolle)
@@ -85,6 +92,12 @@ const Utsjekk = () => {
   }
 
   const sendInnBestilling = async (bestilling: Bestilling) => {
+    setFeilmelding(undefined)
+    if (bestilling.handlekurv.deler.length === 0) {
+      setFeilmelding({ level: 'warning', melding: 'Du kan ikke sende inn bestilling med 0 deler' })
+      return
+    }
+
     try {
       setSenderInnBestilling(true)
       const innsendtBestilling: InnsendtBestilling = {
@@ -96,7 +109,12 @@ const Utsjekk = () => {
       await rest.sendInnBestilling(innsendtBestilling)
       navigate('/kvittering', { state: { bestilling } })
     } catch (err) {
-      alert(`Noe gikk gærent med innsending, se konsoll`)
+      // alert(`Noe gikk gærent med innsending, se konsoll`)
+      setFeilmelding({
+        level: 'error',
+        melding: 'Noe gikk feil med innsending, prøv igjen senere',
+        stack: err as string,
+      })
       console.log(err)
     } finally {
       setSenderInnBestilling(false)
@@ -212,6 +230,13 @@ const Utsjekk = () => {
                   Slett bestilling
                 </Button>
               </div>
+
+              {feilmelding && (
+                <Alert variant={feilmelding.level}>
+                  <div>{feilmelding.melding}</div>
+                  {feilmelding.stack && <div>{JSON.stringify(feilmelding.stack)}</div>}
+                </Alert>
+              )}
             </>
           )}
         </>
