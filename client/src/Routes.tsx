@@ -1,14 +1,11 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { Outlet, Route, Routes as Switch } from 'react-router-dom'
+import { Route, Routes as Switch } from 'react-router-dom'
 import Index from './containers/Index'
 import Utsjekk from './containers/Utsjekk'
 import Kvittering from './containers/Kvittering'
-import { RolleContextLayout } from './context/rolle'
-import Header from './styledcomponents/Header'
-import Content from './styledcomponents/Content'
-import { Heading } from '@navikt/ds-react'
 import Layout from './containers/Layout'
+import { RolleContextLayout } from './context/rolle'
 
 const Routes = () => {
   return (

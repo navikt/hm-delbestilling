@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Header from '../styledcomponents/Header'
 import Content from '../styledcomponents/Content'
 import { Alert, Button, Heading } from '@navikt/ds-react'
 import { useLocation, useNavigate } from 'react-router-dom'
