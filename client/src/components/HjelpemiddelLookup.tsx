@@ -96,12 +96,13 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
       {feil && (
         <Avstand marginTop={6}>
           {feil === OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL && (
-            <Alert variant="error">
-              Vi tilbyr dessverre ikke deler for hjelpemiddel med dette artikkelnummeret ennå.
+            <Alert variant="warning">
+              Du kan ikke bestille del til dette hjelpemidlet da det ikke er registrert hos oss. Ta kontakt med din
+              hjelpemiddelsentral for hjelp.
             </Alert>
           )}
           {feil === OppslagFeil.INGET_UTLÅN && (
-            <Alert variant="error">Vi finner dessverre ikke et utlån på dette art.nr og serienr.</Alert>
+            <Alert variant="warning">Vi finner dessverre ikke et utlån på dette art.nr og serienr.</Alert>
           )}
         </Avstand>
       )}
