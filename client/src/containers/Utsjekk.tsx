@@ -111,8 +111,7 @@ const Utsjekk = () => {
         deler: bestilling.handlekurv.deler,
       }
       await rest.sendInnBestilling(innsendtBestilling)
-      alert('Bestilling sendt inn!')
-      slettBestilling()
+      navigate('/kvittering', { state: { bestilling } })
     } catch (err) {
       alert(`Noe gikk gærent med innsending, se konsoll`)
       console.log(err)

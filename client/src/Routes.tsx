@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet'
 import { Route, Routes as Switch } from 'react-router-dom'
 import Index from './containers/Index'
 import Utsjekk from './containers/Utsjekk'
+import Kvittering from './containers/Kvittering'
 
 const Routes = () => {
   return (
@@ -12,7 +13,9 @@ const Routes = () => {
       </Helmet>
       <Switch>
         <Route path="/" element={<Index />} />
+        {/* TODO: kanskje wrappe disse i en protected route? */}
         <Route path="/utsjekk" element={<Utsjekk />} />
+        <Route path="/kvittering" element={<Kvittering />} />
       </Switch>
     </>
   )
