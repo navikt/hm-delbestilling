@@ -47,8 +47,9 @@ const Kvittering = () => {
           Kvittering
         </Heading>
         <Alert variant="success">
-          Vi har mottatt bestilling til av del til {bestilling.hjelpemiddel.navn} med art.nr:{' '}
-          {bestilling.hjelpemiddel.hmsnr} og serienr: {bestilling.handlekurv.serienr}
+          Vi har mottatt bestilling til av {bestilling.handlekurv.deler.length === 1 ? 'del' : 'deler'} til{' '}
+          {bestilling.hjelpemiddel.navn} med art.nr: {bestilling.hjelpemiddel.hmsnr} og serienr:{' '}
+          {bestilling.handlekurv.serienr}
         </Alert>
         <Avstand marginTop={10} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>
