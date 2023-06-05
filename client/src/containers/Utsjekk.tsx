@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { BodyShort, Button, Heading, Panel, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
@@ -61,7 +61,7 @@ const Utsjekk = () => {
         handlekurv: {
           ...prev.handlekurv,
           deler: prev.handlekurv.deler.map((handlekurvDel) => {
-            if (handlekurvDel.hmsnr === del.hmsnr) return { ...handlekurvDel, antall: antall }
+            if (handlekurvDel.hmsnr === del.hmsnr) return { ...handlekurvDel, antall }
             return handlekurvDel
           }),
         },
