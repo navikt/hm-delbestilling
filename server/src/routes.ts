@@ -48,6 +48,8 @@ export const routes = {
     router.get('*', express.static(config.buildPath(), { index: false }))
     server.get('/utsjekk', authMiddleware.requiresLogin(), spaHandler)
     router.get('/utsjekk', authMiddleware.requiresLogin(), spaHandler)
+    server.get('/kvittering', authMiddleware.requiresLogin(), spaHandler)
+    router.get('/kvittering', authMiddleware.requiresLogin(), spaHandler)
 
     server.get('/', spaHandler)
     router.get('/', spaHandler)
