@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
 import styled from 'styled-components'
 import rest from '../services/rest'
-import { RolleContext } from '../context/rolle'
+import { useRolleContext } from '../context/rolle'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -23,7 +23,7 @@ const Toolbar = styled.div`
 `
 
 const Utsjekk = () => {
-  const { delbestillerRolle } = useContext(RolleContext)
+  const { delbestillerRolle } = useRolleContext()
   const [bestilling, setBestilling] = useState<Bestilling | undefined>(() => {
     try {
       return JSON.parse(window.localStorage.getItem(LOCALSTORAGE_BESTILLING_KEY) || '')

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import { DelbestillerResponse } from '../types/ResponseTypes'
 import { Loader } from '@navikt/ds-react'
@@ -6,10 +6,10 @@ import { Outlet } from 'react-router-dom'
 import { Avstand } from '../components/Avstand'
 
 type RolleContextType = {
-  delbestillerRolle: DelbestillerResponse | undefined
+  delbestillerRolle: DelbestillerResponse
 }
 
-export const RolleContext = React.createContext<RolleContextType>({ delbestillerRolle: undefined })
+const RolleContext = React.createContext<RolleContextType>({ delbestillerRolle: undefined! }) // fortell TS med ! at denne propertien har en verdi på runtime
 
 export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   const [henterRolle, setHenterRolle] = useState(true)
@@ -41,11 +41,15 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  if (delbestillerRolle?.erKommunaltAnsatt === false) {
+  if (!delbestillerRolle) {
+    return <div>Fant ingen delbestillerrolle</div>
+  }
+
+  if (delbestillerRolle.erKommunaltAnsatt === false) {
     return <div>Du er ikke kommunalt ansatt, og kan derfor ikke bestille deler</div>
   }
 
-  if (delbestillerRolle?.kanBestilleDeler === false) {
+  if (delbestillerRolle.kanBestilleDeler === false) {
     // TODO: kanskje noe info om pilot?
     return <div>Du kan ikke bestille deler akkurat nå (du er ikke i pilot)</div>
   }
@@ -60,4 +64,13 @@ export const RolleContextLayout = () => {
       <Outlet />
     </RolleProvider>
   )
+}
+
+export const useRolleContext = () => {
+  const context = useContext(RolleContext)
+  if (context === undefined) {
+    throw new Error('useRolleContext må ligge inni RolleProvider')
+  }
+
+  return context
 }
