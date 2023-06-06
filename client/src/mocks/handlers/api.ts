@@ -7,14 +7,14 @@ import { API_PATH } from '../../services/rest'
 let tidligereBestillinger: InnsendtBestilling[] = []
 
 const apiHandlers = [
-  rest.post<{ artnr: string; serienr: string }, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
-    const { artnr, serienr } = req.body
+  rest.post<{ hmsnr: string; serienr: string }, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
+    const { hmsnr, serienr } = req.body
 
-    if (artnr === '333333') {
+    if (hmsnr === '333333') {
       return res(ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN }))
     }
 
-    const hjelpemiddel: Hjelpemiddel | undefined = hjelpemiddelMock.find((hm) => hm.hmsnr === artnr)
+    const hjelpemiddel: Hjelpemiddel | undefined = hjelpemiddelMock.find((hm) => hm.hmsnr === hmsnr)
 
     if (!hjelpemiddel) {
       return res(ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL }))

@@ -14,7 +14,7 @@ import TidligereBestillinger from '../components/TidligereBestillinger'
 export const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
 
 const Index = () => {
-  const [artnr, setArtnr] = useState('')
+  const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
 
@@ -55,8 +55,8 @@ const Index = () => {
         {!hjelpemiddel && (
           <>
             <HjelpemiddelLookup
-              artnr={artnr}
-              setArtnr={setArtnr}
+              hmsnr={hmsnr}
+              setHmsnr={setHmsnr}
               serienr={serienr}
               setSerienr={setSerienr}
               setHjelpemiddel={setHjelpemiddel}
@@ -83,7 +83,7 @@ const Index = () => {
                 </Button>
               </div>
               <BodyShort>
-                <strong>Art.nr:</strong> {artnr} | <strong>Serienr:</strong> {serienr}
+                <strong>Art.nr:</strong> {hmsnr} | <strong>Serienr:</strong> {serienr}
               </BodyShort>
             </Panel>
             <Avstand marginBottom={8} />

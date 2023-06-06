@@ -32,13 +32,13 @@ const StyledTextField = styled(TextField)`
 `
 
 interface Props {
-  artnr: string
-  setArtnr: React.Dispatch<SetStateAction<string>>
+  hmsnr: string
+  setHmsnr: React.Dispatch<SetStateAction<string>>
   serienr: string
   setSerienr: React.Dispatch<SetStateAction<string>>
   setHjelpemiddel: React.Dispatch<SetStateAction<Hjelpemiddel | undefined>>
 }
-const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
+const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
   const [gjørOppslag, setGjørOppslag] = useState(false)
   const [feil, setFeil] = useState<OppslagFeil | undefined>(undefined)
 
@@ -47,7 +47,7 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
 
     try {
       setGjørOppslag(true)
-      const oppslag = await rest.hjelpemiddelOppslag(artnr, serienr)
+      const oppslag = await rest.hjelpemiddelOppslag(hmsnr, serienr)
 
       if (oppslag.feil) {
         setFeil(oppslag.feil)
@@ -55,7 +55,7 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
         setHjelpemiddel(oppslag.hjelpemiddel)
       }
     } catch (err) {
-      alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${artnr} og serienr ${serienr}`)
+      alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${hmsnr} og serienr ${serienr}`)
       console.log(`Kunne ikke hente hjelpemiddel`, err)
     } finally {
       setGjørOppslag(false)
@@ -63,7 +63,7 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
   }
 
   const reset = () => {
-    setArtnr('')
+    setHmsnr('')
     setSerienr('')
     setFeil(undefined)
   }
@@ -77,8 +77,8 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
       <StyledForm onSubmit={handleSubmit}>
         <StyledTextField
           label="Art.nr (6 siffer)"
-          value={artnr}
-          onChange={(e) => erGyldig(e.target.value) && setArtnr(e.target.value)}
+          value={hmsnr}
+          onChange={(e) => erGyldig(e.target.value) && setHmsnr(e.target.value)}
         />
         <StyledTextField
           label="Serienr (6 siffer)"
