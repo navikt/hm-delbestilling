@@ -129,7 +129,7 @@ const Utsjekk = () => {
         setFeilmelding({
           melding: (
             <>
-              Du må logge inn på nytt for å kunne sende inn en bestilling. Trykk{' '}
+              Økten din er utløpt, og du må logge inn på nytt for å kunne sende inn bestillingen. Trykk{' '}
               <a href="/hjelpemidler/delbestilling/login">her</a> for å gjøre det.
             </>
           ),
