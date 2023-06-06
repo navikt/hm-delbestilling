@@ -1,5 +1,5 @@
 import { DelbestillerResponse, OppslagResponse } from '../types/ResponseTypes'
-import { InnsendtBestilling } from '../types/Types'
+import { InnsendtBestilling, InnsendtBestillingResponse } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
@@ -62,7 +62,7 @@ const hentBestillingerForKommune = async (): Promise<InnsendtBestilling[]> => {
   return await response.json()
 }
 
-const sendInnBestilling = async (bestilling: InnsendtBestilling): Promise<string> => {
+const sendInnBestilling = async (bestilling: InnsendtBestilling): Promise<InnsendtBestillingResponse> => {
   const response = await fetchPost(`${API_PATH}/delbestilling`, {
     body: JSON.stringify(bestilling),
     headers: {
@@ -72,7 +72,7 @@ const sendInnBestilling = async (bestilling: InnsendtBestilling): Promise<string
 
   await handleResponse(response)
 
-  const id = await response.text()
+  const id = await response.json()
   return id
 }
 

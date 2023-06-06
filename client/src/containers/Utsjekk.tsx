@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Alert, AlertProps, BodyShort, Button, ExpansionCard, Heading, Panel, Select } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, ExpansionCard, Heading, Panel, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
-import { Bestilling, Del, InnsendtBestilling } from '../types/Types'
+import { Bestilling, Del, InnsendtBestilling, InnsendtBestillingFeil } from '../types/Types'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
@@ -23,8 +23,7 @@ const Toolbar = styled.div`
 `
 
 interface Feilmelding {
-  level: AlertProps['variant']
-  melding: string
+  melding: React.ReactNode
   stack?: string
 }
 
@@ -91,10 +90,20 @@ const Utsjekk = () => {
     })
   }
 
+  const hentInnsendingFeil = (innsendingFeil: InnsendtBestillingFeil): string => {
+    if (innsendingFeil === InnsendtBestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING) {
+      return 'Du kan ikke bestille deler til bruker som ikke tilhører den kommunen du jobber i'
+    } else if (innsendingFeil === InnsendtBestillingFeil.INGET_UTLÅN) {
+      return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer'
+    }
+
+    return 'Ukjent feil'
+  }
+
   const sendInnBestilling = async (bestilling: Bestilling) => {
     setFeilmelding(undefined)
     if (bestilling.handlekurv.deler.length === 0) {
-      setFeilmelding({ level: 'warning', melding: 'Du kan ikke sende inn bestilling med 0 deler' })
+      setFeilmelding({ melding: 'Du kan ikke sende inn bestilling med 0 deler' })
       return
     }
 
@@ -106,15 +115,32 @@ const Utsjekk = () => {
         serienr: bestilling.handlekurv.serienr,
         deler: bestilling.handlekurv.deler,
       }
-      await rest.sendInnBestilling(innsendtBestilling)
-      navigate('/kvittering', { state: { bestilling } })
-    } catch (err) {
-      // alert(`Noe gikk gærent med innsending, se konsoll`)
-      setFeilmelding({
-        level: 'error',
-        melding: 'Noe gikk feil med innsending, prøv igjen senere',
-        stack: err as string,
-      })
+      const response = await rest.sendInnBestilling(innsendtBestilling)
+      if (response.feil) {
+        // TODO: log feil til Amplitude
+        setFeilmelding({
+          melding: hentInnsendingFeil(response.feil),
+        })
+      } else {
+        navigate('/kvittering', { state: { bestilling } })
+      }
+    } catch (err: any) {
+      if (err.statusCode === 401) {
+        setFeilmelding({
+          melding: (
+            <>
+              Du må logge inn på nytt for å kunne sende inn en bestilling. Trykk{' '}
+              <a href="/hjelpemidler/delbestilling/login">her</a> for å gjøre det.
+            </>
+          ),
+          stack: err as string,
+        })
+      } else {
+        setFeilmelding({
+          melding: 'Noe gikk feil med innsending, prøv igjen senere',
+          stack: err as string,
+        })
+      }
       console.log(err)
     } finally {
       setSenderInnBestilling(false)
@@ -232,7 +258,7 @@ const Utsjekk = () => {
               </div>
 
               {feilmelding && (
-                <Alert variant={feilmelding.level}>
+                <Alert variant="error">
                   <>
                     {feilmelding.melding}
                     {feilmelding.stack && (

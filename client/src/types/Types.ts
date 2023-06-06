@@ -34,3 +34,13 @@ export interface InnsendtBestilling {
   serienr: string
   deler: BestillingDel[]
 }
+
+export interface InnsendtBestillingResponse {
+  id: string
+  feil?: InnsendtBestillingFeil
+}
+
+export enum InnsendtBestillingFeil {
+  'INGET_UTLÅN' = 'INGET_UTLÅN',
+  'ULIK_GEOGRAFISK_TILKNYTNING' = 'ULIK_GEOGRAFISK_TILKNYTNING',
+}
