@@ -1,3 +1,4 @@
+import { BestillingDel, Delbestilling } from './Types'
 import { Hjelpemiddel } from './Types'
 
 export interface OppslagRequest {
@@ -20,4 +21,18 @@ export interface DelbestillerResponse {
   harXKLager: boolean
   erKommunaltAnsatt: boolean
   erIPilot: boolean
+}
+
+export interface DelbestillingRequest {
+  delbestilling: Delbestilling
+}
+
+export interface DelbestillingResponse {
+  id: string
+  feil?: DelbestillingFeil
+}
+
+export enum DelbestillingFeil {
+  'INGET_UTLÅN' = 'INGET_UTLÅN',
+  'ULIK_GEOGRAFISK_TILKNYTNING' = 'ULIK_GEOGRAFISK_TILKNYTNING',
 }

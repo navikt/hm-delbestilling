@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import useAuth from '../hooks/useAuth'
-import { DelbestillerResponse } from '../types/ResponseTypes'
+import { DelbestillerResponse } from '../types/HttpTypes'
 import { Loader } from '@navikt/ds-react'
 import { Outlet } from 'react-router-dom'
 import { Avstand } from '../components/Avstand'

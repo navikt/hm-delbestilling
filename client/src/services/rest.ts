@@ -1,5 +1,5 @@
-import { DelbestillerResponse, OppslagResponse } from '../types/ResponseTypes'
-import { InnsendtBestilling, InnsendtBestillingResponse } from '../types/Types'
+import { DelbestillerResponse, OppslagResponse, DelbestillingResponse } from '../types/HttpTypes'
+import { Delbestilling } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
@@ -50,21 +50,21 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
   return await response.json()
 }
 
-const hentBestillingerForBruker = async (): Promise<InnsendtBestilling[]> => {
+const hentBestillingerForBruker = async (): Promise<Delbestilling[]> => {
   const response = await fetch(API_PATH + '/delbestilling')
   await handleResponse(response)
   return await response.json()
 }
 
-const hentBestillingerForKommune = async (): Promise<InnsendtBestilling[]> => {
+const hentBestillingerForKommune = async (): Promise<Delbestilling[]> => {
   const response = await fetch(API_PATH + '/delbestilling/kommune')
   await handleResponse(response)
   return await response.json()
 }
 
-const sendInnBestilling = async (bestilling: InnsendtBestilling): Promise<InnsendtBestillingResponse> => {
+const sendInnBestilling = async (delbestilling: Delbestilling): Promise<DelbestillingResponse> => {
   const response = await fetchPost(`${API_PATH}/delbestilling`, {
-    body: JSON.stringify(bestilling),
+    body: JSON.stringify({ delbestilling }),
     headers: {
       'Content-Type': 'application/json',
     },

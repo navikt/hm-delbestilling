@@ -1,5 +1,5 @@
 import rest, { API_PATH } from '../services/rest'
-import { DelbestillerResponse } from '../types/ResponseTypes'
+import { DelbestillerResponse } from '../types/HttpTypes'
 
 const useAuth = () => {
   const loginStatus = async () => {

@@ -3,7 +3,7 @@ import { Alert, Button, Heading, Panel, TextField } from '@navikt/ds-react'
 import { Hjelpemiddel } from '../types/Types'
 import styled from 'styled-components'
 import rest from '../services/rest'
-import { OppslagFeil } from '../types/ResponseTypes'
+import { OppslagFeil } from '../types/HttpTypes'
 import { Avstand } from './Avstand'
 
 const erBareTall = (input: string): boolean => {

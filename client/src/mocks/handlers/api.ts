@@ -1,10 +1,18 @@
 import { rest } from 'msw'
-import { OppslagFeil, OppslagRequest, OppslagResponse } from '../../types/ResponseTypes'
+import {
+  OppslagFeil,
+  OppslagRequest,
+  OppslagResponse,
+  DelbestillingResponse,
+  DelbestillingFeil,
+  DelbestillingRequest,
+} from '../../types/HttpTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
-import { Hjelpemiddel, InnsendtBestilling, InnsendtBestillingFeil, InnsendtBestillingResponse } from '../../types/Types'
+import { Hjelpemiddel, Delbestilling } from '../../types/Types'
+
 import { API_PATH } from '../../services/rest'
 
-let tidligereBestillinger: InnsendtBestilling[] = []
+let tidligereBestillinger: Delbestilling[] = []
 
 const apiHandlers = [
   rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
@@ -23,23 +31,28 @@ const apiHandlers = [
     return res(ctx.delay(250), ctx.json({ hjelpemiddel, feil: undefined }))
   }),
 
-  rest.post<InnsendtBestilling, {}, InnsendtBestillingResponse>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
-    const { id } = req.body
-    tidligereBestillinger.push(req.body)
+  rest.post<DelbestillingRequest, {}, DelbestillingResponse>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+    const { delbestilling } = req.body
+
+    if (!delbestilling || !delbestilling.deler || !delbestilling.hmsnr || !delbestilling.serienr) {
+      return res(ctx.status(400))
+    }
+
+    tidligereBestillinger.push(delbestilling)
 
     // return res(ctx.delay(450), ctx.status(401))
     // return res(ctx.delay(450), ctx.status(500))
-    // return res(ctx.delay(450), ctx.json({ id, feil: InnsendtBestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING }))
-    // return res(ctx.delay(450), ctx.json({ id, feil: InnsendtBestillingFeil.INGET_UTLÅN }))
+    // return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING }))
+    // return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.INGET_UTLÅN }))
 
-    return res(ctx.delay(450), ctx.status(201), ctx.json({ id }))
+    return res(ctx.delay(450), ctx.status(201), ctx.json({ id: delbestilling.id }))
   }),
 
-  rest.get<{}, {}, InnsendtBestilling[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+  rest.get<{}, {}, Delbestilling[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillinger))
   }),
 
-  rest.get<{}, {}, InnsendtBestilling[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
+  rest.get<{}, {}, Delbestilling[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillinger))
   }),
 ]

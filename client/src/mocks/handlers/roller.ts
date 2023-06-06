@@ -1,5 +1,5 @@
 import { rest } from 'msw'
-import { DelbestillerResponse } from '../../types/ResponseTypes'
+import { DelbestillerResponse } from '../../types/HttpTypes'
 
 const rollerHandlers = [
   rest.get<{}, {}, DelbestillerResponse>('/hjelpemidler/delbestilling/roller/delbestiller', (req, res, ctx) => {

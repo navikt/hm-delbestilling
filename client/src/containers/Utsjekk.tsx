@@ -3,7 +3,8 @@ import { Alert, BodyShort, Button, ExpansionCard, Heading, Panel, Select } from 
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
-import { Bestilling, Del, InnsendtBestilling, InnsendtBestillingFeil } from '../types/Types'
+import { Bestilling, Del, Delbestilling } from '../types/Types'
+import { DelbestillingRequest, DelbestillingFeil } from '../types/HttpTypes'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
 import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
@@ -90,11 +91,11 @@ const Utsjekk = () => {
     })
   }
 
-  const hentInnsendingFeil = (innsendingFeil: InnsendtBestillingFeil): string => {
+  const hentInnsendingFeil = (innsendingFeil: DelbestillingFeil): string => {
     switch (innsendingFeil) {
-      case InnsendtBestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING:
+      case DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING:
         return 'Du kan ikke bestille deler til bruker som ikke tilhører den kommunen du jobber i'
-      case InnsendtBestillingFeil.INGET_UTLÅN:
+      case DelbestillingFeil.INGET_UTLÅN:
         return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer'
       default:
         return 'Ukjent feil'
@@ -110,13 +111,13 @@ const Utsjekk = () => {
 
     try {
       setSenderInnBestilling(true)
-      const innsendtBestilling: InnsendtBestilling = {
+      const delbestilling: Delbestilling = {
         id: bestilling.id,
         hmsnr: bestilling.hjelpemiddel.hmsnr,
         serienr: bestilling.handlekurv.serienr,
         deler: bestilling.handlekurv.deler,
       }
-      const response = await rest.sendInnBestilling(innsendtBestilling)
+      const response = await rest.sendInnBestilling(delbestilling)
       if (response.feil) {
         // TODO: log feil til Amplitude
         setFeilmelding({
