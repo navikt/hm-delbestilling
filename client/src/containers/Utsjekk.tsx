@@ -219,7 +219,7 @@ const Utsjekk = () => {
                   Levering
                 </Heading>
                 <div>TODO: implementer</div>
-                {delbestillerRolle?.harXKLager && <div>TODO: XK-lager</div>}
+                {delbestillerRolle.harXKLager && <div>TODO: XK-lager</div>}
               </Avstand>
 
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
