@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, AlertProps, BodyShort, Button, Heading, Panel, Select } from '@navikt/ds-react'
+import { Alert, AlertProps, BodyShort, Button, ExpansionCard, Heading, Panel, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
@@ -233,8 +233,19 @@ const Utsjekk = () => {
 
               {feilmelding && (
                 <Alert variant={feilmelding.level}>
-                  <div>{feilmelding.melding}</div>
-                  {feilmelding.stack && <div>{JSON.stringify(feilmelding.stack)}</div>}
+                  <>
+                    {feilmelding.melding}
+                    {feilmelding.stack && (
+                      <Avstand marginTop={4}>
+                        <ExpansionCard size="small" aria-label="informasjon for utviklere">
+                          <ExpansionCard.Header>
+                            <ExpansionCard.Title>Informasjon for utviklere</ExpansionCard.Title>
+                          </ExpansionCard.Header>
+                          <ExpansionCard.Content>{JSON.stringify(feilmelding.stack)}</ExpansionCard.Content>
+                        </ExpansionCard>
+                      </Avstand>
+                    )}
+                  </>
                 </Alert>
               )}
             </>
