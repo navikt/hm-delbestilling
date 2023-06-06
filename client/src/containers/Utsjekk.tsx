@@ -133,7 +133,6 @@ const Utsjekk = () => {
               <a href="/hjelpemidler/delbestilling/login">her</a> for å gjøre det.
             </>
           ),
-          stack: err as string,
         })
       } else {
         setFeilmelding({
