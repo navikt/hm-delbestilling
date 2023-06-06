@@ -1,13 +1,13 @@
 import { BodyShort, Heading, Loader, Panel, ToggleGroup } from '@navikt/ds-react'
 import React, { useState, useEffect, SetStateAction } from 'react'
 import rest from '../services/rest'
-import { InnsendtBestilling } from '../types/Types'
+import { Delbestilling } from '../types/Types'
 import { Avstand } from './Avstand'
 
 type Valg = 'mine' | 'kommunens'
 
 const TidligereBestillinger = () => {
-  const [tidligereBestillinger, setTidligereBestillinger] = useState<InnsendtBestilling[] | undefined>(undefined)
+  const [tidligereBestillinger, setTidligereBestillinger] = useState<Delbestilling[] | undefined>(undefined)
   const [henterTidligereBestillinger, setHenterTidligereBestillinger] = useState(true)
   const [valg, setValg] = useState<Valg>('mine')
 
