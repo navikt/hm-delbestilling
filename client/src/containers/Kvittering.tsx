@@ -16,12 +16,12 @@ const Kvittering = () => {
   const state = location.state as LocationState | null
 
   useEffect(() => {
+    window.localStorage.removeItem(LOCALSTORAGE_BESTILLING_KEY)
     // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
     window.history.replaceState({}, document.title)
   }, [])
 
   const handleNyBestillingClick = () => {
-    window.localStorage.removeItem(LOCALSTORAGE_BESTILLING_KEY)
     navigate('/')
     window.scrollTo(0, 0)
   }

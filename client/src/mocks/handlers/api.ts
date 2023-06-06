@@ -27,7 +27,7 @@ const apiHandlers = [
     const { id } = req.body
     tidligereBestillinger.push(req.body)
 
-    // return res(ctx.delay(450), ctx.status(403))
+    // return res(ctx.delay(450), ctx.status(401))
     // return res(ctx.delay(450), ctx.status(500))
     // return res(ctx.delay(450), ctx.json({ id, feil: InnsendtBestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING }))
     // return res(ctx.delay(450), ctx.json({ id, feil: InnsendtBestillingFeil.INGET_UTLÅN }))
