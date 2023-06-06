@@ -1,5 +1,5 @@
 import { rest } from 'msw'
-import { OppslagFeil, OppslagResponse } from '../../types/ResponseTypes'
+import { OppslagFeil, OppslagRequest, OppslagResponse } from '../../types/ResponseTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import { Hjelpemiddel, InnsendtBestilling, InnsendtBestillingFeil, InnsendtBestillingResponse } from '../../types/Types'
 import { API_PATH } from '../../services/rest'
@@ -7,8 +7,8 @@ import { API_PATH } from '../../services/rest'
 let tidligereBestillinger: InnsendtBestilling[] = []
 
 const apiHandlers = [
-  rest.post<{ hmsnr: string; serienr: string }, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
-    const { hmsnr, serienr } = req.body
+  rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
+    const { hmsnr } = req.body
 
     if (hmsnr === '333333') {
       return res(ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN }))

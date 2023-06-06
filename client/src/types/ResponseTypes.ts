@@ -1,5 +1,10 @@
 import { Hjelpemiddel } from './Types'
 
+export interface OppslagRequest {
+  hmsnr: string
+  serienr: string
+}
+
 export interface OppslagResponse {
   hjelpemiddel: Hjelpemiddel | undefined
   feil: OppslagFeil | undefined
