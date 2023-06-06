@@ -76,12 +76,12 @@ const HjelpemiddelLookup = ({ artnr, setArtnr, serienr, setSerienr, setHjelpemid
 
       <StyledForm onSubmit={handleSubmit}>
         <StyledTextField
-          label="Art.nr(6 siffer)"
+          label="Art.nr (6 siffer)"
           value={artnr}
           onChange={(e) => erGyldig(e.target.value) && setArtnr(e.target.value)}
         />
         <StyledTextField
-          label="Serienr(6 siffer)"
+          label="Serienr (6 siffer)"
           value={serienr}
           onChange={(e) => erGyldig(e.target.value) && setSerienr(e.target.value)}
         />
