@@ -91,13 +91,14 @@ const Utsjekk = () => {
   }
 
   const hentInnsendingFeil = (innsendingFeil: InnsendtBestillingFeil): string => {
-    if (innsendingFeil === InnsendtBestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING) {
-      return 'Du kan ikke bestille deler til bruker som ikke tilhører den kommunen du jobber i'
-    } else if (innsendingFeil === InnsendtBestillingFeil.INGET_UTLÅN) {
-      return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer'
+    switch (innsendingFeil) {
+      case InnsendtBestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING:
+        return 'Du kan ikke bestille deler til bruker som ikke tilhører den kommunen du jobber i'
+      case InnsendtBestillingFeil.INGET_UTLÅN:
+        return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer'
+      default:
+        return 'Ukjent feil'
     }
-
-    return 'Ukjent feil'
   }
 
   const sendInnBestilling = async (bestilling: Bestilling) => {
