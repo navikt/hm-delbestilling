@@ -41,8 +41,6 @@ const Utsjekk = () => {
   const [feilmelding, setFeilmelding] = useState<Feilmelding | undefined>()
   const navigate = useNavigate()
 
-  console.log('delbestillerRolle:', delbestillerRolle)
-
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
 
   const leggTilDel = (del: Del) => {

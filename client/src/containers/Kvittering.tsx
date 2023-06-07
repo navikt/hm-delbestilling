@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Content from '../styledcomponents/Content'
 import { Alert, Button, Heading } from '@navikt/ds-react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Handlekurv } from '../types/Types'
+import { DelBestillingDel, Handlekurv } from '../types/Types'
 import { Avstand } from '../components/Avstand'
 import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
 
@@ -28,6 +28,12 @@ const Kvittering = () => {
 
   const handlekurv = state?.handlekurv
 
+  const hentAntallDeler = (deler: DelBestillingDel[]): number => {
+    return deler.reduce((acc, curr) => {
+      return acc + curr.antall
+    }, 0)
+  }
+
   if (!handlekurv) {
     return (
       <>
@@ -46,7 +52,7 @@ const Kvittering = () => {
           Kvittering
         </Heading>
         <Alert variant="success">
-          Vi har mottatt bestilling til av {handlekurv.deler.length === 1 ? 'del' : 'deler'} til{' '}
+          Vi har mottatt bestilling til av {hentAntallDeler(handlekurv.deler) === 1 ? 'del' : 'deler'} til{' '}
           {handlekurv.hjelpemiddel.navn} med art.nr: {handlekurv.hjelpemiddel.hmsnr} og serienr: {handlekurv.serienr}
         </Alert>
         <Avstand marginTop={10} />
