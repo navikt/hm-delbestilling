@@ -4,8 +4,8 @@ import {
   OppslagRequest,
   OppslagResponse,
   DelbestillingResponse,
-  DelbestillingFeil,
   DelbestillingRequest,
+  DelbestillingFeil,
 } from '../../types/HttpTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import { Hjelpemiddel, Delbestilling } from '../../types/Types'
@@ -38,7 +38,13 @@ const apiHandlers = [
       return res(ctx.status(400))
     }
 
+    const id = delbestilling.id
+
     tidligereBestillinger.push(delbestilling)
+
+    if (delbestilling.serienr === '999999') {
+      return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.PERSON_UTILGJENGELIG }))
+    }
 
     // return res(ctx.delay(450), ctx.status(401))
     // return res(ctx.delay(450), ctx.status(500))
