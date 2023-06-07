@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from 'react'
 import { BodyShort, Button, Chips, Heading, Panel } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
-import { Del, Hjelpemiddel } from '../types/Types'
+import { HjelpemiddelDel, Hjelpemiddel } from '../types/Types'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
-  onLeggTil: (del: Del) => void
+  onLeggTil: (del: HjelpemiddelDel) => void
   knappeTekst?: string
 }
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
