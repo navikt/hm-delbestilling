@@ -4,7 +4,7 @@ import { PencilIcon } from '@navikt/aksel-icons'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
 import { Avstand } from '../components/Avstand'
-import { Del, Hjelpemiddel, Handlekurv } from '../types/Types'
+import { HjelpemiddelDel, Hjelpemiddel, Handlekurv } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
@@ -21,7 +21,7 @@ const Index = () => {
   const { loginStatus } = useAuth()
   const navigate = useNavigate()
 
-  const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
+  const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: HjelpemiddelDel) => {
     const handlekurv: Handlekurv = {
       id: uuidv4(),
       serienr,

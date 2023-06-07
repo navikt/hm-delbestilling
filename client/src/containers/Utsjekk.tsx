@@ -3,7 +3,7 @@ import { Alert, BodyShort, Button, ExpansionCard, Heading, Panel, Select } from 
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
-import { Del, Delbestilling, Handlekurv } from '../types/Types'
+import { HjelpemiddelDel, Delbestilling, Handlekurv } from '../types/Types'
 import { DelbestillingFeil } from '../types/HttpTypes'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
@@ -43,7 +43,7 @@ const Utsjekk = () => {
 
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
 
-  const leggTilDel = (del: Del) => {
+  const leggTilDel = (del: HjelpemiddelDel) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
@@ -55,7 +55,7 @@ const Utsjekk = () => {
     setVisFlereDeler(false)
   }
 
-  const setAntall = (del: Del, antall: number) => {
+  const setAntall = (del: HjelpemiddelDel, antall: number) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
@@ -68,7 +68,7 @@ const Utsjekk = () => {
     })
   }
 
-  const handleSlettDel = (del: Del) => {
+  const handleSlettDel = (del: HjelpemiddelDel) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {

@@ -1,10 +1,10 @@
 export interface Hjelpemiddel {
   navn: string
   hmsnr: string
-  deler: Del[] | undefined
+  deler: HjelpemiddelDel[] | undefined
 }
 
-export interface Del {
+export interface HjelpemiddelDel {
   navn: string
   beskrivelse: string
   hmsnr: string
