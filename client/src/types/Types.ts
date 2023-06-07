@@ -20,7 +20,7 @@ export interface Handlekurv {
   deler: DelBestillingDel[]
 }
 
-export interface DelBestillingDel extends Del {
+export interface DelBestillingDel extends HjelpemiddelDel {
   antall: number
 }
 
