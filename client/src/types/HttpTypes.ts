@@ -1,4 +1,4 @@
-import { BestillingDel, Delbestilling } from './Types'
+import { Delbestilling } from './Types'
 import { Hjelpemiddel } from './Types'
 
 export interface OppslagRequest {

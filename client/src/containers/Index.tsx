@@ -4,14 +4,14 @@ import { PencilIcon } from '@navikt/aksel-icons'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
 import { Avstand } from '../components/Avstand'
-import { Del, Hjelpemiddel, Bestilling } from '../types/Types'
+import { Del, Hjelpemiddel, Handlekurv } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
 import TidligereBestillinger from '../components/TidligereBestillinger'
 
-export const LOCALSTORAGE_BESTILLING_KEY = 'hm-delbestilling-bestilling'
+export const LOCALSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
 const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
@@ -22,16 +22,14 @@ const Index = () => {
   const navigate = useNavigate()
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
-    const bestilling: Bestilling = {
+    const handlekurv: Handlekurv = {
       id: uuidv4(),
+      serienr,
       hjelpemiddel,
-      handlekurv: {
-        serienr,
-        deler: [{ ...del, antall: 1 }],
-      },
+      deler: [{ ...del, antall: 1 }],
     }
 
-    window.localStorage.setItem(LOCALSTORAGE_BESTILLING_KEY, JSON.stringify(bestilling))
+    window.localStorage.setItem(LOCALSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
 
     try {
       const erLoggetInn = await loginStatus()

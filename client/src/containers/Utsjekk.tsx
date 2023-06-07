@@ -3,11 +3,11 @@ import { Alert, BodyShort, Button, ExpansionCard, Heading, Panel, Select } from 
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
-import { Bestilling, Del, Delbestilling } from '../types/Types'
-import { DelbestillingRequest, DelbestillingFeil } from '../types/HttpTypes'
+import { Del, Delbestilling, Handlekurv } from '../types/Types'
+import { DelbestillingFeil } from '../types/HttpTypes'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
-import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
+import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
 import styled from 'styled-components'
 import rest from '../services/rest'
 import { useRolleContext } from '../context/rolle'
@@ -30,9 +30,9 @@ interface Feilmelding {
 
 const Utsjekk = () => {
   const { delbestillerRolle } = useRolleContext()
-  const [bestilling, setBestilling] = useState<Bestilling | undefined>(() => {
+  const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(() => {
     try {
-      return JSON.parse(window.localStorage.getItem(LOCALSTORAGE_BESTILLING_KEY) || '')
+      return JSON.parse(window.localStorage.getItem(LOCALSTORAGE_HANDLEKURV_KEY) || '')
     } catch {
       return undefined
     }
@@ -46,14 +46,11 @@ const Utsjekk = () => {
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
 
   const leggTilDel = (del: Del) => {
-    setBestilling((prev) => {
+    setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
-        handlekurv: {
-          ...prev.handlekurv,
-          deler: [...prev.handlekurv.deler, { ...del, antall: 1 }],
-        },
+        deler: [...prev.deler, { ...del, antall: 1 }],
       }
     })
 
@@ -61,32 +58,26 @@ const Utsjekk = () => {
   }
 
   const setAntall = (del: Del, antall: number) => {
-    setBestilling((prev) => {
+    setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
-        handlekurv: {
-          ...prev.handlekurv,
-          deler: prev.handlekurv.deler.map((handlekurvDel) => {
-            if (handlekurvDel.hmsnr === del.hmsnr) return { ...handlekurvDel, antall }
-            return handlekurvDel
-          }),
-        },
+        deler: prev.deler.map((handlekurvDel) => {
+          if (handlekurvDel.hmsnr === del.hmsnr) return { ...handlekurvDel, antall }
+          return handlekurvDel
+        }),
       }
     })
   }
 
   const handleSlettDel = (del: Del) => {
-    setBestilling((prev) => {
+    setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
-        handlekurv: {
-          ...prev.handlekurv,
-          deler: prev.handlekurv.deler.filter((handlekurvDel) => {
-            return handlekurvDel.hmsnr !== del.hmsnr
-          }),
-        },
+        deler: prev.deler.filter((handlekurvDel) => {
+          return handlekurvDel.hmsnr !== del.hmsnr
+        }),
       }
     })
   }
@@ -102,9 +93,9 @@ const Utsjekk = () => {
     }
   }
 
-  const sendInnBestilling = async (bestilling: Bestilling) => {
+  const sendInnBestilling = async (handlekurv: Handlekurv) => {
     setFeilmelding(undefined)
-    if (bestilling.handlekurv.deler.length === 0) {
+    if (handlekurv.deler.length === 0) {
       setFeilmelding({ melding: 'Du kan ikke sende inn bestilling med 0 deler' })
       return
     }
@@ -112,10 +103,10 @@ const Utsjekk = () => {
     try {
       setSenderInnBestilling(true)
       const delbestilling: Delbestilling = {
-        id: bestilling.id,
-        hmsnr: bestilling.hjelpemiddel.hmsnr,
-        serienr: bestilling.handlekurv.serienr,
-        deler: bestilling.handlekurv.deler,
+        id: handlekurv.id,
+        hmsnr: handlekurv.hjelpemiddel.hmsnr,
+        serienr: handlekurv.serienr,
+        deler: handlekurv.deler,
       }
       const response = await rest.sendInnBestilling(delbestilling)
       if (response.feil) {
@@ -124,7 +115,7 @@ const Utsjekk = () => {
           melding: hentInnsendingFeil(response.feil),
         })
       } else {
-        navigate('/kvittering', { state: { bestilling } })
+        navigate('/kvittering', { state: { handlekurv } })
       }
     } catch (err: any) {
       if (err.statusCode === 401) {
@@ -149,13 +140,13 @@ const Utsjekk = () => {
   }
 
   const slettBestilling = () => {
-    window.localStorage.removeItem(LOCALSTORAGE_BESTILLING_KEY)
+    window.localStorage.removeItem(LOCALSTORAGE_HANDLEKURV_KEY)
     navigate('/')
     window.scrollTo(0, 0)
   }
 
-  if (!bestilling) {
-    return <>Fant ingen bestilling...</>
+  if (!handlekurv) {
+    return <>Fant ingen handlekurv...</>
   }
 
   return (
@@ -171,11 +162,10 @@ const Utsjekk = () => {
           )}
           <Panel border>
             <Heading level="3" size="small" spacing>
-              Bestill deler til {bestilling.hjelpemiddel.navn}
+              Bestill deler til {handlekurv.hjelpemiddel.navn}
             </Heading>
             <BodyShort>
-              <strong>Art.nr:</strong> {bestilling.hjelpemiddel.hmsnr} | <strong>Serienr:</strong>{' '}
-              {bestilling.handlekurv.serienr}
+              <strong>Art.nr:</strong> {handlekurv.hjelpemiddel.hmsnr} | <strong>Serienr:</strong> {handlekurv.serienr}
             </BodyShort>
           </Panel>
           <Avstand marginBottom={12} />
@@ -183,10 +173,10 @@ const Utsjekk = () => {
             <>
               <LeggTilDel
                 hjelpemiddel={{
-                  ...bestilling.hjelpemiddel,
+                  ...handlekurv.hjelpemiddel,
                   // Filtrer bort deler som allerede er lagt til
-                  deler: bestilling.hjelpemiddel.deler?.filter(
-                    (del) => !bestilling.handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
+                  deler: handlekurv.hjelpemiddel.deler?.filter(
+                    (del) => !handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
                   ),
                 }}
                 onLeggTil={(del) => leggTilDel(del)}
@@ -198,13 +188,12 @@ const Utsjekk = () => {
                 <Heading level="2" size="large" spacing>
                   Deler lagt til i bestillingen
                 </Heading>
-                {bestilling.handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
-                {bestilling.handlekurv.deler.map((del) => (
+                {handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
+                {handlekurv.deler.map((del) => (
                   <Avstand marginBottom={2} key={del.hmsnr}>
                     <Panel border>
                       <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
                         <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
-
                         <div>
                           <Heading level="3" size="medium" spacing>
                             {del.navn}
@@ -250,7 +239,7 @@ const Utsjekk = () => {
               </Avstand>
 
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-                <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(bestilling)}>
+                <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
                   Send inn bestilling
                 </Button>
                 <Button icon={<TrashIcon />} variant="tertiary" onClick={slettBestilling}>

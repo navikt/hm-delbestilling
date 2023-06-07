@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import Content from '../styledcomponents/Content'
 import { Alert, Button, Heading } from '@navikt/ds-react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Bestilling } from '../types/Types'
+import { Handlekurv } from '../types/Types'
 import { Avstand } from '../components/Avstand'
-import { LOCALSTORAGE_BESTILLING_KEY } from './Index'
+import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
 
 type LocationState = {
-  bestilling: Bestilling
+  handlekurv: Handlekurv
 }
 
 const Kvittering = () => {
@@ -16,7 +16,7 @@ const Kvittering = () => {
   const state = location.state as LocationState | null
 
   useEffect(() => {
-    window.localStorage.removeItem(LOCALSTORAGE_BESTILLING_KEY)
+    window.localStorage.removeItem(LOCALSTORAGE_HANDLEKURV_KEY)
     // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
     window.history.replaceState({}, document.title)
   }, [])
@@ -26,9 +26,9 @@ const Kvittering = () => {
     window.scrollTo(0, 0)
   }
 
-  const bestilling = state?.bestilling
+  const handlekurv = state?.handlekurv
 
-  if (!bestilling) {
+  if (!handlekurv) {
     return (
       <>
         <div>Fant ingen kvittering</div>
@@ -46,9 +46,8 @@ const Kvittering = () => {
           Kvittering
         </Heading>
         <Alert variant="success">
-          Vi har mottatt bestilling til av {bestilling.handlekurv.deler.length === 1 ? 'del' : 'deler'} til{' '}
-          {bestilling.hjelpemiddel.navn} med art.nr: {bestilling.hjelpemiddel.hmsnr} og serienr:{' '}
-          {bestilling.handlekurv.serienr}
+          Vi har mottatt bestilling til av {handlekurv.deler.length === 1 ? 'del' : 'deler'} til{' '}
+          {handlekurv.hjelpemiddel.navn} med art.nr: {handlekurv.hjelpemiddel.hmsnr} og serienr: {handlekurv.serienr}
         </Alert>
         <Avstand marginTop={10} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>
