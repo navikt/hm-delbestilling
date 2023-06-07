@@ -43,7 +43,7 @@ const apiHandlers = [
     tidligereBestillinger.push(delbestilling)
 
     if (delbestilling.serienr === '999999') {
-      return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.PERSON_UTILGJENGELIG }))
+      return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET }))
     }
 
     // return res(ctx.delay(450), ctx.status(401))
