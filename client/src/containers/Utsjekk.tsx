@@ -86,6 +86,8 @@ const Utsjekk = () => {
         return 'Du kan ikke bestille deler til bruker som ikke tilhører den kommunen du jobber i'
       case DelbestillingFeil.INGET_UTLÅN:
         return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer'
+      case DelbestillingFeil.PERSON_UTILGJENGELIG:
+        return 'Du kan ikke bestille deler til personen tilknyttet dette artikkel- og serienummeret'
       default:
         return 'Ukjent feil'
     }

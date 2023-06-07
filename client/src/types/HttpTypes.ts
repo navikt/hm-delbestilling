@@ -35,4 +35,5 @@ export interface DelbestillingResponse {
 export enum DelbestillingFeil {
   'INGET_UTLÅN' = 'INGET_UTLÅN',
   'ULIK_GEOGRAFISK_TILKNYTNING' = 'ULIK_GEOGRAFISK_TILKNYTNING',
+  'PERSON_UTILGJENGELIG' = 'PERSON_UTILGJENGELIG',
 }
