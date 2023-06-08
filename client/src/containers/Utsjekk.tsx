@@ -13,6 +13,7 @@ import rest from '../services/rest'
 import { useRolleContext } from '../context/rolle'
 import Errors from '../components/Errors'
 import { logBestillingSlettet, logInnsendingFeil, logSkjemavalideringFeilet } from '../utils/amplitude'
+import Rolleswitcher from '../components/Rolleswitcher'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -347,6 +348,7 @@ const Utsjekk = () => {
           )}
         </>
       </Content>
+      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && <Rolleswitcher />}
     </main>
   )
 }

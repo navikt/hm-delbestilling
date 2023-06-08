@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import { DelbestillerResponse } from '../types/HttpTypes'
 import { GuidePanel, Loader } from '@navikt/ds-react'
@@ -8,9 +8,14 @@ import Content from '../styledcomponents/Content'
 
 type RolleContextType = {
   delbestillerRolle: DelbestillerResponse
+  setDelbestillerRolle: Dispatch<SetStateAction<DelbestillerResponse | undefined>>
 }
 
-const RolleContext = React.createContext<RolleContextType>({ delbestillerRolle: undefined! }) // fortell TS med ! at denne propertien har en verdi på runtime
+const RolleContext = React.createContext<RolleContextType>({
+  // fortell TS med ! at disse har en verdi på runtime
+  delbestillerRolle: undefined!,
+  setDelbestillerRolle: undefined!,
+})
 
 export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   const [henterRolle, setHenterRolle] = useState(true)
@@ -64,7 +69,7 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  return <RolleContext.Provider value={{ delbestillerRolle }}>{children}</RolleContext.Provider>
+  return <RolleContext.Provider value={{ delbestillerRolle, setDelbestillerRolle }}>{children}</RolleContext.Provider>
 }
 
 // Lar oss gruppere flere routes inni en og samme provider
