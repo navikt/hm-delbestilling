@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { Alert, BodyShort, Button, ExpansionCard, Heading, Panel, Select } from '@navikt/ds-react'
+import React, { useEffect, useState } from 'react'
+import { Alert, BodyShort, Button, ExpansionCard, Heading, Panel, Radio, RadioGroup, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
-import { HjelpemiddelDel, Delbestilling, Handlekurv } from '../types/Types'
+import { HjelpemiddelDel, Delbestilling, Handlekurv, Levering } from '../types/Types'
 import { DelbestillingFeil } from '../types/HttpTypes'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
 import styled from 'styled-components'
 import rest from '../services/rest'
 import { useRolleContext } from '../context/rolle'
+import Errors from '../components/Errors'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -28,6 +29,11 @@ interface Feilmelding {
   stack?: string
 }
 
+export interface Valideringsfeil {
+  id: 'levering' | 'tom-deleliste'
+  melding: string
+}
+
 const Utsjekk = () => {
   const { delbestillerRolle } = useRolleContext()
   const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(() => {
@@ -38,10 +44,27 @@ const Utsjekk = () => {
     }
   })
   const [visFlereDeler, setVisFlereDeler] = useState(false)
+  const [submitAttempt, setSubmitAttempt] = useState(false)
+  const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<Feilmelding | undefined>()
+
   const navigate = useNavigate()
 
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
+
+  useEffect(() => {
+    // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
+    if (!delbestillerRolle.harXKLager) {
+      setLevering(Levering.TIL_SERVICE_OPPDRAG)
+    }
+  }, [])
+
+  useEffect(() => {
+    // Re-valider når felter oppdateres etter innsending har blitt forsøkt
+    if (submitAttempt && handlekurv) {
+      validerBestilling(handlekurv)
+    }
+  }, [submitAttempt, handlekurv])
 
   const leggTilDel = (del: HjelpemiddelDel) => {
     setHandlekurv((prev) => {
@@ -80,6 +103,16 @@ const Utsjekk = () => {
     })
   }
 
+  const setLevering = (levering: Levering) => {
+    setHandlekurv((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        levering,
+      }
+    })
+  }
+
   const hentInnsendingFeil = (innsendingFeil: DelbestillingFeil): string => {
     switch (innsendingFeil) {
       case DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING:
@@ -95,10 +128,27 @@ const Utsjekk = () => {
     }
   }
 
+  const validerBestilling = (handlekurv: Handlekurv) => {
+    const feil: Valideringsfeil[] = []
+
+    if (handlekurv.deler.length === 0) {
+      feil.push({ id: 'tom-deleliste', melding: 'Du kan ikke sende inn bestilling med 0 deler' })
+    }
+
+    if (!handlekurv.levering) {
+      feil.push({ id: 'levering', melding: 'Du må velge levering' })
+    }
+
+    setValideringsFeil(feil)
+
+    return feil.length === 0
+  }
+
   const sendInnBestilling = async (handlekurv: Handlekurv) => {
     setFeilmelding(undefined)
-    if (handlekurv.deler.length === 0) {
-      setFeilmelding({ melding: 'Du kan ikke sende inn bestilling med 0 deler' })
+    setSubmitAttempt(true)
+
+    if (validerBestilling(handlekurv) === false) {
       return
     }
 
@@ -109,6 +159,7 @@ const Utsjekk = () => {
         hmsnr: handlekurv.hjelpemiddel.hmsnr,
         serienr: handlekurv.serienr,
         deler: handlekurv.deler,
+        levering: handlekurv.levering!,
       }
       const response = await rest.sendInnBestilling(delbestilling)
       if (response.feil) {
@@ -146,6 +197,8 @@ const Utsjekk = () => {
     navigate('/')
     window.scrollTo(0, 0)
   }
+
+  console.log('handlekurv:', handlekurv)
 
   if (!handlekurv) {
     return <>Fant ingen handlekurv...</>
@@ -190,7 +243,7 @@ const Utsjekk = () => {
                 <Heading level="2" size="large" spacing>
                   Deler lagt til i bestillingen
                 </Heading>
-                {handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
+                {handlekurv.deler.length === 0 && <div id="tom-deleliste">Du har ikke lagt til noen deler</div>}
                 {handlekurv.deler.map((del) => (
                   <Avstand marginBottom={2} key={del.hmsnr}>
                     <Panel border>
@@ -231,15 +284,30 @@ const Utsjekk = () => {
                   Legg til flere deler
                 </Button>
               </Avstand>
-
               <Avstand marginBottom={8}>
                 <Heading spacing level="3" size="medium">
                   Levering
                 </Heading>
-                <div>TODO: implementer</div>
-                {delbestillerRolle.harXKLager && <div>TODO: XK-lager</div>}
+                {!delbestillerRolle.harXKLager && (
+                  <Alert variant="info">
+                    Delen blir levert til kommunens mottakssted. Innbyggers navn vil stå på pakken med delen.
+                  </Alert>
+                )}
+                {delbestillerRolle.harXKLager && (
+                  <>
+                    <RadioGroup
+                      id="levering"
+                      legend="Hvor skal delen plasseres når den har blitt levert til kommunen?"
+                      value={handlekurv.levering ?? ''}
+                      onChange={(levering: Levering) => setLevering(levering)}
+                      error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
+                    >
+                      <Radio value={Levering.TIL_XK_LAGER}>Delen skal legges på XK-lager.</Radio>
+                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>Delen skal brukes i serviceoppdrag hos bruker.</Radio>
+                    </RadioGroup>
+                  </>
+                )}
               </Avstand>
-
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
                   Send inn bestilling
@@ -248,7 +316,7 @@ const Utsjekk = () => {
                   Slett bestilling
                 </Button>
               </div>
-
+              {valideringsFeil.length > 0 && <Errors valideringsFeil={valideringsFeil} />}
               {feilmelding && (
                 <Alert variant="error">
                   <>

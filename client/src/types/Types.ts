@@ -18,6 +18,7 @@ export interface Handlekurv {
   serienr: string
   hjelpemiddel: Hjelpemiddel
   deler: DelBestillingDel[]
+  levering: Levering | undefined
 }
 
 export interface DelBestillingDel extends HjelpemiddelDel {
@@ -29,4 +30,10 @@ export interface Delbestilling {
   hmsnr: string
   serienr: string
   deler: DelBestillingDel[]
+  levering: Levering
+}
+
+export enum Levering {
+  'TIL_XK_LAGER' = 'TIL_XK_LAGER',
+  'TIL_SERVICE_OPPDRAG' = 'TIL_SERVICE_OPPDRAG',
 }

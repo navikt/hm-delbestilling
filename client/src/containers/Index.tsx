@@ -4,7 +4,7 @@ import { PencilIcon } from '@navikt/aksel-icons'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
 import { Avstand } from '../components/Avstand'
-import { HjelpemiddelDel, Hjelpemiddel, Handlekurv } from '../types/Types'
+import { HjelpemiddelDel, Hjelpemiddel, Handlekurv, Levering } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
@@ -27,6 +27,7 @@ const Index = () => {
       serienr,
       hjelpemiddel,
       deler: [{ ...del, antall: 1 }],
+      levering: undefined,
     }
 
     window.localStorage.setItem(LOCALSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))

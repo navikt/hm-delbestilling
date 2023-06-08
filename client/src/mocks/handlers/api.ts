@@ -34,7 +34,13 @@ const apiHandlers = [
   rest.post<DelbestillingRequest, {}, DelbestillingResponse>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
     const { delbestilling } = req.body
 
-    if (!delbestilling || !delbestilling.deler || !delbestilling.hmsnr || !delbestilling.serienr) {
+    if (
+      !delbestilling ||
+      !delbestilling.deler ||
+      !delbestilling.hmsnr ||
+      !delbestilling.serienr ||
+      !delbestilling.levering
+    ) {
       return res(ctx.status(400))
     }
 
