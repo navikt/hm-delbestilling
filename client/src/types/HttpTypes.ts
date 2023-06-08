@@ -16,7 +16,11 @@ export enum OppslagFeil {
   'INGET_UTLÅN' = 'INGET_UTLÅN',
 }
 
-export interface DelbestillerResponse {
+export interface DelbestillerrolleResponse {
+  delbestillerrolle: Delbestillerrolle
+}
+
+export interface Delbestillerrolle {
   kanBestilleDeler: boolean
   harXKLager: boolean
   erKommunaltAnsatt: boolean

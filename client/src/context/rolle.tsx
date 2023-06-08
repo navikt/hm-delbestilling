@@ -1,33 +1,33 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import useAuth from '../hooks/useAuth'
-import { DelbestillerResponse } from '../types/HttpTypes'
+import { Delbestillerrolle } from '../types/HttpTypes'
 import { GuidePanel, Loader } from '@navikt/ds-react'
 import { Outlet } from 'react-router-dom'
 import { Avstand } from '../components/Avstand'
 import Content from '../styledcomponents/Content'
 
 type RolleContextType = {
-  delbestillerRolle: DelbestillerResponse
-  setDelbestillerRolle: Dispatch<SetStateAction<DelbestillerResponse | undefined>>
+  delbestillerrolle: Delbestillerrolle
+  setDelbestillerrolle: Dispatch<SetStateAction<Delbestillerrolle | undefined>>
 }
 
 const RolleContext = React.createContext<RolleContextType>({
   // fortell TS med ! at disse har en verdi på runtime
-  delbestillerRolle: undefined!,
-  setDelbestillerRolle: undefined!,
+  delbestillerrolle: undefined!,
+  setDelbestillerrolle: undefined!,
 })
 
 export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   const [henterRolle, setHenterRolle] = useState(true)
-  const [delbestillerRolle, setDelbestillerRolle] = useState<DelbestillerResponse | undefined>()
+  const [delbestillerrolle, setDelbestillerrolle] = useState<Delbestillerrolle | undefined>()
 
   const { rolle } = useAuth()
 
   useEffect(() => {
     ;(async () => {
       try {
-        const delbestiller = await rolle()
-        setDelbestillerRolle(delbestiller)
+        const response = await rolle()
+        setDelbestillerrolle(response.delbestillerrolle)
       } catch (err) {
         alert('Kunne ikke sjekke rolle, se konsoll for detaljer')
         console.log(err)
@@ -49,13 +49,13 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
 
   let feilmeldingsTekst = ''
 
-  if (!delbestillerRolle) {
+  if (!delbestillerrolle) {
     return <div>Ingen delbestillerrolle</div>
-  } else if (delbestillerRolle.erKommunaltAnsatt === false) {
+  } else if (delbestillerrolle.erKommunaltAnsatt === false) {
     feilmeldingsTekst = 'Du er ikke kommunalt ansatt, og kan derfor ikke bestille deler.'
-  } else if (delbestillerRolle.erIPilot === false) {
+  } else if (delbestillerrolle.erIPilot === false) {
     feilmeldingsTekst = 'Du kan ikke bestille deler akkurat nå (du er ikke i pilot).'
-  } else if (delbestillerRolle.kanBestilleDeler === false) {
+  } else if (delbestillerrolle.kanBestilleDeler === false) {
     feilmeldingsTekst = 'Du kan ikke bestille deler.'
   }
 
@@ -69,7 +69,7 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  return <RolleContext.Provider value={{ delbestillerRolle, setDelbestillerRolle }}>{children}</RolleContext.Provider>
+  return <RolleContext.Provider value={{ delbestillerrolle, setDelbestillerrolle }}>{children}</RolleContext.Provider>
 }
 
 // Lar oss gruppere flere routes inni en og samme provider

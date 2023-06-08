@@ -1,4 +1,4 @@
-import { DelbestillerResponse, OppslagResponse, DelbestillingResponse } from '../types/HttpTypes'
+import { DelbestillerrolleResponse, OppslagResponse, DelbestillingResponse } from '../types/HttpTypes'
 import { Delbestilling } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
@@ -76,7 +76,7 @@ const sendInnBestilling = async (delbestilling: Delbestilling): Promise<Delbesti
   return id
 }
 
-const hentRolle = async (): Promise<DelbestillerResponse> => {
+const hentRolle = async (): Promise<DelbestillerrolleResponse> => {
   const response = await fetch(`${ROLLER_PATH}/delbestiller`)
   await handleResponse(response)
   return await response.json()

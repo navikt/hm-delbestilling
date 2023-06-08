@@ -38,7 +38,7 @@ export interface Valideringsfeil {
 }
 
 const Utsjekk = () => {
-  const { delbestillerRolle } = useRolleContext()
+  const { delbestillerrolle } = useRolleContext()
   const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(() => {
     try {
       return JSON.parse(window.localStorage.getItem(LOCALSTORAGE_HANDLEKURV_KEY) || '')
@@ -56,7 +56,7 @@ const Utsjekk = () => {
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
-    if (!delbestillerRolle.harXKLager) {
+    if (!delbestillerrolle.harXKLager) {
       setLevering(Levering.TIL_SERVICE_OPPDRAG)
     }
   }, [])
@@ -235,18 +235,16 @@ const Utsjekk = () => {
           </Panel>
           <Avstand marginBottom={12} />
           {visFlereDeler ? (
-            <>
-              <LeggTilDel
-                hjelpemiddel={{
-                  ...handlekurv.hjelpemiddel,
-                  // Filtrer bort deler som allerede er lagt til
-                  deler: handlekurv.hjelpemiddel.deler?.filter(
-                    (del) => !handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
-                  ),
-                }}
-                onLeggTil={(del) => leggTilDel(del)}
-              />
-            </>
+            <LeggTilDel
+              hjelpemiddel={{
+                ...handlekurv.hjelpemiddel,
+                // Filtrer bort deler som allerede er lagt til
+                deler: handlekurv.hjelpemiddel.deler?.filter(
+                  (del) => !handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
+                ),
+              }}
+              onLeggTil={(del) => leggTilDel(del)}
+            />
           ) : (
             <>
               <Avstand marginBottom={8}>
@@ -298,12 +296,12 @@ const Utsjekk = () => {
                 <Heading spacing level="3" size="medium">
                   Levering
                 </Heading>
-                {!delbestillerRolle.harXKLager && (
+                {!delbestillerrolle.harXKLager && (
                   <Alert variant="info">
                     Delen blir levert til kommunens mottakssted. Innbyggers navn vil stå på pakken med delen.
                   </Alert>
                 )}
-                {delbestillerRolle.harXKLager && (
+                {delbestillerrolle.harXKLager && (
                   <>
                     <RadioGroup
                       id="levering"

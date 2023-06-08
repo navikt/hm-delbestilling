@@ -1,11 +1,13 @@
 import { rest } from 'msw'
-import { DelbestillerResponse } from '../../types/HttpTypes'
+import { DelbestillerrolleResponse } from '../../types/HttpTypes'
 
 const rollerHandlers = [
-  rest.get<{}, {}, DelbestillerResponse>('/hjelpemidler/delbestilling/roller/delbestiller', (req, res, ctx) => {
+  rest.get<{}, {}, DelbestillerrolleResponse>('/hjelpemidler/delbestilling/roller/delbestiller', (req, res, ctx) => {
     return res(
       ctx.delay(250),
-      ctx.json({ kanBestilleDeler: true, harXKLager: true, erKommunaltAnsatt: true, erIPilot: true })
+      ctx.json({
+        delbestillerrolle: { kanBestilleDeler: true, harXKLager: true, erKommunaltAnsatt: true, erIPilot: true },
+      })
     )
   }),
 ]

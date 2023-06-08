@@ -1,5 +1,5 @@
 import rest, { API_PATH } from '../services/rest'
-import { DelbestillerResponse } from '../types/HttpTypes'
+import { DelbestillerrolleResponse } from '../types/HttpTypes'
 
 const useAuth = () => {
   const loginStatus = async () => {
@@ -11,7 +11,7 @@ const useAuth = () => {
     }
   }
 
-  const rolle = async (): Promise<DelbestillerResponse> => {
+  const rolle = async (): Promise<DelbestillerrolleResponse> => {
     try {
       return await rest.hentRolle()
     } catch (err) {

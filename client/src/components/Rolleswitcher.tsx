@@ -15,11 +15,11 @@ const Wrapper = styled.div`
 `
 
 const Rolleswitcher = () => {
-  const { delbestillerRolle, setDelbestillerRolle } = useRolleContext()
+  const { delbestillerrolle, setDelbestillerrolle } = useRolleContext()
   const [erSkjult, setErSkjult] = useState(false)
 
   const handleChange = (values: string[]) => {
-    setDelbestillerRolle((prev) => {
+    setDelbestillerrolle((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
@@ -32,7 +32,7 @@ const Rolleswitcher = () => {
     setErSkjult(skjult)
   }
 
-  const checkedValues = Object.entries(delbestillerRolle).map(([key, value]) => {
+  const checkedValues = Object.entries(delbestillerrolle).map(([key, value]) => {
     if (!!value) return key
   })
 

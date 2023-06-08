@@ -39,7 +39,8 @@ const Index = () => {
       } else {
         window.location.replace('/hjelpemidler/delbestilling/login')
       }
-    } catch {
+    } catch (e: any) {
+      console.log(e)
       // TODO: vis feilmelding
       alert('Vi klarte ikke å sjekke loginstatus akkurat nå. Prøv igjen senere.')
     }
