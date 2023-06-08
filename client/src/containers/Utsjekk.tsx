@@ -206,7 +206,11 @@ const Utsjekk = () => {
   console.log('handlekurv:', handlekurv)
 
   if (!handlekurv) {
-    return <>Fant ingen handlekurv...</>
+    return (
+      <>
+        Fant ingen handlekurv. Gå til <a href="/hjelpemidler/delbestilling/">forsiden.</a>
+      </>
+    )
   }
 
   return (
