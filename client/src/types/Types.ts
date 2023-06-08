@@ -37,3 +37,10 @@ export enum Levering {
   'TIL_XK_LAGER' = 'TIL_XK_LAGER',
   'TIL_SERVICE_OPPDRAG' = 'TIL_SERVICE_OPPDRAG',
 }
+
+export interface Delbestillerrolle {
+  kanBestilleDeler: boolean
+  harXKLager: boolean
+  erKommunaltAnsatt: boolean
+  erIPilot: boolean
+}

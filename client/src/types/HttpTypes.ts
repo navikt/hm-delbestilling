@@ -1,4 +1,4 @@
-import { Delbestilling } from './Types'
+import { Delbestillerrolle, Delbestilling } from './Types'
 import { Hjelpemiddel } from './Types'
 
 export interface OppslagRequest {
@@ -16,17 +16,6 @@ export enum OppslagFeil {
   'INGET_UTLÅN' = 'INGET_UTLÅN',
 }
 
-export interface DelbestillerrolleResponse {
-  delbestillerrolle: Delbestillerrolle
-}
-
-export interface Delbestillerrolle {
-  kanBestilleDeler: boolean
-  harXKLager: boolean
-  erKommunaltAnsatt: boolean
-  erIPilot: boolean
-}
-
 export interface DelbestillingRequest {
   delbestilling: Delbestilling
 }
@@ -41,4 +30,8 @@ export enum DelbestillingFeil {
   'ULIK_GEOGRAFISK_TILKNYTNING' = 'ULIK_GEOGRAFISK_TILKNYTNING',
   'BRUKER_IKKE_FUNNET' = 'BRUKER_IKKE_FUNNET',
   'BESTILLE_TIL_SEG_SELV' = 'BESTILLE_TIL_SEG_SELV',
+}
+
+export interface DelbestillerrolleResponse {
+  delbestillerrolle: Delbestillerrolle
 }
