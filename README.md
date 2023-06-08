@@ -4,6 +4,10 @@ Frontend-applikasjon for bestilling av deler fra teknikere
 
 ## Testguide
 
-### Test av innsending for bruker med kode 6/7
-
-Skriv inn `hmsnr=222222` og `serienr=999999` og send inn bestilling.
+| artnr  | serienr | resultat ved oppslag          | resultat ved innsending                  |
+| ------ | ------- | ----------------------------- | ---------------------------------------- |
+| 222222 | 111111  | Returnerer hjelpemiddel       | Gyldig innsending                        |
+| 000000 | 000000  | Tilbyr ikke deler til produkt | N/A                                      |
+| 333333 | 000000  | Inget utlån på bruker         | N/A                                      |
+| 222222 | 999999  | N/A                           | Bruker ikke funnet                       |
+| 222222 | 222222  | N/A                           | Innsender prøver å bestille til seg selv |

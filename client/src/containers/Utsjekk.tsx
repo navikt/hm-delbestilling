@@ -88,6 +88,8 @@ const Utsjekk = () => {
         return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer'
       case DelbestillingFeil.BRUKER_IKKE_FUNNET:
         return 'Vi klarte ikke å finne noen bruker knyttet til dette artikkel- og serienummer'
+      case DelbestillingFeil.BESTILLE_TIL_SEG_SELV:
+        return 'Du har ikke lov til å bestille deler til produkter du selv har utlån på'
       default:
         return 'Ukjent feil'
     }

@@ -46,6 +46,10 @@ const apiHandlers = [
       return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET }))
     }
 
+    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '222222') {
+      return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV }))
+    }
+
     // return res(ctx.delay(450), ctx.status(401))
     // return res(ctx.delay(450), ctx.status(500))
     // return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING }))
