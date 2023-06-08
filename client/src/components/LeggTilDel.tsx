@@ -36,9 +36,10 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
         {delKategorier && (
           <Chips>
             <Chips.Toggle
-              key={'alleKategorier'}
+              key="alle-deler"
               selected={kategoriFilter === undefined}
               onClick={() => {
+                logKategoriFiltreringGjort('alle deler')
                 setKategoriFilter(undefined)
               }}
             >
