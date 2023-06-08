@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import { DelbestillerResponse } from '../types/HttpTypes'
-import { Loader } from '@navikt/ds-react'
+import { GuidePanel, Loader } from '@navikt/ds-react'
 import { Outlet } from 'react-router-dom'
 import { Avstand } from '../components/Avstand'
+import Content from '../styledcomponents/Content'
 
 type RolleContextType = {
   delbestillerRolle: DelbestillerResponse
@@ -41,17 +42,26 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
+  let feilmeldingsTekst = ''
+
   if (!delbestillerRolle) {
-    return <div>Fant ingen delbestillerrolle</div>
+    return <div>Ingen delbestillerrolle</div>
+  } else if (delbestillerRolle.erKommunaltAnsatt === false) {
+    feilmeldingsTekst = 'Du er ikke kommunalt ansatt, og kan derfor ikke bestille deler.'
+  } else if (delbestillerRolle.erIPilot === false) {
+    feilmeldingsTekst = 'Du kan ikke bestille deler akkurat nå (du er ikke i pilot).'
+  } else if (delbestillerRolle.kanBestilleDeler === false) {
+    feilmeldingsTekst = 'Du kan ikke bestille deler.'
   }
 
-  if (delbestillerRolle.erKommunaltAnsatt === false) {
-    return <div>Du er ikke kommunalt ansatt, og kan derfor ikke bestille deler</div>
-  }
-
-  if (delbestillerRolle.kanBestilleDeler === false) {
-    // TODO: kanskje noe info om pilot?
-    return <div>Du kan ikke bestille deler akkurat nå (du er ikke i pilot)</div>
+  if (feilmeldingsTekst) {
+    return (
+      <Content>
+        <Avstand marginTop={10} marginBottom={10}>
+          <GuidePanel>{feilmeldingsTekst}</GuidePanel>
+        </Avstand>
+      </Content>
+    )
   }
 
   return <RolleContext.Provider value={{ delbestillerRolle }}>{children}</RolleContext.Provider>
