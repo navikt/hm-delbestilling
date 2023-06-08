@@ -1,10 +1,9 @@
 import { onLanguageSelect, setParams } from '@navikt/nav-dekoratoren-moduler'
-import * as Sentry from '@sentry/browser'
 import i18next from 'i18next'
 import Cookies from 'universal-cookie'
 import { BASE_PATH } from '../App'
 // import restService from '../services/rest-service'
-import { digihot_customevents, logCustomEvent } from '../utils/amplitude'
+import { logSpråkEndret } from '../utils/amplitude'
 
 interface Params {
   context?: 'privatperson' | 'arbeidsgiver' | 'samarbeidspartner'
@@ -61,7 +60,7 @@ export const initDecorator = () => {
 
 const changeLanguage = (language: string) => {
   i18next.changeLanguage(language)
-  logCustomEvent(digihot_customevents.SPRAAK_ENDRET, { språk: language })
+  logSpråkEndret(language)
 }
 
 export const setLanguage = (language: 'nb' | 'nn' | 'en' | 'se') => {

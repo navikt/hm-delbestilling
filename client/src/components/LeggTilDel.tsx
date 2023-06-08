@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { BodyShort, Button, Chips, Heading, Panel } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import { HjelpemiddelDel, Hjelpemiddel } from '../types/Types'
+import { logKategoriFiltreringGjort } from '../utils/amplitude'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -48,6 +49,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                 key={kategori}
                 selected={kategoriFilter === kategori}
                 onClick={() => {
+                  logKategoriFiltreringGjort(kategori)
                   setKategoriFilter(kategori)
                 }}
               >

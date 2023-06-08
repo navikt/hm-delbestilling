@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import rest from '../services/rest'
 import { useRolleContext } from '../context/rolle'
 import Errors from '../components/Errors'
+import { logBestillingSlettet, logInnsendingFeil, logSkjemavalideringFeilet } from '../utils/amplitude'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -30,7 +31,8 @@ interface Feilmelding {
 }
 
 export interface Valideringsfeil {
-  id: 'levering' | 'tom-deleliste'
+  id: 'levering' | 'deler'
+  type: 'mangler levering' | 'ingen deler'
   melding: string
 }
 
@@ -44,13 +46,12 @@ const Utsjekk = () => {
     }
   })
   const [visFlereDeler, setVisFlereDeler] = useState(false)
+  const [senderInnBestilling, setSenderInnBestilling] = useState(false)
   const [submitAttempt, setSubmitAttempt] = useState(false)
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<Feilmelding | undefined>()
 
   const navigate = useNavigate()
-
-  const [senderInnBestilling, setSenderInnBestilling] = useState(false)
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
@@ -132,23 +133,25 @@ const Utsjekk = () => {
     const feil: Valideringsfeil[] = []
 
     if (handlekurv.deler.length === 0) {
-      feil.push({ id: 'tom-deleliste', melding: 'Du kan ikke sende inn bestilling med 0 deler' })
+      feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn bestilling med ingen deler' })
     }
 
     if (!handlekurv.levering) {
-      feil.push({ id: 'levering', melding: 'Du må velge levering' })
+      feil.push({ id: 'levering', type: 'mangler levering', melding: 'Du må velge levering' })
     }
 
     setValideringsFeil(feil)
-
-    return feil.length === 0
+    return feil
   }
 
   const sendInnBestilling = async (handlekurv: Handlekurv) => {
     setFeilmelding(undefined)
     setSubmitAttempt(true)
 
-    if (validerBestilling(handlekurv) === false) {
+    const feil = validerBestilling(handlekurv)
+
+    if (feil.length !== 0) {
+      logSkjemavalideringFeilet(feil.map((f) => f.type))
       return
     }
 
@@ -161,9 +164,10 @@ const Utsjekk = () => {
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
       }
+
       const response = await rest.sendInnBestilling(delbestilling)
       if (response.feil) {
-        // TODO: log feil til Amplitude
+        logInnsendingFeil(response.feil)
         setFeilmelding({
           melding: hentInnsendingFeil(response.feil),
         })
@@ -193,6 +197,7 @@ const Utsjekk = () => {
   }
 
   const slettBestilling = () => {
+    logBestillingSlettet()
     window.localStorage.removeItem(LOCALSTORAGE_HANDLEKURV_KEY)
     navigate('/')
     window.scrollTo(0, 0)
@@ -240,10 +245,10 @@ const Utsjekk = () => {
           ) : (
             <>
               <Avstand marginBottom={8}>
-                <Heading level="2" size="large" spacing>
+                <Heading level="2" size="large" spacing id="deler">
                   Deler lagt til i bestillingen
                 </Heading>
-                {handlekurv.deler.length === 0 && <div id="tom-deleliste">Du har ikke lagt til noen deler</div>}
+                {handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
                 {handlekurv.deler.map((del) => (
                   <Avstand marginBottom={2} key={del.hmsnr}>
                     <Panel border>

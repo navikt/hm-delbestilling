@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import rest from '../services/rest'
 import { OppslagFeil } from '../types/HttpTypes'
 import { Avstand } from './Avstand'
+import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
 
 const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)
@@ -47,10 +48,12 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
 
     try {
       setGjørOppslag(true)
+      logOppslagGjort(hmsnr)
       const oppslag = await rest.hjelpemiddelOppslag(hmsnr, serienr)
 
       if (oppslag.feil) {
         setFeil(oppslag.feil)
+        logOppslagFeil(oppslag.feil, hmsnr)
       } else {
         setHjelpemiddel(oppslag.hjelpemiddel)
       }
