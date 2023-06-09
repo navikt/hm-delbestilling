@@ -14,6 +14,7 @@ import { useRolleContext } from '../context/rolle'
 import Errors from '../components/Errors'
 import { logBestillingSlettet, logInnsendingFeil, logSkjemavalideringFeilet } from '../utils/amplitude'
 import Rolleswitcher from '../components/Rolleswitcher'
+import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -25,11 +26,6 @@ const Toolbar = styled.div`
   margin-left: -16px;
   width: calc(100% + 32px);
 `
-
-interface Feilmelding {
-  melding: React.ReactNode
-  stack?: string
-}
 
 export interface Valideringsfeil {
   id: 'levering' | 'deler'
@@ -50,7 +46,7 @@ const Utsjekk = () => {
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
   const [submitAttempt, setSubmitAttempt] = useState(false)
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
-  const [feilmelding, setFeilmelding] = useState<Feilmelding | undefined>()
+  const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
 
   const navigate = useNavigate()
 
@@ -170,15 +166,15 @@ const Utsjekk = () => {
       if (response.feil) {
         logInnsendingFeil(response.feil)
         setFeilmelding({
-          melding: hentInnsendingFeil(response.feil),
+          feilmelding: hentInnsendingFeil(response.feil),
         })
       } else {
         navigate('/kvittering', { state: { handlekurv } })
       }
     } catch (err: any) {
-      if (err.statusCode === 401) {
+      if (err.isUnauthorized()) {
         setFeilmelding({
-          melding: (
+          feilmelding: (
             <>
               Økten din er utløpt, og du må logge inn på nytt for å kunne sende inn bestillingen. Trykk{' '}
               <a href="/hjelpemidler/delbestilling/login">her</a> for å gjøre det.
@@ -187,11 +183,10 @@ const Utsjekk = () => {
         })
       } else {
         setFeilmelding({
-          melding: 'Noe gikk feil med innsending, prøv igjen senere',
-          stack: err as string,
+          feilmelding: 'Noe gikk feil med innsending, prøv igjen senere',
+          tekniskFeilmelding: err,
         })
       }
-      console.log(err)
     } finally {
       setSenderInnBestilling(false)
     }
@@ -326,21 +321,9 @@ const Utsjekk = () => {
               </div>
               {valideringsFeil.length > 0 && <Errors valideringsFeil={valideringsFeil} />}
               {feilmelding && (
-                <Alert variant="error">
-                  <>
-                    {feilmelding.melding}
-                    {feilmelding.stack && (
-                      <Avstand marginTop={4}>
-                        <ExpansionCard size="small" aria-label="informasjon for utviklere">
-                          <ExpansionCard.Header>
-                            <ExpansionCard.Title>Informasjon for utviklere</ExpansionCard.Title>
-                          </ExpansionCard.Header>
-                          <ExpansionCard.Content>{JSON.stringify(feilmelding.stack)}</ExpansionCard.Content>
-                        </ExpansionCard>
-                      </Avstand>
-                    )}
-                  </>
-                </Alert>
+                <Avstand marginTop={4}>
+                  <Feilmelding feilmelding={feilmelding} />
+                </Avstand>
               )}
             </>
           )}

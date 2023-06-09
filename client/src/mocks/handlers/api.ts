@@ -19,13 +19,17 @@ const apiHandlers = [
     const { hmsnr } = req.body
 
     if (hmsnr === '333333') {
-      return res(ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN }))
+      return res(ctx.delay(250), ctx.status(404), ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN }))
     }
 
     const hjelpemiddel: Hjelpemiddel | undefined = hjelpemiddelMock.find((hm) => hm.hmsnr === hmsnr)
 
     if (!hjelpemiddel) {
-      return res(ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL }))
+      return res(
+        ctx.delay(250),
+        ctx.status(404),
+        ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL })
+      )
     }
 
     return res(ctx.delay(250), ctx.json({ hjelpemiddel, feil: undefined }))
@@ -49,17 +53,18 @@ const apiHandlers = [
     tidligereBestillinger.push(delbestilling)
 
     if (delbestilling.serienr === '999999') {
-      return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET }))
+      return res(ctx.delay(450), ctx.status(404), ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET }))
     }
 
     if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '222222') {
-      return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV }))
+      return res(ctx.delay(450), ctx.status(403), ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV }))
     }
 
+    // return res(ctx.delay(450), ctx.status(400))
     // return res(ctx.delay(450), ctx.status(401))
     // return res(ctx.delay(450), ctx.status(500))
-    // return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING }))
-    // return res(ctx.delay(450), ctx.json({ id, feil: DelbestillingFeil.INGET_UTLÅN }))
+    // return res(ctx.delay(450), ctx.status(403), ctx.json({ id, feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING }))
+    // return res(ctx.delay(450), ctx.status(404), ctx.json({ id, feil: DelbestillingFeil.INGET_UTLÅN }))
 
     return res(ctx.delay(450), ctx.status(201), ctx.json({ id: delbestilling.id }))
   }),

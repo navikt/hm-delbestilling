@@ -6,6 +6,7 @@ import rest from '../services/rest'
 import { OppslagFeil } from '../types/HttpTypes'
 import { Avstand } from './Avstand'
 import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
+import { Feilmelding, FeilmeldingInterface } from './Feilmelding'
 
 const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)
@@ -42,6 +43,18 @@ interface Props {
 const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
   const [gjørOppslag, setGjørOppslag] = useState(false)
   const [feil, setFeil] = useState<OppslagFeil | undefined>(undefined)
+  const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
+
+  const hentOppslagFeil = (oppslagfeil: OppslagFeil): string => {
+    switch (oppslagfeil) {
+      case OppslagFeil.INGET_UTLÅN:
+        return 'Vi finner dessverre ikke et utlån på dette art.nr og serienr.'
+      case OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL:
+        return 'Du kan ikke bestille del til dette hjelpemidlet da det ikke er registrert hos oss. Ta kontakt med din hjelpemiddelsentral for hjelp.'
+      default:
+        return 'Ukjent feil'
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,14 +65,20 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
       const oppslag = await rest.hjelpemiddelOppslag(hmsnr, serienr)
 
       if (oppslag.feil) {
-        setFeil(oppslag.feil)
+        setFeilmelding({
+          feilmelding: hentOppslagFeil(oppslag.feil),
+          variant: oppslag.feil === OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL ? 'warning' : 'error',
+        })
         logOppslagFeil(oppslag.feil, hmsnr)
       } else {
         setHjelpemiddel(oppslag.hjelpemiddel)
       }
-    } catch (err) {
-      alert(`Klarte ikke å hente hjelpemiddel med artikkelnr ${hmsnr} og serienr ${serienr}`)
+    } catch (err: any) {
       console.log(`Kunne ikke hente hjelpemiddel`, err)
+      setFeilmelding({
+        feilmelding: 'Noe gikk feil med oppslag, prøv igjen senere',
+        tekniskFeilmelding: err,
+      })
     } finally {
       setGjørOppslag(false)
     }
@@ -107,6 +126,12 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
           {feil === OppslagFeil.INGET_UTLÅN && (
             <Alert variant="warning">Vi finner dessverre ikke et utlån på dette art.nr og serienr.</Alert>
           )}
+        </Avstand>
+      )}
+
+      {feilmelding && (
+        <Avstand marginTop={4}>
+          <Feilmelding feilmelding={feilmelding} />
         </Avstand>
       )}
     </Panel>

@@ -16,20 +16,16 @@ export class ApiError extends Error {
   isUnauthorized(): boolean {
     return this.statusCode === 401
   }
-
-  isForbidden(): boolean {
-    return this.statusCode === 403
-  }
 }
 
 const handleResponse = async (response: Response) => {
-  if (response.status >= 400 && response.status < 500) {
-    const error = await response.json().catch((err: unknown) => console.log('ApiError thrown in handleResponse()', err))
-    const message = error ? error.message : 'ApiError thrown in handleResponse()'
-    throw new ApiError(message, response.status)
-  }
+  // Catcher statuskoder utenfor 200-299
   if (!response.ok) {
-    throw new ApiError('Feil ved kontakt mot baksystem.', response.status)
+    const json = await response.json().catch((err: unknown) => {})
+    // Responsebody inneholder ikke en feil som klienten skal håndtere, så kast ApiError
+    if (json?.feil === undefined) {
+      throw new ApiError(response.statusText, response.status)
+    }
   }
 }
 
@@ -45,20 +41,20 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
     },
   })
 
-  await handleResponse(response)
+  await handleResponse(response.clone())
 
   return await response.json()
 }
 
 const hentBestillingerForBruker = async (): Promise<Delbestilling[]> => {
   const response = await fetch(API_PATH + '/delbestilling')
-  await handleResponse(response)
+  await handleResponse(response.clone())
   return await response.json()
 }
 
 const hentBestillingerForKommune = async (): Promise<Delbestilling[]> => {
   const response = await fetch(API_PATH + '/delbestilling/kommune')
-  await handleResponse(response)
+  await handleResponse(response.clone())
   return await response.json()
 }
 
@@ -70,15 +66,13 @@ const sendInnBestilling = async (delbestilling: Delbestilling): Promise<Delbesti
     },
   })
 
-  await handleResponse(response)
-
-  const id = await response.json()
-  return id
+  await handleResponse(response.clone())
+  return await response.json()
 }
 
 const hentRolle = async (): Promise<DelbestillerrolleResponse> => {
   const response = await fetch(`${ROLLER_PATH}/delbestiller`)
-  await handleResponse(response)
+  await handleResponse(response.clone())
   return await response.json()
 }
 
