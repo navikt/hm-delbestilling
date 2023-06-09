@@ -5,6 +5,7 @@ import { GuidePanel, Loader } from '@navikt/ds-react'
 import { Outlet } from 'react-router-dom'
 import { Avstand } from '../components/Avstand'
 import Content from '../styledcomponents/Content'
+import { useErrorBoundary } from 'react-error-boundary'
 
 type RolleContextType = {
   delbestillerrolle: Delbestillerrolle
@@ -20,6 +21,7 @@ const RolleContext = React.createContext<RolleContextType>({
 export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   const [henterRolle, setHenterRolle] = useState(true)
   const [delbestillerrolle, setDelbestillerrolle] = useState<Delbestillerrolle | undefined>()
+  const { showBoundary } = useErrorBoundary()
 
   const { rolle } = useAuth()
 
@@ -28,9 +30,9 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const response = await rolle()
         setDelbestillerrolle(response.delbestillerrolle)
-      } catch (err) {
-        alert('Kunne ikke sjekke rolle, se konsoll for detaljer')
+      } catch (err: any) {
         console.log(err)
+        showBoundary(`Kunne ikke hente rolle: ${err.message}`)
       } finally {
         setHenterRolle(false)
       }
