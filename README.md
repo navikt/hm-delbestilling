@@ -11,5 +11,5 @@ Frontend-applikasjon for bestilling av deler fra teknikere
 | 333333 | 000000  | Inget utlån på bruker         | N/A                                      |
 | 222222 | 000000  | Returnerer hjelpemiddel       | Bruker ikke funnet                       |
 | 222222 | 111111  | Returnerer hjelpemiddel       | Innsender prøver å bestille til seg selv |
-| 222222 | 333333  | Returnerer hjelpemiddel       | Ulik geografisk tilknytning              |
-| 222222 | 444444  | Returnerer hjelpemiddel       | Kan ikke bestille                        |
+| 222222 | 444444  | Returnerer hjelpemiddel       | Ulik geografisk tilknytning              |
+| 222222 | 555555  | Returnerer hjelpemiddel       | Kan ikke bestille                        |

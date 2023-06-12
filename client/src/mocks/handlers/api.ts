@@ -60,11 +60,11 @@ const apiHandlers = [
       return res(ctx.delay(450), ctx.status(403), ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV }))
     }
 
-    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '333333') {
+    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '444444') {
       return res(ctx.delay(450), ctx.status(403), ctx.json({ id, feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING }))
     }
 
-    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '444444') {
+    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '555555') {
       return res(ctx.delay(450), ctx.status(404), ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE }))
     }
 

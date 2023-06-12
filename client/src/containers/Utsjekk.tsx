@@ -258,9 +258,9 @@ const Utsjekk = () => {
                           <Heading level="3" size="medium" spacing>
                             {del.navn}
                           </Heading>
-                          <BodyShort spacing>{del.beskrivelse}</BodyShort>
+                          {/* <BodyShort spacing>{del.beskrivelse}</BodyShort> */}
                           <BodyShort>
-                            HMS-nr: {del.hmsnr} | Lev.art.nr: {del.levArtNr}
+                            {/* HMS-nr: {del.hmsnr} |*/} Lev.art.nr: {del.levArtNr}
                           </BodyShort>
                         </div>
                       </div>
