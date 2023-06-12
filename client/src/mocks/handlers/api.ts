@@ -52,12 +52,20 @@ const apiHandlers = [
 
     tidligereBestillinger.push(delbestilling)
 
-    if (delbestilling.serienr === '999999') {
+    if (delbestilling.serienr === '000000') {
       return res(ctx.delay(450), ctx.status(404), ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET }))
     }
 
-    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '222222') {
+    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '111111') {
       return res(ctx.delay(450), ctx.status(403), ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV }))
+    }
+
+    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '333333') {
+      return res(ctx.delay(450), ctx.status(403), ctx.json({ id, feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING }))
+    }
+
+    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '444444') {
+      return res(ctx.delay(450), ctx.status(404), ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE }))
     }
 
     // return res(ctx.delay(450), ctx.status(400))

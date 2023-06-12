@@ -116,9 +116,11 @@ const Utsjekk = () => {
       case DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING:
         return 'Du kan ikke bestille deler til bruker som ikke tilhører den kommunen du jobber i'
       case DelbestillingFeil.INGET_UTLÅN:
-        return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer'
+        return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.'
+      case DelbestillingFeil.KAN_IKKE_BESTILLE:
+        return 'Du kan ikke bestille deler til dette hjelpemiddelet digitalt. Ta kontakt med hjelpemiddelsentralen.'
       case DelbestillingFeil.BRUKER_IKKE_FUNNET:
-        return 'Vi klarte ikke å finne noen bruker knyttet til dette artikkel- og serienummer'
+        return 'Vi klarte ikke å finne noen bruker knyttet til dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.'
       case DelbestillingFeil.BESTILLE_TIL_SEG_SELV:
         return 'Du har ikke lov til å bestille deler til produkter du selv har utlån på'
       default:
