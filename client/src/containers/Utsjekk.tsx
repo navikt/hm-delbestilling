@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, BodyShort, Button, ExpansionCard, Heading, Panel, Radio, RadioGroup, Select } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Heading, Panel, Radio, RadioGroup, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
@@ -18,7 +18,7 @@ import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 
 const Toolbar = styled.div`
   padding: 1rem;
-  background: #f1f1f1;
+  background: #f7f7f7;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -245,7 +245,7 @@ const Utsjekk = () => {
           ) : (
             <>
               <Avstand marginBottom={8}>
-                <Heading level="2" size="large" spacing id="deler">
+                <Heading level="2" size="medium" spacing id="deler">
                   Deler lagt til i bestillingen
                 </Heading>
                 {handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
@@ -255,12 +255,12 @@ const Utsjekk = () => {
                       <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
                         <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
                         <div>
-                          <Heading level="3" size="medium" spacing>
+                          <Heading level="3" size="small" spacing>
                             {del.navn}
                           </Heading>
                           {/* <BodyShort spacing>{del.beskrivelse}</BodyShort> */}
                           <BodyShort>
-                            {/* HMS-nr: {del.hmsnr} |*/} Lev.art.nr: {del.levArtNr}
+                            HMS-nr: {del.hmsnr} | Lev.art.nr: {del.levArtNr}
                           </BodyShort>
                         </div>
                       </div>

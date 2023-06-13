@@ -69,12 +69,12 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
               <div style={{ display: 'flex', gap: 20 }}>
                 <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
                 <div>
-                  <Heading size="xsmall" level="4" spacing>
+                  <Heading size="small" level="4" spacing>
                     {del.navn}
                   </Heading>
                   {/* <BodyShort spacing>{del.beskrivelse}</BodyShort> */}
                   <BodyShort>
-                    {/* HMS-nr: {del.hmsnr} | */}Lev.art.nr: {del.levArtNr}
+                    HMS-nr: {del.hmsnr} | Lev.art.nr: {del.levArtNr}
                   </BodyShort>
                 </div>
               </div>
