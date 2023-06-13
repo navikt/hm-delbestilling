@@ -66,22 +66,24 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
         .map((del) => (
           <Avstand marginBottom={4} key={del.hmsnr}>
             <Panel border>
-              <div style={{ display: 'flex', gap: 20 }}>
-                <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
-                <div>
-                  <Heading size="small" level="4" spacing>
-                    {del.navn}
-                  </Heading>
-                  {/* <BodyShort spacing>{del.beskrivelse}</BodyShort> */}
-                  <BodyShort>
-                    HMS-nr: {del.hmsnr} {del.levArtNr && <>| Lev.art.nr: {del.levArtNr}</>}
-                  </BodyShort>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <div style={{ display: 'flex', gap: 20 }}>
+                  <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
+                  <div>
+                    <Heading size="small" level="4" spacing>
+                      {del.navn}
+                    </Heading>
+                    {/* <BodyShort spacing>{del.beskrivelse}</BodyShort> */}
+                    <BodyShort>
+                      HMS-nr: {del.hmsnr} {del.levArtNr && <>| Lev.art.nr: {del.levArtNr}</>}
+                    </BodyShort>
+                  </div>
                 </div>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button variant="secondary" onClick={() => onLeggTil(del)}>
-                  {knappeTekst}
-                </Button>
+                <div style={{}}>
+                  <Button variant="secondary" onClick={() => onLeggTil(del)}>
+                    {knappeTekst}
+                  </Button>
+                </div>
               </div>
             </Panel>
           </Avstand>
