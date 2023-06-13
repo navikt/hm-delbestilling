@@ -278,7 +278,7 @@ const Utsjekk = () => {
                 ))}
                 <Avstand marginBottom={4} />
                 <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
-                  Legg til flere deler
+                  Legg til {handlekurv.deler.length > 0 ? 'flere' : ''} deler
                 </Button>
               </Avstand>
               <Avstand marginBottom={8}>
