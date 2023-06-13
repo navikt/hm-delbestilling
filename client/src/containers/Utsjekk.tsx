@@ -15,6 +15,7 @@ import Errors from '../components/Errors'
 import { logBestillingSlettet, logInnsendingFeil, logSkjemavalideringFeilet } from '../utils/amplitude'
 import Rolleswitcher from '../components/Rolleswitcher'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
+import DelInfo from '../components/DelInfo'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -253,16 +254,7 @@ const Utsjekk = () => {
                   <Avstand marginBottom={2} key={del.hmsnr}>
                     <Panel border>
                       <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-                        <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
-                        <div>
-                          <Heading level="3" size="small" spacing>
-                            {del.navn}
-                          </Heading>
-                          {/* <BodyShort spacing>{del.beskrivelse}</BodyShort> */}
-                          <BodyShort>
-                            HMS-nr: {del.hmsnr} {del.levArtNr && <>| Lev.art.nr: {del.levArtNr}</>}
-                          </BodyShort>
-                        </div>
+                        <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} />
                       </div>
                       <Toolbar>
                         <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(del)}>

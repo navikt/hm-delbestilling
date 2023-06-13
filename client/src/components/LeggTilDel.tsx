@@ -3,6 +3,7 @@ import { BodyShort, Button, Chips, Heading, Panel } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import { HjelpemiddelDel, Hjelpemiddel } from '../types/Types'
 import { logKategoriFiltreringGjort } from '../utils/amplitude'
+import DelInfo from './DelInfo'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -68,16 +69,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
             <Panel border>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                 <div style={{ display: 'flex', gap: 20 }}>
-                  <div style={{ padding: 70, background: '#ececec' }}>[img]</div>
-                  <div>
-                    <Heading size="small" level="4" spacing>
-                      {del.navn}
-                    </Heading>
-                    {/* <BodyShort spacing>{del.beskrivelse}</BodyShort> */}
-                    <BodyShort>
-                      HMS-nr: {del.hmsnr} {del.levArtNr && <>| Lev.art.nr: {del.levArtNr}</>}
-                    </BodyShort>
-                  </div>
+                  <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} />
                 </div>
                 <div style={{}}>
                   <Button variant="secondary" onClick={() => onLeggTil(del)}>
