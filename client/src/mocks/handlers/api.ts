@@ -22,9 +22,7 @@ const apiHandlers = [
       return res(ctx.delay(250), ctx.status(404), ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN }))
     }
 
-    const hjelpemiddel: Hjelpemiddel | undefined = hjelpemiddelMock.find((hm) => hm.hmsnr === hmsnr)
-
-    if (!hjelpemiddel) {
+    if (hmsnr === '000000') {
       return res(
         ctx.delay(250),
         ctx.status(404),
@@ -32,7 +30,9 @@ const apiHandlers = [
       )
     }
 
-    return res(ctx.delay(250), ctx.json({ hjelpemiddel, feil: undefined }))
+    const hjelpemiddel = hjelpemiddelMock.hjelpemiddel
+
+    return res(ctx.delay(250), ctx.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined }))
   }),
 
   rest.post<DelbestillingRequest, {}, DelbestillingResponse>(`${API_PATH}/delbestilling`, (req, res, ctx) => {

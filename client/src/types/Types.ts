@@ -6,10 +6,9 @@ export interface Hjelpemiddel {
 
 export interface HjelpemiddelDel {
   navn: string
-  beskrivelse: string
   hmsnr: string
-  levArtNr: string
-  img: string
+  levArtNr: string | null
+  img: string | null
   kategori: string
 }
 
