@@ -87,7 +87,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                   <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} />
                 </FlexedStack>
 
-                <Button variant="secondary" onClick={() => onLeggTil(del)}>
+                <Button style={{ minWidth: '130px' }} variant="secondary" onClick={() => onLeggTil(del)}>
                   {knappeTekst}
                 </Button>
               </DelInnhold>
