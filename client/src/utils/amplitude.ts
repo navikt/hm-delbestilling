@@ -19,6 +19,7 @@ export enum digihot_customevents {
   OPPSLAG_FEIL = 'feil på oppslag',
   KATEGORI_FILTRERING = 'filtrering på kategori',
   INNSENDING_FEIL = 'feil ved innsending',
+  START_NY_BESTILING = 'start ny bestilling',
 }
 
 const SKJEMANAVN = 'hm-delbestilling'
@@ -85,4 +86,8 @@ export const logInnsendingFeil = (feil: DelbestillingFeil) => {
 
 export const logBestillingSlettet = () => {
   logAmplitudeEvent(digihot_customevents.SKJEMA_SLETTET)
+}
+
+export const logStartNyBestilling = () => {
+  logAmplitudeEvent(digihot_customevents.START_NY_BESTILING)
 }

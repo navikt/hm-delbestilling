@@ -6,6 +6,7 @@ import { DelLinje, Handlekurv } from '../types/Types'
 import { Avstand } from '../components/Avstand'
 import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
 import { GlobalStyle } from '../GlobalStyle'
+import { logStartNyBestilling } from '../utils/amplitude'
 
 type LocationState = {
   handlekurv: Handlekurv
@@ -23,6 +24,7 @@ const Kvittering = () => {
   }, [])
 
   const handleNyBestillingClick = () => {
+    logStartNyBestilling()
     navigate('/')
     window.scrollTo(0, 0)
   }
