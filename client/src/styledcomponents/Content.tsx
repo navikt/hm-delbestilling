@@ -1,10 +1,11 @@
 import styled from 'styled-components'
+import { size } from './rules'
 
 const Content = styled.div`
   width: 40rem;
   margin: 0 auto;
 
-  @media only screen and (max-width: 800px) {
+  @media (max-width: ${size.large}) {
     width: 95%;
   }
 `

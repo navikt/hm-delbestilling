@@ -17,6 +17,7 @@ import Rolleswitcher from '../components/Rolleswitcher'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import DelInfo from '../components/DelInfo'
 import { GlobalStyle } from '../GlobalStyle'
+import FlexedStack from '../styledcomponents/FlexedStack'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -26,6 +27,7 @@ const Toolbar = styled.div`
   justify-content: space-between;
   margin-bottom: -16px;
   margin-left: -16px;
+  margin-top: 16px;
   width: calc(100% + 32px);
 `
 
@@ -256,11 +258,11 @@ const Utsjekk = () => {
                 </Heading>
                 {handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
                 {handlekurv.deler.map((delLinje) => (
-                  <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
+                  <Avstand marginBottom={4} key={delLinje.del.hmsnr}>
                     <Panel border>
-                      <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                      <FlexedStack>
                         <DelInfo navn={delLinje.del.navn} hmsnr={delLinje.del.hmsnr} levArtNr={delLinje.del.levArtNr} />
-                      </div>
+                      </FlexedStack>
                       <Toolbar>
                         <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
                           Slett del

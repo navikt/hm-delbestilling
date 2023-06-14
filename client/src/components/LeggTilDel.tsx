@@ -1,9 +1,24 @@
 import React, { useMemo, useState } from 'react'
 import { Button, Chips, Heading, Panel } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
-import { Del, Hjelpemiddel } from '../types/Types'
+import { Hjelpemiddel, Del } from '../types/Types'
 import { logKategoriFiltreringGjort } from '../utils/amplitude'
 import DelInfo from './DelInfo'
+import styled from 'styled-components'
+import { size } from '../styledcomponents/rules'
+import FlexedStack from '../styledcomponents/FlexedStack'
+
+const DelInnhold = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (min-width: ${size.large}) {
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-direction: row;
+  }
+`
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -67,15 +82,15 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
         .map((del) => (
           <Avstand marginBottom={4} key={del.hmsnr}>
             <Panel border>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <div style={{ display: 'flex', gap: 20 }}>
+              <DelInnhold>
+                <FlexedStack>
                   <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} />
-                </div>
+                </FlexedStack>
 
                 <Button variant="secondary" onClick={() => onLeggTil(del)}>
                   {knappeTekst}
                 </Button>
-              </div>
+              </DelInnhold>
             </Panel>
           </Avstand>
         ))}
