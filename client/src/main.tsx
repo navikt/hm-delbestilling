@@ -7,7 +7,6 @@ import { initDecorator } from './decorator/decorator'
 import './i18n'
 import { initAmplitude } from './utils/amplitude'
 import { initMSW } from './utils/msw'
-import { initSentry } from './utils/sentry'
 
 declare global {
   interface Window {
@@ -23,7 +22,6 @@ declare global {
 
 const init = async () => {
   await initMSW()
-  initSentry()
   initAmplitude()
   initDecorator()
   const rootElement = document.getElementById('root')!!
