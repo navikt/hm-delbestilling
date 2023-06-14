@@ -1,5 +1,5 @@
-import { BodyShort, Heading } from '@navikt/ds-react'
 import React from 'react'
+import { BodyShort, Heading } from '@navikt/ds-react'
 import styled from 'styled-components'
 
 interface Props {
@@ -20,7 +20,6 @@ const DelInfo = ({ navn, hmsnr, levArtNr }: Props) => {
         <Heading size="small" level="4" spacing>
           {navn}
         </Heading>
-
         <SubtleBodyShort>
           HMS-nr: {hmsnr} {levArtNr && <>| Lev.art.nr: {levArtNr}</>}
         </SubtleBodyShort>
