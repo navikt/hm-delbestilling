@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { DelLinje, Handlekurv } from '../types/Types'
 import { Avstand } from '../components/Avstand'
 import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
+import { GlobalStyle } from '../GlobalStyle'
 
 type LocationState = {
   handlekurv: Handlekurv
@@ -46,7 +47,8 @@ const Kvittering = () => {
   }
 
   return (
-    <main style={{ background: 'white' }}>
+    <main>
+      <GlobalStyle mainBg="white" />
       <Content>
         <Heading level="2" size="large" spacing>
           Kvittering

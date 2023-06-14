@@ -16,6 +16,7 @@ import { logBestillingSlettet, logInnsendingFeil, logSkjemavalideringFeilet } fr
 import Rolleswitcher from '../components/Rolleswitcher'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import DelInfo from '../components/DelInfo'
+import { GlobalStyle } from '../GlobalStyle'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -213,7 +214,8 @@ const Utsjekk = () => {
   }
 
   return (
-    <main style={{ background: 'white' }}>
+    <main>
+      <GlobalStyle mainBg="white" />
       <Content>
         <>
           {visFlereDeler && (
