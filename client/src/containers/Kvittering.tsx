@@ -4,7 +4,7 @@ import { Alert, Button, Heading } from '@navikt/ds-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { DelLinje, Handlekurv } from '../types/Types'
 import { Avstand } from '../components/Avstand'
-import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
+import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 import { GlobalStyle } from '../GlobalStyle'
 import { logStartNyBestilling } from '../utils/amplitude'
 
@@ -18,7 +18,7 @@ const Kvittering = () => {
   const state = location.state as LocationState | null
 
   useEffect(() => {
-    window.localStorage.removeItem(LOCALSTORAGE_HANDLEKURV_KEY)
+    window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
     // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
     window.history.replaceState({}, document.title)
   }, [])

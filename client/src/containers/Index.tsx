@@ -11,7 +11,7 @@ import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
 import TidligereBestillinger from '../components/TidligereBestillinger'
 
-export const LOCALSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
+export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
 const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
@@ -30,7 +30,7 @@ const Index = () => {
       levering: undefined,
     }
 
-    window.localStorage.setItem(LOCALSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
+    window.sessionStorage.setItem(SESSIONSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
 
     try {
       const erLoggetInn = await loginStatus()

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, BodyShort, Button, Heading, Panel, Radio, RadioGroup, Select } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, GuidePanel, Heading, Panel, Radio, RadioGroup, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
@@ -7,7 +7,7 @@ import { Del, Delbestilling, Handlekurv, Levering } from '../types/Types'
 import { DelbestillingFeil } from '../types/HttpTypes'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
-import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
+import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 import styled from 'styled-components'
 import rest from '../services/rest'
 import { useRolleContext } from '../context/rolle'
@@ -39,7 +39,7 @@ const Utsjekk = () => {
   const { delbestillerrolle } = useRolleContext()
   const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(() => {
     try {
-      return JSON.parse(window.localStorage.getItem(LOCALSTORAGE_HANDLEKURV_KEY) || '')
+      return JSON.parse(window.sessionStorage.getItem(SESSIONSTORAGE_HANDLEKURV_KEY) || '')
     } catch {
       return undefined
     }
@@ -198,18 +198,21 @@ const Utsjekk = () => {
 
   const slettBestilling = () => {
     logBestillingSlettet()
-    window.localStorage.removeItem(LOCALSTORAGE_HANDLEKURV_KEY)
+    window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
     navigate('/')
     window.scrollTo(0, 0)
   }
 
-  console.log('handlekurv:', handlekurv)
-
   if (!handlekurv) {
     return (
-      <>
-        Fant ingen handlekurv. Gå til <a href="/hjelpemidler/delbestilling/">forsiden.</a>
-      </>
+      <Content>
+        <Avstand paddingTop={8} paddingBottom={8}>
+          <GuidePanel>
+            Fant ingen handlekurv. Gå til <a href="/hjelpemidler/delbestilling/">forsiden</a> for å starte en ny
+            bestilling.
+          </GuidePanel>
+        </Avstand>
+      </Content>
     )
   }
 
