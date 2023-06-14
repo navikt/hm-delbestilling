@@ -8,7 +8,7 @@ import {
   DelbestillingFeil,
 } from '../../types/HttpTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
-import { Hjelpemiddel, Delbestilling } from '../../types/Types'
+import { Delbestilling } from '../../types/Types'
 
 import { API_PATH } from '../../services/rest'
 

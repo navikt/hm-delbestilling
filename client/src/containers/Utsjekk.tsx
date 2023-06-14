@@ -3,7 +3,7 @@ import { Alert, BodyShort, Button, Heading, Panel, Radio, RadioGroup, Select } f
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
-import { HjelpemiddelDel, Delbestilling, Handlekurv, Levering } from '../types/Types'
+import { Del, Delbestilling, Handlekurv, Levering } from '../types/Types'
 import { DelbestillingFeil } from '../types/HttpTypes'
 import { TrashIcon, ArrowLeftIcon } from '@navikt/aksel-icons'
 import { useNavigate } from 'react-router-dom'
@@ -65,38 +65,38 @@ const Utsjekk = () => {
     }
   }, [submitAttempt, handlekurv])
 
-  const leggTilDel = (del: HjelpemiddelDel) => {
+  const leggTilDel = (del: Del) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
-        deler: [...prev.deler, { ...del, antall: 1 }],
+        deler: [...prev.deler, { del, antall: 1 }],
       }
     })
 
     setVisFlereDeler(false)
   }
 
-  const setAntall = (del: HjelpemiddelDel, antall: number) => {
+  const setAntall = (del: Del, antall: number) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
         deler: prev.deler.map((handlekurvDel) => {
-          if (handlekurvDel.hmsnr === del.hmsnr) return { ...handlekurvDel, antall }
+          if (handlekurvDel.del.hmsnr === del.hmsnr) return { ...handlekurvDel, antall }
           return handlekurvDel
         }),
       }
     })
   }
 
-  const handleSlettDel = (del: HjelpemiddelDel) => {
+  const handleSlettDel = (del: Del) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
         deler: prev.deler.filter((handlekurvDel) => {
-          return handlekurvDel.hmsnr !== del.hmsnr
+          return handlekurvDel.del.hmsnr !== del.hmsnr
         }),
       }
     })
@@ -238,7 +238,7 @@ const Utsjekk = () => {
                 ...handlekurv.hjelpemiddel,
                 // Filtrer bort deler som allerede er lagt til
                 deler: handlekurv.hjelpemiddel.deler?.filter(
-                  (del) => !handlekurv.deler.find((handlekurvDel) => handlekurvDel.hmsnr === del.hmsnr)
+                  (del) => !handlekurv.deler.find((handlekurvDel) => handlekurvDel.del.hmsnr === del.hmsnr)
                 ),
               }}
               onLeggTil={(del) => leggTilDel(del)}
@@ -250,20 +250,20 @@ const Utsjekk = () => {
                   Deler lagt til i bestillingen
                 </Heading>
                 {handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
-                {handlekurv.deler.map((del) => (
-                  <Avstand marginBottom={2} key={del.hmsnr}>
+                {handlekurv.deler.map((delLinje) => (
+                  <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
                     <Panel border>
                       <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-                        <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} />
+                        <DelInfo navn={delLinje.del.navn} hmsnr={delLinje.del.hmsnr} levArtNr={delLinje.del.levArtNr} />
                       </div>
                       <Toolbar>
-                        <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(del)}>
+                        <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
                           Slett del
                         </Button>
                         <Select
                           label="Antall"
-                          value={del.antall}
-                          onChange={(e) => setAntall(del, Number(e.target.value))}
+                          value={delLinje.antall}
+                          onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
                           style={{ width: 80 }}
                         >
                           {Array.from(Array(5), (_, x: number) => (

@@ -58,10 +58,10 @@ const TidligereBestillinger = () => {
                   Hmsnr: {bestilling.hmsnr}
                 </Heading>
                 Deler:
-                {bestilling.deler.map((del) => (
-                  <div style={{ paddingLeft: 20 }} key={del.hmsnr}>
-                    <BodyShort>Navn: {del.navn}</BodyShort>
-                    <BodyShort>Antall: {del.antall}</BodyShort>
+                {bestilling.deler.map((delLinje) => (
+                  <div style={{ paddingLeft: 20 }} key={delLinje.del.hmsnr}>
+                    <BodyShort>Navn: {delLinje.del.navn}</BodyShort>
+                    <BodyShort>Antall: {delLinje.antall}</BodyShort>
                   </div>
                 ))}
               </Panel>

@@ -1,10 +1,10 @@
 export interface Hjelpemiddel {
   navn: string
   hmsnr: string
-  deler: HjelpemiddelDel[] | undefined
+  deler: Del[] | undefined
 }
 
-export interface HjelpemiddelDel {
+export interface Del {
   navn: string
   hmsnr: string
   levArtNr: string | null
@@ -16,11 +16,12 @@ export interface Handlekurv {
   id: string
   serienr: string
   hjelpemiddel: Hjelpemiddel
-  deler: DelBestillingDel[]
+  deler: DelLinje[]
   levering: Levering | undefined
 }
 
-export interface DelBestillingDel extends HjelpemiddelDel {
+export interface DelLinje {
+  del: Del
   antall: number
 }
 
@@ -28,7 +29,7 @@ export interface Delbestilling {
   id: string
   hmsnr: string
   serienr: string
-  deler: DelBestillingDel[]
+  deler: DelLinje[]
   levering: Levering
 }
 

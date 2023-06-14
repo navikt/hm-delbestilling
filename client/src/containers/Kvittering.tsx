@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Content from '../styledcomponents/Content'
 import { Alert, Button, Heading } from '@navikt/ds-react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { DelBestillingDel, Handlekurv, Levering } from '../types/Types'
+import { DelLinje, Handlekurv } from '../types/Types'
 import { Avstand } from '../components/Avstand'
 import { LOCALSTORAGE_HANDLEKURV_KEY } from './Index'
 
@@ -28,7 +28,7 @@ const Kvittering = () => {
 
   const handlekurv = state?.handlekurv
 
-  const hentAntallDeler = (deler: DelBestillingDel[]): number => {
+  const hentAntallDeler = (deler: DelLinje[]): number => {
     return deler.reduce((acc, curr) => {
       return acc + curr.antall
     }, 0)
