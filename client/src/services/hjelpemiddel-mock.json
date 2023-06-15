@@ -8,70 +8,104 @@
         "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
         "levArtNr": "1000038",
         "img": null,
-        "kategori": "Dekk"
+        "kategori": "Dekk",
+        "maksAntall": 2
       },
       {
         "hmsnr": "150921",
         "navn": "Slange 26\"",
         "levArtNr": null,
         "img": null,
-        "kategori": "Slange"
+        "kategori": "Slange",
+        "maksAntall": 2
       },
       {
         "hmsnr": "150928",
         "navn": "Svinghjul kompakt 5\"/120mm",
         "levArtNr": null,
         "img": null,
-        "kategori": "Svinghjul"
+        "kategori": "Svinghjul",
+        "maksAntall": 2
       },
       {
         "hmsnr": "178498",
         "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 26\"x1",
         "levArtNr": "1000039",
         "img": null,
-        "kategori": "Dekk"
+        "kategori": "Dekk",
+        "maksAntall": 2
       },
       {
         "hmsnr": "184589",
         "navn": "Svinghjul X smal bane 86 mm",
         "levArtNr": "2000061",
         "img": null,
-        "kategori": "Svinghjul"
+        "kategori": "Svinghjul",
+        "maksAntall": 2
+      },
+      {
+        "hmsnr": "234334",
+        "navn": "Svinghjul S3 Hjul120 mrs Panthera S3/U3 Light",
+        "levArtNr": null,
+        "img": null,
+        "kategori": "Svinghjul",
+        "maksAntall": 2
       },
       {
         "hmsnr": "196602",
         "navn": "Dekk Schwalbe One 24\"x1",
         "levArtNr": "1000053",
         "img": null,
-        "kategori": "Dekk"
+        "kategori": "Dekk",
+        "maksAntall": 2
       },
       {
         "hmsnr": "202326",
         "navn": "Dekk Schwalbe RightRun 26\"x1",
         "levArtNr": "1000056",
         "img": null,
-        "kategori": "Dekk"
+        "kategori": "Dekk",
+        "maksAntall": 2
       },
       {
         "hmsnr": "211449",
         "navn": "Slange 24x1 bilventil",
         "levArtNr": "1000005",
         "img": null,
-        "kategori": "Slange"
+        "kategori": "Slange",
+        "maksAntall": 2
+      },
+      {
+        "hmsnr": "175062",
+        "navn": "Slange 25\"x1 Innova ventil rett",
+        "levArtNr": null,
+        "img": null,
+        "kategori": "Slange",
+        "maksAntall": 2
       },
       {
         "hmsnr": "232810",
         "navn": "Svinghjul 90 mm",
         "levArtNr": "2002010",
         "img": null,
-        "kategori": "Svinghjul"
+        "kategori": "Svinghjul",
+        "maksAntall": 2
       },
       {
         "hmsnr": "232811",
         "navn": "Svinghjul diam12 m/distanser/bolt/skive/mutter",
         "levArtNr": null,
         "img": null,
-        "kategori": "Svinghjul"
+        "kategori": "Svinghjul",
+        "maksAntall": 2
+      },
+      {
+        "hmsnr": "278033",
+        "navn": "Dekk RightRun Lite mrs Panthera U3 Light 25\" Schwalbe RightRun 25x1",
+        "levArtNr": null,
+        "img": null,
+        "kategori": "Svinghjul",
+        "maksAntall": 2
       }
     ]
   },

@@ -273,7 +273,7 @@ const Utsjekk = () => {
                           onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
                           style={{ width: 80 }}
                         >
-                          {Array.from(Array(5), (_, x: number) => (
+                          {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
                             <option key={x + 1} value={x + 1}>
                               {x + 1}
                             </option>

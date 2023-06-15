@@ -10,6 +10,7 @@ export interface Del {
   levArtNr: string | null
   img: string | null
   kategori: string
+  maksAntall: number
 }
 
 export interface Handlekurv {
