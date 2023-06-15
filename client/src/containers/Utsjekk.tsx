@@ -127,6 +127,8 @@ const Utsjekk = () => {
         return 'Vi klarte ikke å finne noen bruker knyttet til dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.'
       case DelbestillingFeil.BESTILLE_TIL_SEG_SELV:
         return 'Du har ikke lov til å bestille deler til produkter du selv har utlån på'
+      case DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER:
+        return 'Du kan kun sende inn 2 bestillinger per artikkelnr+serienr per døgn'
       default:
         return 'Ukjent feil'
     }

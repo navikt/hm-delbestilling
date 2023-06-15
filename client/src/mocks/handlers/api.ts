@@ -68,6 +68,14 @@ const apiHandlers = [
       return res(ctx.delay(450), ctx.status(404), ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE }))
     }
 
+    if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '666666') {
+      return res(
+        ctx.delay(450),
+        ctx.status(403),
+        ctx.json({ id, feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER })
+      )
+    }
+
     // return res(ctx.delay(450), ctx.status(400))
     // return res(ctx.delay(450), ctx.status(401))
     // return res(ctx.delay(450), ctx.status(500))
