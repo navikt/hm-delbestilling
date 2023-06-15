@@ -18,7 +18,7 @@ const SubtleBodyShort = styled(BodyShort)`
 const ImgWrap = styled.div`
   width: 100%;
   height: 200px;
-  background: #439e3e;
+  background: #ececec;
   display: flex;
   justify-content: center;
   align-items: center;
