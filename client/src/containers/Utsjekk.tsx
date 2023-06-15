@@ -261,7 +261,12 @@ const Utsjekk = () => {
                   <Avstand marginBottom={4} key={delLinje.del.hmsnr}>
                     <Panel border>
                       <FlexedStack>
-                        <DelInfo navn={delLinje.del.navn} hmsnr={delLinje.del.hmsnr} levArtNr={delLinje.del.levArtNr} />
+                        <DelInfo
+                          navn={delLinje.del.navn}
+                          hmsnr={delLinje.del.hmsnr}
+                          levArtNr={delLinje.del.levArtNr}
+                          img={delLinje.del.img}
+                        />
                       </FlexedStack>
                       <Toolbar>
                         <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
