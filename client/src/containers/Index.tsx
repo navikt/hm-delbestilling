@@ -26,7 +26,7 @@ const Index = () => {
       id: uuidv4(),
       serienr,
       hjelpemiddel,
-      deler: [{ del, antall: 1 }],
+      deler: [{ del, antall: del.kategori === 'Batteri' ? 2 : 1 }], // Batteri kommer "alltid" i par, så like greit å defaulte til 2
       levering: undefined,
     }
 
