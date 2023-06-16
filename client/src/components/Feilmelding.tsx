@@ -14,7 +14,7 @@ interface Props {
 
 const Feilmelding = ({ feilmelding }: Props) => {
   return (
-    <Alert variant={feilmelding.variant || 'error'}>
+    <Alert variant={feilmelding.variant || 'error'} data-cy="feilmelding">
       <>
         {feilmelding.feilmelding}
         {feilmelding.tekniskFeilmelding && (

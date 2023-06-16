@@ -107,16 +107,18 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
           label="Art.nr (6 siffer)"
           value={hmsnr}
           onChange={(e) => erGyldig(e.target.value) && setHmsnr(e.target.value)}
+          data-cy="input-artnr"
         />
         <StyledTextField
           label="Serienr (6 siffer)"
           value={serienr}
           onChange={(e) => erGyldig(e.target.value) && setSerienr(e.target.value)}
+          data-cy="input-serienr"
         />
-        <Button loading={gjørOppslag} onClick={handleSubmit}>
+        <Button loading={gjørOppslag} onClick={handleSubmit} data-cy="button-oppslag-submit">
           Vis deler
         </Button>
-        <Button type="button" onClick={reset} variant="tertiary">
+        <Button type="button" onClick={reset} variant="tertiary" data-cy="button-oppslag-reset">
           Start på nytt
         </Button>
       </StyledForm>
