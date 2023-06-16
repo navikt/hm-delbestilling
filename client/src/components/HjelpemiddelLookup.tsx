@@ -51,7 +51,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
       case OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL:
         return 'Du kan ikke bestille del til dette hjelpemidlet da det ikke er registrert hos oss. Ta kontakt med din hjelpemiddelsentral for hjelp.'
       default:
-        return 'Ukjent feil'
+        return oppslagfeil
     }
   }
 
