@@ -17,23 +17,23 @@ jobs:
           IMAGE=ghcr.io/$GITHUB_REPOSITORY:$VERSION_TAG
           echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
           echo $IMAGE
-      # - name: Deploy to prod-gcp
-      #   uses: nais/deploy/actions/deploy@v1
-      #   env:
-      #     APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-      #     CLUSTER: prod-gcp
-      #     RESOURCE: .hotnais/prod.yaml
-      #     VAR: commit=${{ github.sha }}
-      # - name: Post-production
-      #   uses: navikt/digihot-deploy/actions/post-production@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Deploy to dev-ekstern-prod-mirror
-      #   uses: nais/deploy/actions/deploy@v1
-      #   env:
-      #     APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-      #     CLUSTER: dev-gcp
-      #     RESOURCE: .hotnais/dev-ekstern-prod-mirror.yaml
-      #     PRINT_PAYLOAD: true
-      #     VAR: commit=${{ github.sha }}
+      - name: Deploy to prod-gcp
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
+          RESOURCE: .hotnais/prod.yaml
+          VAR: commit=${{ github.sha }}
+      - name: Post-production
+        uses: navikt/digihot-deploy/actions/post-production@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to dev-ekstern-prod-mirror
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .hotnais/dev-ekstern-prod-mirror.yaml
+          PRINT_PAYLOAD: true
+          VAR: commit=${{ github.sha }}
 

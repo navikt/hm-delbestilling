@@ -72,35 +72,14 @@ jobs:
         uses: navikt/digihot-deploy/actions/post-deploy@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Create release
-      #   if: github.ref == 'refs/heads/main'
-      #   uses: actions/create-release@latest
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ env.VERSION_TAG }}
-      #     release_name: ${{ env.APPLICATION }} ${{ env.VERSION_TAG }}
-      #     body: ${{ env.CHANGE_LOG }}
-      #     draft: true
-      #     prerelease: false
-
-  # sentry-release:
-  #   name: Lag sentry release
-  #   if: github.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   needs: cypress-test
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-  #     - name: yarn install & build client
-  #       run: |
-  #         yarn install:client
-  #         yarn build:client
-  #     - name: Lag sentry release
-  #       env:
-  #         SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-  #       run: |
-  #         npx -p @sentry/cli sentry-cli releases new "${{ github.sha }}"
-  #         npx -p @sentry/cli sentry-cli releases files "${{ github.sha }}" upload-sourcemaps client/dist/assets \
-  #             --url-prefix '~/hjelpemidler/delbestilling/assets'
-  #         npx -p @sentry/cli sentry-cli releases finalize "${{ github.sha }}"
+      - name: Create release
+        if: github.ref == 'refs/heads/main'
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.VERSION_TAG }}
+          release_name: ${{ env.APPLICATION }} ${{ env.VERSION_TAG }}
+          body: ${{ env.CHANGE_LOG }}
+          draft: true
+          prerelease: false

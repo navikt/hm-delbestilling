@@ -26,7 +26,6 @@ function options(targetAudience: string): ProxyOptions {
 
 const envProperties = {
   API_URL: process.env.API_URL || 'http://localhost:9090',
-  HJELPEMIDDELDATABASEN_URL: process.env.HJELPEMIDDELDATABASEN_URL || 'https://hm-grunndata-api.dev.intern.nav.no',
   ROLLER_URL: process.env.ROLLER_URL || 'http://localhost:8091',
 }
 
@@ -46,13 +45,6 @@ function setup() {
 
 const handlers = {
   api: (): RequestHandler => proxy(envProperties.API_URL, options(config.app.targetAudienceAPI)),
-  hjelpemiddeldatabasen: (): RequestHandler =>
-    proxy(envProperties.HJELPEMIDDELDATABASEN_URL, {
-      parseReqBody: false,
-      proxyReqPathResolver(req) {
-        return pathRewriteBasedOnEnvironment(req)
-      },
-    }),
   roller: (): RequestHandler => proxy(envProperties.ROLLER_URL, options(config.app.targetAudienceRoller)),
 }
 
