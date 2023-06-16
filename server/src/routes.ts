@@ -37,11 +37,6 @@ export const routes = {
     router.use(reverseProxy.handlers.roller())
     return router
   },
-  hjelpemiddeldatabasen(): Router {
-    const router = Router()
-    router.use(reverseProxy.handlers.hjelpemiddeldatabasen())
-    return router
-  },
   public(server: Express): Router {
     const router = Router()
     router.get('/settings.js', settingsHandler)
