@@ -118,7 +118,7 @@ const Utsjekk = () => {
   const hentInnsendingFeil = (innsendingFeil: DelbestillingFeil): string => {
     switch (innsendingFeil) {
       case DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING:
-        return 'Du kan ikke bestille deler til bruker som ikke tilhører den kommunen du jobber i'
+        return 'Du kan ikke bestille deler til bruker som ikke tilhører den kommunen du jobber i.'
       case DelbestillingFeil.INGET_UTLÅN:
         return 'Det finnes ikke noe utlån for denne brukeren på dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.'
       case DelbestillingFeil.KAN_IKKE_BESTILLE:
@@ -126,9 +126,9 @@ const Utsjekk = () => {
       case DelbestillingFeil.BRUKER_IKKE_FUNNET:
         return 'Vi klarte ikke å finne noen bruker knyttet til dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.'
       case DelbestillingFeil.BESTILLE_TIL_SEG_SELV:
-        return 'Du har ikke lov til å bestille deler til produkter du selv har utlån på'
+        return 'Du har ikke lov til å bestille deler til produkter du selv har utlån på.'
       case DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER:
-        return 'Du kan kun sende inn 2 bestillinger per artikkelnr+serienr per døgn'
+        return 'Du kan kun sende inn 2 bestillinger per artikkelnr+serienr per døgn.'
       default:
         return innsendingFeil
     }
@@ -138,11 +138,11 @@ const Utsjekk = () => {
     const feil: Valideringsfeil[] = []
 
     if (handlekurv.deler.length === 0) {
-      feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn bestilling med ingen deler' })
+      feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn bestilling med ingen deler.' })
     }
 
     if (!handlekurv.levering) {
-      feil.push({ id: 'levering', type: 'mangler levering', melding: 'Du må velge levering' })
+      feil.push({ id: 'levering', type: 'mangler levering', melding: 'Du må velge levering.' })
     }
 
     setValideringsFeil(feil)
