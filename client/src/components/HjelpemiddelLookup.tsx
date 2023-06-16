@@ -59,6 +59,14 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    if (hmsnr.length !== 6 || serienr.length !== 6) {
+      setFeilmelding({
+        feilmelding: 'Både art.nr og serienr må inneholde 6 siffer.',
+        variant: 'warning',
+      })
+      return
+    }
+
     try {
       setGjørOppslag(true)
       logOppslagGjort(hmsnr)
