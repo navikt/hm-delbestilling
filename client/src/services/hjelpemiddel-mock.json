@@ -106,6 +106,14 @@
         "img": null,
         "kategori": "Svinghjul",
         "maksAntall": 2
+      },
+      {
+        "hmsnr": "196027",
+        "navn": "Batteri MK 97Ah",
+        "levArtNr": "602293-99-0",
+        "img": null,
+        "kategori": "Batteri",
+        "maksAntall": 2
       }
     ]
   },
