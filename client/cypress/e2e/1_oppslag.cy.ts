@@ -19,6 +19,23 @@ describe('test av oppslag', () => {
     cy.get('[data-cy="button-oppslag-reset"]').click()
   })
 
+  it('skal vise riktig feilmelding hvis kall mot backend feiler', () => {
+    cy.window().then((window) => {
+      const { worker, rest } = window.msw
+      worker.use(
+        rest.post('/hjelpemidler/delbestilling/api/oppslag', (req, res, ctx) => {
+          return res.once(ctx.status(500))
+        })
+      )
+    })
+
+    cy.get('[data-cy="input-artnr"]').type('123123')
+    cy.get('[data-cy="input-serienr"]').type('123123')
+    cy.get('[data-cy="button-oppslag-submit"]').click()
+
+    cy.get('[data-cy="feilmelding').should('contain', 'Noe gikk feil med oppslag, prøv igjen senere')
+  })
+
   it('skal vise riktig feilmelding hvis det ikker noe utlån', () => {
     cy.get('[data-cy="input-artnr"]').type('333333')
     cy.get('[data-cy="input-serienr"]').type('123123')
