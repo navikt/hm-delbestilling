@@ -1,5 +1,5 @@
 import React, { SetStateAction, useState } from 'react'
-import { Alert, Button, Heading, Panel, TextField } from '@navikt/ds-react'
+import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
 import { Hjelpemiddel } from '../types/Types'
 import styled from 'styled-components'
 import rest from '../services/rest'
@@ -42,7 +42,6 @@ interface Props {
 }
 const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
   const [gjørOppslag, setGjørOppslag] = useState(false)
-  const [feil, setFeil] = useState<OppslagFeil | undefined>(undefined)
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
 
   const hentOppslagFeil = (oppslagfeil: OppslagFeil): string => {
@@ -95,7 +94,6 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
   const reset = () => {
     setHmsnr('')
     setSerienr('')
-    setFeil(undefined)
   }
 
   return (
@@ -122,20 +120,6 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
           Start på nytt
         </Button>
       </StyledForm>
-
-      {feil && (
-        <Avstand marginTop={6}>
-          {feil === OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL && (
-            <Alert variant="warning">
-              Du kan ikke bestille del til dette hjelpemidlet da det ikke er registrert hos oss. Ta kontakt med din
-              hjelpemiddelsentral for hjelp.
-            </Alert>
-          )}
-          {feil === OppslagFeil.INGET_UTLÅN && (
-            <Alert variant="warning">Vi finner dessverre ikke et utlån på dette art.nr og serienr.</Alert>
-          )}
-        </Avstand>
-      )}
 
       {feilmelding && (
         <Avstand marginTop={4}>
