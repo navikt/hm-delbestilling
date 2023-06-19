@@ -7,7 +7,7 @@
         "hmsnr": "150817",
         "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
         "levArtNr": "1000038",
-        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/256636.jpg",
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
         "kategori": "Dekk",
         "maksAntall": 2
       },
@@ -31,7 +31,7 @@
         "hmsnr": "178498",
         "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 26\"x1",
         "levArtNr": "1000039",
-        "img": null,
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/178498.jpg",
         "kategori": "Dekk",
         "maksAntall": 2
       },
@@ -39,7 +39,7 @@
         "hmsnr": "184589",
         "navn": "Svinghjul X smal bane 86 mm",
         "levArtNr": "2000061",
-        "img": null,
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/184589.jpg",
         "kategori": "Svinghjul",
         "maksAntall": 2
       },
@@ -55,7 +55,7 @@
         "hmsnr": "196602",
         "navn": "Dekk Schwalbe One 24\"x1",
         "levArtNr": "1000053",
-        "img": null,
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196602.jpg",
         "kategori": "Dekk",
         "maksAntall": 2
       },
@@ -63,7 +63,7 @@
         "hmsnr": "202326",
         "navn": "Dekk Schwalbe RightRun 26\"x1",
         "levArtNr": "1000056",
-        "img": null,
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/202326.png",
         "kategori": "Dekk",
         "maksAntall": 2
       },
@@ -71,7 +71,7 @@
         "hmsnr": "211449",
         "navn": "Slange 24x1 bilventil",
         "levArtNr": "1000005",
-        "img": null,
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg",
         "kategori": "Slange",
         "maksAntall": 2
       },
@@ -87,7 +87,7 @@
         "hmsnr": "232810",
         "navn": "Svinghjul 90 mm",
         "levArtNr": "2002010",
-        "img": null,
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg",
         "kategori": "Svinghjul",
         "maksAntall": 2
       },
@@ -103,7 +103,7 @@
         "hmsnr": "278033",
         "navn": "Dekk RightRun Lite mrs Panthera U3 Light 25\" Schwalbe RightRun 25x1",
         "levArtNr": null,
-        "img": null,
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
         "kategori": "Svinghjul",
         "maksAntall": 2
       },
@@ -111,11 +111,10 @@
         "hmsnr": "196027",
         "navn": "Batteri MK 97Ah",
         "levArtNr": "602293-99-0",
-        "img": null,
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
         "kategori": "Batteri",
         "maksAntall": 2
       }
     ]
-  },
-  "feil": null
+  }
 }
