@@ -14,3 +14,21 @@ Frontend-applikasjon for bestilling av deler fra teknikere
 | 222222 | 444444  | Returnerer hjelpemiddel       | Ulik geografisk tilknytning                            |
 | 222222 | 555555  | Returnerer hjelpemiddel       | Kan ikke bestille                                      |
 | 222222 | 666666  | Returnerer hjelpemiddel       | Kan ikke bestille pga for mange bestillinger siste 24t |
+
+
+
+```mermaid
+---
+title: Flyt for delbestilling
+---
+
+sequenceDiagram;
+    hm-delbestilling->>hm-delbestilling-api: Send delbestilling;
+    hm-delbestilling-api-->>hm-delbestilling-api: Lagre delbestilling til DB;
+    hm-delbestilling-api-->>hm-oebs-sink: 'hm-OpprettDelbestilling' event;
+    hm-oebs-sink-->>hm-oebs-api-proxy: opprettOrdre;
+    hm-oebs-api-proxy-->>OeBS: opprettOrdre;
+
+    OeBS-->>hm-oebs-listener: POST /ordrekvittering;
+    OeBS-->>hm-oebs-listener: POST /push (skipninsbekreftelse)
+```
