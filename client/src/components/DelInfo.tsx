@@ -44,7 +44,6 @@ const PlaceholderIcon = styled(ImageIcon)`
 `
 
 const Beskrivelser = styled.div`
-  border: 1px solid red;
   @media (min-width: ${size.large}) {
     width: 360px; // Hacky hack, burde heller løses med flex
   }
