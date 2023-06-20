@@ -12,7 +12,12 @@ import styled from 'styled-components'
 import rest from '../services/rest'
 import { useRolleContext } from '../context/rolle'
 import Errors from '../components/Errors'
-import { logBestillingSlettet, logInnsendingFeil, logSkjemavalideringFeilet } from '../utils/amplitude'
+import {
+  logBestillingSlettet,
+  logInnsendingFeil,
+  logInnsendingGjort,
+  logSkjemavalideringFeilet,
+} from '../utils/amplitude'
 import Rolleswitcher from '../components/Rolleswitcher'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import DelInfo from '../components/DelInfo'
@@ -169,6 +174,8 @@ const Utsjekk = () => {
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
       }
+
+      logInnsendingGjort(handlekurv.id)
 
       const response = await rest.sendInnBestilling(delbestilling)
       if (response.feil) {
