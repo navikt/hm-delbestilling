@@ -258,7 +258,7 @@ const Utsjekk = () => {
                 <Heading level="2" size="medium" spacing id="deler">
                   Deler lagt til i bestillingen
                 </Heading>
-                {handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
+                {handlekurv.deler.length === 0 && <BodyShort>Du har ikke lagt til noen deler.</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
                   <Avstand marginBottom={4} key={delLinje.del.hmsnr}>
                     <Panel border>

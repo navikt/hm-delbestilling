@@ -45,7 +45,7 @@ const PlaceholderIcon = styled(ImageIcon)`
 
 const Beskrivelser = styled.div`
   @media (min-width: ${size.large}) {
-    width: 360px; // Hacky hack, burde heller løses med flex
+    width: 340px; // Hacky hack, burde heller løses med flex
   }
 `
 
