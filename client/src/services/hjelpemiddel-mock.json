@@ -1,6 +1,6 @@
 {
   "hjelpemiddel": {
-    "navn": "Mrs bak akt Panthera U3 Light sb33 sd35-46 sh47 rh30 rygg vreg",
+    "navn": "Panthera U3 Light",
     "hmsnr": "236958",
     "deler": [
       {
@@ -93,7 +93,7 @@
       },
       {
         "hmsnr": "232811",
-        "navn": "Svinghjul diam12 m/distanser/bolt/skive/mutter",
+        "navn": "Svinghjul 120 mm",
         "levArtNr": null,
         "img": null,
         "kategori": "Svinghjul",
@@ -101,18 +101,10 @@
       },
       {
         "hmsnr": "278033",
-        "navn": "Dekk RightRun Lite mrs Panthera U3 Light 25\" Schwalbe RightRun 25x1",
+        "navn": "Dekk Schwalbe RightRun 25\"x1",
         "levArtNr": null,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
         "kategori": "Dekk",
-        "maksAntall": 2
-      },
-      {
-        "hmsnr": "196027",
-        "navn": "Batteri MK 97Ah",
-        "levArtNr": "602293-99-0",
-        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
-        "kategori": "Batteri",
         "maksAntall": 2
       }
     ]
