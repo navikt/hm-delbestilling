@@ -180,6 +180,7 @@ const Utsjekk = () => {
         navigate('/kvittering', { state: { handlekurv } })
       }
     } catch (err: any) {
+      logInnsendingFeil('FEIL_FRA_BACKEND')
       if (err.isUnauthorized()) {
         setFeilmelding({
           feilmelding: (
