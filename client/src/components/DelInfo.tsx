@@ -17,24 +17,30 @@ const SubtleBodyShort = styled(BodyShort)`
 
 const ImgWrap = styled.div`
   width: 100%;
-  height: 200px;
+  height: 150px;
   background: #ececec;
   display: flex;
   justify-content: center;
   align-items: center;
 
   @media (min-width: ${size.large}) {
-    width: 200px;
+    width: 150px;
   }
 
   img {
     width: 100%;
-    height: 200px;
+    height: 150px;
     @media (min-width: ${size.large}) {
-      width: 200px;
+      width: 150px;
     }
     object-fit: cover;
   }
+`
+
+const PlaceholderIcon = styled(ImageIcon)`
+  width: 75px;
+  height: 75px;
+  color: var(--a-gray-500);
 `
 
 const Beskrivelser = styled.div`
@@ -46,7 +52,7 @@ const Beskrivelser = styled.div`
 const DelInfo = ({ navn, hmsnr, levArtNr, img }: Props) => {
   return (
     <>
-      <ImgWrap>{img ? <img src={img} alt={navn} /> : <ImageIcon style={{ width: 100, height: 100 }} />}</ImgWrap>
+      <ImgWrap>{img ? <img src={img} alt={navn} /> : <PlaceholderIcon />}</ImgWrap>
 
       <Beskrivelser>
         <Heading size="small" level="4" spacing>
