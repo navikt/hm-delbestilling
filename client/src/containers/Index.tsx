@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BodyShort, Button, Heading, Panel } from '@navikt/ds-react'
+import { BodyShort, Button, GuidePanel, Heading, Link, Panel } from '@navikt/ds-react'
 import { PencilIcon } from '@navikt/aksel-icons'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
-import TidligereBestillinger from '../components/TidligereBestillinger'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -61,8 +60,15 @@ const Index = () => {
               setSerienr={setSerienr}
               setHjelpemiddel={setHjelpemiddel}
             />
-            <Avstand marginBottom={8} />
-            {/* <TidligereBestillinger /> */}
+
+            <Avstand marginTop={16}>
+              <GuidePanel>
+                Denne tjenesten er kun for teknikere i kommunen. Som tekniker kan du bestille fra et begrenset utvalg av
+                deler til Panthera, Minicrosser, X-850, Netti, Azalea, Cross. Tjenesten er under utvikling av DigiHoT -
+                Digitalisering av hjelpemidler og tilrettelegging. Spørsmål og tilbakemeldinger kan du sende på e-post
+                til <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>
+              </GuidePanel>
+            </Avstand>
           </>
         )}
         {hjelpemiddel && (
