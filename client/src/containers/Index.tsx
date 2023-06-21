@@ -64,8 +64,8 @@ const Index = () => {
             <Avstand marginTop={16}>
               <GuidePanel>
                 Denne tjenesten er kun for teknikere i kommunen. Som tekniker kan du bestille fra et begrenset utvalg av
-                deler til Panthera, Minicrosser, X850, Netti, Azalea og Orion. Tjenesten er under utvikling av DigiHoT -
-                Digitalisering av hjelpemidler og tilrettelegging. Spørsmål og tilbakemeldinger kan du sende på e-post
+                deler til Panthera, Minicrosser, X850, Azalea, Comet, og Orion. Tjenesten er under utvikling av DigiHoT
+                - Digitalisering av hjelpemidler og tilrettelegging. Spørsmål og tilbakemeldinger kan du sende på e-post
                 til <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>
               </GuidePanel>
             </Avstand>
