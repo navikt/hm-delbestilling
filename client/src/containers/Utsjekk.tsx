@@ -134,6 +134,8 @@ const Utsjekk = () => {
         return 'Du har ikke lov til å bestille deler til produkter du selv har utlån på.'
       case DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER:
         return 'Du kan kun sende inn 2 bestillinger per artikkelnr+serienr per døgn.'
+      case DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS:
+        return 'Du kan ikke bestille til denne brukeren, det er ulik adresse i folkeregisteret og OEBS.'
       default:
         return innsendingFeil
     }
