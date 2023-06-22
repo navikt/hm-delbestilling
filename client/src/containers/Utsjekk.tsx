@@ -61,10 +61,10 @@ const Utsjekk = () => {
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
-    if (!delbestillerrolle.harXKLager) {
+    if (delbestillerrolle.harXKLager === false) {
       setLevering(Levering.TIL_SERVICE_OPPDRAG)
     }
-  }, [])
+  }, [delbestillerrolle])
 
   useEffect(() => {
     // Re-valider når felter oppdateres etter innsending har blitt forsøkt
