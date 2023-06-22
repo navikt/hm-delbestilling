@@ -21,6 +21,8 @@ const Kvittering = () => {
     window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
     // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
     window.history.replaceState({}, document.title)
+
+    window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
   }, [])
 
   const handleNyBestillingClick = () => {
