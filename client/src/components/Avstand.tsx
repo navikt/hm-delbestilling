@@ -15,6 +15,7 @@ export interface AvstandProps {
   paddingBottom?: number
   paddingLeft?: number
   centered?: boolean
+  style?: React.CSSProperties
 }
 
 export function Avstand(props: AvstandProps) {

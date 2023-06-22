@@ -98,7 +98,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
   }
 
   return (
-    <Panel>
+    <Panel border>
       <Heading size="xsmall" level="3" spacing>
         Oppgi hjelpemiddelet som trenger del
       </Heading>

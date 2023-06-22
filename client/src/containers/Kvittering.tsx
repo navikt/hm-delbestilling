@@ -61,7 +61,7 @@ const Kvittering = () => {
         </Heading>
         <Alert variant="success">
           Vi har mottatt bestilling av {hentAntallDeler(handlekurv.deler) === 1 ? 'del' : 'deler'} til{' '}
-          {handlekurv.hjelpemiddel.navn} med art.nr: {handlekurv.hjelpemiddel.hmsnr} og serienr: {handlekurv.serienr}.
+          {handlekurv.hjelpemiddel.navn} med art.nr. {handlekurv.hjelpemiddel.hmsnr} og serienr. {handlekurv.serienr}.
         </Alert>
         <Avstand marginTop={10} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>

@@ -73,7 +73,7 @@ const Index = () => {
         )}
         {hjelpemiddel && (
           <>
-            <Panel>
+            <Panel border>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <Heading size="xsmall" level="4" spacing>
                   Bestill del til {hjelpemiddel.navn}
@@ -89,7 +89,10 @@ const Index = () => {
                 </Button>
               </div>
               <BodyShort>
-                <strong>Art.nr:</strong> {hmsnr} | <strong>Serienr:</strong> {serienr}
+                <strong>Art.nr.</strong> {hmsnr}
+                <Avstand paddingLeft={5} style={{ display: 'inline' }}>
+                  <strong>Serienr.</strong> {serienr}
+                </Avstand>
               </BodyShort>
             </Panel>
             <Avstand marginBottom={8} />

@@ -247,7 +247,10 @@ const Utsjekk = () => {
               Bestill deler til {handlekurv.hjelpemiddel.navn}
             </Heading>
             <BodyShort>
-              <strong>Art.nr:</strong> {handlekurv.hjelpemiddel.hmsnr} | <strong>Serienr:</strong> {handlekurv.serienr}
+              <strong>Art.nr.</strong> {handlekurv.hjelpemiddel.hmsnr}
+              <Avstand paddingLeft={5} style={{ display: 'inline' }}>
+                <strong>Serienr.</strong> {handlekurv.serienr}
+              </Avstand>
             </BodyShort>
           </Panel>
           <Avstand marginBottom={12} />

@@ -3,6 +3,7 @@ import { BodyShort, Heading } from '@navikt/ds-react'
 import styled from 'styled-components'
 import { ImageIcon } from '@navikt/aksel-icons'
 import { size } from '../styledcomponents/rules'
+import { Avstand } from './Avstand'
 
 interface Props {
   navn: string
@@ -59,7 +60,12 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img }: Props) => {
           {navn}
         </Heading>
         <SubtleBodyShort>
-          HMS-nr: {hmsnr} {levArtNr && <>| Lev.art.nr: {levArtNr}</>}
+          HMS-nr. {hmsnr}{' '}
+          {levArtNr && (
+            <Avstand paddingLeft={5} style={{ display: 'inline' }}>
+              Lev.art.nr. {levArtNr}
+            </Avstand>
+          )}
         </SubtleBodyShort>
       </Beskrivelser>
     </>
