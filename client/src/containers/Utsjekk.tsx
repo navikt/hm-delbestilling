@@ -236,7 +236,7 @@ const Utsjekk = () => {
       <Content>
         <>
           {visFlereDeler && (
-            <Avstand marginBottom={2}>
+            <Avstand marginBottom={6}>
               <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => setVisFlereDeler(false)}>
                 Tilbake til bestillingen
               </Button>
