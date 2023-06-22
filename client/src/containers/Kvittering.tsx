@@ -24,7 +24,7 @@ const Kvittering = () => {
 
     setTimeout(() => {
       window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
-    }, 1)
+    }, 200)
   }, [])
 
   const handleNyBestillingClick = () => {
