@@ -21,6 +21,10 @@ const Kvittering = () => {
     window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
     // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
     window.history.replaceState({}, document.title)
+
+    setTimeout(() => {
+      window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
+    }, 200)
   }, [])
 
   const handleNyBestillingClick = () => {
@@ -56,8 +60,8 @@ const Kvittering = () => {
           Kvittering
         </Heading>
         <Alert variant="success">
-          Vi har mottatt bestilling til av {hentAntallDeler(handlekurv.deler) === 1 ? 'del' : 'deler'} til{' '}
-          {handlekurv.hjelpemiddel.navn} med art.nr: {handlekurv.hjelpemiddel.hmsnr} og serienr: {handlekurv.serienr}.
+          Vi har mottatt bestilling av {hentAntallDeler(handlekurv.deler) === 1 ? 'del' : 'deler'} til{' '}
+          {handlekurv.hjelpemiddel.navn} med art.nr. {handlekurv.hjelpemiddel.hmsnr} og serienr. {handlekurv.serienr}.
         </Alert>
         <Avstand marginTop={10} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>

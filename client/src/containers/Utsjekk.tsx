@@ -12,7 +12,12 @@ import styled from 'styled-components'
 import rest from '../services/rest'
 import { useRolleContext } from '../context/rolle'
 import Errors from '../components/Errors'
-import { logBestillingSlettet, logInnsendingFeil, logSkjemavalideringFeilet } from '../utils/amplitude'
+import {
+  logBestillingSlettet,
+  logInnsendingFeil,
+  logInnsendingGjort,
+  logSkjemavalideringFeilet,
+} from '../utils/amplitude'
 import Rolleswitcher from '../components/Rolleswitcher'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import DelInfo from '../components/DelInfo'
@@ -56,10 +61,10 @@ const Utsjekk = () => {
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
-    if (!delbestillerrolle.harXKLager) {
+    if (delbestillerrolle.harXKLager === false) {
       setLevering(Levering.TIL_SERVICE_OPPDRAG)
     }
-  }, [])
+  }, [delbestillerrolle])
 
   useEffect(() => {
     // Re-valider når felter oppdateres etter innsending har blitt forsøkt
@@ -129,6 +134,8 @@ const Utsjekk = () => {
         return 'Du har ikke lov til å bestille deler til produkter du selv har utlån på.'
       case DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER:
         return 'Du kan kun sende inn 2 bestillinger per artikkelnr+serienr per døgn.'
+      case DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS:
+        return 'Du kan ikke bestille til denne brukeren, det er ulik adresse i folkeregisteret og OEBS.'
       default:
         return innsendingFeil
     }
@@ -170,6 +177,8 @@ const Utsjekk = () => {
         levering: handlekurv.levering!,
       }
 
+      logInnsendingGjort(handlekurv.id)
+
       const response = await rest.sendInnBestilling(delbestilling)
       if (response.feil) {
         logInnsendingFeil(response.feil)
@@ -180,6 +189,7 @@ const Utsjekk = () => {
         navigate('/kvittering', { state: { handlekurv } })
       }
     } catch (err: any) {
+      logInnsendingFeil('FEIL_FRA_BACKEND')
       if (err.isUnauthorized()) {
         setFeilmelding({
           feilmelding: (
@@ -226,7 +236,7 @@ const Utsjekk = () => {
       <Content>
         <>
           {visFlereDeler && (
-            <Avstand marginBottom={2}>
+            <Avstand marginBottom={6}>
               <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => setVisFlereDeler(false)}>
                 Tilbake til bestillingen
               </Button>
@@ -237,7 +247,10 @@ const Utsjekk = () => {
               Bestill deler til {handlekurv.hjelpemiddel.navn}
             </Heading>
             <BodyShort>
-              <strong>Art.nr:</strong> {handlekurv.hjelpemiddel.hmsnr} | <strong>Serienr:</strong> {handlekurv.serienr}
+              <strong>Art.nr.</strong> {handlekurv.hjelpemiddel.hmsnr}
+              <Avstand paddingLeft={5} style={{ display: 'inline' }}>
+                <strong>Serienr.</strong> {handlekurv.serienr}
+              </Avstand>
             </BodyShort>
           </Panel>
           <Avstand marginBottom={12} />
@@ -258,7 +271,7 @@ const Utsjekk = () => {
                 <Heading level="2" size="medium" spacing id="deler">
                   Deler lagt til i bestillingen
                 </Heading>
-                {handlekurv.deler.length === 0 && <div>Du har ikke lagt til noen deler</div>}
+                {handlekurv.deler.length === 0 && <BodyShort>Du har ikke lagt til noen deler.</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
                   <Avstand marginBottom={4} key={delLinje.del.hmsnr}>
                     <Panel border>

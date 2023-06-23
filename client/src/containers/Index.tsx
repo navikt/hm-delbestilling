@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { BodyShort, Button, Heading, Panel } from '@navikt/ds-react'
+import { BodyShort, Button, GuidePanel, Heading, Link, Panel } from '@navikt/ds-react'
 import { PencilIcon } from '@navikt/aksel-icons'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../styledcomponents/Content'
 import { Avstand } from '../components/Avstand'
-import { Del, Hjelpemiddel, Handlekurv, Levering } from '../types/Types'
+import { Del, Hjelpemiddel, Handlekurv } from '../types/Types'
 import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
-import TidligereBestillinger from '../components/TidligereBestillinger'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -61,13 +60,20 @@ const Index = () => {
               setSerienr={setSerienr}
               setHjelpemiddel={setHjelpemiddel}
             />
-            <Avstand marginBottom={8} />
-            {/* <TidligereBestillinger /> */}
+
+            <Avstand marginTop={16}>
+              <GuidePanel>
+                Denne tjenesten er kun for teknikere i kommunen. Som tekniker kan du bestille fra et begrenset utvalg av
+                deler til Panthera, Minicrosser, X850, Azalea, Comet, og Orion. Tjenesten er under utvikling av DigiHoT
+                - Digitalisering av hjelpemidler og tilrettelegging. Spørsmål og tilbakemeldinger kan du sende på e-post
+                til <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>
+              </GuidePanel>
+            </Avstand>
           </>
         )}
         {hjelpemiddel && (
           <>
-            <Panel>
+            <Panel border>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <Heading size="xsmall" level="4" spacing>
                   Bestill del til {hjelpemiddel.navn}
@@ -83,7 +89,10 @@ const Index = () => {
                 </Button>
               </div>
               <BodyShort>
-                <strong>Art.nr:</strong> {hmsnr} | <strong>Serienr:</strong> {serienr}
+                <strong>Art.nr.</strong> {hmsnr}
+                <Avstand paddingLeft={5} style={{ display: 'inline' }}>
+                  <strong>Serienr.</strong> {serienr}
+                </Avstand>
               </BodyShort>
             </Panel>
             <Avstand marginBottom={8} />

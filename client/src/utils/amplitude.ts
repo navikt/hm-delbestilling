@@ -62,7 +62,7 @@ export const logOppslagGjort = (hmsnr: string) => {
   logAmplitudeEvent(digihot_customevents.OPPSLAG_GJORT, { artnr: hmsnr })
 }
 
-export const logOppslagFeil = (oppslagFeil: OppslagFeil, hmsnr: string) => {
+export const logOppslagFeil = (oppslagFeil: string, hmsnr: string) => {
   logAmplitudeEvent(digihot_customevents.OPPSLAG_FEIL, { oppslagFeil, artnr: hmsnr })
 }
 
@@ -80,7 +80,7 @@ export const logInnsendingGjort = (id: string) => {
   logAmplitudeEvent(amplitude_taxonomy.SKJEMA_FULLFØRT, { id })
 }
 
-export const logInnsendingFeil = (feil: DelbestillingFeil) => {
+export const logInnsendingFeil = (feil: string) => {
   logAmplitudeEvent(digihot_customevents.INNSENDING_FEIL, { feil })
 }
 

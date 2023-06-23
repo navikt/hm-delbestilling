@@ -82,6 +82,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
       }
     } catch (err: any) {
       console.log(`Kunne ikke hente hjelpemiddel`, err)
+      logOppslagFeil('FEIL_FRA_BACKEND', hmsnr)
       setFeilmelding({
         feilmelding: 'Noe gikk feil med oppslag, prøv igjen senere',
         tekniskFeilmelding: err,
@@ -97,7 +98,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
   }
 
   return (
-    <Panel>
+    <Panel border>
       <Heading size="xsmall" level="3" spacing>
         Oppgi hjelpemiddelet som trenger del
       </Heading>
