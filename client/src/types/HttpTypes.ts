@@ -11,6 +11,10 @@ export interface OppslagResponse {
   feil: OppslagFeil | undefined
 }
 
+export interface AlleHjelpemidlerMedDelerResponse {
+  hjelpemidlerMedDeler: Hjelpemiddel[]
+}
+
 export enum OppslagFeil {
   'TILBYR_IKKE_HJELPEMIDDEL' = 'TILBYR_IKKE_HJELPEMIDDEL',
   'INGET_UTLÅN' = 'INGET_UTLÅN',

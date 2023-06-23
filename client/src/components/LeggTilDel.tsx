@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { size } from '../styledcomponents/rules'
 import FlexedStack from '../styledcomponents/FlexedStack'
 
-const DelInnhold = styled.div`
+export const DelInnhold = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
