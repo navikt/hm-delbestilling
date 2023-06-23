@@ -52,11 +52,7 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
 }
 
 const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerResponse> => {
-  const response = await fetchPost(API_PATH + '/hjelpemidler', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  const response = await fetch(API_PATH + '/hjelpemidler')
   await handleResponse(response.clone())
   return await response.json()
 }
