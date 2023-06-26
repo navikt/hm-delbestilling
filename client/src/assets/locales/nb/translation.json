@@ -184,6 +184,7 @@
   "hjelpemidler.sok.tittel": "Søk etter HMS-nr. eller hjelpemiddel",
   "hjelpemidler.sok.rangering": "Rangering",
   "hjelpemidler.sok.ingenTreff": "Ingen treff",
+  "hjelpemidler.sok.ingenDeler": "Ingen deler",
   "hjelpemidler.sok.sjekkOmDuKanSoke.formidler": "Sjekk om du kan legge til dette hjelpemiddelet. Via søket finner du hjelpemidler fra rammeavtalene og postene som er med i utvalget. Andre hjelpemidler må du søke om på papir. ",
   "hjelpemidler.sok.sjekkOmDuKanSoke.bestiller": "Sjekk at du har skrevet inn riktig HMS nummer eller navn på hjelpemidlet.",
   "hjelpemidler.sok.biståHvisHjmIkkeKanBestilles": "Hvis innbygger har behov for et hjelpemiddel som ikke kan bestilles, må du bistå innbygger i å søke på dette. Ta kontakt med ergo- og fysioterapitjenesten i din kommune.",

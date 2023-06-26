@@ -16,7 +16,7 @@ interface Props {
 }
 
 const VisuellOversikt = (props: Props) => {
-  const { maksHjelpemidler = 8 } = props
+  const { maksHjelpemidler = 5 } = props
   const { t } = useTranslation()
   const [søkeUtrykk, setSøkeUtrykk] = useState<string>('')
   const { aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpemidler } = useHjelpemidleKategori()
@@ -26,6 +26,7 @@ const VisuellOversikt = (props: Props) => {
     maksHjelpemidler
   )
   const { setKategoriFilter, kategoriFilter, delKategorier } = useDelKategorier(aktivtHjelpemiddel)
+  const ingenDeler = !!aktivtHjelpemiddel && aktivtHjelpemiddel?.deler?.length === 0
   return (
     <main>
       <Content style={{ width: 1000 }}>
@@ -65,25 +66,33 @@ const VisuellOversikt = (props: Props) => {
               <Heading size="medium" level="3" spacing>
                 Deler til {aktivtHjelpemiddel?.navn}
               </Heading>
-              <DelKategorier
-                setKategoriFilter={setKategoriFilter}
-                delKategorier={delKategorier}
-                kategoriFilter={kategoriFilter}
-              />
-              <Avstand paddingBottom={4} />
-              {aktivtHjelpemiddel?.deler
-                ?.filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
-                .map((del) => (
-                  <Avstand marginBottom={4} key={del.hmsnr}>
-                    <Panel border>
-                      <DelInnhold>
-                        <FlexedStack>
-                          <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} img={del.img} />
-                        </FlexedStack>
-                      </DelInnhold>
-                    </Panel>
-                  </Avstand>
-                ))}
+              {ingenDeler ? (
+                <Heading level="3" size="small" style={{ padding: '0.5rem' }} role="alert">
+                  {t('hjelpemidler.sok.ingenDeler')}
+                </Heading>
+              ) : (
+                <>
+                  <DelKategorier
+                    setKategoriFilter={setKategoriFilter}
+                    delKategorier={delKategorier}
+                    kategoriFilter={kategoriFilter}
+                  />
+                  <Avstand paddingBottom={4} />
+                  {aktivtHjelpemiddel?.deler
+                    ?.filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
+                    .map((del) => (
+                      <Avstand marginBottom={4} key={del.hmsnr}>
+                        <Panel border>
+                          <DelInnhold>
+                            <FlexedStack>
+                              <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} img={del.img} />
+                            </FlexedStack>
+                          </DelInnhold>
+                        </Panel>
+                      </Avstand>
+                    ))}
+                </>
+              )}
             </Avstand>
           </div>
         </div>
