@@ -103,7 +103,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
       <Heading size="xsmall" level="3">
         Hvilket hjelpemiddel trenger del?
       </Heading>
-      <Avstand marginBottom={4} />
+      <Avstand marginBottom={8} />
 
       <StyledForm onSubmit={handleSubmit}>
         <StyledTextField
