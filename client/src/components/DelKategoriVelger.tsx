@@ -3,14 +3,13 @@ import { logKategoriFiltreringGjort } from '../utils/amplitude'
 import React, { Dispatch, SetStateAction } from 'react'
 
 interface Props {
-  delKategorier?: string[]
-  kategoriFilter?: string
+  delKategorier: string[] | undefined
+  kategoriFilter?: string | undefined
   logKategoriValg?: boolean
   setKategoriFilter: Dispatch<SetStateAction<string | undefined>>
 }
 
-const DelKategoriVelger = (props: Props) => {
-  const { delKategorier, kategoriFilter, setKategoriFilter, logKategoriValg = true } = props
+const DelKategoriVelger = ({ delKategorier, kategoriFilter, setKategoriFilter, logKategoriValg = true }: Props) => {
   if (delKategorier) {
     return (
       <Chips>

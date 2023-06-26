@@ -5,7 +5,7 @@ import Index from './containers/Index'
 import Utsjekk from './containers/Utsjekk'
 import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
-import Oversikt from './components/Oversikt'
+import Oversikt from './containers/Oversikt'
 import { RolleContextLayout } from './context/rolle'
 
 const Routes = () => {

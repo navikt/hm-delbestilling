@@ -10,8 +10,7 @@ interface Props {
   setAktivtHjelpemiddel: Dispatch<SetStateAction<HjelpemiddelKategori | undefined>>
 }
 
-const HjelpemiddelKnapp = (props: Props) => {
-  const { hjelpemiddel, aktiv, setAktivtHjelpemiddel } = props
+const HjelpemiddelKnapp = ({ hjelpemiddel, aktiv, setAktivtHjelpemiddel }: Props) => {
   const { navn, antallTilgjengeligeDeler } = hjelpemiddel
   return (
     <>

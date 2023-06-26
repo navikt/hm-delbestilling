@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { HjelpemiddelKategori } from '../types/Types'
 import rest from '../services/rest'
 
+const MAKS_HJELPEMIDLER = 5
+
 export const useHjelpemidleKategori = () => {
   const [aktivtHjelpemiddel, setAktivtHjelpemiddel] = useState<HjelpemiddelKategori | undefined>()
   const [hjelpemidler, setHjelpemidler] = useState<HjelpemiddelKategori[]>([])
@@ -30,24 +32,20 @@ export const useHjelpemidleKategori = () => {
   return { hjelpemidler, aktivtHjelpemiddel, setAktivtHjelpemiddel }
 }
 
-export const useHjelpemidlerKategoriUtvalg = (
-  alleHjelpemidler: HjelpemiddelKategori[],
-  søkeUtrykk: string,
-  maksHjelpemidler: number
-) => {
+export const useHjelpemidlerKategoriUtvalg = (alleHjelpemidler: HjelpemiddelKategori[], søkeUtrykk: string) => {
   const [side, setSide] = useState(1)
 
   const hjelpemiddelUtvalgEtterSøk = useMemo(() => {
-    return søkeUtrykk.length > 0
+    return søkeUtrykk && søkeUtrykk.length > 0
       ? alleHjelpemidler.filter(({ navn }) => navn.toLowerCase().includes(søkeUtrykk.toLowerCase()))
       : alleHjelpemidler
   }, [søkeUtrykk, alleHjelpemidler])
   const hjelpemidlerUtvalg = useMemo(() => {
-    return hjelpemiddelUtvalgEtterSøk.slice((side - 1) * maksHjelpemidler, side * maksHjelpemidler)
+    return hjelpemiddelUtvalgEtterSøk.slice((side - 1) * MAKS_HJELPEMIDLER, side * MAKS_HJELPEMIDLER)
   }, [side, søkeUtrykk, alleHjelpemidler])
 
   const antallSider = useMemo(() => {
-    return Math.ceil(hjelpemiddelUtvalgEtterSøk.length / maksHjelpemidler)
+    return Math.ceil(hjelpemiddelUtvalgEtterSøk.length / MAKS_HJELPEMIDLER)
   }, [hjelpemiddelUtvalgEtterSøk.length])
 
   useEffect(() => {

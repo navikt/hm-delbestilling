@@ -34,10 +34,6 @@ export interface Delbestilling {
   levering: Levering
 }
 
-export interface HjelpeMidler {
-  hjelpemidlerMedDeler: Hjelpemiddel[]
-}
-
 export interface HjelpemiddelKategori {
   navn: string
   antallTilgjengeligeDeler: number

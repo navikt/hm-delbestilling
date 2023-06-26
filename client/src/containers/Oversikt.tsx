@@ -1,39 +1,30 @@
 import React, { useState } from 'react'
 import { Heading, Label, Pagination, Panel, Search } from '@navikt/ds-react'
-import DelKategoriVelger from './DelKategoriVelger'
+import DelKategoriVelger from '../components/DelKategoriVelger'
 import useDelKategorier from '../hooks/useDelKategorier'
 import Content from '../styledcomponents/Content'
-import { Avstand } from './Avstand'
+import { Avstand } from '../components/Avstand'
 import FlexedStack from '../styledcomponents/FlexedStack'
-import DelInfo from './DelInfo'
+import DelInfo from '../components/DelInfo'
 import { useTranslation } from 'react-i18next'
-import HjelpemiddelKnapp from './HjelpemiddelKnapp'
+import HjelpemiddelKnapp from '../components/HjelpemiddelKnapp'
 import { useHjelpemidleKategori, useHjelpemidlerKategoriUtvalg } from '../hooks/useHjelpemidleKategori'
-import DelInnhold from "./DelInhold";
+import DelInnhold from '../components/DelInhold'
 
-interface Props {
-  maksHjelpemidler?: number
-}
-
-const Oversikt = (props: Props) => {
-  const { maksHjelpemidler = 5 } = props
+const Oversikt = () => {
   const { t } = useTranslation()
-  const [søkeUtrykk, setSøkeUtrykk] = useState<string>('')
+  const [søkeUtrykk, setSøkeUtrykk] = useState('')
   const { aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpemidler } = useHjelpemidleKategori()
-  const { side, setSide, antallSider, hjelpemidlerUtvalg } = useHjelpemidlerKategoriUtvalg(
-    hjelpemidler,
-    søkeUtrykk,
-    maksHjelpemidler
-  )
+  const { side, setSide, antallSider, hjelpemidlerUtvalg } = useHjelpemidlerKategoriUtvalg(hjelpemidler, søkeUtrykk)
   const { setKategoriFilter, kategoriFilter, delKategorier } = useDelKategorier(aktivtHjelpemiddel?.deler)
-  const ingenDeler = !!aktivtHjelpemiddel && aktivtHjelpemiddel?.deler?.length === 0
+  const ingenDeler = !!aktivtHjelpemiddel && aktivtHjelpemiddel.deler?.length === 0
   return (
     <main>
       <Content style={{ width: 1000 }}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div style={{ display: 'flex', flexDirection: 'column', width: 400 }}>
             <Label>{t('visuellOversikt.søkEtterHjelpemiddel')}</Label>
-            <Search label="Typesøk" variant="primary" onChange={setSøkeUtrykk} />
+            <Search label="Typesøk" onChange={setSøkeUtrykk} variant="simple" />
             <Avstand paddingBottom={4} />
             {hjelpemidlerUtvalg.map((hjelpemiddel, index) => (
               <HjelpemiddelKnapp
@@ -48,7 +39,7 @@ const Oversikt = (props: Props) => {
                 <Pagination
                   size="small"
                   page={side}
-                  onPageChange={(x) => setSide(x)}
+                  onPageChange={(side) => setSide(side)}
                   count={antallSider}
                   boundaryCount={1}
                   siblingCount={1}

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Del } from '../types/Types'
 
-const useDelKategorier = (deler?: Del[]) => {
+const useDelKategorier = (deler: Del[] | undefined) => {
   const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
   const delKategorier = useMemo(() => {
     if (deler) {
