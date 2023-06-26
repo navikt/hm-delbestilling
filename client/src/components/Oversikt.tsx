@@ -6,16 +6,16 @@ import Content from '../styledcomponents/Content'
 import { Avstand } from './Avstand'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import DelInfo from './DelInfo'
-import { DelInnhold } from './LeggTilDel'
 import { useTranslation } from 'react-i18next'
 import HjelpemiddelKnapp from './HjelpemiddelKnapp'
 import { useHjelpemidleKategori, useHjelpemidlerKategoriUtvalg } from '../hooks/useHjelpemidleKategori'
+import DelInnhold from "./DelInhold";
 
 interface Props {
   maksHjelpemidler?: number
 }
 
-const VisuellOversikt = (props: Props) => {
+const Oversikt = (props: Props) => {
   const { maksHjelpemidler = 5 } = props
   const { t } = useTranslation()
   const [søkeUtrykk, setSøkeUtrykk] = useState<string>('')
@@ -76,6 +76,7 @@ const VisuellOversikt = (props: Props) => {
                     setKategoriFilter={setKategoriFilter}
                     delKategorier={delKategorier}
                     kategoriFilter={kategoriFilter}
+                    logKategoriValg={false}
                   />
                   <Avstand paddingBottom={4} />
                   {aktivtHjelpemiddel?.deler
@@ -101,4 +102,4 @@ const VisuellOversikt = (props: Props) => {
   )
 }
 
-export default VisuellOversikt
+export default Oversikt

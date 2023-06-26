@@ -48,8 +48,8 @@ export const routes = {
 
     server.get('/', spaHandler)
     router.get('/', spaHandler)
-    server.get('/visuell-oversikt', spaHandler)
-    router.get('/visuell-oversikt', spaHandler)
+    server.get('/visuell', spaHandler)
+    router.get('/visuell', spaHandler)
 
     return router
   },

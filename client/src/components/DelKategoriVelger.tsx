@@ -5,11 +5,12 @@ import React, { Dispatch, SetStateAction } from 'react'
 interface Props {
   delKategorier?: string[]
   kategoriFilter?: string
+  logKategoriValg?: boolean
   setKategoriFilter: Dispatch<SetStateAction<string | undefined>>
 }
 
 const DelKategoriVelger = (props: Props) => {
-  const { delKategorier, kategoriFilter, setKategoriFilter } = props
+  const { delKategorier, kategoriFilter, setKategoriFilter, logKategoriValg = true } = props
   if (delKategorier) {
     return (
       <Chips>
@@ -17,7 +18,9 @@ const DelKategoriVelger = (props: Props) => {
           key="alle-deler"
           selected={kategoriFilter === undefined}
           onClick={() => {
-            logKategoriFiltreringGjort('alle deler')
+            if (logKategoriValg) {
+              logKategoriFiltreringGjort('alle deler')
+            }
             setKategoriFilter(undefined)
           }}
         >
@@ -28,7 +31,9 @@ const DelKategoriVelger = (props: Props) => {
             key={kategori}
             selected={kategoriFilter === kategori}
             onClick={() => {
-              logKategoriFiltreringGjort(kategori)
+              if (logKategoriValg) {
+                logKategoriFiltreringGjort(kategori)
+              }
               setKategoriFilter(kategori)
             }}
           >

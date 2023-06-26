@@ -1,26 +1,12 @@
-import React, { useMemo, useState } from 'react'
-import { Button, Chips, Heading, Panel } from '@navikt/ds-react'
+import React from 'react'
+import { Button, Heading, Panel } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import { Hjelpemiddel, Del } from '../types/Types'
-import { logKategoriFiltreringGjort } from '../utils/amplitude'
 import DelInfo from './DelInfo'
-import styled from 'styled-components'
-import { size } from '../styledcomponents/rules'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import useDelKategorier from '../hooks/useDelKategorier'
 import DelKategoriVelger from './DelKategoriVelger'
-
-export const DelInnhold = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  @media (min-width: ${size.large}) {
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-direction: row;
-  }
-`
+import DelInnhold from './DelInhold'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel

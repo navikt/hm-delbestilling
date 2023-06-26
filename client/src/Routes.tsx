@@ -5,7 +5,7 @@ import Index from './containers/Index'
 import Utsjekk from './containers/Utsjekk'
 import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
-import VisuellOversikt from './components/VisuellOversikt'
+import Oversikt from './components/Oversikt'
 import { RolleContextLayout } from './context/rolle'
 
 const Routes = () => {
@@ -17,7 +17,7 @@ const Routes = () => {
       <Switch>
         <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
-          <Route path="/visuell-oversikt" element={<VisuellOversikt />} />
+          <Route path="/oversikt" element={<Oversikt />} />
           {/* Dette er routes som krever at innlogget bruker har en delbestillerrolle */}
           <Route element={<RolleContextLayout />}>
             <Route path="/utsjekk" element={<Utsjekk />} />
