@@ -3,7 +3,6 @@ import { BodyShort, Heading } from '@navikt/ds-react'
 import styled from 'styled-components'
 import { ImageIcon } from '@navikt/aksel-icons'
 import { size } from '../styledcomponents/rules'
-import { Avstand } from './Avstand'
 
 interface Props {
   navn: string
@@ -14,6 +13,8 @@ interface Props {
 
 const SubtleBodyShort = styled(BodyShort)`
   color: var(--a-text-subtle);
+  display: flex;
+  gap: 20px;
 `
 
 const ImgWrap = styled.div`
@@ -46,7 +47,7 @@ const PlaceholderIcon = styled(ImageIcon)`
 
 const Beskrivelser = styled.div`
   @media (min-width: ${size.large}) {
-    width: 340px; // Hacky hack, burde heller løses med flex
+    width: 330px; // Hacky hack, burde heller løses med flex
   }
 `
 
@@ -60,12 +61,8 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img }: Props) => {
           {navn}
         </Heading>
         <SubtleBodyShort>
-          HMS-nr. {hmsnr}{' '}
-          {levArtNr && (
-            <Avstand paddingLeft={5} style={{ display: 'inline' }}>
-              Lev.art.nr. {levArtNr}
-            </Avstand>
-          )}
+          <span>HMS-nr. {hmsnr}</span>
+          {levArtNr && <span>Lev.art.nr. {levArtNr}</span>}
         </SubtleBodyShort>
       </Beskrivelser>
     </>

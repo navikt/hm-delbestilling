@@ -7,6 +7,7 @@ import DelInfo from './DelInfo'
 import styled from 'styled-components'
 import { size } from '../styledcomponents/rules'
 import FlexedStack from '../styledcomponents/FlexedStack'
+import { CustomPanel } from '../styledcomponents/CustomPanel'
 
 const DelInnhold = styled.div`
   display: flex;
@@ -80,8 +81,8 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       {hjelpemiddel.deler
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => (
-          <Avstand marginBottom={4} key={del.hmsnr}>
-            <Panel border>
+          <Avstand marginBottom={2} key={del.hmsnr}>
+            <CustomPanel border>
               <DelInnhold>
                 <FlexedStack>
                   <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} img={del.img} />
@@ -91,7 +92,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                   {knappeTekst}
                 </Button>
               </DelInnhold>
-            </Panel>
+            </CustomPanel>
           </Avstand>
         ))}
     </>
