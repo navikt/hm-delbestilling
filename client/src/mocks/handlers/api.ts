@@ -8,7 +8,8 @@ import {
   DelbestillingFeil,
 } from '../../types/HttpTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
-import { Delbestilling } from '../../types/Types'
+import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
+import {Delbestilling, HjelpeMidler} from '../../types/Types'
 
 import { API_PATH } from '../../services/rest'
 
@@ -91,6 +92,9 @@ const apiHandlers = [
 
   rest.get<{}, {}, Delbestilling[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillinger))
+  }),
+  rest.get<{}, {}, HjelpeMidler>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
+    return res(ctx.delay(250), ctx.json(hjelpemidlerMock))
   }),
 ]
 

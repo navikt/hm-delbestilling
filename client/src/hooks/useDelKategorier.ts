@@ -1,19 +1,19 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Hjelpemiddel } from '../types/Types'
+import { HjelpemiddelKategori } from '../types/Types'
 
-const useDelKategorier = (hjelpemiddel?: Hjelpemiddel) => {
+const useDelKategorier = (hjelpemiddelKategori?: HjelpemiddelKategori) => {
   const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
   const delKategorier = useMemo(() => {
-    if (hjelpemiddel && hjelpemiddel.deler) {
-      return hjelpemiddel.deler.reduce((acc, del) => {
+    if (hjelpemiddelKategori && hjelpemiddelKategori.deler) {
+      return hjelpemiddelKategori.deler.reduce((acc, del) => {
         if (!acc.includes(del.kategori)) {
           acc.push(del.kategori)
         }
         return acc
       }, [] as string[])
     }
-  }, [hjelpemiddel])
-  useEffect(() => setKategoriFilter(undefined), [hjelpemiddel])
+  }, [hjelpemiddelKategori])
+  useEffect(() => setKategoriFilter(undefined), [hjelpemiddelKategori])
   return { kategoriFilter, setKategoriFilter, delKategorier }
 }
 

@@ -1,28 +1,28 @@
-import { Hjelpemiddel } from '../types/Types'
+import { HjelpemiddelKategori } from '../types/Types'
 import React, { Dispatch, SetStateAction } from 'react'
 import { BodyShort, Heading, Panel } from '@navikt/ds-react'
 import { Avstand } from './Avstand'
 import { ArrowRightIcon } from '@navikt/aksel-icons'
 
 interface Props {
-  hjelpemiddel: Hjelpemiddel
+  hjelpemiddel: HjelpemiddelKategori
   aktiv: boolean
-  setAktivtHjelpemiddel: Dispatch<SetStateAction<Hjelpemiddel | undefined>>
+  setAktivtHjelpemiddel: Dispatch<SetStateAction<HjelpemiddelKategori | undefined>>
 }
 
 const HjelpemiddelKnapp = (props: Props) => {
   const { hjelpemiddel, aktiv, setAktivtHjelpemiddel } = props
-  const { hmsnr, navn } = hjelpemiddel
+  const { navn, antallTilgjengeligeDeler } = hjelpemiddel
   return (
     <>
       <Panel border={aktiv} onClick={() => setAktivtHjelpemiddel(hjelpemiddel)}>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', cursor: 'pointer' }}>
-          <div style={{ alignItems: 'flex-end', justifyContent: 'space-between', flexDirection: 'column' }}>
+          <div style={{ alignItems: 'flex-end', justifyContent: 'space-between', flexDirection: 'column', flex: 1 }}>
             <Heading size="xsmall" level="4" spacing>
               {navn}
             </Heading>
             <BodyShort>
-              <strong>Art.nr:</strong> {hmsnr}
+              <strong>Antall deler:</strong> {antallTilgjengeligeDeler}
             </BodyShort>
           </div>
           <Avstand marginLeft={2} />

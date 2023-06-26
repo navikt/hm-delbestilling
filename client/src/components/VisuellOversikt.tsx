@@ -1,6 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import rest from '../services/rest'
-import { Hjelpemiddel } from '../types/Types'
+import React, { useState } from 'react'
 import { Heading, Label, Pagination, Panel, Search } from '@navikt/ds-react'
 import DelKategorier from './DelKategorier'
 import useDelKategorier from '../hooks/useDelKategorier'
@@ -11,51 +9,7 @@ import DelInfo from './DelInfo'
 import { DelInnhold } from './LeggTilDel'
 import { useTranslation } from 'react-i18next'
 import HjelpemiddelKnapp from './HjelpemiddelKnapp'
-
-function useHjelpemidleListe() {
-  const [aktivtHjelpemiddel, setAktivtHjelpemiddel] = useState<Hjelpemiddel | undefined>()
-  const [hjelpemidler, setHjelpemidler] = useState<Hjelpemiddel[]>([])
-  useEffect(() => {
-    rest
-      .hentAlleHjelpemidlerMedDeler()
-      .then((result) => result.hjelpemidlerMedDeler)
-      .then((hjelpemiddelListe) => {
-        setHjelpemidler(hjelpemiddelListe)
-        setAktivtHjelpemiddel(hjelpemiddelListe[0])
-      })
-  }, [])
-  return { hjelpemidler, aktivtHjelpemiddel, setAktivtHjelpemiddel }
-}
-
-function useHjelpemidlerUtvalg(alleHjelpemidler: Hjelpemiddel[], søkeUtrykk: string, maksHjelpemidler: number) {
-  const [side, setSide] = useState(1)
-
-  const hjelpemiddelUtvalgEtterSøk = useMemo(() => {
-    return søkeUtrykk.length > 0
-      ? alleHjelpemidler.filter(({ navn }) => navn.toLowerCase().includes(søkeUtrykk.toLowerCase()))
-      : alleHjelpemidler
-  }, [søkeUtrykk, alleHjelpemidler])
-  const hjelpemidlerUtvalg = useMemo(() => {
-    return hjelpemiddelUtvalgEtterSøk.slice((side - 1) * maksHjelpemidler, side * maksHjelpemidler)
-  }, [side, søkeUtrykk, alleHjelpemidler])
-
-  const antallSider = useMemo(() => {
-    return Math.ceil(hjelpemiddelUtvalgEtterSøk.length / maksHjelpemidler)
-  }, [hjelpemiddelUtvalgEtterSøk.length])
-
-  useEffect(() => {
-    if (antallSider < side) {
-      setSide(Math.max(1, antallSider))
-    }
-  }, [side, hjelpemiddelUtvalgEtterSøk.length])
-
-  return {
-    side,
-    setSide,
-    antallSider,
-    hjelpemidlerUtvalg,
-  }
-}
+import { useHjelpemidleKategori, useHjelpemidlerKategoriUtvalg } from '../hooks/useHjelpemidleKategori'
 
 interface Props {
   maksHjelpemidler?: number
@@ -65,8 +19,8 @@ const VisuellOversikt = (props: Props) => {
   const { maksHjelpemidler = 8 } = props
   const { t } = useTranslation()
   const [søkeUtrykk, setSøkeUtrykk] = useState<string>('')
-  const { aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpemidler } = useHjelpemidleListe()
-  const { side, setSide, antallSider, hjelpemidlerUtvalg } = useHjelpemidlerUtvalg(
+  const { aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpemidler } = useHjelpemidleKategori()
+  const { side, setSide, antallSider, hjelpemidlerUtvalg } = useHjelpemidlerKategoriUtvalg(
     hjelpemidler,
     søkeUtrykk,
     maksHjelpemidler
@@ -76,7 +30,7 @@ const VisuellOversikt = (props: Props) => {
     <main>
       <Content style={{ width: 1000 }}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', width: 350 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', width: 400 }}>
             <Label>{t('visuellOversikt.søkEtterHjelpemiddel')}</Label>
             <Search label="Typesøk" variant="primary" onChange={setSøkeUtrykk} />
             <Avstand paddingBottom={4} />
