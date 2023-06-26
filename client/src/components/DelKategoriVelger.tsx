@@ -8,7 +8,7 @@ interface Props {
   setKategoriFilter: Dispatch<SetStateAction<string | undefined>>
 }
 
-const DelKategorier = (props: Props) => {
+const DelKategoriVelger = (props: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = props
   if (delKategorier) {
     return (
@@ -41,4 +41,4 @@ const DelKategorier = (props: Props) => {
   return <></>
 }
 
-export default DelKategorier
+export default DelKategoriVelger

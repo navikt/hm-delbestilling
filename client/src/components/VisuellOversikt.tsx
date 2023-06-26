@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Heading, Label, Pagination, Panel, Search } from '@navikt/ds-react'
-import DelKategorier from './DelKategorier'
+import DelKategoriVelger from './DelKategoriVelger'
 import useDelKategorier from '../hooks/useDelKategorier'
 import Content from '../styledcomponents/Content'
 import { Avstand } from './Avstand'
@@ -25,7 +25,7 @@ const VisuellOversikt = (props: Props) => {
     søkeUtrykk,
     maksHjelpemidler
   )
-  const { setKategoriFilter, kategoriFilter, delKategorier } = useDelKategorier(aktivtHjelpemiddel)
+  const { setKategoriFilter, kategoriFilter, delKategorier } = useDelKategorier(aktivtHjelpemiddel?.deler)
   const ingenDeler = !!aktivtHjelpemiddel && aktivtHjelpemiddel?.deler?.length === 0
   return (
     <main>
@@ -72,7 +72,7 @@ const VisuellOversikt = (props: Props) => {
                 </Heading>
               ) : (
                 <>
-                  <DelKategorier
+                  <DelKategoriVelger
                     setKategoriFilter={setKategoriFilter}
                     delKategorier={delKategorier}
                     kategoriFilter={kategoriFilter}

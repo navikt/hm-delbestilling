@@ -7,6 +7,8 @@ import DelInfo from './DelInfo'
 import styled from 'styled-components'
 import { size } from '../styledcomponents/rules'
 import FlexedStack from '../styledcomponents/FlexedStack'
+import useDelKategorier from '../hooks/useDelKategorier'
+import DelKategoriVelger from './DelKategoriVelger'
 
 export const DelInnhold = styled.div`
   display: flex;
@@ -26,18 +28,7 @@ interface Props {
   knappeTekst?: string
 }
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
-  const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
-
-  const delKategorier = useMemo(() => {
-    if (hjelpemiddel.deler) {
-      return hjelpemiddel.deler.reduce((acc, del) => {
-        if (!acc.includes(del.kategori)) {
-          acc.push(del.kategori)
-        }
-        return acc
-      }, [] as string[])
-    }
-  }, [hjelpemiddel])
+  const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return <div>Dette hjelpemiddelet har ingen deler du kan legge til</div>
@@ -49,32 +40,11 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
         Deler til {hjelpemiddel.navn}
       </Heading>
       <Avstand marginBottom={4}>
-        {delKategorier && (
-          <Chips>
-            <Chips.Toggle
-              key="alle-deler"
-              selected={kategoriFilter === undefined}
-              onClick={() => {
-                logKategoriFiltreringGjort('alle deler')
-                setKategoriFilter(undefined)
-              }}
-            >
-              Alle deler
-            </Chips.Toggle>
-            {delKategorier.map((kategori) => (
-              <Chips.Toggle
-                key={kategori}
-                selected={kategoriFilter === kategori}
-                onClick={() => {
-                  logKategoriFiltreringGjort(kategori)
-                  setKategoriFilter(kategori)
-                }}
-              >
-                {kategori}
-              </Chips.Toggle>
-            ))}
-          </Chips>
-        )}
+        <DelKategoriVelger
+          setKategoriFilter={setKategoriFilter}
+          delKategorier={delKategorier}
+          kategoriFilter={kategoriFilter}
+        />
       </Avstand>
 
       {hjelpemiddel.deler
