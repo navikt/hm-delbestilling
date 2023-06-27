@@ -14,7 +14,7 @@ import styled from 'styled-components'
 import { Del, Hjelpemiddel } from '../types/Types'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 
-const SIZE_LARGE = 1000
+const SIZE_LARGE = 972
 
 const OversiktInnhold = styled(Content)`
   display: flex;
