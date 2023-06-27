@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
+import { CustomPanel } from '../styledcomponents/CustomPanel'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -73,10 +74,10 @@ const Index = () => {
         )}
         {hjelpemiddel && (
           <>
-            <Panel border>
+            <CustomPanel border>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <Heading size="xsmall" level="4" spacing>
-                  Bestill del til {hjelpemiddel.navn}
+                  Bestilling til {hjelpemiddel.navn}
                 </Heading>
                 <Button
                   icon={<PencilIcon />}
@@ -88,14 +89,12 @@ const Index = () => {
                   Endre
                 </Button>
               </div>
-              <BodyShort>
-                <strong>Art.nr.</strong> {hmsnr}
-                <Avstand paddingLeft={5} style={{ display: 'inline' }}>
-                  <strong>Serienr.</strong> {serienr}
-                </Avstand>
+              <BodyShort style={{ display: 'flex', gap: '20px' }}>
+                <span>Art.nr. {hmsnr}</span>
+                <span>Serienr. {serienr}</span>
               </BodyShort>
-            </Panel>
-            <Avstand marginBottom={8} />
+            </CustomPanel>
+            <Avstand marginBottom={12} />
             <LeggTilDel
               hjelpemiddel={hjelpemiddel}
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}

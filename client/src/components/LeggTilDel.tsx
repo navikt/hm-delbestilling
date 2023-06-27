@@ -1,12 +1,13 @@
 import React from 'react'
-import { Button, Heading, Panel } from '@navikt/ds-react'
-import { Avstand } from '../components/Avstand'
+import { Button, Heading } from '@navikt/ds-react'
+import { Avstand } from './Avstand'
 import { Hjelpemiddel, Del } from '../types/Types'
 import DelInfo from './DelInfo'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import useDelKategorier from '../hooks/useDelKategorier'
 import DelKategoriVelger from './DelKategoriVelger'
 import DelInnhold from './DelInhold'
+import { CustomPanel } from '../styledcomponents/CustomPanel'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -36,8 +37,8 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       {hjelpemiddel.deler
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => (
-          <Avstand marginBottom={4} key={del.hmsnr}>
-            <Panel border>
+          <Avstand marginBottom={2} key={del.hmsnr}>
+            <CustomPanel border>
               <DelInnhold>
                 <FlexedStack>
                   <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} img={del.img} />
@@ -47,7 +48,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                   {knappeTekst}
                 </Button>
               </DelInnhold>
-            </Panel>
+            </CustomPanel>
           </Avstand>
         ))}
     </>

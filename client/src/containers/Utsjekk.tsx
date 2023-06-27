@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, BodyShort, Button, GuidePanel, Heading, Panel, Radio, RadioGroup, Select } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, GuidePanel, Heading, Radio, RadioGroup, Select } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import LeggTilDel from '../components/LeggTilDel'
 import Content from '../styledcomponents/Content'
@@ -23,6 +23,7 @@ import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import DelInfo from '../components/DelInfo'
 import { GlobalStyle } from '../GlobalStyle'
 import FlexedStack from '../styledcomponents/FlexedStack'
+import { CustomPanel } from '../styledcomponents/CustomPanel'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -30,10 +31,10 @@ const Toolbar = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: -16px;
-  margin-left: -16px;
+  margin-bottom: -24px;
+  margin-left: -24px;
   margin-top: 16px;
-  width: calc(100% + 32px);
+  width: calc(100% + 48px);
 `
 
 export interface Valideringsfeil {
@@ -242,17 +243,15 @@ const Utsjekk = () => {
               </Button>
             </Avstand>
           )}
-          <Panel border>
+          <CustomPanel border>
             <Heading level="3" size="small" spacing>
               Bestill deler til {handlekurv.hjelpemiddel.navn}
             </Heading>
-            <BodyShort>
-              <strong>Art.nr.</strong> {handlekurv.hjelpemiddel.hmsnr}
-              <Avstand paddingLeft={5} style={{ display: 'inline' }}>
-                <strong>Serienr.</strong> {handlekurv.serienr}
-              </Avstand>
+            <BodyShort style={{ display: 'flex', gap: '20px' }}>
+              <span>Art.nr. {handlekurv.hjelpemiddel.hmsnr}</span>
+              <span>Serienr. {handlekurv.serienr}</span>
             </BodyShort>
-          </Panel>
+          </CustomPanel>
           <Avstand marginBottom={12} />
           {visFlereDeler ? (
             <LeggTilDel
@@ -267,14 +266,14 @@ const Utsjekk = () => {
             />
           ) : (
             <>
-              <Avstand marginBottom={8}>
+              <Avstand marginBottom={12}>
                 <Heading level="2" size="medium" spacing id="deler">
                   Deler lagt til i bestillingen
                 </Heading>
                 {handlekurv.deler.length === 0 && <BodyShort>Du har ikke lagt til noen deler.</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
-                  <Avstand marginBottom={4} key={delLinje.del.hmsnr}>
-                    <Panel border>
+                  <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
+                    <CustomPanel border>
                       <FlexedStack>
                         <DelInfo
                           navn={delLinje.del.navn}
@@ -300,7 +299,7 @@ const Utsjekk = () => {
                           ))}
                         </Select>
                       </Toolbar>
-                    </Panel>
+                    </CustomPanel>
                   </Avstand>
                 ))}
                 <Avstand marginBottom={4} />
@@ -308,7 +307,7 @@ const Utsjekk = () => {
                   Legg til {handlekurv.deler.length > 0 ? 'flere' : ''} deler
                 </Button>
               </Avstand>
-              <Avstand marginBottom={8}>
+              <Avstand marginBottom={12}>
                 <Heading spacing level="3" size="medium">
                   Levering
                 </Heading>

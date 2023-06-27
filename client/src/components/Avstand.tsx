@@ -9,7 +9,7 @@ export interface AvstandProps {
   marginRight?: number
   marginBottom?: number
   marginLeft?: number
-  padding?: string
+  padding?: number
   paddingTop?: number
   paddingRight?: number
   paddingBottom?: number

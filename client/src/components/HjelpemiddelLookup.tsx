@@ -7,6 +7,7 @@ import { OppslagFeil } from '../types/HttpTypes'
 import { Avstand } from './Avstand'
 import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
 import { Feilmelding, FeilmeldingInterface } from './Feilmelding'
+import { CustomPanel } from '../styledcomponents/CustomPanel'
 
 const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)
@@ -98,10 +99,11 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
   }
 
   return (
-    <Panel border>
-      <Heading size="xsmall" level="3" spacing>
-        Oppgi hjelpemiddelet som trenger del
+    <CustomPanel border>
+      <Heading size="xsmall" level="3">
+        Hvilket hjelpemiddel trenger del?
       </Heading>
+      <Avstand marginBottom={8} />
 
       <StyledForm onSubmit={handleSubmit}>
         <StyledTextField
@@ -129,7 +131,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
           <Feilmelding feilmelding={feilmelding} />
         </Avstand>
       )}
-    </Panel>
+    </CustomPanel>
   )
 }
 
