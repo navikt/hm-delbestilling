@@ -1,28 +1,24 @@
 import { useEffect, useMemo, useState } from 'react'
-import { HjelpemiddelKategori } from '../types/Types'
+import { Hjelpemiddel } from '../types/Types'
 import rest from '../services/rest'
 
 const MAKS_HJELPEMIDLER = 5
 
-export const useHjelpemidleKategori = () => {
-  const [aktivtHjelpemiddel, setAktivtHjelpemiddel] = useState<HjelpemiddelKategori | undefined>()
-  const [hjelpemidler, setHjelpemidler] = useState<HjelpemiddelKategori[]>([])
+export const useHjelpemidler = () => {
+  const [aktivtHjelpemiddel, setAktivtHjelpemiddel] = useState<Hjelpemiddel | undefined>()
+  const [hjelpemidler, setHjelpemidler] = useState<Hjelpemiddel[]>([])
   useEffect(() => {
     rest
       .hentAlleHjelpemidlerMedDeler()
       .then((result) => result.hjelpemidlerMedDeler)
       .then((hjelpemidler) => {
-        const hjelpemiddelKategorier: Record<string, HjelpemiddelKategori> = {}
+        const hjelpemiddelRedusert: Record<string, Hjelpemiddel> = {}
         hjelpemidler.forEach((hjelpemiddel) => {
-          if (!hjelpemiddelKategorier[hjelpemiddel.navn]) {
-            hjelpemiddelKategorier[hjelpemiddel.navn] = {
-              navn: hjelpemiddel.navn,
-              antallTilgjengeligeDeler: hjelpemiddel.deler?.length || 0,
-              deler: hjelpemiddel.deler,
-            }
+          if (!hjelpemiddelRedusert[hjelpemiddel.navn]) {
+            hjelpemiddelRedusert[hjelpemiddel.navn] = hjelpemiddel
           }
         })
-        return Object.values(hjelpemiddelKategorier)
+        return Object.values(hjelpemiddelRedusert)
       })
       .then((hjelpemidler) => {
         setHjelpemidler(hjelpemidler)
@@ -32,7 +28,11 @@ export const useHjelpemidleKategori = () => {
   return { hjelpemidler, aktivtHjelpemiddel, setAktivtHjelpemiddel }
 }
 
-export const useHjelpemidlerKategoriUtvalg = (alleHjelpemidler: HjelpemiddelKategori[], søkeUtrykk: string) => {
+export const useHjelpemidlerUtvalg = (
+  aktivtHjelpemiddel: Hjelpemiddel | undefined,
+  alleHjelpemidler: Hjelpemiddel[],
+  søkeUtrykk: string
+) => {
   const [side, setSide] = useState(1)
 
   const hjelpemiddelUtvalgEtterSøk = useMemo(() => {
@@ -49,10 +49,16 @@ export const useHjelpemidlerKategoriUtvalg = (alleHjelpemidler: HjelpemiddelKate
   }, [hjelpemiddelUtvalgEtterSøk.length])
 
   useEffect(() => {
-    if (antallSider < side) {
+    const aktivtHjelpemiddelIndex = hjelpemiddelUtvalgEtterSøk
+      .map(({ navn }) => navn)
+      .indexOf(aktivtHjelpemiddel?.navn || '')
+    if (aktivtHjelpemiddelIndex >= 0) {
+      const sideMedAktivtHjelpemiddel = Math.floor(aktivtHjelpemiddelIndex / MAKS_HJELPEMIDLER) + 1
+      setSide(sideMedAktivtHjelpemiddel)
+    } else if (antallSider < side) {
       setSide(Math.max(1, antallSider))
     }
-  }, [side, hjelpemiddelUtvalgEtterSøk.length])
+  }, [hjelpemiddelUtvalgEtterSøk.length, aktivtHjelpemiddel])
 
   return {
     side,

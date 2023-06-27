@@ -34,12 +34,6 @@ export interface Delbestilling {
   levering: Levering
 }
 
-export interface HjelpemiddelKategori {
-  navn: string
-  antallTilgjengeligeDeler: number
-  deler?: Del[]
-}
-
 export enum Levering {
   'TIL_XK_LAGER' = 'TIL_XK_LAGER',
   'TIL_SERVICE_OPPDRAG' = 'TIL_SERVICE_OPPDRAG',

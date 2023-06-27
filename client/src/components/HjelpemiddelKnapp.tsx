@@ -1,17 +1,17 @@
-import { HjelpemiddelKategori } from '../types/Types'
+import { Hjelpemiddel } from '../types/Types'
 import React, { Dispatch, SetStateAction } from 'react'
-import { BodyShort, Heading, LinkPanel, Panel } from '@navikt/ds-react'
+import { BodyShort, Heading, LinkPanel } from '@navikt/ds-react'
 import { Avstand } from './Avstand'
-import { ArrowRightIcon } from '@navikt/aksel-icons'
 
 interface Props {
-  hjelpemiddel: HjelpemiddelKategori
+  hjelpemiddel: Hjelpemiddel
   aktiv: boolean
-  setAktivtHjelpemiddel: Dispatch<SetStateAction<HjelpemiddelKategori | undefined>>
+  setAktivtHjelpemiddel: Dispatch<SetStateAction<Hjelpemiddel | undefined>>
 }
 
 const HjelpemiddelKnapp = ({ hjelpemiddel, aktiv, setAktivtHjelpemiddel }: Props) => {
-  const { navn, antallTilgjengeligeDeler } = hjelpemiddel
+  const { navn, deler } = hjelpemiddel
+  const antallTilgjengeligeDeler = deler?.length || 0
   return (
     <>
       <LinkPanel border={aktiv} onClick={() => setAktivtHjelpemiddel(hjelpemiddel)}>

@@ -8,11 +8,11 @@ import FlexedStack from '../styledcomponents/FlexedStack'
 import DelInfo from '../components/DelInfo'
 import { useTranslation } from 'react-i18next'
 import HjelpemiddelKnapp from '../components/HjelpemiddelKnapp'
-import { useHjelpemidleKategori, useHjelpemidlerKategoriUtvalg } from '../hooks/useHjelpemidleKategori'
+import { useHjelpemidler, useHjelpemidlerUtvalg } from '../hooks/useHjelpemidler'
 import DelInnhold from '../components/DelInhold'
 import styled from 'styled-components'
-import useSkjermbredde from '../hooks/useSkjermbredde'
-import { Del, HjelpemiddelKategori } from '../types/Types'
+import { Del, Hjelpemiddel } from '../types/Types'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 
 const SIZE_LARGE = 1000
 
@@ -26,26 +26,20 @@ const OversiktInnhold = styled(Content)`
 `
 
 interface HjelpemiddelVelgerProps {
-  hjelpemiddelKategorier: HjelpemiddelKategori[]
-  aktivtHjelpemiddel: HjelpemiddelKategori | undefined
-  setAktivtHjelpemiddel: Dispatch<SetStateAction<HjelpemiddelKategori | undefined>>
+  hjelpemidler: Hjelpemiddel[]
+  aktivtHjelpemiddel: Hjelpemiddel | undefined
+  setAktivtHjelpemiddel: Dispatch<SetStateAction<Hjelpemiddel | undefined>>
 }
 
-const HjelpemiddelVelger = ({
-  aktivtHjelpemiddel,
-  setAktivtHjelpemiddel,
-  hjelpemiddelKategorier,
-}: HjelpemiddelVelgerProps) => {
+const HjelpemiddelVelger = ({ aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpemidler }: HjelpemiddelVelgerProps) => {
   const { t } = useTranslation()
 
   const oppdaterAktivtHjelpemiddel = useCallback(
     (navn: string) => {
-      const nesteAktiveHjelpemiddel = hjelpemiddelKategorier.find(
-        (hjelpemiddelKategori) => hjelpemiddelKategori.navn === navn
-      )
+      const nesteAktiveHjelpemiddel = hjelpemidler.find((hjelpemiddelKategori) => hjelpemiddelKategori.navn === navn)
       setAktivtHjelpemiddel(nesteAktiveHjelpemiddel)
     },
-    [hjelpemiddelKategorier, setAktivtHjelpemiddel]
+    [hjelpemidler, setAktivtHjelpemiddel]
   )
 
   return (
@@ -55,7 +49,8 @@ const HjelpemiddelVelger = ({
         onChange={(e) => oppdaterAktivtHjelpemiddel(e.target.value)}
         value={aktivtHjelpemiddel?.navn}
       >
-        {hjelpemiddelKategorier.map(({ navn, antallTilgjengeligeDeler }, index) => {
+        {hjelpemidler.map(({ navn, deler }, index) => {
+          const antallTilgjengeligeDeler = deler?.length || 0
           const delerText =
             antallTilgjengeligeDeler == 0
               ? t('hjelpemidler.sok.ingenDeler')
@@ -76,12 +71,13 @@ const HjelpemiddelVelger = ({
 const HjelpemiddelVelgerMedSøk = ({
   aktivtHjelpemiddel,
   setAktivtHjelpemiddel,
-  hjelpemiddelKategorier,
+  hjelpemidler,
 }: HjelpemiddelVelgerProps) => {
   const { t } = useTranslation()
   const [søkeUtrykk, setSøkeUtrykk] = useState('')
-  const { side, setSide, antallSider, hjelpemidlerUtvalg } = useHjelpemidlerKategoriUtvalg(
-    hjelpemiddelKategorier,
+  const { side, setSide, antallSider, hjelpemidlerUtvalg } = useHjelpemidlerUtvalg(
+    aktivtHjelpemiddel,
+    hjelpemidler,
     søkeUtrykk
   )
   return (
@@ -153,21 +149,21 @@ const DelListe = ({ deler }: DelListeProps) => {
 
 const Oversikt = () => {
   const { t } = useTranslation()
-  const { bredde } = useSkjermbredde()
-  const { aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpemidler } = useHjelpemidleKategori()
+  const { aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpemidler } = useHjelpemidler()
   const ingenDeler = !!aktivtHjelpemiddel && aktivtHjelpemiddel.deler?.length === 0
+  const brukLitenVersjon = useMediaQuery(`(max-width: ${SIZE_LARGE}px)`)
   return (
     <main>
       <OversiktInnhold>
-        {bredde < SIZE_LARGE ? (
+        {brukLitenVersjon ? (
           <HjelpemiddelVelger
-            hjelpemiddelKategorier={hjelpemidler}
+            hjelpemidler={hjelpemidler}
             aktivtHjelpemiddel={aktivtHjelpemiddel}
             setAktivtHjelpemiddel={setAktivtHjelpemiddel}
           />
         ) : (
           <HjelpemiddelVelgerMedSøk
-            hjelpemiddelKategorier={hjelpemidler}
+            hjelpemidler={hjelpemidler}
             aktivtHjelpemiddel={aktivtHjelpemiddel}
             setAktivtHjelpemiddel={setAktivtHjelpemiddel}
           />
