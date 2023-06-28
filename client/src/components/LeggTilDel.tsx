@@ -1,25 +1,13 @@
-import React, { useMemo, useState } from 'react'
-import { Button, Chips, Heading, Panel } from '@navikt/ds-react'
-import { Avstand } from '../components/Avstand'
+import React from 'react'
+import { Button, Heading } from '@navikt/ds-react'
+import { Avstand } from './Avstand'
 import { Hjelpemiddel, Del } from '../types/Types'
-import { logKategoriFiltreringGjort } from '../utils/amplitude'
 import DelInfo from './DelInfo'
-import styled from 'styled-components'
-import { size } from '../styledcomponents/rules'
 import FlexedStack from '../styledcomponents/FlexedStack'
+import useDelKategorier from '../hooks/useDelKategorier'
+import DelKategoriVelger from './DelKategoriVelger'
+import DelInnhold from './DelInhold'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
-
-const DelInnhold = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  @media (min-width: ${size.large}) {
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-direction: row;
-  }
-`
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -27,18 +15,7 @@ interface Props {
   knappeTekst?: string
 }
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
-  const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
-
-  const delKategorier = useMemo(() => {
-    if (hjelpemiddel.deler) {
-      return hjelpemiddel.deler.reduce((acc, del) => {
-        if (!acc.includes(del.kategori)) {
-          acc.push(del.kategori)
-        }
-        return acc
-      }, [] as string[])
-    }
-  }, [hjelpemiddel])
+  const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return <div>Dette hjelpemiddelet har ingen deler du kan legge til</div>
@@ -50,32 +27,11 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
         Deler til {hjelpemiddel.navn}
       </Heading>
       <Avstand marginBottom={4}>
-        {delKategorier && (
-          <Chips>
-            <Chips.Toggle
-              key="alle-deler"
-              selected={kategoriFilter === undefined}
-              onClick={() => {
-                logKategoriFiltreringGjort('alle deler')
-                setKategoriFilter(undefined)
-              }}
-            >
-              Alle deler
-            </Chips.Toggle>
-            {delKategorier.map((kategori) => (
-              <Chips.Toggle
-                key={kategori}
-                selected={kategoriFilter === kategori}
-                onClick={() => {
-                  logKategoriFiltreringGjort(kategori)
-                  setKategoriFilter(kategori)
-                }}
-              >
-                {kategori}
-              </Chips.Toggle>
-            ))}
-          </Chips>
-        )}
+        <DelKategoriVelger
+          setKategoriFilter={setKategoriFilter}
+          delKategorier={delKategorier}
+          kategoriFilter={kategoriFilter}
+        />
       </Avstand>
 
       {hjelpemiddel.deler

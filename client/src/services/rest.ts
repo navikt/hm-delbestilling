@@ -1,4 +1,9 @@
-import { DelbestillerrolleResponse, OppslagResponse, DelbestillingResponse } from '../types/HttpTypes'
+import {
+  DelbestillerrolleResponse,
+  OppslagResponse,
+  DelbestillingResponse,
+  AlleHjelpemidlerMedDelerResponse
+} from '../types/HttpTypes'
 import { Delbestilling } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
@@ -43,6 +48,12 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
 
   await handleResponse(response.clone())
 
+  return await response.json()
+}
+
+const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerResponse> => {
+  const response = await fetch(API_PATH + '/hjelpemidler')
+  await handleResponse(response.clone())
   return await response.json()
 }
 
@@ -92,6 +103,7 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
 
 export default {
   hjelpemiddelOppslag,
+  hentAlleHjelpemidlerMedDeler,
   sendInnBestilling,
   hentBestillingerForBruker,
   hentBestillingerForKommune,

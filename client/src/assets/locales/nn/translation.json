@@ -188,6 +188,7 @@
   "hjelpemidler.sok.tittel": "Søk etter HMS-nr. eller hjelpemiddel",
   "hjelpemidler.sok.rangering": "Rangering",
   "hjelpemidler.sok.ingenTreff": "Inga treff",
+  "hjelpemidler.sok.ingenDeler": "Inga deler",
   "hjelpemidler.sok.sjekkOmDuKanSoke.formidler": "Sjekk om du kan leggje til dette hjelpemiddelet. Via søkjet finn du hjelpemiddel frå rammeavtalane og postane som er med i utvalet. Andre hjelpemidldel må du søkje om på papir. ",
   "hjelpemidler.sok.sjekkOmDuKanSoke.bestiller": "Sjekk at du har skrive inn rett HMS nummer eller namn på hjelpemiddelet.",
   "hjelpemidler.sok.biståHvisHjmIkkeKanBestilles": "Dersom innbyggjar har behov for eit hjelpemiddel som ikkje kan bestillast, må du hjelpa innbyggjar i å søkja på dette. Ta kontakt med ergo- og fysioterapitenesta i kommunen din.",
@@ -716,5 +717,9 @@
   "oppsummering.brukervilkår.PRAKTISKE_PROBLEMER_I_DAGLIGLIVET_V1": "Hjelpemiddelet er nødvendig for å avhjelpa praktiske problem i dagleglivet, eller for å bli pleidd i heimen.",
   "oppsummering.brukervilkår.VESENTLIG_OG_VARIG_NEDSATT_FUNKSJONSEVNE_V1": "{{navn}} har vesentleg og varig nedsett funksjonsevne som følgje av sjukdom, skade eller lyte. Med varig siktar ein til 2 år eller livet ut. Hjelpemiddelet skal ikkje brukast til korttidsutlån eller til andre formål.",
   "oppsummering.brukervilkår.KAN_IKKE_LOESES_MED_ENKLERE_HJELPEMIDLER_V1": "{{navn}} behovet sitt kan ikkje løysast med enklare og rimelegare hjelpemiddel, eller ved andre tiltak som ikkje blir dekt av NAV.",
-  "oppsummering.brukervilkår.I_STAND_TIL_AA_BRUKE_HJELEPMIDLENE_V1": "{{navn}} vil vera i stand til å bruka hjelpemidla. Eg har ansvaret for at hjelpemidla blir leverte, og at nødvendig opplæring, tilpassing og montering blir gjort."
+  "oppsummering.brukervilkår.I_STAND_TIL_AA_BRUKE_HJELEPMIDLENE_V1": "{{navn}} vil vera i stand til å bruka hjelpemidla. Eg har ansvaret for at hjelpemidla blir leverte, og at nødvendig opplæring, tilpassing og montering blir gjort.",
+  "visuellOversikt.søkEtterHjelpemiddel": "Søk etter hjelpemiddel",
+  "visuellOversikt.velgHjelpemiddel": "Vel hjelpemiddel",
+  "hjelpemidler.sok.deler": "deler",
+  "hjelpemidler.sok.del": "del"
 }

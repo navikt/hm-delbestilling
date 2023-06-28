@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - main # deploy-dev.yml har egen cypress test
+      - w
 
 jobs:
   cypress-run:
