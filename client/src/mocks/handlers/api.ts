@@ -37,6 +37,10 @@ const apiHandlers = [
       )
     }
 
+    if (hmsnr === '444444') {
+      return res(ctx.delay(450), ctx.status(StatusCodes.TOO_MANY_REQUESTS))
+    }
+
     const hjelpemiddel = hjelpemiddelMock.hjelpemiddel
 
     return res(ctx.delay(250), ctx.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined }))

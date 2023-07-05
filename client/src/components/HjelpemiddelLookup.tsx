@@ -83,9 +83,15 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
       }
     } catch (err: any) {
       console.log(`Kunne ikke hente hjelpemiddel`, err)
-      logOppslagFeil('FEIL_FRA_BACKEND', hmsnr)
+      logOppslagFeil('FEIL_FRA_BACKEND', hmsnr, err.statusCode)
+      let feilmelding = ''
+      if (err.isTooManyRequests()) {
+        feilmelding = 'Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.'
+      } else {
+        feilmelding = 'Noe gikk feil med oppslag, prøv igjen senere'
+      }
       setFeilmelding({
-        feilmelding: 'Noe gikk feil med oppslag, prøv igjen senere',
+        feilmelding,
         tekniskFeilmelding: err,
       })
     } finally {
