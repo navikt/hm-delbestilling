@@ -1,8 +1,9 @@
+import { StatusCodes } from 'http-status-codes'
 import {
   DelbestillerrolleResponse,
   OppslagResponse,
   DelbestillingResponse,
-  AlleHjelpemidlerMedDelerResponse
+  AlleHjelpemidlerMedDelerResponse,
 } from '../types/HttpTypes'
 import { Delbestilling } from '../types/Types'
 
@@ -19,7 +20,11 @@ export class ApiError extends Error {
   }
 
   isUnauthorized(): boolean {
-    return this.statusCode === 401
+    return this.statusCode === StatusCodes.UNAUTHORIZED
+  }
+
+  isTooManyRequests(): boolean {
+    return this.statusCode === StatusCodes.TOO_MANY_REQUESTS
   }
 }
 

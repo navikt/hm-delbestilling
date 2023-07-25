@@ -720,6 +720,15 @@
   "oppsummering.brukervilkår.I_STAND_TIL_AA_BRUKE_HJELEPMIDLENE_V1": "{{navn}} vil vera i stand til å bruka hjelpemidla. Eg har ansvaret for at hjelpemidla blir leverte, og at nødvendig opplæring, tilpassing og montering blir gjort.",
   "oversikt.søkEtterHjelpemiddel": "Søk etter hjelpemiddel",
   "oversikt.velgHjelpemiddel": "Vel hjelpemiddel",
+  "bestillinger.tilXKLager": "Til XK-lager",
+  "bestillinger.serviceOppdrag": "Brukes i serviceoppdrag",
+  "bestillinger.dine": "Dine bestillinger",
+  "bestillinger.dineSiste": "Dine siste bestillinger",
+  "bestillinger.saker": "Saker",
+  "bestillinger.guide.tekst": "Mer tekst her",
+  "bestillinger.guide.statuser.apne": "Vis beskrivelse av statusene",
+  "bestillinger.guide.statuser.lukk": "Lukk beskrivelse av statusene",
+  "bestillinger.guide.statuser.beskrivelse": "Beskrivelse av statuser",
   "hjelpemidler.sok.deler": "deler",
   "hjelpemidler.sok.del": "del"
 }

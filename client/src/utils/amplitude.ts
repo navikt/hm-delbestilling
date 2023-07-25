@@ -62,8 +62,8 @@ export const logOppslagGjort = (hmsnr: string) => {
   logAmplitudeEvent(digihot_customevents.OPPSLAG_GJORT, { artnr: hmsnr })
 }
 
-export const logOppslagFeil = (oppslagFeil: string, hmsnr: string) => {
-  logAmplitudeEvent(digihot_customevents.OPPSLAG_FEIL, { oppslagFeil, artnr: hmsnr })
+export const logOppslagFeil = (oppslagFeil: string, hmsnr: string, statuskode?: number) => {
+  logAmplitudeEvent(digihot_customevents.OPPSLAG_FEIL, { oppslagFeil, artnr: hmsnr, statuskode })
 }
 
 export const logKategoriFiltreringGjort = (filter: string) => {
