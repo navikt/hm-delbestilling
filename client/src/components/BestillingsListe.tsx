@@ -1,12 +1,11 @@
-import { Heading, Loader, ToggleGroup } from '@navikt/ds-react'
+import { Button, Heading, Loader, ToggleGroup } from '@navikt/ds-react'
 import React, { useState, useEffect, useMemo } from 'react'
 import rest from '../services/rest'
 import { Delbestilling } from '../types/Types'
 import { Avstand } from './Avstand'
 import BestillingsKort from './BestillingsKort'
 import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import {useNavigate} from "react-router-dom";
 
 type Valg = 'mine' | 'kommunens'
 
@@ -29,6 +28,11 @@ const LoaderContainer = styled.div`
   padding: 20px;
 `
 
+const ButtonContainer = styled(Avstand)`
+  display: flex;
+  justify-content: flex-end;
+`
+
 interface Props {
   text: string
   maksBestillinger?: number
@@ -43,6 +47,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
   })
   const [henterTidligereBestillinger, setHenterTidligereBestillinger] = useState(true)
   const [valg, setValg] = useState<Valg>('mine')
+  const navigate = useNavigate()
 
   useEffect(() => {
     hentBestillinger(valg)
@@ -105,6 +110,12 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
         </LoaderContainer>
       ) : (
         <div>Ingen tidligere bestillinger</div>
+      )}
+
+      {tidligereBestillinger && tidligereBestillinger.length > 0 && maksBestillinger && (
+        <ButtonContainer marginTop={4}>
+          <Button onClick={() => navigate('/bestillinger')}>Vis alle</Button>
+        </ButtonContainer>
       )}
     </>
   )

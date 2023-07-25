@@ -4,7 +4,7 @@ on:
   push:
     branches-ignore:
       - main # deploy-dev.yml har egen cypress test
-      - w
+      - oversikt-bestillinger
 
 jobs:
   cypress-run:

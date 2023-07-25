@@ -10,16 +10,10 @@ import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
-import BestillingsListe from '../components/BestillingsListe'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import BestillingsListe from '../components/BestillingsListe'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
-
-const ButtonContainer = styled(Avstand)`
-  display: flex;
-  justify-content: flex-end;
-`
 
 const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
@@ -72,9 +66,6 @@ const Index = () => {
             />
             <Avstand marginTop={12} />
             <BestillingsListe text={t('bestillinger.dineSiste')} maksBestillinger={2} />
-            <ButtonContainer marginTop={4}>
-              <Button onClick={() => navigate('/bestillinger')}>Vis alle</Button>
-            </ButtonContainer>
 
             <Avstand marginTop={16}>
               <GuidePanel>
