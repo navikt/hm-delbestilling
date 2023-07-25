@@ -15,7 +15,7 @@ const SakerBanner = styled.div`
   flex-direction: row;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-  gap: 5px;
+  gap: 8px;
   align-items: center;
   h2 {
     flex: 1;
