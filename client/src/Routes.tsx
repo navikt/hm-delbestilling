@@ -7,6 +7,7 @@ import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
 import Oversikt from './containers/Oversikt'
 import { RolleContextLayout } from './context/rolle'
+import Bestillinger from './containers/Bestillinger'
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
           <Route element={<RolleContextLayout />}>
             <Route path="/utsjekk" element={<Utsjekk />} />
             <Route path="/kvittering" element={<Kvittering />} />
+            <Route path="/bestillinger" element={<Bestillinger />} />
           </Route>
         </Route>
       </Switch>

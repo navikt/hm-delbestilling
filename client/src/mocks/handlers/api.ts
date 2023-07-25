@@ -1,20 +1,89 @@
 import { rest } from 'msw'
 import {
+  AlleHjelpemidlerMedDelerResponse,
+  DelbestillingFeil,
+  DelbestillingRequest,
+  DelbestillingResponse,
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
-  DelbestillingResponse,
-  DelbestillingRequest,
-  DelbestillingFeil,
-  AlleHjelpemidlerMedDelerResponse,
 } from '../../types/HttpTypes'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
-import { Delbestilling } from '../../types/Types'
+import { Delbestilling, Levering } from '../../types/Types'
 
 import { API_PATH } from '../../services/rest'
 
-let tidligereBestillinger: Delbestilling[] = []
+let tidligereBestillinger: Delbestilling[] = [
+  {
+    id: '1',
+    hmsnr: '222222',
+    deler: [
+      {
+        del: hjelpemiddelMock.hjelpemiddel.deler[0],
+        antall: 1,
+      },
+      {
+        del: hjelpemiddelMock.hjelpemiddel.deler[1],
+        antall: 2,
+      },
+    ],
+    levering: Levering.TIL_XK_LAGER,
+    serienr: '333333',
+  },
+  {
+    id: '2',
+    hmsnr: '222222',
+    deler: [
+      {
+        del: hjelpemiddelMock.hjelpemiddel.deler[0],
+        antall: 1,
+      },
+      {
+        del: hjelpemiddelMock.hjelpemiddel.deler[1],
+        antall: 2,
+      },
+      {
+        del: hjelpemiddelMock.hjelpemiddel.deler[2],
+        antall: 1,
+      },
+    ],
+    levering: Levering.TIL_SERVICE_OPPDRAG,
+    serienr: '333333',
+  },
+  {
+    id: '3',
+    hmsnr: '222222',
+    deler: [
+      {
+        del: hjelpemiddelMock.hjelpemiddel.deler[2],
+        antall: 2,
+      },
+      {
+        del: hjelpemiddelMock.hjelpemiddel.deler[3],
+        antall: 1,
+      },
+    ],
+    levering: Levering.TIL_SERVICE_OPPDRAG,
+    serienr: '333333',
+  },
+]
+
+let tidligereBestillingerKommune: Delbestilling[] = [
+  {
+    id: '4',
+    hmsnr: '222222',
+    deler: [
+      {
+        del: hjelpemiddelMock.hjelpemiddel.deler[3],
+        antall: 2,
+      },
+    ],
+    levering: Levering.TIL_XK_LAGER,
+    serienr: '333333',
+  },
+]
+
 
 const apiHandlers = [
   rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
@@ -92,7 +161,7 @@ const apiHandlers = [
   }),
 
   rest.get<{}, {}, Delbestilling[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
-    return res(ctx.delay(250), ctx.json(tidligereBestillinger))
+    return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
   }),
   rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(hjelpemidlerMock))

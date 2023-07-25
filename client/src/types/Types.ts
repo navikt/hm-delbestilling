@@ -35,8 +35,8 @@ export interface Delbestilling {
 }
 
 export enum Levering {
-  'TIL_XK_LAGER' = 'TIL_XK_LAGER',
-  'TIL_SERVICE_OPPDRAG' = 'TIL_SERVICE_OPPDRAG',
+  TIL_XK_LAGER = 'TIL_XK_LAGER',
+  TIL_SERVICE_OPPDRAG = 'TIL_SERVICE_OPPDRAG',
 }
 
 export interface Delbestillerrolle {
