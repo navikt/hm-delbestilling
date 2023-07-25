@@ -64,6 +64,7 @@ const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerR
 
 const hentBestillingerForBruker = async (): Promise<Delbestilling[]> => {
   const response = await fetch(API_PATH + '/delbestilling')
+  console.log('response', response);
   await handleResponse(response.clone())
   return await response.json()
 }
