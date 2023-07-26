@@ -1,7 +1,7 @@
 import { Button, Heading, Loader, ToggleGroup } from '@navikt/ds-react'
 import React, { useState, useEffect, useMemo } from 'react'
 import rest from '../services/rest'
-import {Delbestilling, DelbestillingSak, Valg} from '../types/Types'
+import {Del, Delbestilling, DelbestillingSak, Hjelpemiddel, Valg} from '../types/Types'
 import { Avstand } from './Avstand'
 import BestillingsKort from './BestillingsKort'
 import styled from 'styled-components'
@@ -90,6 +90,21 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
     return undefined
   }, [tidligereBestillingerForValg, valg, maksBestillinger])
 
+  const handleGåTilBestillinger = async () => {
+    try {
+      const erLoggetInn = await loginStatus()
+      if (erLoggetInn) {
+        navigate('/bestillinger')
+      } else {
+        window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')
+      }
+    } catch (e: any) {
+      console.error(e)
+      // TODO: vis feilmelding
+      alert('Vi klarte ikke å gå til bestillinger akkurat nå. Prøv igjen senere.')
+    }
+  }
+
   return (
     <>
       <SakerBanner>
@@ -120,7 +135,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
 
       {tidligereBestillinger && tidligereBestillinger.length > 0 && maksBestillinger && (
         <ButtonContainer marginTop={4}>
-          <Button onClick={() => navigate('/bestillinger')}>Vis alle</Button>
+          <Button onClick={handleGåTilBestillinger}>Vis alle</Button>
         </ButtonContainer>
       )}
     </>
