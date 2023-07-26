@@ -78,7 +78,7 @@ const BestillingsKort = ({ sak }: Props) => {
         <Avstand marginBottom={4} />
         <InfoLinje>
           <div>
-            <Label size="small">{t('bestillinger.kort.oppdatert')}:</Label>
+            <Label size="small">{t('bestillinger.kort.opprettet')}:</Label>
             <BodyShort size="small">{datoString}</BodyShort>
           </div>
           <div>
