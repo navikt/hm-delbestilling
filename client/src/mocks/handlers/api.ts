@@ -8,16 +8,16 @@ import {
   OppslagRequest,
   OppslagResponse,
 } from '../../types/HttpTypes'
-import { Delbestilling, DelbestillingSak, Levering } from '../../types/Types'
+import { DelbestillingSakRå } from '../../types/Types'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import delBestillingMock from '../../services/delbestilling-mock.json'
 import { StatusCodes } from 'http-status-codes'
 import { API_PATH } from '../../services/rest'
 
-let tidligereBestillinger = delBestillingMock.slice(0, 4) as DelbestillingSak[]
+let tidligereBestillinger = delBestillingMock.slice(0, 4) as DelbestillingSakRå[]
 
-let tidligereBestillingerKommune = delBestillingMock.slice(4) as DelbestillingSak[]
+let tidligereBestillingerKommune = delBestillingMock.slice(4) as DelbestillingSakRå[]
 
 const apiHandlers = [
   rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
@@ -112,11 +112,11 @@ const apiHandlers = [
     return res(ctx.delay(450), ctx.status(StatusCodes.CREATED), ctx.json({ id: delbestilling.id }))
   }),
 
-  rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+  rest.get<{}, {}, DelbestillingSakRå[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillinger))
   }),
 
-  rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
+  rest.get<{}, {}, DelbestillingSakRå[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
   }),
   rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
