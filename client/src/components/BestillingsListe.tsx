@@ -1,11 +1,11 @@
 import { Button, Heading, Loader, ToggleGroup } from '@navikt/ds-react'
 import React, { useState, useEffect, useMemo } from 'react'
 import rest from '../services/rest'
-import { Delbestilling } from '../types/Types'
+import { Delbestilling, DelbestillingSak } from '../types/Types'
 import { Avstand } from './Avstand'
 import BestillingsKort from './BestillingsKort'
 import styled from 'styled-components'
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 type Valg = 'mine' | 'kommunens'
 
@@ -40,7 +40,7 @@ interface Props {
 
 const BestillingsListe = ({ text, maksBestillinger }: Props) => {
   const [tidligereBestillingerForValg, setTidligereBestillingerForValg] = useState<
-    Record<Valg, Delbestilling[] | undefined>
+    Record<Valg, DelbestillingSak[] | undefined>
   >({
     mine: undefined,
     kommunens: undefined,
@@ -100,8 +100,8 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
       <Avstand marginBottom={4} />
       {tidligereBestillinger && tidligereBestillinger.length > 0 ? (
         <>
-          {tidligereBestillinger.map((bestilling) => (
-            <BestillingsKort key={bestilling.id} bestilling={bestilling} />
+          {tidligereBestillinger.map((sak) => (
+            <BestillingsKort key={sak.delbestilling.id} delbestilling={sak.delbestilling} />
           ))}
         </>
       ) : henterTidligereBestillinger ? (

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { Delbestilling, Levering } from '../types/Types'
-import {BodyShort, Heading, Label, Panel, Tag, TagProps} from '@navikt/ds-react'
+import { BodyShort, Button, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
 import { Avstand } from './Avstand'
 import { useTranslation } from 'react-i18next'
 
@@ -25,7 +25,7 @@ const DelRekke = styled.div`
   }
 `
 
-const LeveringsRekke = styled.div`
+const HøyreJustert = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -33,7 +33,7 @@ const LeveringsRekke = styled.div`
 `
 
 interface Props {
-  bestilling: Delbestilling
+  delbestilling: Delbestilling
 }
 
 function tagStatusFraOrdreStatus(status?: string): TagProps['variant'] {
@@ -43,7 +43,7 @@ function tagStatusFraOrdreStatus(status?: string): TagProps['variant'] {
   }
 }
 
-const BestillingsKort = ({ bestilling }: Props) => {
+const BestillingsKort = ({ delbestilling }: Props) => {
   const { t } = useTranslation()
   const etikettType = tagStatusFraOrdreStatus()
   return (
@@ -51,30 +51,29 @@ const BestillingsKort = ({ bestilling }: Props) => {
       <Panel border>
         <HeaderRekke>
           <Heading size="small" level="3">
-            Hmsnr: {bestilling.hmsnr}
+            Hmsnr: {delbestilling.hmsnr}
           </Heading>
           <Tag variant={etikettType} size="small">
             Ukjent status
           </Tag>
         </HeaderRekke>
         <Avstand marginBottom={4} />
-        {bestilling.deler.map((delLinje) => (
+        {delbestilling.deler.map((delLinje) => (
           <>
             <DelRekke key={delLinje.del.hmsnr}>
               <BodyShort size="small">{delLinje.del.navn}</BodyShort>
               <Label size="small">{delLinje.antall}</Label>
             </DelRekke>
-            <Avstand marginBottom={1} />
           </>
         ))}
-        <LeveringsRekke>
+        <HøyreJustert>
           <Label>Levering:</Label>
           <BodyShort>
-            {bestilling.levering === Levering.TIL_XK_LAGER
+            {delbestilling.levering === Levering.TIL_XK_LAGER
               ? t('bestillinger.tilXKLager')
               : t('bestillinger.serviceOppdrag')}
           </BodyShort>
-        </LeveringsRekke>
+        </HøyreJustert>
       </Panel>
     </Avstand>
   )

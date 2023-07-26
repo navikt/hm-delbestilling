@@ -8,82 +8,16 @@ import {
   OppslagRequest,
   OppslagResponse,
 } from '../../types/HttpTypes'
-import { Delbestilling, Levering } from '../../types/Types'
+import { Delbestilling, DelbestillingSak, Levering } from '../../types/Types'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
+import delBestillingMock from '../../services/delbestilling-mock.json'
 import { StatusCodes } from 'http-status-codes'
-
 import { API_PATH } from '../../services/rest'
 
-let tidligereBestillinger: Delbestilling[] = [
-  {
-    id: '1',
-    hmsnr: '222222',
-    deler: [
-      {
-        del: hjelpemiddelMock.hjelpemiddel.deler[0],
-        antall: 1,
-      },
-      {
-        del: hjelpemiddelMock.hjelpemiddel.deler[1],
-        antall: 2,
-      },
-    ],
-    levering: Levering.TIL_XK_LAGER,
-    serienr: '333333',
-  },
-  {
-    id: '2',
-    hmsnr: '222222',
-    deler: [
-      {
-        del: hjelpemiddelMock.hjelpemiddel.deler[0],
-        antall: 1,
-      },
-      {
-        del: hjelpemiddelMock.hjelpemiddel.deler[1],
-        antall: 2,
-      },
-      {
-        del: hjelpemiddelMock.hjelpemiddel.deler[2],
-        antall: 1,
-      },
-    ],
-    levering: Levering.TIL_SERVICE_OPPDRAG,
-    serienr: '333333',
-  },
-  {
-    id: '3',
-    hmsnr: '222222',
-    deler: [
-      {
-        del: hjelpemiddelMock.hjelpemiddel.deler[2],
-        antall: 2,
-      },
-      {
-        del: hjelpemiddelMock.hjelpemiddel.deler[3],
-        antall: 1,
-      },
-    ],
-    levering: Levering.TIL_SERVICE_OPPDRAG,
-    serienr: '333333',
-  },
-]
+let tidligereBestillinger = delBestillingMock.slice(0, 4) as DelbestillingSak[]
 
-let tidligereBestillingerKommune: Delbestilling[] = [
-  {
-    id: '4',
-    hmsnr: '222222',
-    deler: [
-      {
-        del: hjelpemiddelMock.hjelpemiddel.deler[3],
-        antall: 2,
-      },
-    ],
-    levering: Levering.TIL_XK_LAGER,
-    serienr: '333333',
-  },
-]
+let tidligereBestillingerKommune = delBestillingMock.slice(4) as DelbestillingSak[]
 
 const apiHandlers = [
   rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
@@ -129,7 +63,11 @@ const apiHandlers = [
 
     const id = delbestilling.id
 
-    tidligereBestillinger.push(delbestilling)
+    tidligereBestillinger.push({
+      saksnummer: tidligereBestillinger.length + 1,
+      delbestilling,
+      opprettet: new Date().toISOString(),
+    })
 
     if (delbestilling.serienr === '000000') {
       return res(
@@ -174,11 +112,11 @@ const apiHandlers = [
     return res(ctx.delay(450), ctx.status(StatusCodes.CREATED), ctx.json({ id: delbestilling.id }))
   }),
 
-  rest.get<{}, {}, Delbestilling[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+  rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillinger))
   }),
 
-  rest.get<{}, {}, Delbestilling[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
+  rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
   }),
   rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
