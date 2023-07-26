@@ -56,7 +56,6 @@ export const routes = {
     return router
   },
   auth(): Router {
-    console.log('setting up auth routes')
     const router = Router()
     router.get('/login', authMiddleware.login())
     router.get('/logout', authMiddleware.logout())

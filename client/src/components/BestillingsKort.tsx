@@ -10,7 +10,7 @@ const HeaderRekke = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 8px;
-  h3:last-child {
+  h3 {
     flex: 1;
   }
 `
@@ -63,10 +63,7 @@ const BestillingsKort = ({ sak }: Props) => {
       <Panel border>
         <HeaderRekke>
           <Heading size="small" level="3">
-            Hmsnr: {sak.delbestilling.hmsnr}
-          </Heading>
-          <Heading size="small" level="3">
-            Serienr: {sak.delbestilling.serienr}
+            Hmsnr: {sak.delbestilling.hmsnr} Serienr: {sak.delbestilling.serienr}
           </Heading>
           {/*<Tag variant={etikettType} size="small">
             Ukjent status
