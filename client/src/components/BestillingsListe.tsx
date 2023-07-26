@@ -107,7 +107,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
       {tidligereBestillinger && tidligereBestillinger.length > 0 ? (
         <>
           {tidligereBestillinger.map((sak) => (
-            <BestillingsKort key={sak.delbestilling.id} delbestilling={sak.delbestilling} />
+            <BestillingsKort key={sak.delbestilling.id} sak={sak} />
           ))}
         </>
       ) : henterTidligereBestillinger ? (
