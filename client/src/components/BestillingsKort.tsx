@@ -58,13 +58,11 @@ const BestillingsKort = ({ delbestilling }: Props) => {
           </Tag>
         </HeaderRekke>
         <Avstand marginBottom={4} />
-        {delbestilling.deler.map((delLinje) => (
-          <>
-            <DelRekke key={delLinje.del.hmsnr}>
-              <BodyShort size="small">{delLinje.del.navn}</BodyShort>
-              <Label size="small">{delLinje.antall}</Label>
-            </DelRekke>
-          </>
+        {delbestilling.deler.map((delLinje, index) => (
+          <DelRekke key={index}>
+            <BodyShort size="small">{delLinje.del.navn}</BodyShort>
+            <Label size="small">{delLinje.antall}</Label>
+          </DelRekke>
         ))}
         <HøyreJustert>
           <Label>Levering:</Label>

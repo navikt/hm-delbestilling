@@ -37,8 +37,10 @@ export interface Delbestilling {
 export interface DelbestillingSak {
   saksnummer: number
   delbestilling: Delbestilling
-  opprettet: string
+  opprettet: Date
 }
+
+export type DelbestillingSakRå = Omit<DelbestillingSak, 'opprettet'> & { opprettet: string }
 
 export enum Levering {
   TIL_XK_LAGER = 'TIL_XK_LAGER',

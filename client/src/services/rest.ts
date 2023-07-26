@@ -5,7 +5,7 @@ import {
   DelbestillingResponse,
   AlleHjelpemidlerMedDelerResponse,
 } from '../types/HttpTypes'
-import {Delbestilling, Valg} from '../types/Types'
+import { Delbestilling, DelbestillingSak, DelbestillingSakRå, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
@@ -62,21 +62,28 @@ const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerR
   return await response.json()
 }
 
-const hentBestillinger = async (valg: Valg) => {
+const hentBestillinger = async (valg: Valg): Promise<DelbestillingSak[] | undefined> => {
+  let bestillinger: DelbestillingSakRå[] | undefined = undefined
   if (valg === 'mine') {
-    return hentBestillingerForBruker()
+    bestillinger = await hentBestillingerForBruker()
   } else if (valg === 'kommunens') {
-    return hentBestillingerForKommune()
+    bestillinger = await hentBestillingerForKommune()
+  }
+  if (bestillinger) {
+    return bestillinger.map((sak) => ({
+      ...sak,
+      opprettet: new Date(sak.opprettet),
+    }))
   }
 }
 
-const hentBestillingerForBruker = async (): Promise<Delbestilling[]> => {
+const hentBestillingerForBruker = async (): Promise<DelbestillingSakRå[]> => {
   const response = await fetch(API_PATH + '/delbestilling')
   await handleResponse(response.clone())
   return await response.json()
 }
 
-const hentBestillingerForKommune = async (): Promise<Delbestilling[]> => {
+const hentBestillingerForKommune = async (): Promise<DelbestillingSakRå[]> => {
   const response = await fetch(API_PATH + '/delbestilling/kommune')
   await handleResponse(response.clone())
   return await response.json()

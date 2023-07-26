@@ -61,7 +61,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
       const erLoggetInn = await loginStatus()
       if (erLoggetInn) {
         setHenterTidligereBestillinger(true)
-        const bestillinger = await rest.hentBestillinger(valg)
+        let bestillinger = await rest.hentBestillinger(valg)
         setTidligereBestillingerForValg({
           ...tidligereBestillingerForValg,
           [valg]: bestillinger,
@@ -82,8 +82,12 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
   }
 
   const tidligereBestillinger = useMemo(() => {
-    const bestillinger = tidligereBestillingerForValg[valg]
-    return bestillinger && maksBestillinger ? bestillinger.slice(0, maksBestillinger) : bestillinger
+    let bestillinger = tidligereBestillingerForValg[valg]
+    if (bestillinger) {
+      bestillinger = bestillinger.sort((a, b) => b.opprettet.getTime() - a.opprettet.getTime())
+      return maksBestillinger ? bestillinger.slice(0, maksBestillinger) : bestillinger
+    }
+    return undefined
   }, [tidligereBestillingerForValg, valg, maksBestillinger])
 
   return (
