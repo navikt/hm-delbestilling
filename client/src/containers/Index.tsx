@@ -73,7 +73,7 @@ const Index = () => {
 
             <Avstand marginTop={16} />
             <CenteredContent>
-              <Button onClick={() => navigate('/bestillinger')} variant="secondary">
+              <Button onClick={() => window.location.replace('/hjelpemidler/delbestilling/bestillinger')} variant="secondary">
                 Se tidligere bestillinger
               </Button>
             </CenteredContent>
