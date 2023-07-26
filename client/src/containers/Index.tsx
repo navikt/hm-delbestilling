@@ -47,7 +47,7 @@ const Index = () => {
       if (erLoggetInn) {
         navigate('/utsjekk')
       } else {
-        window.location.replace('/hjelpemidler/delbestilling/login?redirect=utsjekk')
+        window.location.replace('/hjelpemidler/delbestilling/login')
       }
     } catch (e: any) {
       console.log(e)
