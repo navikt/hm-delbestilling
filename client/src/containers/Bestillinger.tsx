@@ -29,7 +29,7 @@ const Bestillinger = () => {
           <Heading size="xlarge">{t('bestillinger.dine')}</Heading>
           <Button onClick={() => navigate('/')}>Ny bestilling</Button>
         </BannerContainer>
-        <GuidePanel poster>
+        {/*<GuidePanel poster>
           {t('bestillinger.guide.tekst')}
           <ReadMore
             style={{ marginTop: '2rem' }}
@@ -42,7 +42,7 @@ const Bestillinger = () => {
               {t('bestillinger.guide.statuser.beskrivelse')}
             </Heading>
           </ReadMore>
-        </GuidePanel>
+        </GuidePanel>*/}
         <Avstand marginTop={12} />
         <BestillingsListe text={t('bestillinger.saker')} />
       </Content>

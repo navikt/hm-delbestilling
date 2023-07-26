@@ -9,7 +9,8 @@ const HeaderRekke = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  h3 {
+  gap: 8px;
+  h3:last-child {
     flex: 1;
   }
 `
@@ -64,9 +65,12 @@ const BestillingsKort = ({ sak }: Props) => {
           <Heading size="small" level="3">
             Hmsnr: {sak.delbestilling.hmsnr}
           </Heading>
-          <Tag variant={etikettType} size="small">
+          <Heading size="small" level="3">
+            Serienr: {sak.delbestilling.serienr}
+          </Heading>
+          {/*<Tag variant={etikettType} size="small">
             Ukjent status
-          </Tag>
+          </Tag>*/}
         </HeaderRekke>
         <Avstand marginBottom={4} />
         {sak.delbestilling.deler.map((delLinje, index) => (
