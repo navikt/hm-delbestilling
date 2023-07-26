@@ -50,6 +50,8 @@ export const routes = {
     router.get('/', spaHandler)
     server.get('/oversikt', spaHandler)
     router.get('/oversikt', spaHandler)
+    server.get('/bestillinger', spaHandler)
+    router.get('/bestillinger', spaHandler)
 
     return router
   },

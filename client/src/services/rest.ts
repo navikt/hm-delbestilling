@@ -5,7 +5,7 @@ import {
   DelbestillingResponse,
   AlleHjelpemidlerMedDelerResponse,
 } from '../types/HttpTypes'
-import { Delbestilling } from '../types/Types'
+import {Delbestilling, Valg} from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
@@ -62,9 +62,16 @@ const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerR
   return await response.json()
 }
 
+const hentBestillinger = async (valg: Valg) => {
+  if (valg === 'mine') {
+    return hentBestillingerForBruker()
+  } else if (valg === 'kommunens') {
+    return hentBestillingerForKommune()
+  }
+}
+
 const hentBestillingerForBruker = async (): Promise<Delbestilling[]> => {
   const response = await fetch(API_PATH + '/delbestilling')
-  console.log('response', response)
   await handleResponse(response.clone())
   return await response.json()
 }
@@ -111,6 +118,7 @@ export default {
   hjelpemiddelOppslag,
   hentAlleHjelpemidlerMedDeler,
   sendInnBestilling,
+  hentBestillinger,
   hentBestillingerForBruker,
   hentBestillingerForKommune,
   hentRolle,

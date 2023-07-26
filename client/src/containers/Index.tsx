@@ -64,8 +64,10 @@ const Index = () => {
               setSerienr={setSerienr}
               setHjelpemiddel={setHjelpemiddel}
             />
-            <Avstand marginTop={12} />
-            <BestillingsListe text={t('bestillinger.dineSiste')} maksBestillinger={2} />
+            {/* 
+              <Avstand marginTop={12} />
+              <BestillingsListe text={t('bestillinger.dineSiste')} maksBestillinger={2} />
+            */}
 
             <Avstand marginTop={16}>
               <GuidePanel>

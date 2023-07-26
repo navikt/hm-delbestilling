@@ -1,13 +1,12 @@
 import { Button, Heading, Loader, ToggleGroup } from '@navikt/ds-react'
 import React, { useState, useEffect, useMemo } from 'react'
 import rest from '../services/rest'
-import { Delbestilling, DelbestillingSak } from '../types/Types'
+import {Delbestilling, DelbestillingSak, Valg} from '../types/Types'
 import { Avstand } from './Avstand'
 import BestillingsKort from './BestillingsKort'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-
-type Valg = 'mine' | 'kommunens'
+import useAuth from '../hooks/useAuth'
 
 const SakerBanner = styled.div`
   display: flex;
@@ -45,9 +44,11 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
     mine: undefined,
     kommunens: undefined,
   })
+  const [erLoggetInn, setErLoggetInn] = useState(false)
   const [henterTidligereBestillinger, setHenterTidligereBestillinger] = useState(true)
   const [valg, setValg] = useState<Valg>('mine')
   const navigate = useNavigate()
+  const { loginStatus } = useAuth()
 
   useEffect(() => {
     hentBestillinger(valg)
@@ -57,17 +58,18 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
     console.log(`Henter bestillinger for ${valg}`)
 
     try {
-      setHenterTidligereBestillinger(true)
-      let bestillinger
-      if (valg === 'mine') {
-        bestillinger = await rest.hentBestillingerForBruker()
-      } else if (valg === 'kommunens') {
-        bestillinger = await rest.hentBestillingerForKommune()
+      const erLoggetInn = await loginStatus()
+      if (erLoggetInn) {
+        setHenterTidligereBestillinger(true)
+        const bestillinger = await rest.hentBestillinger(valg)
+        setTidligereBestillingerForValg({
+          ...tidligereBestillingerForValg,
+          [valg]: bestillinger,
+        })
+        setErLoggetInn(true)
+      } else {
+        setErLoggetInn(false)
       }
-      setTidligereBestillingerForValg({
-        ...tidligereBestillingerForValg,
-        [valg]: bestillinger,
-      })
     } catch (err) {
       console.log(`Klarte ikke hente tidliger bestillinger`, err)
       setTidligereBestillingerForValg({

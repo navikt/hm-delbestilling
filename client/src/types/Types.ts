@@ -51,3 +51,5 @@ export interface Delbestillerrolle {
   erKommunaltAnsatt: boolean
   erIPilot: boolean
 }
+
+export type Valg = 'mine' | 'kommunens'
