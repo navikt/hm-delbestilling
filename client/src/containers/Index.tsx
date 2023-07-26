@@ -11,7 +11,8 @@ import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { useTranslation } from 'react-i18next'
-import BestillingsListe from '../components/BestillingsListe'
+import styled from 'styled-components'
+import {CenteredContent} from "../styledcomponents/CenteredContent";
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -49,21 +50,6 @@ const Index = () => {
     }
   }
 
-  const handleLoggInnForBestillinger = async () => {
-    try {
-      const erLoggetInn = await loginStatus()
-      if (erLoggetInn) {
-        navigate('/bestillinger')
-      } else {
-        window.location.replace('/hjelpemidler/delbestilling/login')
-      }
-    } catch (e: any) {
-      console.log(e)
-      // TODO: vis feilmelding
-      alert('Vi klarte ikke å sjekke loginstatus akkurat nå. Prøv igjen senere.')
-    }
-  }
-
   return (
     <main>
       <Content>
@@ -79,14 +65,18 @@ const Index = () => {
               setSerienr={setSerienr}
               setHjelpemiddel={setHjelpemiddel}
             />
+
             {/* 
               <Avstand marginTop={12} />
               <BestillingsListe text={t('bestillinger.dineSiste')} maksBestillinger={2} />
             */}
 
-            <Button onClick={handleLoggInnForBestillinger} variant="secondary">
-              Se dine bestillinger
-            </Button>
+            <Avstand marginTop={16} />
+            <CenteredContent>
+              <Button onClick={() => navigate('/bestillinger')} variant="secondary">
+                Se tidligere bestillinger
+              </Button>
+            </CenteredContent>
 
             <Avstand marginTop={16}>
               <GuidePanel>
