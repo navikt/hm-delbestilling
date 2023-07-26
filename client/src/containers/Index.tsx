@@ -47,7 +47,7 @@ const Index = () => {
       if (erLoggetInn) {
         navigate('/utsjekk')
       } else {
-        window.location.replace('/hjelpemidler/delbestilling/login')
+        window.location.replace('/hjelpemidler/delbestilling/login?redirect=utsjekk')
       }
     } catch (e: any) {
       console.log(e)
@@ -82,7 +82,7 @@ const Index = () => {
                 <Avstand marginTop={16} />
                 <CenteredContent>
                   <Button
-                    onClick={() => window.location.replace('/hjelpemidler/delbestilling/login')}
+                    onClick={() => window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')}
                     variant="secondary"
                   >
                     Logg inn for å se bestillinger

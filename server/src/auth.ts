@@ -237,7 +237,7 @@ const requiresLogin = (): RequestHandler => async (req, res, next) => {
 }
 
 const loginHandler = (): RequestHandler => (req, res) => {
-  res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}/utsjekk`)
+  res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}/${req.params.redirect}`)
 }
 
 const logoutHandler = (): RequestHandler => (req, res) => {
