@@ -97,10 +97,10 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
           {text}
         </Heading>
         {henterTidligereBestillinger && tidligereBestillinger && <Loader size="small" />}
-        <ToggleGroup defaultValue="mine" size="small" onChange={(val) => setValg(val as Valg)}>
+        {/*<ToggleGroup defaultValue="mine" size="small" onChange={(val) => setValg(val as Valg)}>
           <ToggleGroup.Item value="mine">Mine</ToggleGroup.Item>
           <ToggleGroup.Item value="kommunens">Kommunens</ToggleGroup.Item>
-        </ToggleGroup>
+        </ToggleGroup>*/}
       </SakerBanner>
 
       <Avstand marginBottom={4} />
