@@ -1,0 +1,276 @@
+[
+  {
+    "saksnummer": 1,
+    "delbestilling": {
+      "id": "de859ec4-ff4b-4f61-826d-33e1ba3d8093",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150928",
+            "navn": "Svinghjul kompakt 5\"/120mm",
+            "levArtNr": null,
+            "img": null,
+            "kategori": "Svinghjul",
+            "maksAntall": 2
+          },
+          "antall": 2
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-06-22T11:33:28.785459"
+  },
+  {
+    "saksnummer": 2,
+    "delbestilling": {
+      "id": "c026e6f8-8e70-445d-897a-b891405f91f3",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 2
+        },
+        {
+          "del": {
+            "hmsnr": "150928",
+            "navn": "Svinghjul kompakt 5\"/120mm",
+            "levArtNr": null,
+            "img": null,
+            "kategori": "Svinghjul",
+            "maksAntall": 2
+          },
+          "antall": 1
+        },
+        {
+          "del": {
+            "hmsnr": "211449",
+            "navn": "Slange 24x1 bilventil",
+            "levArtNr": "1000005",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg",
+            "kategori": "Slange",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_SERVICE_OPPDRAG"
+    },
+    "opprettet": "2023-06-22T11:33:53.474711"
+  },
+  {
+    "saksnummer": 3,
+    "delbestilling": {
+      "id": "0c2ea291-d085-4b15-9437-d4d9c4d27f0e",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 2
+        },
+        {
+          "del": {
+            "hmsnr": "150921",
+            "navn": "Slange 26\"",
+            "levArtNr": null,
+            "img": null,
+            "kategori": "Slange",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-06-22T12:42:03.712112"
+  },
+  {
+    "saksnummer": 4,
+    "delbestilling": {
+      "id": "ab4fcb18-c62d-4f6b-85d0-403d3797a34c",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_SERVICE_OPPDRAG"
+    },
+    "opprettet": "2023-07-18T08:50:44.730108"
+  },
+  {
+    "saksnummer": 5,
+    "delbestilling": {
+      "id": "65f3a155-342f-4557-8427-f06e78f7597f",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-07-18T11:10:30.5311"
+  },
+  {
+    "saksnummer": 6,
+    "delbestilling": {
+      "id": "de841c1e-e00e-4950-9d51-730eb3542512",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-07-18T13:10:48.949403"
+  },
+  {
+    "saksnummer": 7,
+    "delbestilling": {
+      "id": "3b815e0b-d357-4d87-b018-474d6406d7cc",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-07-25T08:15:24.141289"
+  },
+  {
+    "saksnummer": 8,
+    "delbestilling": {
+      "id": "c7c9ed03-6096-4d15-bade-3ec7d13fb213",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 1
+        },
+        {
+          "del": {
+            "hmsnr": "178498",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 26\"x1",
+            "levArtNr": "1000039",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/178498.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-07-25T13:38:53.745194"
+  },
+  {
+    "saksnummer": 9,
+    "delbestilling": {
+      "id": "2e438136-fb25-426e-ae62-d029b85ec5ae",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-07-26T07:13:21.893781"
+  },
+  {
+    "saksnummer": 10,
+    "delbestilling": {
+      "id": "7f7d5830-15a9-483d-8d14-bdbdd0adc74c",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150817",
+            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
+            "levArtNr": "1000038",
+            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+            "kategori": "Dekk",
+            "maksAntall": 2
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-07-26T08:17:40.092063"
+  }
+]

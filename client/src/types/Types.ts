@@ -34,9 +34,17 @@ export interface Delbestilling {
   levering: Levering
 }
 
+export interface DelbestillingSak {
+  saksnummer: number
+  delbestilling: Delbestilling
+  opprettet: Date
+}
+
+export type DelbestillingSakRå = Omit<DelbestillingSak, 'opprettet'> & { opprettet: string }
+
 export enum Levering {
-  'TIL_XK_LAGER' = 'TIL_XK_LAGER',
-  'TIL_SERVICE_OPPDRAG' = 'TIL_SERVICE_OPPDRAG',
+  TIL_XK_LAGER = 'TIL_XK_LAGER',
+  TIL_SERVICE_OPPDRAG = 'TIL_SERVICE_OPPDRAG',
 }
 
 export interface Delbestillerrolle {
@@ -45,3 +53,5 @@ export interface Delbestillerrolle {
   erKommunaltAnsatt: boolean
   erIPilot: boolean
 }
+
+export type Valg = 'mine' | 'kommunens'

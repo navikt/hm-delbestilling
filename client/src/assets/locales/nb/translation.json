@@ -718,8 +718,16 @@
   "oppsummering.brukervilkår.VESENTLIG_OG_VARIG_NEDSATT_FUNKSJONSEVNE_V1": "{{navn}} har vesentlig og varig nedsatt funksjonsevne som følge av sykdom, skade eller lyte. Med varig menes 2 år eller livet ut. Hjelpemiddelet skal ikke brukes til korttidsutlån eller til andre formål.",
   "oppsummering.brukervilkår.KAN_IKKE_LOESES_MED_ENKLERE_HJELPEMIDLER_V1": "{{navn}} sitt behov kan ikke løses med enklere og rimeligere hjelpemidler, eller ved andre tiltak som ikke dekkes av NAV.",
   "oppsummering.brukervilkår.I_STAND_TIL_AA_BRUKE_HJELEPMIDLENE_V1": "{{navn}} vil være i stand til å bruke hjelpemidlene. Jeg har ansvaret for at hjelpemidlene blir levert, og at nødvendig opplæring, tilpasning og montering blir gjort.",
-  "visuellOversikt.søkEtterHjelpemiddel": "Søk etter hjelpemiddel",
-  "visuellOversikt.velgHjelpemiddel": "Velg hjelpemiddel",
+  "oversikt.søkEtterHjelpemiddel": "Søk etter hjelpemiddel",
+  "oversikt.velgHjelpemiddel": "Velg hjelpemiddel",
+  "bestillinger.tilXKLager": "Til XK-lager",
+  "bestillinger.serviceOppdrag": "Brukes i serviceoppdrag",
+  "bestillinger.dine": "Dine bestillinger",
+  "bestillinger.dineSiste": "Dine siste bestillinger",
+  "bestillinger.saker": "Saker",
+  "bestillinger.kort.opprettet": "Opprettet",
+  "bestillinger.kort.oppdatert": "Oppdatert",
+  "bestillinger.kort.levering": "Levering",
   "hjelpemidler.sok.deler": "deler",
   "hjelpemidler.sok.del": "del"
 }

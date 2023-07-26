@@ -1,21 +1,23 @@
 import { rest } from 'msw'
 import {
+  AlleHjelpemidlerMedDelerResponse,
+  DelbestillingFeil,
+  DelbestillingRequest,
+  DelbestillingResponse,
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
-  DelbestillingResponse,
-  DelbestillingRequest,
-  DelbestillingFeil,
-  AlleHjelpemidlerMedDelerResponse,
 } from '../../types/HttpTypes'
+import { DelbestillingSakRå } from '../../types/Types'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
-import { Delbestilling } from '../../types/Types'
+import delBestillingMock from '../../services/delbestilling-mock.json'
 import { StatusCodes } from 'http-status-codes'
-
 import { API_PATH } from '../../services/rest'
 
-let tidligereBestillinger: Delbestilling[] = []
+let tidligereBestillinger = delBestillingMock.slice(0, 4) as DelbestillingSakRå[]
+
+let tidligereBestillingerKommune = delBestillingMock.slice(4) as DelbestillingSakRå[]
 
 const apiHandlers = [
   rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
@@ -61,7 +63,11 @@ const apiHandlers = [
 
     const id = delbestilling.id
 
-    tidligereBestillinger.push(delbestilling)
+    tidligereBestillinger.push({
+      saksnummer: tidligereBestillinger.length + 1,
+      delbestilling,
+      opprettet: new Date().toISOString(),
+    })
 
     if (delbestilling.serienr === '000000') {
       return res(
@@ -106,12 +112,15 @@ const apiHandlers = [
     return res(ctx.delay(450), ctx.status(StatusCodes.CREATED), ctx.json({ id: delbestilling.id }))
   }),
 
-  rest.get<{}, {}, Delbestilling[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+  rest.get<{}, {}, DelbestillingSakRå[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillinger))
   }),
 
-  rest.get<{}, {}, Delbestilling[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
-    return res(ctx.delay(250), ctx.json(tidligereBestillinger))
+  rest.get<{}, {}, DelbestillingSakRå[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
+    return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
+  }),
+  rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
+    return res(ctx.delay(250), ctx.json(hjelpemidlerMock))
   }),
   rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(hjelpemidlerMock))

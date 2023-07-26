@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BodyShort, Button, GuidePanel, Heading, Link, Panel } from '@navikt/ds-react'
 import { PencilIcon } from '@navikt/aksel-icons'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -10,6 +10,10 @@ import LeggTilDel from '../components/LeggTilDel'
 import useAuth from '../hooks/useAuth'
 import { v4 as uuidv4 } from 'uuid'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { CenteredContent } from '../styledcomponents/CenteredContent'
+import BestillingsListe from '../components/BestillingsListe'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -17,9 +21,15 @@ const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
+  const [erLoggetInn, setErLoggetInn] = useState(false)
 
   const { loginStatus } = useAuth()
   const navigate = useNavigate()
+  const { t } = useTranslation()
+
+  useEffect(() => {
+    loginStatus().then(setErLoggetInn)
+  }, [])
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
     const handlekurv: Handlekurv = {
@@ -61,6 +71,25 @@ const Index = () => {
               setSerienr={setSerienr}
               setHjelpemiddel={setHjelpemiddel}
             />
+
+            {erLoggetInn ? (
+              <>
+                <Avstand marginTop={12} />
+                <BestillingsListe text={t('bestillinger.dineSiste')} maksBestillinger={2} />
+              </>
+            ) : (
+              <>
+                <Avstand marginTop={16} />
+                <CenteredContent>
+                  <Button
+                    onClick={() => window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')}
+                    variant="secondary"
+                  >
+                    Logg inn for å se bestillinger
+                  </Button>
+                </CenteredContent>
+              </>
+            )}
 
             <Avstand marginTop={16}>
               <GuidePanel>
