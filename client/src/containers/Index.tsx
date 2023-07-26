@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import {CenteredContent} from "../styledcomponents/CenteredContent";
+import { CenteredContent } from '../styledcomponents/CenteredContent'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -73,8 +73,11 @@ const Index = () => {
 
             <Avstand marginTop={16} />
             <CenteredContent>
-              <Button onClick={() => window.location.replace('/hjelpemidler/delbestilling/bestillinger')} variant="secondary">
-                Se tidligere bestillinger
+              <Button
+                onClick={() => window.location.replace('/hjelpemidler/delbestilling/login')}
+                variant="secondary"
+              >
+                Logg inn for å se bestillinger
               </Button>
             </CenteredContent>
 
