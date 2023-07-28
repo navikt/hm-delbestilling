@@ -24,6 +24,7 @@ import DelInfo from '../components/DelInfo'
 import { GlobalStyle } from '../GlobalStyle'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
+import { defaultAntall } from '../helpers/delHelper'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -79,7 +80,7 @@ const Utsjekk = () => {
       if (!prev) return undefined
       return {
         ...prev,
-        deler: [...prev.deler, { del, antall: del.kategori === 'Batteri' ? 2 : 1 }],
+        deler: [...prev.deler, { del, antall: defaultAntall(del) }],
       }
     })
 

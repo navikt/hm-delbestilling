@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CenteredContent } from '../styledcomponents/CenteredContent'
 import BestillingsListe from '../components/BestillingsListe'
+import { defaultAntall } from '../helpers/delHelper'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -36,7 +37,7 @@ const Index = () => {
       id: uuidv4(),
       serienr,
       hjelpemiddel,
-      deler: [{ del, antall: del.kategori === 'Batteri' ? 2 : 1 }], // Batteri kommer "alltid" i par, så like greit å defaulte til 2
+      deler: [{ del, antall: defaultAntall(del) }],
       levering: undefined,
     }
 
