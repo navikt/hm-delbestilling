@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { Delbestilling, DelbestillingSak, Levering } from '../types/Types'
+import { Delbestilling, DelbestillingSak, Levering, Status } from '../types/Types'
 import { BodyShort, Button, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
 import { Avstand } from './Avstand'
 import { useTranslation } from 'react-i18next'
@@ -43,8 +43,13 @@ interface Props {
   sak: DelbestillingSak
 }
 
-function tagStatusFraOrdreStatus(status?: string): TagProps['variant'] {
+function tagTypeForStatus(status: Status): TagProps['variant'] {
   switch (status) {
+    case 'INNSENDT':
+      return 'neutral'
+    case 'KLARGJORT':
+    case 'REGISTRERT':
+      return 'info'
     default:
       return 'info'
   }
@@ -52,7 +57,7 @@ function tagStatusFraOrdreStatus(status?: string): TagProps['variant'] {
 
 const BestillingsKort = ({ sak }: Props) => {
   const { t } = useTranslation()
-  const etikettType = tagStatusFraOrdreStatus()
+  const etikettType = tagTypeForStatus(sak.status)
   const datoString = sak.opprettet.toLocaleString('no', {
     day: 'numeric',
     month: 'short',
@@ -65,9 +70,9 @@ const BestillingsKort = ({ sak }: Props) => {
           <Heading size="small" level="3">
             Hmsnr: {sak.delbestilling.hmsnr} Serienr: {sak.delbestilling.serienr}
           </Heading>
-          {/*<Tag variant={etikettType} size="small">
-            Ukjent status
-          </Tag>*/}
+          {/* <Tag variant={etikettType} size="small">
+            {t(`bestillinger.status.${sak.status}`)}
+          </Tag> */}
         </HeaderRekke>
         <Avstand marginBottom={4} />
         {sak.delbestilling.deler.map((delLinje, index) => (

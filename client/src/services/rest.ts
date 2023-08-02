@@ -5,7 +5,7 @@ import {
   DelbestillingResponse,
   AlleHjelpemidlerMedDelerResponse,
 } from '../types/HttpTypes'
-import { Delbestilling, DelbestillingSak, DelbestillingSakRå, Valg } from '../types/Types'
+import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
@@ -63,7 +63,7 @@ const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerR
 }
 
 const hentBestillinger = async (valg: Valg): Promise<DelbestillingSak[] | undefined> => {
-  let bestillinger: DelbestillingSakRå[] | undefined = undefined
+  let bestillinger: DelbestillingSak[] | undefined = undefined
   if (valg === 'mine') {
     bestillinger = await hentBestillingerForBruker()
   } else if (valg === 'kommunens') {
@@ -77,13 +77,13 @@ const hentBestillinger = async (valg: Valg): Promise<DelbestillingSak[] | undefi
   }
 }
 
-const hentBestillingerForBruker = async (): Promise<DelbestillingSakRå[]> => {
+const hentBestillingerForBruker = async (): Promise<DelbestillingSak[]> => {
   const response = await fetch(API_PATH + '/delbestilling')
   await handleResponse(response.clone())
   return await response.json()
 }
 
-const hentBestillingerForKommune = async (): Promise<DelbestillingSakRå[]> => {
+const hentBestillingerForKommune = async (): Promise<DelbestillingSak[]> => {
   const response = await fetch(API_PATH + '/delbestilling/kommune')
   await handleResponse(response.clone())
   return await response.json()

@@ -8,19 +8,20 @@ import {
   OppslagRequest,
   OppslagResponse,
 } from '../../types/HttpTypes'
-import { DelbestillingSakRå } from '../../types/Types'
+import { DelbestillingSak, Status } from '../../types/Types'
 import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import delBestillingMock from '../../services/delbestilling-mock.json'
 import { StatusCodes } from 'http-status-codes'
 import { API_PATH } from '../../services/rest'
 
-let tidligereBestillinger = delBestillingMock.slice(0, 4) as DelbestillingSakRå[]
-
-let tidligereBestillingerKommune = delBestillingMock.slice(4) as DelbestillingSakRå[]
+let tidligereBestillinger = delBestillingMock.slice(0, 4) as unknown as DelbestillingSak[]
+let tidligereBestillingerKommune = delBestillingMock.slice(4) as unknown as DelbestillingSak[]
 
 const apiHandlers = [
   rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
+    // req.body er egentlig deprecated, men det er problemer med å inferre typen fra generic
+    // https://github.com/mswjs/msw/discussions/1308#discussioncomment-3389160
     const { hmsnr } = req.body
 
     if (hmsnr === '333333') {
@@ -48,7 +49,7 @@ const apiHandlers = [
     return res(ctx.delay(250), ctx.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined }))
   }),
 
-  rest.post<DelbestillingRequest, {}, DelbestillingResponse>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+  rest.post<DelbestillingRequest, {}, DelbestillingResponse>(`${API_PATH}/delbestilling`, async (req, res, ctx) => {
     const { delbestilling } = req.body
 
     if (
@@ -66,7 +67,9 @@ const apiHandlers = [
     tidligereBestillinger.push({
       saksnummer: tidligereBestillinger.length + 1,
       delbestilling,
-      opprettet: new Date().toISOString(),
+      opprettet: new Date(),
+      sistOppdatert: new Date(),
+      status: Status.INNSENDT,
     })
 
     if (delbestilling.serienr === '000000') {
@@ -112,11 +115,11 @@ const apiHandlers = [
     return res(ctx.delay(450), ctx.status(StatusCodes.CREATED), ctx.json({ id: delbestilling.id }))
   }),
 
-  rest.get<{}, {}, DelbestillingSakRå[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
+  rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillinger))
   }),
 
-  rest.get<{}, {}, DelbestillingSakRå[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
+  rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
   }),
   rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {

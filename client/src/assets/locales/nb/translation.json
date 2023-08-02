@@ -728,6 +728,9 @@
   "bestillinger.kort.opprettet": "Opprettet",
   "bestillinger.kort.oppdatert": "Oppdatert",
   "bestillinger.kort.levering": "Levering",
+  "bestillinger.status.INNSENDT": "Innsendt",
+  "bestillinger.status.KLARGJORT": "Klargjort",
+  "bestillinger.status.REGISTRERT": "Registrert",
   "hjelpemidler.sok.deler": "deler",
   "hjelpemidler.sok.del": "del"
 }

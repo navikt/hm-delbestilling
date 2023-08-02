@@ -1,7 +1,7 @@
 import { Button, Heading, Loader, ToggleGroup } from '@navikt/ds-react'
 import React, { useState, useEffect, useMemo } from 'react'
 import rest from '../services/rest'
-import {Del, Delbestilling, DelbestillingSak, Hjelpemiddel, Valg} from '../types/Types'
+import { Del, Delbestilling, DelbestillingSak, Hjelpemiddel, Valg } from '../types/Types'
 import { Avstand } from './Avstand'
 import BestillingsKort from './BestillingsKort'
 import styled from 'styled-components'
