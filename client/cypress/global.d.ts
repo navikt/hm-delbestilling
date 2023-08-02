@@ -1,6 +1,6 @@
 interface Window {
   msw: {
-    worker: import('msw').SetupWorkerApi
+    worker: import('msw').SetupWorker
     rest: typeof import('msw').rest
   }
 }
