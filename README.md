@@ -30,4 +30,6 @@ sequenceDiagram;
 
     OeBS-->>hm-oebs-listener: POST /ordrekvittering;
     OeBS-->>hm-oebs-listener: POST /push (skipninsbekreftelse)
+    hm-oebs-listener-->>hm-soknadsbehandling: hm-ordrekvittering-delbestilling-mottatt
+    hm-soknadsbehandling-->>hm-delbestilling-api: PUT /delbestilling/status/{id}
 ```
