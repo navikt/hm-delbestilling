@@ -732,5 +732,6 @@
   "bestillinger.status.KLARGJORT": "Klargjort",
   "bestillinger.status.REGISTRERT": "Registrert",
   "hjelpemiddel.sok.delar": "delar",
-  "hjelpemiddel.sok.del": "del"
+  "hjelpemiddel.sok.del": "del",
+  "leggTilDel.ingenDeler": "Me tilbyr førebels berre eit avgrensa utval delar i denne løysinga, og me har akkurat no ingen delar til dette hjelpemiddelet."
 }

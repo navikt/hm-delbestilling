@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Heading } from '@navikt/ds-react'
+import { Button, Heading, Alert } from '@navikt/ds-react'
 import { Avstand } from './Avstand'
 import { Hjelpemiddel, Del } from '../types/Types'
 import DelInfo from './DelInfo'
@@ -8,6 +8,7 @@ import useDelKategorier from '../hooks/useDelKategorier'
 import DelKategoriVelger from './DelKategoriVelger'
 import DelInnhold from './DelInhold'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -16,9 +17,10 @@ interface Props {
 }
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
+  const { t } = useTranslation()
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
-    return <div>Dette hjelpemiddelet har ingen deler du kan legge til</div>
+    return <Alert variant="info">{t('leggTilDel.ingenDeler')}</Alert>
   }
 
   return (

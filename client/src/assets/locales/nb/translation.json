@@ -732,5 +732,6 @@
   "bestillinger.status.KLARGJORT": "Klargjort",
   "bestillinger.status.REGISTRERT": "Registrert",
   "hjelpemidler.sok.deler": "deler",
-  "hjelpemidler.sok.del": "del"
+  "hjelpemidler.sok.del": "del",
+  "leggTilDel.ingenDeler": "Vi tilbyr foreløpig bare et begrenset utvalg deler i denne løsningen, og vi har for øyeblikket ingen deler til dette hjelpemiddelet."
 }
