@@ -78,7 +78,7 @@ const BestillingsKort = ({ sak }: Props) => {
         {sak.delbestilling.deler.map((delLinje, index) => (
           <DelRekke key={index}>
             <BodyShort size="medium">{delLinje.del.navn}</BodyShort>
-            <Label size="medium">{delLinje.antall}</Label>
+            <Label size="medium">{delLinje.antall} stk</Label>
           </DelRekke>
         ))}
         <Avstand marginBottom={4} />
