@@ -25,6 +25,7 @@ import { GlobalStyle } from '../GlobalStyle'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { defaultAntall } from '../helpers/delHelper'
+import { useTranslation } from 'react-i18next'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -58,6 +59,7 @@ const Utsjekk = () => {
   const [submitAttempt, setSubmitAttempt] = useState(false)
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
+  const { t } = useTranslation()
 
   const navigate = useNavigate()
 
@@ -321,13 +323,13 @@ const Utsjekk = () => {
                   <>
                     <RadioGroup
                       id="levering"
-                      legend="Hvor skal delen plasseres når den har blitt levert til kommunen?"
+                      legend={t('levering.title')}
                       value={handlekurv.levering ?? ''}
                       onChange={(levering: Levering) => setLevering(levering)}
                       error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
                     >
-                      <Radio value={Levering.TIL_XK_LAGER}>Delen skal legges på XK-lager.</Radio>
-                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>Delen skal brukes i serviceoppdrag hos bruker.</Radio>
+                      <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
+                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
                     </RadioGroup>
                   </>
                 )}
