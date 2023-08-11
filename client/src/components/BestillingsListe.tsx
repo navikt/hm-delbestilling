@@ -44,7 +44,6 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
     mine: undefined,
     kommunens: undefined,
   })
-  const [erLoggetInn, setErLoggetInn] = useState(false)
   const [henterTidligereBestillinger, setHenterTidligereBestillinger] = useState(true)
   const [valg, setValg] = useState<Valg>('mine')
   const navigate = useNavigate()
@@ -66,9 +65,6 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
           ...tidligereBestillingerForValg,
           [valg]: bestillinger,
         })
-        setErLoggetInn(true)
-      } else {
-        setErLoggetInn(false)
       }
     } catch (err) {
       console.log(`Klarte ikke hente tidliger bestillinger`, err)
