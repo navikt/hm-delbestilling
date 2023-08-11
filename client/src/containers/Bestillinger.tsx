@@ -1,11 +1,13 @@
-import { Button, GuidePanel, Heading, ReadMore } from '@navikt/ds-react'
 import React, { useState } from 'react'
-import Content from '../styledcomponents/Content'
-import BestillingsListe from '../components/BestillingsListe'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+
+import { Button, Heading } from '@navikt/ds-react'
+
 import { Avstand } from '../components/Avstand'
+import BestillingsListe from '../components/BestillingsListe'
+import Content from '../styledcomponents/Content'
 
 const BannerContainer = styled.header`
   display: flex;

@@ -1,9 +1,11 @@
 import React from 'react'
-import Header from '../styledcomponents/Header'
-import Content from '../styledcomponents/Content'
-import { Alert, Heading } from '@navikt/ds-react'
 import { Outlet } from 'react-router-dom'
+
+import { Alert, Heading } from '@navikt/ds-react'
+
 import { Avstand } from '../components/Avstand'
+import Content from '../styledcomponents/Content'
+import Header from '../styledcomponents/Header'
 
 // Delte page-komponenter for hver side
 const Layout = () => {

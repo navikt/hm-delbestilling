@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+
 import { Del } from '../types/Types'
 
 const useDelKategorier = (deler: Del[] | undefined) => {

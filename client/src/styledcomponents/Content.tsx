@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { size } from './rules'
 
 const Content = styled.div`

@@ -1,12 +1,15 @@
-import '@navikt/ds-css'
-import { Modal } from '@navikt/ds-react'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App'
+
+import { Modal } from '@navikt/ds-react'
+
 import { initDecorator } from './decorator/decorator'
-import './i18n'
 import { initAmplitude } from './utils/amplitude'
 import { initMSW } from './utils/msw'
+import App from './App'
+
+import '@navikt/ds-css'
+import './i18n'
 
 declare global {
   interface Window {

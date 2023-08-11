@@ -1,4 +1,10 @@
+import { StatusCodes } from 'http-status-codes'
 import { rest } from 'msw'
+
+import delBestillingMock from '../../services/delbestilling-mock.json'
+import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
+import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
+import { API_PATH } from '../../services/rest'
 import {
   AlleHjelpemidlerMedDelerResponse,
   DelbestillingFeil,
@@ -9,11 +15,6 @@ import {
   OppslagResponse,
 } from '../../types/HttpTypes'
 import { DelbestillingSak, Status } from '../../types/Types'
-import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
-import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
-import delBestillingMock from '../../services/delbestilling-mock.json'
-import { StatusCodes } from 'http-status-codes'
-import { API_PATH } from '../../services/rest'
 
 let tidligereBestillinger = delBestillingMock.slice(0, 4) as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock.slice(4) as unknown as DelbestillingSak[]

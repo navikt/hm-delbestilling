@@ -1,6 +1,8 @@
-import { Chips } from '@navikt/ds-react'
-import { logKategoriFiltreringGjort } from '../utils/amplitude'
 import React, { Dispatch, SetStateAction } from 'react'
+
+import { Chips } from '@navikt/ds-react'
+
+import { logKategoriFiltreringGjort } from '../utils/amplitude'
 
 interface Props {
   delKategorier: string[] | undefined

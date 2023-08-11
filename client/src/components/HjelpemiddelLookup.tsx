@@ -1,13 +1,16 @@
 import React, { SetStateAction, useState } from 'react'
-import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
-import { Hjelpemiddel } from '../types/Types'
 import styled from 'styled-components'
+
+import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
+
 import rest from '../services/rest'
-import { OppslagFeil } from '../types/HttpTypes'
-import { Avstand } from './Avstand'
-import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
-import { Feilmelding, FeilmeldingInterface } from './Feilmelding'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
+import { OppslagFeil } from '../types/HttpTypes'
+import { Hjelpemiddel } from '../types/Types'
+import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
+
+import { Avstand } from './Avstand'
+import { Feilmelding, FeilmeldingInterface } from './Feilmelding'
 
 const erBareTall = (input: string): boolean => {
   return input === '' || /^[0-9]+$/.test(input)

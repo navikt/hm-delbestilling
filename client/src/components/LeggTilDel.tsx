@@ -1,14 +1,17 @@
 import React from 'react'
-import { Button, Heading, Alert } from '@navikt/ds-react'
-import { Avstand } from './Avstand'
-import { Hjelpemiddel, Del } from '../types/Types'
-import DelInfo from './DelInfo'
-import FlexedStack from '../styledcomponents/FlexedStack'
-import useDelKategorier from '../hooks/useDelKategorier'
-import DelKategoriVelger from './DelKategoriVelger'
-import DelInnhold from './DelInhold'
-import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { useTranslation } from 'react-i18next'
+
+import { Alert, Button, Heading } from '@navikt/ds-react'
+
+import useDelKategorier from '../hooks/useDelKategorier'
+import { CustomPanel } from '../styledcomponents/CustomPanel'
+import FlexedStack from '../styledcomponents/FlexedStack'
+import { Del, Hjelpemiddel } from '../types/Types'
+
+import { Avstand } from './Avstand'
+import DelInfo from './DelInfo'
+import DelInnhold from './DelInhold'
+import DelKategoriVelger from './DelKategoriVelger'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel

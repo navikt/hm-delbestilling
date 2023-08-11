@@ -1,9 +1,11 @@
 import React from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+
+import { Button } from '@navikt/ds-react'
+
+import { Avstand } from '../components/Avstand'
 import { Feilmelding } from '../components/Feilmelding'
 import Content from '../styledcomponents/Content'
-import { Avstand } from '../components/Avstand'
-import { Button } from '@navikt/ds-react'
 
 interface Props {
   error: any

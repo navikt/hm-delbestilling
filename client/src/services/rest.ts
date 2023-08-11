@@ -1,9 +1,10 @@
 import { StatusCodes } from 'http-status-codes'
+
 import {
-  DelbestillerrolleResponse,
-  OppslagResponse,
-  DelbestillingResponse,
   AlleHjelpemidlerMedDelerResponse,
+  DelbestillerrolleResponse,
+  DelbestillingResponse,
+  OppslagResponse,
 } from '../types/HttpTypes'
 import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
 

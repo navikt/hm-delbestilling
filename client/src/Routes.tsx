@@ -1,13 +1,14 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { Route, Routes as Switch } from 'react-router-dom'
+
+import Bestillinger from './containers/Bestillinger'
 import Index from './containers/Index'
-import Utsjekk from './containers/Utsjekk'
 import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
 import Oversikt from './containers/Oversikt'
+import Utsjekk from './containers/Utsjekk'
 import { RolleContextLayout } from './context/rolle'
-import Bestillinger from './containers/Bestillinger'
 
 const Routes = () => {
   return (

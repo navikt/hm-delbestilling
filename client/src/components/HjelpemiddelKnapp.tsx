@@ -1,6 +1,9 @@
-import { Hjelpemiddel } from '../types/Types'
 import React, { Dispatch, SetStateAction } from 'react'
+
 import { BodyShort, Heading, LinkPanel } from '@navikt/ds-react'
+
+import { Hjelpemiddel } from '../types/Types'
+
 import { Avstand } from './Avstand'
 
 interface Props {

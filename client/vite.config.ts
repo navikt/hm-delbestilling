@@ -1,8 +1,9 @@
-import { fetchDecoratorHtml } from '@navikt/nav-dekoratoren-moduler/ssr'
-import react from '@vitejs/plugin-react'
 import { render } from 'mustache'
 import { defineConfig, Plugin, splitVendorChunkPlugin } from 'vite'
 import svgr from 'vite-plugin-svgr'
+
+import { fetchDecoratorHtml } from '@navikt/nav-dekoratoren-moduler/ssr'
+import react from '@vitejs/plugin-react'
 
 const htmlPlugin = ({ development }: { development?: boolean }): Plugin => ({
   name: 'html-transform',

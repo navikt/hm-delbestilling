@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useRolleContext } from '../context/rolle'
+
 import { Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react'
+
+import { useRolleContext } from '../context/rolle'
 
 const Wrapper = styled.div`
   position: fixed;

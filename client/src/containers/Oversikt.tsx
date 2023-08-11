@@ -1,18 +1,20 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
-import { Heading, Label, Pagination, Panel, Search, Select } from '@navikt/ds-react'
-import DelKategoriVelger from '../components/DelKategoriVelger'
-import useDelKategorier from '../hooks/useDelKategorier'
-import Content from '../styledcomponents/Content'
-import { Avstand } from '../components/Avstand'
-import FlexedStack from '../styledcomponents/FlexedStack'
-import DelInfo from '../components/DelInfo'
 import { useTranslation } from 'react-i18next'
-import HjelpemiddelKnapp from '../components/HjelpemiddelKnapp'
-import { useHjelpemidler, useHjelpemidlerUtvalg } from '../hooks/useHjelpemidler'
-import DelInnhold from '../components/DelInhold'
 import styled from 'styled-components'
-import { Del, Hjelpemiddel } from '../types/Types'
+
+import { Heading, Label, Pagination, Panel, Search, Select } from '@navikt/ds-react'
+
+import { Avstand } from '../components/Avstand'
+import DelInfo from '../components/DelInfo'
+import DelInnhold from '../components/DelInhold'
+import DelKategoriVelger from '../components/DelKategoriVelger'
+import HjelpemiddelKnapp from '../components/HjelpemiddelKnapp'
+import useDelKategorier from '../hooks/useDelKategorier'
+import { useHjelpemidler, useHjelpemidlerUtvalg } from '../hooks/useHjelpemidler'
 import { useMediaQuery } from '../hooks/useMediaQuery'
+import Content from '../styledcomponents/Content'
+import FlexedStack from '../styledcomponents/FlexedStack'
+import { Del, Hjelpemiddel } from '../types/Types'
 
 const SIZE_LARGE = 972
 

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
-import Content from '../styledcomponents/Content'
-import { Alert, Button, Heading } from '@navikt/ds-react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { DelLinje, Handlekurv } from '../types/Types'
+
+import { Alert, Button, Heading } from '@navikt/ds-react'
+
 import { Avstand } from '../components/Avstand'
-import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 import { GlobalStyle } from '../GlobalStyle'
+import Content from '../styledcomponents/Content'
+import { DelLinje, Handlekurv } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
+
+import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
 type LocationState = {
   handlekurv: Handlekurv

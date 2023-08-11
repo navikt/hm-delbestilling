@@ -1,11 +1,13 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
-import useAuth from '../hooks/useAuth'
-import { Delbestillerrolle } from '../types/Types'
-import { GuidePanel, Loader } from '@navikt/ds-react'
-import { Outlet } from 'react-router-dom'
-import { Avstand } from '../components/Avstand'
-import Content from '../styledcomponents/Content'
 import { useErrorBoundary } from 'react-error-boundary'
+import { Outlet } from 'react-router-dom'
+
+import { GuidePanel, Loader } from '@navikt/ds-react'
+
+import { Avstand } from '../components/Avstand'
+import useAuth from '../hooks/useAuth'
+import Content from '../styledcomponents/Content'
+import { Delbestillerrolle } from '../types/Types'
 
 type RolleContextType = {
   delbestillerrolle: Delbestillerrolle

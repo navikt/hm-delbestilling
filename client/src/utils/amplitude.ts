@@ -1,4 +1,5 @@
 import amplitude from 'amplitude-js'
+
 import { DelbestillingFeil, OppslagFeil } from '../types/HttpTypes'
 
 export enum amplitude_taxonomy {

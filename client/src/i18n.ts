@@ -1,5 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
+
 import linker from './assets/locales/linker.json'
 import nbTranslation from './assets/locales/nb/translation.json'
 import nnTranslation from './assets/locales/nn/translation.json'

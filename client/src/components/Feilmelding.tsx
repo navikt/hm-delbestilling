@@ -1,5 +1,7 @@
-import { Alert, AlertProps, ExpansionCard } from '@navikt/ds-react'
 import React from 'react'
+
+import { Alert, AlertProps, ExpansionCard } from '@navikt/ds-react'
+
 import { Avstand } from './Avstand'
 
 interface FeilmeldingInterface {
@@ -32,4 +34,4 @@ const Feilmelding = ({ feilmelding }: Props) => {
   )
 }
 
-export { type FeilmeldingInterface, Feilmelding }
+export { Feilmelding, type FeilmeldingInterface }

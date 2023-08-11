@@ -1,7 +1,9 @@
 import React from 'react'
-import { BodyShort, Heading } from '@navikt/ds-react'
 import styled from 'styled-components'
+
 import { ImageIcon } from '@navikt/aksel-icons'
+import { BodyShort, Heading } from '@navikt/ds-react'
+
 import { size } from '../styledcomponents/rules'
 
 interface Props {

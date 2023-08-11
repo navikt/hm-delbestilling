@@ -1,4 +1,5 @@
-import { setupWorker, rest } from 'msw'
+import { rest, setupWorker } from 'msw'
+
 import handlers from './handlers/index'
 
 // for browser environments

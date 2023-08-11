@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Hjelpemiddel } from '../types/Types'
+
 import rest from '../services/rest'
+import { Hjelpemiddel } from '../types/Types'
 
 const MAKS_HJELPEMIDLER = 5
 

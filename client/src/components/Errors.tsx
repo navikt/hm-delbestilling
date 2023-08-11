@@ -1,5 +1,7 @@
-import { ErrorSummary } from '@navikt/ds-react'
 import React, { useEffect } from 'react'
+
+import { ErrorSummary } from '@navikt/ds-react'
+
 import { Valideringsfeil } from '../containers/Utsjekk'
 
 interface Props {

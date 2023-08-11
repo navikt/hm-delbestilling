@@ -1,9 +1,12 @@
 import React, { useMemo } from 'react'
-import styled from 'styled-components'
-import { Delbestilling, DelbestillingSak, Levering, Status } from '../types/Types'
-import { BodyShort, Button, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
-import { Avstand } from './Avstand'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+
+import { BodyShort, Button, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
+
+import { Delbestilling, DelbestillingSak, Levering, Status } from '../types/Types'
+
+import { Avstand } from './Avstand'
 
 const HeaderRekke = styled.div`
   display: flex;
