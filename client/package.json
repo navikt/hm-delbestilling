@@ -62,6 +62,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --ext ts,tsx .",
+    "lint:fix": "eslint --ext ts,tsx --fix .",
     "mock": "yarn dev",
     "mock:ci": "CHOKIDAR_USEPOLLING=1 yarn mock",
     "cypress:run": "cypress run --config-file=cypress.config.ts",
