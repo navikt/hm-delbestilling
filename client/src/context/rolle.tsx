@@ -5,6 +5,8 @@ import { Outlet } from 'react-router-dom'
 import { GuidePanel, Loader } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
+import { Feilmelding } from '../components/Feilmelding'
+import Rolleswitcher from '../components/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
 import { Delbestillerrolle } from '../types/Types'
@@ -19,6 +21,8 @@ const RolleContext = React.createContext<RolleContextType>({
   delbestillerrolle: undefined!,
   setDelbestillerrolle: undefined!,
 })
+
+const visRolleSwitcher = window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp'
 
 export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   const [henterRolle, setHenterRolle] = useState(true)
@@ -55,21 +59,24 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (!delbestillerrolle) {
     return <div>Ingen delbestillerrolle</div>
-  } else if (delbestillerrolle.erKommunaltAnsatt === false) {
-    feilmeldingsTekst = 'Du er ikke kommunalt ansatt, og kan derfor ikke bestille deler.'
-  } else if (delbestillerrolle.erIPilot === false) {
-    feilmeldingsTekst = 'Du kan ikke bestille deler akkurat nå (du er ikke i pilot).'
   } else if (delbestillerrolle.kanBestilleDeler === false) {
     feilmeldingsTekst = 'Du kan ikke bestille deler.'
   }
 
   if (feilmeldingsTekst) {
     return (
-      <Content>
-        <Avstand marginTop={10} marginBottom={10}>
-          <GuidePanel>{feilmeldingsTekst}</GuidePanel>
-        </Avstand>
-      </Content>
+      <RolleContext.Provider value={{ delbestillerrolle, setDelbestillerrolle }}>
+        <Content>
+          <Avstand marginTop={10} marginBottom={10}>
+            <GuidePanel>
+              {feilmeldingsTekst}
+              <Avstand marginBottom={4} />
+              <Feilmelding feilmelding={{ feilmelding: '', tekniskFeilmelding: delbestillerrolle, variant: 'info' }} />
+            </GuidePanel>
+          </Avstand>
+          {visRolleSwitcher && <Rolleswitcher />}
+        </Content>
+      </RolleContext.Provider>
     )
   }
 
@@ -81,6 +88,7 @@ export const RolleContextLayout = () => {
   return (
     <RolleProvider>
       <Outlet />
+      {visRolleSwitcher && <Rolleswitcher />}
     </RolleProvider>
   )
 }

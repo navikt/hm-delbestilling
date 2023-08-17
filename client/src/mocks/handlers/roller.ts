@@ -7,7 +7,24 @@ const rollerHandlers = [
     return res(
       ctx.delay(250),
       ctx.json({
-        delbestillerrolle: { kanBestilleDeler: true, harXKLager: true, erKommunaltAnsatt: true, erIPilot: true },
+        delbestillerrolle: {
+          erTekniker: true,
+          erBrukerpassbruker: false,
+          kanBestilleDeler: true,
+          harXKLager: true,
+          erKommunaltAnsatt: true,
+          kommunaleOrgs: [
+            {
+              kommunenummer: '3010',
+              navn: 'Oslo kommune',
+              næringskoder: [{ kode: '1234', beskrivelse: 'beskrivelse' }],
+              orgform: 'KOMM',
+              orgnr: '1234',
+              overordnetOrgnr: null,
+            },
+          ],
+          erIPilot: true,
+        },
       })
     )
   }),

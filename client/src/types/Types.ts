@@ -54,10 +54,27 @@ export enum Levering {
 }
 
 export interface Delbestillerrolle {
+  erTekniker: boolean
+  erBrukerpassbruker: boolean
   kanBestilleDeler: boolean
   harXKLager: boolean
+  kommunaleOrgs: Organisasjon[]
   erKommunaltAnsatt: boolean
   erIPilot: boolean
+}
+
+export interface Organisasjon {
+  orgnr: string
+  navn: string
+  orgform: string
+  overordnetOrgnr: string | null
+  næringskoder: Næringskode[]
+  kommunenummer: string | null
+}
+
+export interface Næringskode {
+  kode: string
+  beskrivelse: string
 }
 
 export type Valg = 'mine' | 'kommunens'

@@ -7,7 +7,7 @@ import { Avstand } from './Avstand'
 interface FeilmeldingInterface {
   variant?: AlertProps['variant']
   feilmelding: React.ReactNode
-  tekniskFeilmelding?: string
+  tekniskFeilmelding?: any
 }
 
 interface Props {
@@ -25,7 +25,9 @@ const Feilmelding = ({ feilmelding }: Props) => {
               <ExpansionCard.Header>
                 <ExpansionCard.Title size="small">Informasjon for utviklere</ExpansionCard.Title>
               </ExpansionCard.Header>
-              <ExpansionCard.Content>{JSON.stringify(feilmelding.tekniskFeilmelding)}</ExpansionCard.Content>
+              <ExpansionCard.Content>
+                <pre>{JSON.stringify(feilmelding.tekniskFeilmelding, null, 2)}</pre>
+              </ExpansionCard.Content>
             </ExpansionCard>
           </Avstand>
         )}

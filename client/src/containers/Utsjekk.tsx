@@ -64,14 +64,16 @@ const Utsjekk = () => {
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
   const { t } = useTranslation()
 
+  const visXKLagerValg = delbestillerrolle.erTekniker && delbestillerrolle.harXKLager
+
   const navigate = useNavigate()
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
-    if (delbestillerrolle.harXKLager === false) {
+    if (!visXKLagerValg) {
       setLevering(Levering.TIL_SERVICE_OPPDRAG)
     }
-  }, [delbestillerrolle])
+  }, [visXKLagerValg])
 
   useEffect(() => {
     // Re-valider når felter oppdateres etter innsending har blitt forsøkt
@@ -317,24 +319,22 @@ const Utsjekk = () => {
                 <Heading spacing level="3" size="medium">
                   Levering
                 </Heading>
-                {!delbestillerrolle.harXKLager && (
+                {!visXKLagerValg && (
                   <Alert variant="info">
                     Delen blir levert til kommunens mottakssted. Innbyggers navn vil stå på pakken med delen.
                   </Alert>
                 )}
-                {delbestillerrolle.harXKLager && (
-                  <>
-                    <RadioGroup
-                      id="levering"
-                      legend={t('levering.title')}
-                      value={handlekurv.levering ?? ''}
-                      onChange={(levering: Levering) => setLevering(levering)}
-                      error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
-                    >
-                      <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
-                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
-                    </RadioGroup>
-                  </>
+                {visXKLagerValg && (
+                  <RadioGroup
+                    id="levering"
+                    legend={t('levering.title')}
+                    value={handlekurv.levering ?? ''}
+                    onChange={(levering: Levering) => setLevering(levering)}
+                    error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
+                  >
+                    <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
+                    <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
+                  </RadioGroup>
                 )}
               </Avstand>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
@@ -355,7 +355,6 @@ const Utsjekk = () => {
           )}
         </>
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && <Rolleswitcher />}
     </main>
   )
 }

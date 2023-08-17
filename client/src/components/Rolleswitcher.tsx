@@ -25,6 +25,9 @@ const Rolleswitcher = () => {
       if (!prev) return undefined
       return {
         ...prev,
+        kanBestilleDeler: values.includes('erTekniker') || values.includes('erBrukerpassbruker'),
+        erTekniker: values.includes('erTekniker'),
+        erBrukerpassbruker: values.includes('erBrukerpassbruker'),
         harXKLager: values.includes('harXKLager'),
       }
     })
@@ -70,6 +73,8 @@ const Rolleswitcher = () => {
       </Button>
       <Heading size="xsmall">[DEBUG]</Heading>
       <CheckboxGroup size="small" legend="Roller" hideLegend onChange={handleChange} value={checkedValues}>
+        <Checkbox value="erTekniker">Er tekniker</Checkbox>
+        <Checkbox value="erBrukerpassbruker">Er brukerpassbruker</Checkbox>
         <Checkbox value="harXKLager">Har XK-lager</Checkbox>
       </CheckboxGroup>
     </Wrapper>
