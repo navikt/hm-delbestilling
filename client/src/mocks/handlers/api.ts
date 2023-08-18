@@ -2,7 +2,8 @@ import { StatusCodes } from 'http-status-codes'
 import { rest } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
-import hjelpemiddelMock from '../../services/hjelpemiddel-mock.json'
+import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
+import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import { API_PATH } from '../../services/rest'
 import {
@@ -45,7 +46,7 @@ const apiHandlers = [
       return res(ctx.delay(450), ctx.status(StatusCodes.TOO_MANY_REQUESTS))
     }
 
-    const hjelpemiddel = hjelpemiddelMock.hjelpemiddel
+    const hjelpemiddel = hmsnr === '167624' ? hjelpemiddelMockComet.hjelpemiddel : hjelpemiddelMockPanthera.hjelpemiddel
 
     return res(ctx.delay(250), ctx.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined }))
   }),

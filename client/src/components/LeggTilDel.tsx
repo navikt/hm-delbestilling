@@ -41,21 +41,33 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
 
       {hjelpemiddel.deler
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
-        .map((del) => (
-          <Avstand marginBottom={2} key={del.hmsnr}>
-            <CustomPanel border>
-              <DelInnhold>
-                <FlexedStack>
-                  <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} img={del.img} />
-                </FlexedStack>
+        .map((del) => {
+          const hmsnrsLeveringUke48 = ['249612']
+          const visVarselOmLevering = hmsnrsLeveringUke48.includes(del.hmsnr)
 
-                <Button variant="secondary" onClick={() => onLeggTil(del)}>
-                  {knappeTekst}
-                </Button>
-              </DelInnhold>
-            </CustomPanel>
-          </Avstand>
-        ))}
+          return (
+            <Avstand marginBottom={2} key={del.hmsnr}>
+              <CustomPanel border>
+                <DelInnhold>
+                  <FlexedStack>
+                    <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} img={del.img} />
+                  </FlexedStack>
+
+                  <Button variant="secondary" onClick={() => onLeggTil(del)}>
+                    {knappeTekst}
+                  </Button>
+                </DelInnhold>
+                {visVarselOmLevering && (
+                  <Avstand marginTop={4}>
+                    <Alert variant="info">
+                      Denne delen er mulig å bestille, men er ikke på lager før tidligst uke 48.
+                    </Alert>
+                  </Avstand>
+                )}
+              </CustomPanel>
+            </Avstand>
+          )
+        })}
     </>
   )
 }
