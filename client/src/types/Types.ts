@@ -32,6 +32,12 @@ export interface Delbestilling {
   serienr: string
   deler: DelLinje[]
   levering: Levering
+  rolle: Rolle | null
+}
+
+export enum Rolle {
+  TEKNIKER = 'TEKNIKER',
+  BRUKERPASS = 'BRUKERPASS',
 }
 
 export interface DelbestillingSak {

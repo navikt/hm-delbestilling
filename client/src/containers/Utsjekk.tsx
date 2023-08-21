@@ -11,7 +11,6 @@ import DelInfo from '../components/DelInfo'
 import Errors from '../components/Errors'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import LeggTilDel from '../components/LeggTilDel'
-import Rolleswitcher from '../components/Rolleswitcher'
 import { useRolleContext } from '../context/rolle'
 import { GlobalStyle } from '../GlobalStyle'
 import { defaultAntall } from '../helpers/delHelper'
@@ -20,7 +19,7 @@ import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import { DelbestillingFeil } from '../types/HttpTypes'
-import { Del, Delbestilling, Handlekurv, Levering } from '../types/Types'
+import { Del, Delbestilling, Handlekurv, Levering, Rolle } from '../types/Types'
 import {
   logBestillingSlettet,
   logInnsendingFeil,
@@ -184,6 +183,11 @@ const Utsjekk = () => {
         serienr: handlekurv.serienr,
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
+        rolle: delbestillerrolle.erTekniker
+          ? Rolle.TEKNIKER
+          : delbestillerrolle.erBrukerpassbruker
+          ? Rolle.BRUKERPASS
+          : null,
       }
 
       logInnsendingGjort(handlekurv.id)
