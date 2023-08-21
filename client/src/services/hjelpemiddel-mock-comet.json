@@ -1,0 +1,24 @@
+{
+  "hjelpemiddel": {
+    "navn": "Comet Alpine",
+    "hmsnr": "167624",
+    "deler": [
+      {
+        "hmsnr": "249612",
+        "navn": "Batterilader 10Ah",
+        "levArtNr": "SP1606544",
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg?cachebust=1",
+        "kategori": "Lader",
+        "maksAntall": 2
+      },
+      {
+        "hmsnr": "238403",
+        "navn": "Hjul bak komplett",
+        "levArtNr": "SP1654383",
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/238403.png",
+        "kategori": "Hjul",
+        "maksAntall": 2
+      }
+    ]
+  }
+}

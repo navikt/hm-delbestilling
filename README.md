@@ -6,7 +6,8 @@ Frontend-applikasjon for bestilling av deler fra teknikere
 
 | artnr  | serienr | resultat ved oppslag                          | resultat ved innsending                                |
 | ------ | ------- | --------------------------------------------- | ------------------------------------------------------ |
-| 222222 | 333333  | Returnerer hjelpemiddel                       | Gyldig innsending                                      |
+| 222222 | 333333  | Returnerer hjelpemiddel (Panthera Light)      | Gyldig innsending                                      |
+| 167624 | 123123  | Returnerer hjelpemiddel (Comet Alpine)        | Gyldig innsending                                      |
 | 000000 | 000000  | Tilbyr ikke deler til produkt                 | N/A                                                    |
 | 333333 | 000000  | Inget utlån på bruker                         | N/A                                                    |
 | 444444 | 000000  | Feilmelding om for mange requests (ratelimit) | N/A                                                    |
