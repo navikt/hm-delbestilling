@@ -1,12 +1,11 @@
-import type { Request, RequestHandler } from 'express'
-import { SessionData } from 'express-session'
+import type { RequestHandler } from 'express'
 import { createRemoteJWKSet, FlattenedJWSInput, JWSHeaderParameters, jwtVerify } from 'jose'
 import { GetKeyFunction } from 'jose/dist/types/types'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import jose from 'node-jose'
-import { Client, generators, Issuer, TokenSet } from 'openid-client'
+import { Client, Issuer, TokenSet } from 'openid-client'
 import { ulid } from 'ulid'
-import type { AppConfig, IDPortenConfig, IDPortenLocalConfig, TokenXConfig } from './config'
+import type { AppConfig, IDPortenConfig, TokenXConfig } from './config'
 import { config } from './config'
 import { debugLogger } from './logger'
 
@@ -18,11 +17,6 @@ let idportenMetadata: Nullable<Issuer<Client>> = null
 let idportenRemoteJWKSet: Nullable<GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput>> = null
 let appConfig: Nullable<AppConfig> = null
 
-// localhost config
-let idportenLocalConfig: Nullable<IDPortenLocalConfig> = null
-let idportenLocalClient: Nullable<Client> = null
-let idportenLocalMetadata: Nullable<Issuer<Client>> = null
-
 async function setup(idpConfig: IDPortenConfig, txConfig: TokenXConfig, appConf: AppConfig): Promise<void> {
   if (config.isMocked()) return
   else {
@@ -32,18 +26,6 @@ async function setup(idpConfig: IDPortenConfig, txConfig: TokenXConfig, appConf:
 
     const { tokenx } = await init()
     tokenxClient = tokenx
-  }
-  if (!config.isProduction()) {
-    idportenLocalConfig = config.idportenLocal
-    idportenLocalMetadata = await Issuer.discover(idportenLocalConfig.discoveryUrl)
-    const redirectUris = ['http://localhost:3000/callback']
-    idportenLocalClient = new idportenLocalMetadata.Client({
-      client_id: idportenLocalConfig.clientID,
-      redirect_uris: idportenLocalConfig.redirectUri
-        ? redirectUris.concat(idportenLocalConfig.redirectUri)
-        : redirectUris,
-      token_endpoint_auth_method: 'none',
-    })
   }
 }
 
@@ -60,7 +42,7 @@ async function init() {
 
     idportenRemoteJWKSet = createRemoteJWKSet(new URL(<string>idportenMetadata.metadata.jwks_uri))
 
-    const redirectUris = ['http://localhost:3000/callback']
+    const redirectUris: string[] = []
     tokenxClient = new tokenx.Client({
       client_id: tokenxConfig.clientID,
       redirect_uris: tokenxConfig.redirectUri ? redirectUris.concat(tokenxConfig.redirectUri) : redirectUris,
@@ -222,15 +204,7 @@ const requiresValidToken = (): RequestHandler => async (req, res, next) => {
 const requiresLogin = (): RequestHandler => async (req, res, next) => {
   await setIsAuthenticated(req, res, next)
 
-  // TODO: denne kan vel fjernes? Vi har ikke lokal login
-  if (!config.isProduction()) {
-    if (!req.isAuthenticated) {
-      debugLogger('requiresLogin: token not present or invalid, redirecting to login page')
-      res.redirect(`${config.basePath}/login?redirect=${config.basePath}`)
-    } else {
-      next()
-    }
-  } else if (config.isMocked() || req.isAuthenticated) {
+  if (config.isMocked() || req.isAuthenticated) {
     debugLogger('requiresLogin: token present or not required, calling next()')
     next()
   } else {
@@ -248,85 +222,9 @@ const logoutHandler = (): RequestHandler => (req, res) => {
   res.redirect(`${config.basePath}/oauth2/logout`)
 }
 
-async function validateOidcCallback(req: Request): Promise<TokenSet> {
-  if (idportenLocalConfig == null || idportenLocalClient == null || idportenLocalMetadata == null) {
-    throw new Error('setup() må kalles først')
-  }
-
-  const params = idportenLocalClient.callbackParams(req)
-  const nonce = req.session.nonce
-  const state = req.session.state
-  const additionalClaims = {
-    clientAssertionPayload: {
-      aud: idportenLocalMetadata.issuer,
-    },
-  }
-
-  try {
-    return await idportenLocalClient.callback(
-      idportenLocalConfig.redirectUri,
-      params,
-      { nonce, state },
-      additionalClaims
-    )
-  } catch (err: unknown) {
-    return Promise.reject(`error in oidc callback: ${err}`)
-  }
-}
-
-const callbackHandler = (): RequestHandler => async (req, res) => {
-  const session = req.session
-  try {
-    const tokens = await validateOidcCallback(req)
-    session.tokens = tokens
-    delete session.state
-    delete session.nonce
-    res.cookie('soknad-idtoken', `${tokens.id_token}`, {
-      secure: config.app.useSecureCookies,
-      sameSite: 'lax',
-      maxAge: config.session.maxAgeMs,
-    })
-    res.redirect(303, config.basePath)
-  } catch (err: unknown) {
-    session.destroy(() => {})
-    res.sendStatus(403)
-  }
-}
-
-function authUrl(session: SessionData): string {
-  if (idportenLocalConfig == null || idportenLocalClient == null) {
-    throw new Error('setup() må kalles først')
-  }
-
-  return idportenLocalClient.authorizationUrl({
-    scope: idportenLocalConfig.scope,
-    redirect_uri: idportenLocalConfig.redirectUri,
-    response_type: idportenLocalConfig.responseType[0],
-    response_mode: 'query',
-    nonce: session.nonce,
-    state: session.state,
-    resource: 'https://nav.no',
-    acr_values: 'Level4',
-    aud: idportenLocalConfig.clientID,
-  })
-}
-
-const localLoginHandler = (): RequestHandler => (req, res) => {
-  // lgtm [js/missing-rate-limiting]
-  const session = req.session
-  session.nonce = generators.nonce()
-  session.state = generators.state()
-  res.redirect(authUrl(session))
-}
-
 export const authMiddleware = {
   requiresValidToken,
   requiresLogin,
   logout: logoutHandler,
   login: loginHandler,
-}
-
-export const authMiddlewareLocal = {
-  localLogin: localLoginHandler,
-  localCallback: callbackHandler,
 }

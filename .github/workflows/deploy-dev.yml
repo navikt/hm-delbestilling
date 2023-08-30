@@ -9,7 +9,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - debug-login
+      - fjern-local-auth
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}

@@ -1,6 +1,6 @@
 import { fetchDecoratorHtml } from '@navikt/nav-dekoratoren-moduler/ssr'
 import express, { Express, RequestHandler, Router } from 'express'
-import { auth, authMiddleware, authMiddlewareLocal } from './auth'
+import { authMiddleware } from './auth'
 import { config } from './config'
 import { logger } from './logger'
 import { clientLoggingHandler } from './logging'
