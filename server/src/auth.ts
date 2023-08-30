@@ -170,7 +170,6 @@ const setIsAuthenticated: RequestHandler = async (req, res) => {
   }
 
   const bearerToken: string | null | undefined = req.headers.authorization
-  console.log('bearerToken:', bearerToken)
   if (!bearerToken) {
     req.isAuthenticated = false
     return
@@ -179,7 +178,6 @@ const setIsAuthenticated: RequestHandler = async (req, res) => {
   try {
     await verifyIdportenAccessToken(bearerToken)
   } catch (e) {
-    console.log('kunne ikke verifisere idporten accesstoken:', e)
     req.isAuthenticated = false
     return
   }
@@ -195,8 +193,6 @@ async function verifyIdportenAccessToken(bearerToken: string) {
   if (verified.payload.client_id !== process.env.IDPORTEN_CLIENT_ID) {
     throw new Error('client_id matcher ikke min client ID')
   }
-
-  console.log('verified.payload:', verified.payload)
 
   const aksepterteAcrs = ['Level4', 'idporten-loa-high']
 
@@ -224,7 +220,6 @@ const requiresValidToken = (): RequestHandler => async (req, res, next) => {
 }
 
 const requiresLogin = (): RequestHandler => async (req, res, next) => {
-  console.log('sjekker login...')
   await setIsAuthenticated(req, res, next)
 
   // TODO: denne kan vel fjernes? Vi har ikke lokal login
@@ -239,7 +234,6 @@ const requiresLogin = (): RequestHandler => async (req, res, next) => {
     debugLogger('requiresLogin: token present or not required, calling next()')
     next()
   } else {
-    console.log('[DEBUG]: requiresLogin: token not present or invalid, redirecting to login page')
     debugLogger('requiresLogin: token not present or invalid, redirecting to login page')
     res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}/utsjekk`)
   }
