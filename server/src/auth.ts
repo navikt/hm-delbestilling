@@ -198,8 +198,10 @@ async function verifyIdportenAccessToken(bearerToken: string) {
 
   console.log('verified.payload:', verified.payload)
 
-  if (verified.payload.acr !== 'Level4') {
-    throw new Error('Har ikke acr Level4')
+  const aksepterteAcrs = ['Level4', 'idporten-loa-high']
+
+  if (!aksepterteAcrs.includes(verified.payload.acr as any)) {
+    throw new Error('Har ikke godkjent acr')
   }
 }
 
