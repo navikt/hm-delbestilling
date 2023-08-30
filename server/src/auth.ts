@@ -170,6 +170,7 @@ const setIsAuthenticated: RequestHandler = async (req, res) => {
   }
 
   const bearerToken: string | null | undefined = req.headers.authorization
+  console.log('bearerToken:', bearerToken)
   if (!bearerToken) {
     req.isAuthenticated = false
     return
@@ -178,6 +179,7 @@ const setIsAuthenticated: RequestHandler = async (req, res) => {
   try {
     await verifyIdportenAccessToken(bearerToken)
   } catch (e) {
+    console.log('kunne ikke verifisere idporten accesstoken:', e)
     req.isAuthenticated = false
     return
   }
