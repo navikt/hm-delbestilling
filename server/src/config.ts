@@ -15,17 +15,6 @@ const idporten = {
 
 export type IDPortenConfig = typeof idporten
 
-const idportenLocal = {
-  discoveryUrl: 'http://host.docker.internal:8080/default/.well-known/openid-configuration',
-  clientID: 'local',
-  redirectUri: 'http://localhost:5000/hjelpemidler/delbestilling/oauth2-local/callback',
-  domain: process.env.NAIS_CLUSTER_NAME === 'prod-gcp' ? 'nav.no' : 'dev.nav.no',
-  responseType: ['code'],
-  scope: 'openid profile',
-}
-
-export type IDPortenLocalConfig = typeof idportenLocal
-
 if (process.env.NODE_ENV === 'production' && process.env.USE_MSW !== 'true') {
   tokenx.privateJwk = process.env.TOKEN_X_PRIVATE_JWK && JSON.parse(process.env.TOKEN_X_PRIVATE_JWK) // TOKEN_X_PRIVATE_JWM is undefined locally
 } else {
@@ -55,7 +44,6 @@ export const config = {
   app,
   tokenx,
   idporten,
-  idportenLocal,
   session,
   basePath: '/hjelpemidler/delbestilling',
   buildPath() {
