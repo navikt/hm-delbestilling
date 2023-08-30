@@ -196,6 +196,8 @@ async function verifyIdportenAccessToken(bearerToken: string) {
     throw new Error('client_id matcher ikke min client ID')
   }
 
+  console.log('verified.payload:', verified.payload)
+
   if (verified.payload.acr !== 'Level4') {
     throw new Error('Har ikke acr Level4')
   }
