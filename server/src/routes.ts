@@ -69,7 +69,9 @@ const spaHandler: RequestHandler = async (req, res) => {
   try {
     const decorator = await fetchDecoratorHtml({
       env: config.isProdCluster() ? 'prod' : 'dev',
-      context: 'samarbeidspartner',
+      params: {
+        context: 'samarbeidspartner',
+      },
     })
     res.render('index.html', decorator)
   } catch (err: unknown) {

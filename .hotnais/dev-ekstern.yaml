@@ -31,6 +31,9 @@ spec:
       external:
         - host: www.nav.no
         - host: dekoratoren.ekstern.dev.nav.no
+      rules:
+        - application: nav-dekoratoren
+          namespace: personbruker
   env:
     - name: USE_MSW
       value: 'true'

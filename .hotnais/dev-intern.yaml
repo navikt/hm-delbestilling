@@ -57,3 +57,5 @@ spec:
       rules:
         - application: hm-delbestilling-api
         - application: hm-roller
+        - application: nav-dekoratoren
+          namespace: personbruker
