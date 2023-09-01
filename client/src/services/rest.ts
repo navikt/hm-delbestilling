@@ -59,7 +59,7 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
 }
 
 const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerResponse> => {
-  const response = await fetch(API_PATH + '/hjelpemidler')
+  const response = await fetch(API_PATH_PUBLIC + '/hjelpemidler')
   await handleResponse(response.clone())
   return await response.json()
 }
