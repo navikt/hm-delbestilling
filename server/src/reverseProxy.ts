@@ -32,6 +32,7 @@ const envProperties = {
 function pathRewriteBasedOnEnvironment(req: Request): string {
   return req.originalUrl
     .replace('/hjelpemidler/delbestilling/api', '/api')
+    .replace('/hjelpemidler/delbestilling/api-public/', '/api-public')
     .replace('/hjelpemidler/delbestilling/roller', '/api')
     .replace('/hjelpemidler/delbestilling/hjelpemiddeldatabasen', '/graphql')
 }
@@ -45,6 +46,7 @@ function setup() {
 
 const handlers = {
   api: (): RequestHandler => proxy(envProperties.API_URL, options(config.app.targetAudienceAPI)),
+  apiPublic: (): RequestHandler => proxy(envProperties.API_URL, options(config.app.targetAudienceAPI)),
   roller: (): RequestHandler => proxy(envProperties.ROLLER_URL, options(config.app.targetAudienceRoller)),
 }
 

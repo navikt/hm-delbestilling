@@ -5,7 +5,7 @@ import delBestillingMock from '../../services/delbestilling-mock.json'
 import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
 import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
-import { API_PATH } from '../../services/rest'
+import { API_PATH, API_PUBLIC_PATH } from '../../services/rest'
 import {
   AlleHjelpemidlerMedDelerResponse,
   DelbestillingFeil,
@@ -21,7 +21,7 @@ let tidligereBestillinger = delBestillingMock.slice(0, 4) as unknown as Delbesti
 let tidligereBestillingerKommune = delBestillingMock.slice(4) as unknown as DelbestillingSak[]
 
 const apiHandlers = [
-  rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
+  rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PUBLIC_PATH}/oppslag`, (req, res, ctx) => {
     // req.body er egentlig deprecated, men det er problemer med å inferre typen fra generic
     // https://github.com/mswjs/msw/discussions/1308#discussioncomment-3389160
     const { hmsnr } = req.body
@@ -124,10 +124,7 @@ const apiHandlers = [
   rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
   }),
-  rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
-    return res(ctx.delay(250), ctx.json(hjelpemidlerMock))
-  }),
-  rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
+  rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PUBLIC_PATH}/hjelpemidler`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(hjelpemidlerMock))
   }),
 ]
