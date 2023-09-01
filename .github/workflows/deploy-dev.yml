@@ -9,7 +9,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - fjern-local-auth
+      - permissions
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
@@ -30,6 +30,12 @@ jobs:
   #         wait-on: 'http://localhost:3000'
   #         record: false
   #         video: false
+  sjekkPermissions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
+        with:
+          config: ${{ vars.PERMISSIONS_CONFIG }}
 
   deploy:
     name: Build and deploy
