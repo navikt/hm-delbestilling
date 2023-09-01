@@ -55,7 +55,7 @@ const HjelpemiddelVelger = ({ aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpem
           const antallTilgjengeligeDeler = deler?.length || 0
           const delerText =
             antallTilgjengeligeDeler == 0
-              ? t('hjelpemidler.sok.ingenDeler')
+              ? t('oversikt.ingenDeler')
               : antallTilgjengeligeDeler == 1
               ? `1 ${t('hjelpemidler.sok.del')} del`
               : `${antallTilgjengeligeDeler} ${t('hjelpemidler.sok.deler')}`
@@ -84,7 +84,7 @@ const HjelpemiddelVelgerMedSøk = ({
   )
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: 400 }}>
-      <Label>{t('visuellOversikt.søkEtterHjelpemiddel')}</Label>
+      <Label>{t('oversikt.søkEtterHjelpemiddel')}</Label>
       <Search label="Typesøk" onChange={setSøkeUtrykk} variant="simple" value={søkeUtrykk} />
       <Avstand paddingBottom={4} />
 
@@ -110,7 +110,7 @@ const HjelpemiddelVelgerMedSøk = ({
       )}
       {hjelpemidlerUtvalg.length == 0 && (
         <Heading level="3" size="small" style={{ padding: '0.5rem' }} role="alert">
-          {t('hjelpemidler.sok.ingenTreff')}
+          {t('oversikt.ingenTreff')}
         </Heading>
       )}
     </div>
@@ -177,7 +177,7 @@ const Oversikt = () => {
             </Heading>
             {ingenDeler ? (
               <Heading level="3" size="small" style={{ padding: '0.5rem' }} role="alert">
-                {t('hjelpemidler.sok.ingenDeler')}
+                {t('oversikt.ingenDeler')}
               </Heading>
             ) : (
               <DelListe deler={aktivtHjelpemiddel?.deler} />
