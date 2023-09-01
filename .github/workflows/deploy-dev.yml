@@ -27,27 +27,36 @@ jobs:
     permissions:
       contents: write
       id-token: write
-      security-events: write
-      actions: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Pre-deploy
         uses: navikt/digihot-deploy/actions/pre-deploy@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DOCKER_IMAGE: ghcr.io/${{ github.repository }}
-      - uses: docker/login-action@v1
+
+      - name: Build and push docker image
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ env.IMAGE }}
+          team: teamdigihot
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          tag: ${{ env.VERSION_TAG }}
+      #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}
+      # - uses: docker/login-action@v1
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ env.IMAGE }}
+
       - name: Deploy to dev-gcp (intern)
         uses: nais/deploy/actions/deploy@v1
         env:
