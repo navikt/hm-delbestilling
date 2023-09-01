@@ -23,7 +23,7 @@ describe('test av oppslag', () => {
     cy.window().then((window) => {
       const { worker, rest } = window.msw
       worker.use(
-        rest.post('/hjelpemidler/delbestilling/api/oppslag', (req, res, ctx) => {
+        rest.post('/hjelpemidler/delbestilling/api-public/oppslag', (req, res, ctx) => {
           return res.once(ctx.status(500))
         })
       )

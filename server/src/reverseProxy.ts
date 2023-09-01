@@ -45,6 +45,7 @@ function setup() {
 
 const handlers = {
   api: (): RequestHandler => proxy(envProperties.API_URL, options(config.app.targetAudienceAPI)),
+  apiPublic: (): RequestHandler => proxy(envProperties.API_URL, options(config.app.targetAudienceAPI)),
   roller: (): RequestHandler => proxy(envProperties.ROLLER_URL, options(config.app.targetAudienceRoller)),
 }
 
