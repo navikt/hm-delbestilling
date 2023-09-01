@@ -135,7 +135,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
         </Button>
       </StyledForm>
 
-      {feilmelding && (
+      {feilmelding && !gjørOppslag && (
         <Avstand marginTop={4}>
           <Feilmelding feilmelding={feilmelding} />
         </Avstand>

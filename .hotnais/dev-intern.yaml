@@ -53,7 +53,6 @@ spec:
       external:
         - host: loginservice.dev.nav.no
         - host: dekoratoren.dev.nav.no
-        - host: tokendings.dev-gcp.nais.io
       rules:
         - application: hm-delbestilling-api
         - application: hm-roller
