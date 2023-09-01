@@ -10,7 +10,7 @@ import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
-export const API_PATH_PUBLIC = REST_BASE_PATH + '/api-public'
+export const API_PUBLIC_PATH = REST_BASE_PATH + '/api-public'
 export const ROLLER_PATH = REST_BASE_PATH + '/roller'
 
 export class ApiError extends Error {
@@ -46,7 +46,7 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
 }
 
 const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<OppslagResponse> => {
-  const response = await fetchPost(API_PATH_PUBLIC + '/oppslag', {
+  const response = await fetchPost(API_PUBLIC_PATH + '/oppslag', {
     body: JSON.stringify({ hmsnr, serienr }),
     headers: {
       'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
 }
 
 const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerResponse> => {
-  const response = await fetch(API_PATH_PUBLIC + '/hjelpemidler')
+  const response = await fetch(API_PUBLIC_PATH + '/hjelpemidler')
   await handleResponse(response.clone())
   return await response.json()
 }
