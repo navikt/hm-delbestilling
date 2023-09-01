@@ -47,6 +47,7 @@ jobs:
           RESOURCE: .hotnais/dev-intern.yaml
           PRINT_PAYLOAD: true
           VAR: commit=${{ github.sha }},image=${{ env.IMAGE }}
+          IMAGE: ${{steps.docker-build-push.outputs.image}}
 
       - name: Deploy to dev-gcp (ekstern)
         uses: nais/deploy/actions/deploy@v1
@@ -56,6 +57,7 @@ jobs:
           RESOURCE: .hotnais/dev-ekstern.yaml
           PRINT_PAYLOAD: true
           VAR: commit=${{ github.sha }},image=${{ env.IMAGE }}
+          IMAGE: ${{steps.docker-build-push.outputs.image}}
 
       - name: post-deploy
         if: github.ref == 'refs/heads/main'
