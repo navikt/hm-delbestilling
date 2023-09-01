@@ -15,13 +15,6 @@ env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
 jobs:
-  sjekkPermissions:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
-        with:
-          config: ${{ vars.PERMISSIONS_CONFIG }}
-
   deploy:
     name: Build and deploy
     permissions:
@@ -33,7 +26,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Pre-deploy
-        uses: navikt/digihot-deploy/actions/pre-deploy@v1
+        uses: navikt/digihot-deploy/actions/pre-deploy@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -45,17 +38,6 @@ jobs:
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           tag: ${{ env.VERSION_TAG }}
-      #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}
-      # - uses: docker/login-action@v1
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
-      # - uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: ${{ env.IMAGE }}
 
       - name: Deploy to dev-gcp (intern)
         uses: nais/deploy/actions/deploy@v1
@@ -65,6 +47,7 @@ jobs:
           RESOURCE: .hotnais/dev-intern.yaml
           PRINT_PAYLOAD: true
           VAR: commit=${{ github.sha }},image=${{ env.IMAGE }}
+
       - name: Deploy to dev-gcp (ekstern)
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -73,11 +56,13 @@ jobs:
           RESOURCE: .hotnais/dev-ekstern.yaml
           PRINT_PAYLOAD: true
           VAR: commit=${{ github.sha }},image=${{ env.IMAGE }}
+
       - name: post-deploy
         if: github.ref == 'refs/heads/main'
         uses: navikt/digihot-deploy/actions/post-deploy@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create release
         if: github.ref == 'refs/heads/main'
         uses: actions/create-release@latest
