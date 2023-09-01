@@ -46,7 +46,7 @@ jobs:
           CLUSTER: dev-gcp
           RESOURCE: .hotnais/dev-intern.yaml
           PRINT_PAYLOAD: true
-          VAR: commit=${{ github.sha }},image=${{ env.IMAGE }}
+          VAR: commit=${{ github.sha }}
           IMAGE: ${{steps.docker-build-push.outputs.image}}
 
       - name: Deploy to dev-gcp (ekstern)
@@ -56,12 +56,12 @@ jobs:
           CLUSTER: dev-gcp
           RESOURCE: .hotnais/dev-ekstern.yaml
           PRINT_PAYLOAD: true
-          VAR: commit=${{ github.sha }},image=${{ env.IMAGE }}
+          VAR: commit=${{ github.sha }}
           IMAGE: ${{steps.docker-build-push.outputs.image}}
 
       - name: post-deploy
         if: github.ref == 'refs/heads/main'
-        uses: navikt/digihot-deploy/actions/post-deploy@v2
+        uses: navikt/digihot-deploy/actions/post-deploy@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
