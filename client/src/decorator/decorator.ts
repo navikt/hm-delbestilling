@@ -1,25 +1,15 @@
 import i18next from 'i18next'
 import Cookies from 'universal-cookie'
 
-import { onLanguageSelect, setParams } from '@navikt/nav-dekoratoren-moduler'
+import { DecoratorParams, onLanguageSelect, setParams } from '@navikt/nav-dekoratoren-moduler'
 
 import { BASE_PATH } from '../App'
 // import restService from '../services/rest-service'
 import { logSpråkEndret } from '../utils/amplitude'
 
-interface Params {
-  context?: 'privatperson' | 'arbeidsgiver' | 'samarbeidspartner'
-  simple?: boolean
-  enforceLogin?: boolean
-  redirectToApp?: boolean
-  level?: string
-  language?: 'nb' | 'nn' | 'en' | 'se'
-  feedback?: boolean
-  chatbot?: boolean
-}
 
 const DECORATOR_LANGUAGE_COOKIE = 'decorator-language'
-const DEFAULT_PARAMS: Params = {
+const DEFAULT_PARAMS: DecoratorParams = {
   chatbot: false,
   simple: true,
   feedback: false,

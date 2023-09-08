@@ -51,7 +51,8 @@ spec:
       external:
         - host: www.nav.no
         - host: loginservice.nav.no
-        - host: dekoratoren.nav.no
       rules:
         - application: hm-delbestilling-api
         - application: hm-roller
+        - application: nav-dekoratoren
+          namespace: personbruker

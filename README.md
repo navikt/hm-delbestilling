@@ -2,6 +2,12 @@
 
 Frontend-applikasjon for bestilling av deler fra teknikere
 
+## Kjøre lokalt
+```
+npm run dev
+```
+for å kjøre lokalt med MSW mock av backend.
+
 ## Testguide
 
 | artnr  | serienr | resultat ved oppslag                          | resultat ved innsending                                |

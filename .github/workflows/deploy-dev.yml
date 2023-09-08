@@ -9,7 +9,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - permissions
+      - dekoratørvarsel
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
@@ -29,6 +29,10 @@ jobs:
         uses: navikt/digihot-deploy/actions/pre-deploy@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Tilgjengeliggjør READER_TOKEN for npm
+        run: |
+          echo '//npm.pkg.github.com/:_authToken='${{ secrets.READER_TOKEN }} >> .npmrc
 
       - name: Build and push docker image
         uses: nais/docker-build-push@v0
