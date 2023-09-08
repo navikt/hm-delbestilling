@@ -38,7 +38,7 @@
     "@vitejs/plugin-react": "^4.0.4",
     "axe-core": "^4.5.2",
     "cross-env": "^7.0.3",
-    "cypress": "^12.17.3",
+    "cypress": "^13.1.0",
     "cypress-axe": "^1.1.0",
     "debug": "^4.3.2",
     "eslint": "^8.17.0",
