@@ -11,7 +11,10 @@ const htmlPlugin = ({ development }: { development?: boolean }): Plugin => ({
     if (development) {
       const decorator = await fetchDecoratorHtml({
         env: 'dev',
-        context: 'samarbeidspartner',
+        params: {
+          context: 'samarbeidspartner',
+          logoutWarning: true,
+        },
       })
       return {
         html: render(html, decorator),
