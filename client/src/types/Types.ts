@@ -19,6 +19,7 @@ export interface Handlekurv {
   hjelpemiddel: Hjelpemiddel
   deler: DelLinje[]
   levering: Levering | undefined
+  harOpplæringPåBatteri: boolean | undefined
 }
 
 export interface DelLinje {
@@ -32,6 +33,7 @@ export interface Delbestilling {
   serienr: string
   deler: DelLinje[]
   levering: Levering
+  harOpplæringPåBatteri: boolean | undefined
 }
 
 export interface DelbestillingSak {

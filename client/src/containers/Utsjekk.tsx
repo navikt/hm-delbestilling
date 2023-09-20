@@ -4,7 +4,17 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
-import { Alert, BodyShort, Button, GuidePanel, Heading, Radio, RadioGroup, Select } from '@navikt/ds-react'
+import {
+  Alert,
+  BodyShort,
+  Button,
+  ConfirmationPanel,
+  GuidePanel,
+  Heading,
+  Radio,
+  RadioGroup,
+  Select,
+} from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import DelInfo from '../components/DelInfo'
@@ -43,8 +53,8 @@ const Toolbar = styled.div`
 `
 
 export interface Valideringsfeil {
-  id: 'levering' | 'deler'
-  type: 'mangler levering' | 'ingen deler'
+  id: 'levering' | 'deler' | 'opplæring-batteri'
+  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring'
   melding: string
 }
 
@@ -65,6 +75,8 @@ const Utsjekk = () => {
   const { t } = useTranslation()
 
   const navigate = useNavigate()
+
+  const handlekurvInneholderBatteri = handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
@@ -159,6 +171,14 @@ const Utsjekk = () => {
       feil.push({ id: 'levering', type: 'mangler levering', melding: 'Du må velge levering.' })
     }
 
+    if (handlekurvInneholderBatteri && !handlekurv.harOpplæringPåBatteri) {
+      feil.push({
+        id: 'opplæring-batteri',
+        type: 'mangler opplæring',
+        melding: 'Du må bekrefte at du har fått opplæring i å bytte disse batteriene.',
+      })
+    }
+
     setValideringsFeil(feil)
     return feil
   }
@@ -182,6 +202,7 @@ const Utsjekk = () => {
         serienr: handlekurv.serienr,
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
+        harOpplæringPåBatteri: handlekurv.harOpplæringPåBatteri,
       }
 
       logInnsendingGjort(handlekurv.id)
@@ -313,6 +334,29 @@ const Utsjekk = () => {
                   Legg til {handlekurv.deler.length > 0 ? 'flere' : ''} deler
                 </Button>
               </Avstand>
+
+              {handlekurvInneholderBatteri && (
+                <Avstand marginBottom={8}>
+                  <ConfirmationPanel
+                    id={'opplæring-batteri'}
+                    checked={!!handlekurv.harOpplæringPåBatteri}
+                    label="Jeg har fått opplæring på Hjelpemiddelsentralen i å bytte disse batteriene."
+                    onChange={(e) =>
+                      setHandlekurv((prev) => {
+                        if (!prev) return undefined
+                        return {
+                          ...prev,
+                          harOpplæringPåBatteri: e.target.checked,
+                        }
+                      })
+                    }
+                    error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
+                  >
+                    Bekreft
+                  </ConfirmationPanel>
+                </Avstand>
+              )}
+
               <Avstand marginBottom={12}>
                 <Heading spacing level="3" size="medium">
                   Levering
