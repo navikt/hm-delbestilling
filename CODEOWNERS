@@ -1,6 +1,4 @@
-#    * @navikt/teamdigihot
+# For å bruke hele teamdigihot som default reviewers:
+#* @navikt/teamdigihot
 
-@hakhag
-@olesls
-@urenhale
-@torbjorn-vallestad
+* @hakhag @olesls @torbjorn-vallestad
