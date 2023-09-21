@@ -41,6 +41,7 @@ const Index = () => {
       hjelpemiddel,
       deler: [{ del, antall: defaultAntall(del) }],
       levering: undefined,
+      harOpplæringPåBatteri: undefined,
     }
 
     window.sessionStorage.setItem(SESSIONSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
