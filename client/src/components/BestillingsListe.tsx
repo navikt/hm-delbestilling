@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -39,6 +40,7 @@ interface Props {
 }
 
 const BestillingsListe = ({ text, maksBestillinger }: Props) => {
+  const { t } = useTranslation()
   const [tidligereBestillingerForValg, setTidligereBestillingerForValg] = useState<
     Record<Valg, DelbestillingSak[] | undefined>
   >({
@@ -99,7 +101,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
     } catch (e: any) {
       console.error(e)
       // TODO: vis feilmelding
-      alert('Vi klarte ikke å gå til bestillinger akkurat nå. Prøv igjen senere.')
+      alert(t('error.klarteIkkeViseBestillinger'))
     }
   }
 
@@ -124,12 +126,12 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
           <Loader size="2xlarge" />
         </LoaderContainer>
       ) : (
-        <div>Ingen tidligere bestillinger</div>
+        <div>{t('bestillinger.ingenBestillinger')}</div>
       )}
 
       {tidligereBestillinger && tidligereBestillinger.length > 0 && maksBestillinger && (
         <ButtonContainer marginTop={4}>
-          <Button onClick={handleGåTilBestillinger}>Vis alle</Button>
+          <Button onClick={handleGåTilBestillinger}>{t('bestillinger.visAlle')}</Button>
         </ButtonContainer>
       )}
     </>

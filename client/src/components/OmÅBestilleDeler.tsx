@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import { BodyLong, Heading, Panel } from '@navikt/ds-react'
@@ -6,6 +7,7 @@ import { BodyLong, Heading, Panel } from '@navikt/ds-react'
 import { useHjelpemidler } from '../hooks/useHjelpemidler'
 
 const OmÅBestilleDeler = () => {
+  const { t } = useTranslation()
   const { hjelpemidler } = useHjelpemidler()
   const [typer, setTyper] = useState<string[]>([])
 
@@ -23,11 +25,15 @@ const OmÅBestilleDeler = () => {
   return (
     <Panel>
       <Heading level="2" size="medium" spacing>
-        Om å bestille deler
+        {t('info.omÅBestilleDeler')}
       </Heading>
       <ul>
-        <li>Denne tjenesten er kun for teknikere i kommunen.</li>
-        {typer.length > 0 && <li>Som tekniker kan du bestille deler til {typer.join(', ')}.</li>}
+        <li>{t('info.kunForTeknikere')}</li>
+        {typer.length > 0 && (
+          <li>
+            {t('info.kanBestilleDelerTil')} {typer.join(', ')}.
+          </li>
+        )}
       </ul>
     </Panel>
   )

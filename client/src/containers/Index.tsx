@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -9,6 +9,7 @@ import { BodyLong, BodyShort, Button, Heading, Link, LinkPanel, Panel } from '@n
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import LeggTilDel from '../components/LeggTilDel'
+import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import { defaultAntall } from '../helpers/delHelper'
 import useAuth from '../hooks/useAuth'
@@ -55,7 +56,7 @@ const Index = () => {
     } catch (e: any) {
       console.log(e)
       // TODO: vis feilmelding
-      alert('Vi klarte ikke å sjekke loginstatus akkurat nå. Prøv igjen senere.')
+      alert(t('error.klarteIkkeSjekkeLoginStatus'))
     }
   }
 
@@ -89,7 +90,7 @@ const Index = () => {
                     onClick={() => window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')}
                     variant="secondary"
                   >
-                    Logg inn for å se bestillinger
+                    {t('bestillinger.loggInnForÅSeBestillinger')}
                   </Button>
                 </CenteredContent>
               )}
@@ -105,14 +106,19 @@ const Index = () => {
                   Kontakt oss
                 </Heading>
                 <BodyLong>
-                  Tjenesten utvikles av{' '}
-                  <Link href="DigiHoT – Digitalisering av hjelpemidler og tilrettelegging">
-                    DigiHoT – Digitalisering av hjelpemidler og tilrettelegging
-                  </Link>
-                  . Du kan sende oss spørsmål eller tilbakemeldinger om den digitale tjenesten på{' '}
-                  <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>. Ikke send opplysninger om brukerne, vi kan
-                  ikke se sakene dine. Hvis du har spørsmål om saksbehandling og levering, så må du ta kontakt med din
-                  hjelpemiddelsentral.
+                  <Trans
+                    i18nKey={'info.omDigiHoT'}
+                    components={{
+                      linkDigihot: (
+                        <Lenke
+                          href="https://www.nav.no/no/nav-og-samfunn/samarbeid/hjelpemidler/digitalisering-av-hjelpemiddelomradet"
+                          target={'_blank'}
+                          lenketekst="DigiHoT – Digitalisering av hjelpemidler og tilrettelegging"
+                        />
+                      ),
+                      linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
+                    }}
+                  />
                 </BodyLong>
               </Panel>
             </Avstand>
@@ -123,7 +129,7 @@ const Index = () => {
             <CustomPanel border>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <Heading size="xsmall" level="4" spacing>
-                  Bestilling til {hjelpemiddel.navn}
+                  {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                 </Heading>
                 <Button
                   icon={<PencilIcon />}
@@ -132,7 +138,7 @@ const Index = () => {
                     setHjelpemiddel(undefined)
                   }}
                 >
-                  Endre
+                  {t('felles.Endre')}
                 </Button>
               </div>
               <BodyShort style={{ display: 'flex', gap: '20px' }}>
@@ -144,7 +150,7 @@ const Index = () => {
             <LeggTilDel
               hjelpemiddel={hjelpemiddel}
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
-              knappeTekst="Bestill"
+              knappeTekst={t('bestillinger.bestill')}
             />
           </>
         )}
