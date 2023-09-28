@@ -17,8 +17,8 @@ import {
 } from '../../types/HttpTypes'
 import { DelbestillingSak, Status } from '../../types/Types'
 
-let tidligereBestillinger = delBestillingMock.slice(0, 4) as unknown as DelbestillingSak[]
-let tidligereBestillingerKommune = delBestillingMock.slice(4) as unknown as DelbestillingSak[]
+let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
+let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
 
 const apiHandlers = [
   rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
@@ -123,9 +123,6 @@ const apiHandlers = [
 
   rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
-  }),
-  rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
-    return res(ctx.delay(250), ctx.json(hjelpemidlerMock))
   }),
   rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(hjelpemidlerMock))

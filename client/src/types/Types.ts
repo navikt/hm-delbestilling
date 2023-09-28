@@ -2,6 +2,7 @@ export interface Hjelpemiddel {
   navn: string
   hmsnr: string
   deler: Del[] | undefined
+  type: string
 }
 
 export interface Del {
@@ -31,6 +32,7 @@ export interface Delbestilling {
   id: string
   hmsnr: string
   serienr: string
+  navn: string | undefined
   deler: DelLinje[]
   levering: Levering
   harOpplæringPåBatteri: boolean | undefined

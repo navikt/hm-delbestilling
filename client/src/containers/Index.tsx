@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyShort, Button, GuidePanel, Heading, Link, Panel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, Link, LinkPanel, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import BestillingsListe from '../components/BestillingsListe'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import LeggTilDel from '../components/LeggTilDel'
+import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import { defaultAntall } from '../helpers/delHelper'
 import useAuth from '../hooks/useAuth'
 import { CenteredContent } from '../styledcomponents/CenteredContent'
@@ -63,9 +62,6 @@ const Index = () => {
   return (
     <main>
       <Content>
-        <Heading level="2" size="large" spacing>
-          Bestill del
-        </Heading>
         {!hjelpemiddel && (
           <>
             <HjelpemiddelLookup
@@ -76,14 +72,18 @@ const Index = () => {
               setHjelpemiddel={setHjelpemiddel}
             />
 
-            {erLoggetInn ? (
-              <>
-                <Avstand marginTop={12} />
-                <BestillingsListe text={t('bestillinger.dineSiste')} maksBestillinger={2} />
-              </>
-            ) : (
-              <>
-                <Avstand marginTop={16} />
+            <Avstand marginTop={10}>
+              {erLoggetInn ? (
+                <LinkPanel
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate('/bestillinger')
+                  }}
+                >
+                  <LinkPanel.Title>{t('bestillinger.dineSiste')}</LinkPanel.Title>
+                </LinkPanel>
+              ) : (
                 <CenteredContent>
                   <Button
                     onClick={() => window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')}
@@ -92,16 +92,29 @@ const Index = () => {
                     Logg inn for å se bestillinger
                   </Button>
                 </CenteredContent>
-              </>
-            )}
+              )}
+            </Avstand>
 
-            <Avstand marginTop={16}>
-              <GuidePanel>
-                Denne tjenesten er kun for teknikere i kommunen. Som tekniker kan du bestille fra et begrenset utvalg av
-                deler til Panthera, Minicrosser, X850, Comet, og Orion. Tjenesten er under utvikling av DigiHoT -
-                Digitalisering av hjelpemidler og tilrettelegging. Spørsmål og tilbakemeldinger kan du sende på e-post
-                til <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>
-              </GuidePanel>
+            <Avstand marginTop={10}>
+              <OmÅBestilleDeler />
+            </Avstand>
+
+            <Avstand marginTop={10}>
+              <Panel>
+                <Heading level="2" size="medium" spacing>
+                  Kontakt oss
+                </Heading>
+                <BodyLong>
+                  Tjenesten utvikles av{' '}
+                  <Link href="DigiHoT – Digitalisering av hjelpemidler og tilrettelegging">
+                    DigiHoT – Digitalisering av hjelpemidler og tilrettelegging
+                  </Link>
+                  . Du kan sende oss spørsmål eller tilbakemeldinger om den digitale tjenesten på{' '}
+                  <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>. Ikke send opplysninger om brukerne, vi kan
+                  ikke se sakene dine. Hvis du har spørsmål om saksbehandling og levering, så må du ta kontakt med din
+                  hjelpemiddelsentral.
+                </BodyLong>
+              </Panel>
             </Avstand>
           </>
         )}
