@@ -56,7 +56,7 @@ const Index = () => {
     } catch (e: any) {
       console.log(e)
       // TODO: vis feilmelding
-      alert('Vi klarte ikke å sjekke loginstatus akkurat nå. Prøv igjen senere.')
+      alert(t('error.klarteIkkeSjekkeLoginStatus'))
     }
   }
 
@@ -64,7 +64,7 @@ const Index = () => {
     <main>
       <Content>
         <Heading level="2" size="large" spacing>
-          Bestill del
+          {t('bestillinger.bestillDel')}
         </Heading>
         {!hjelpemiddel && (
           <>
@@ -89,7 +89,7 @@ const Index = () => {
                     onClick={() => window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')}
                     variant="secondary"
                   >
-                    Logg inn for å se bestillinger
+                    {t('bestillinger.loggInnForÅSeBestillinger')}
                   </Button>
                 </CenteredContent>
               </>
@@ -97,10 +97,7 @@ const Index = () => {
 
             <Avstand marginTop={16}>
               <GuidePanel>
-                Denne tjenesten er kun for teknikere i kommunen. Som tekniker kan du bestille fra et begrenset utvalg av
-                deler til Panthera, Minicrosser, X850, Comet, og Orion. Tjenesten er under utvikling av DigiHoT -
-                Digitalisering av hjelpemidler og tilrettelegging. Spørsmål og tilbakemeldinger kan du sende på e-post
-                til <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>
+                {t('bestillinger.infoOmLøsningen')} <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>
               </GuidePanel>
             </Avstand>
           </>
@@ -110,7 +107,7 @@ const Index = () => {
             <CustomPanel border>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <Heading size="xsmall" level="4" spacing>
-                  Bestilling til {hjelpemiddel.navn}
+                  {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                 </Heading>
                 <Button
                   icon={<PencilIcon />}
@@ -131,7 +128,7 @@ const Index = () => {
             <LeggTilDel
               hjelpemiddel={hjelpemiddel}
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
-              knappeTekst="Bestill"
+              knappeTekst={t('bestillinger.bestill')}
             />
           </>
         )}

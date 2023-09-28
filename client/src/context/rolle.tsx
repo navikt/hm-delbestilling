@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
+import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
 import { GuidePanel, Loader } from '@navikt/ds-react'
@@ -21,6 +22,7 @@ const RolleContext = React.createContext<RolleContextType>({
 })
 
 export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
+  const { t } = useTranslation()
   const [henterRolle, setHenterRolle] = useState(true)
   const [delbestillerrolle, setDelbestillerrolle] = useState<Delbestillerrolle | undefined>()
   const { showBoundary } = useErrorBoundary()
@@ -54,13 +56,14 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   let feilmeldingsTekst = ''
 
   if (!delbestillerrolle) {
-    return <div>Ingen delbestillerrolle</div>
+    return <div>{t('error.ingenRolle')}</div>
   } else if (delbestillerrolle.erKommunaltAnsatt === false) {
-    feilmeldingsTekst = 'Du er ikke kommunalt ansatt, og kan derfor ikke bestille deler.'
+    feilmeldingsTekst = t('error.ikkeKommunaltAnsatt')
   } else if (delbestillerrolle.erIPilot === false) {
+    // TODO fjern etter lansering 02.10.2023
     feilmeldingsTekst = 'Du kan ikke bestille deler akkurat nå (du er ikke i pilot).'
   } else if (delbestillerrolle.kanBestilleDeler === false) {
-    feilmeldingsTekst = 'Du kan ikke bestille deler.'
+    feilmeldingsTekst = 'error.kanIkkeBestilleDeler'
   }
 
   if (feilmeldingsTekst) {

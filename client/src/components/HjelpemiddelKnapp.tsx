@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { BodyShort, Heading, LinkPanel } from '@navikt/ds-react'
 
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const HjelpemiddelKnapp = ({ hjelpemiddel, aktiv, setAktivtHjelpemiddel }: Props) => {
+  const { t } = useTranslation()
   const { navn, deler } = hjelpemiddel
   const antallTilgjengeligeDeler = deler?.length || 0
   return (
@@ -23,7 +25,7 @@ const HjelpemiddelKnapp = ({ hjelpemiddel, aktiv, setAktivtHjelpemiddel }: Props
             {navn}
           </Heading>
           <BodyShort>
-            <strong>Antall deler:</strong> {antallTilgjengeligeDeler}
+            <strong>{t('oversikt.antallDeler')}:</strong> {antallTilgjengeligeDeler}
           </BodyShort>
         </div>
       </LinkPanel>

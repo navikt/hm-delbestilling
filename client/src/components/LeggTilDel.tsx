@@ -59,9 +59,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                 </DelInnhold>
                 {visVarselOmLevering && (
                   <Avstand marginTop={4}>
-                    <Alert variant="info">
-                      Denne delen er mulig å bestille, men er ikke på lager før tidligst uke 48.
-                    </Alert>
+                    <Alert variant="info">{t('leggTilDel.delIkkePåLager')}</Alert>
                   </Avstand>
                 )}
               </CustomPanel>

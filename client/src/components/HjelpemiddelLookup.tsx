@@ -1,4 +1,5 @@
 import React, { SetStateAction, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
@@ -45,15 +46,16 @@ interface Props {
   setHjelpemiddel: React.Dispatch<SetStateAction<Hjelpemiddel | undefined>>
 }
 const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
+  const { t } = useTranslation()
   const [gjørOppslag, setGjørOppslag] = useState(false)
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
 
   const hentOppslagFeil = (oppslagfeil: OppslagFeil): string => {
     switch (oppslagfeil) {
       case OppslagFeil.INGET_UTLÅN:
-        return 'Vi finner dessverre ikke et utlån på dette art.nr og serienr.'
+        return t('error.finnerIkkeUtlån')
       case OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL:
-        return 'Du kan ikke bestille del til dette hjelpemidlet da det ikke er registrert hos oss. Ta kontakt med din hjelpemiddelsentral for hjelp.'
+        return t('error.tilbyrIkkeHjelpemiddel')
       default:
         return oppslagfeil
     }
@@ -64,7 +66,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
 
     if (hmsnr.length !== 6 || serienr.length !== 6) {
       setFeilmelding({
-        feilmelding: 'Både art.nr og serienr må inneholde 6 siffer.',
+        feilmelding: t('error.artnrOgSerienr6Siffer'),
         variant: 'warning',
       })
       return
@@ -89,9 +91,9 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
       logOppslagFeil('FEIL_FRA_BACKEND', hmsnr, err.statusCode)
       let feilmelding = ''
       if (err.isTooManyRequests()) {
-        feilmelding = 'Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.'
+        feilmelding = t('error.forMangeOppslag')
       } else {
-        feilmelding = 'Noe gikk feil med oppslag, prøv igjen senere'
+        feilmelding = t('error.noeGikkGalt')
       }
       setFeilmelding({
         feilmelding,
@@ -110,28 +112,28 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
   return (
     <CustomPanel border>
       <Heading size="xsmall" level="3">
-        Hvilket hjelpemiddel trenger del?
+        {t('oppslag.hvilketHjelpemiddel')}
       </Heading>
       <Avstand marginBottom={8} />
 
       <StyledForm onSubmit={handleSubmit}>
         <StyledTextField
-          label="Art.nr (6 siffer)"
+          label={t('oppslag.artnr')}
           value={hmsnr}
           onChange={(e) => erGyldig(e.target.value) && setHmsnr(e.target.value)}
           data-cy="input-artnr"
         />
         <StyledTextField
-          label="Serienr (6 siffer)"
+          label={t('oppslag.serienr')}
           value={serienr}
           onChange={(e) => erGyldig(e.target.value) && setSerienr(e.target.value)}
           data-cy="input-serienr"
         />
         <Button loading={gjørOppslag} onClick={handleSubmit} data-cy="button-oppslag-submit">
-          Vis deler
+          {t('oppslag.visDeler')}
         </Button>
         <Button type="button" onClick={reset} variant="tertiary" data-cy="button-oppslag-reset">
-          Start på nytt
+          {t('oppslag.startPåNytt')}
         </Button>
       </StyledForm>
 

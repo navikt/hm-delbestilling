@@ -29,7 +29,7 @@ const Bestillinger = () => {
       <Content>
         <BannerContainer>
           <Heading size="xlarge">{t('bestillinger.dine')}</Heading>
-          <Button onClick={() => navigate('/')}>Ny bestilling</Button>
+          <Button onClick={() => navigate('/')}>{t('oversikt.nyBestilling')}</Button>
         </BannerContainer>
         {/*<GuidePanel poster>
           {t('bestillinger.guide.tekst')}

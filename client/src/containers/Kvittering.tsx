@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Alert, Button, Heading } from '@navikt/ds-react'
@@ -16,6 +17,7 @@ type LocationState = {
 }
 
 const Kvittering = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
   const state = location.state as LocationState | null
@@ -47,9 +49,9 @@ const Kvittering = () => {
   if (!handlekurv) {
     return (
       <>
-        <div>Fant ingen kvittering</div>
+        <div>{t('kvittering.fantIkkeKvittering')}</div>
         <Button variant="secondary" onClick={handleNyBestillingClick}>
-          Start ny bestilling
+          {t('kvittering.startNyBestilling')}
         </Button>
       </>
     )
@@ -63,13 +65,17 @@ const Kvittering = () => {
           Kvittering
         </Heading>
         <Alert variant="success">
-          Vi har mottatt bestilling av {hentAntallDeler(handlekurv.deler) === 1 ? 'del' : 'deler'} til{' '}
-          {handlekurv.hjelpemiddel.navn} med art.nr. {handlekurv.hjelpemiddel.hmsnr} og serienr. {handlekurv.serienr}.
+          {t('kvittering.bestillingMottatt', {
+            antall: hentAntallDeler(handlekurv.deler),
+            navn: handlekurv.hjelpemiddel.navn,
+            hmsnr: handlekurv.hjelpemiddel.hmsnr,
+            serienr: handlekurv.serienr,
+          })}
         </Alert>
         <Avstand marginTop={10} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Button variant="secondary" onClick={handleNyBestillingClick}>
-            Start ny bestilling
+            {t('kvittering.startNyBestilling')}
           </Button>
         </div>
       </Content>
