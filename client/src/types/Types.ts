@@ -61,7 +61,22 @@ export interface Delbestillerrolle {
   kanBestilleDeler: boolean
   harXKLager: boolean
   erKommunaltAnsatt: boolean
+  kommunaleOrgs: Organisasjon[] | undefined
   erIPilot: boolean
+}
+
+export interface Organisasjon {
+  orgnr: string
+  navn: string
+  orgform: string
+  overordnetOrgnr: string | undefined
+  næringskoder: Næringskode[]
+  kommunenummer: string | undefined
+}
+
+export interface Næringskode {
+  kode: string
+  beskrivelse: string
 }
 
 export type Valg = 'mine' | 'kommunens'
