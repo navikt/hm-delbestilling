@@ -8,6 +8,10 @@ interface Props {
   lenketekst: string
 }
 
+/**
+ * Wrapper for @navikt/ds-react/Link fordi i18n <Trans components:{...} /> ikke funker med <Link />
+ * fordi det er et reservert ord.
+ */
 const Lenke = (props: Props) => {
   return (
     <Link href={props.href} target={props.target}>
