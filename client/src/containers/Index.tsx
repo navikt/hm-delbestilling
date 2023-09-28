@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyShort, Button, GuidePanel, Heading, Link, Panel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, Link, LinkPanel, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import BestillingsListe from '../components/BestillingsListe'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import LeggTilDel from '../components/LeggTilDel'
+import Lenke from '../components/Lenke'
+import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import { defaultAntall } from '../helpers/delHelper'
 import useAuth from '../hooks/useAuth'
 import { CenteredContent } from '../styledcomponents/CenteredContent'
@@ -63,9 +63,6 @@ const Index = () => {
   return (
     <main>
       <Content>
-        <Heading level="2" size="large" spacing>
-          {t('bestillinger.bestillDel')}
-        </Heading>
         {!hjelpemiddel && (
           <>
             <HjelpemiddelLookup
@@ -76,14 +73,18 @@ const Index = () => {
               setHjelpemiddel={setHjelpemiddel}
             />
 
-            {erLoggetInn ? (
-              <>
-                <Avstand marginTop={12} />
-                <BestillingsListe text={t('bestillinger.dineSiste')} maksBestillinger={2} />
-              </>
-            ) : (
-              <>
-                <Avstand marginTop={16} />
+            <Avstand marginTop={10}>
+              {erLoggetInn ? (
+                <LinkPanel
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate('/bestillinger')
+                  }}
+                >
+                  <LinkPanel.Title>{t('bestillinger.dineSiste')}</LinkPanel.Title>
+                </LinkPanel>
+              ) : (
                 <CenteredContent>
                   <Button
                     onClick={() => window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')}
@@ -92,13 +93,34 @@ const Index = () => {
                     {t('bestillinger.loggInnForÅSeBestillinger')}
                   </Button>
                 </CenteredContent>
-              </>
-            )}
+              )}
+            </Avstand>
 
-            <Avstand marginTop={16}>
-              <GuidePanel>
-                {t('bestillinger.infoOmLøsningen')} <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>
-              </GuidePanel>
+            <Avstand marginTop={10}>
+              <OmÅBestilleDeler />
+            </Avstand>
+
+            <Avstand marginTop={10}>
+              <Panel>
+                <Heading level="2" size="medium" spacing>
+                  Kontakt oss
+                </Heading>
+                <BodyLong>
+                  <Trans
+                    i18nKey={'info.omDigiHoT'}
+                    components={{
+                      linkDigihot: (
+                        <Lenke
+                          href="https://www.nav.no/no/nav-og-samfunn/samarbeid/hjelpemidler/digitalisering-av-hjelpemiddelomradet"
+                          target={'_blank'}
+                          lenketekst="DigiHoT – Digitalisering av hjelpemidler og tilrettelegging"
+                        />
+                      ),
+                      linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
+                    }}
+                  />
+                </BodyLong>
+              </Panel>
             </Avstand>
           </>
         )}
@@ -116,7 +138,7 @@ const Index = () => {
                     setHjelpemiddel(undefined)
                   }}
                 >
-                  Endre
+                  {t('felles.Endre')}
                 </Button>
               </div>
               <BodyShort style={{ display: 'flex', gap: '20px' }}>

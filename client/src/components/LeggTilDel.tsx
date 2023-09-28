@@ -46,7 +46,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
           const visVarselOmLevering = hmsnrsLeveringUke48.includes(del.hmsnr)
 
           return (
-            <Avstand marginBottom={2} key={del.hmsnr}>
+            <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
                 <DelInnhold>
                   <FlexedStack>

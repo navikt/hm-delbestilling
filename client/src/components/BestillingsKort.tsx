@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react'
+import { Hmac } from 'crypto'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
-import { BodyShort, Button, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
+import { BodyShort, Button, Detail, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
 
+import { useRolleContext } from '../context/rolle'
 import { Delbestilling, DelbestillingSak, Levering, Status } from '../types/Types'
 
 import { Avstand } from './Avstand'
@@ -66,39 +68,38 @@ const BestillingsKort = ({ sak }: Props) => {
     month: 'short',
     year: 'numeric',
   })
+  const { delbestillerrolle } = useRolleContext()
   return (
-    <Avstand marginBottom={2}>
+    <Avstand marginBottom={4}>
       <Panel border>
-        <HeaderRekke>
-          <Heading size="small" level="3">
-            Hmsnr: {sak.delbestilling.hmsnr} Serienr: {sak.delbestilling.serienr}
-          </Heading>
-          {/* <Tag variant={etikettType} size="small">
-            {t(`bestillinger.status.${sak.status}`)}
-          </Tag> */}
-        </HeaderRekke>
+        <Heading size="small" level="3">
+          {/* TODO: fjern sjekk når alle produkter har fått navn */}
+          {sak.delbestilling.navn ? <>Bestilling til {sak.delbestilling.navn}</> : <>Bestilling</>}
+        </Heading>
+        <Detail style={{ display: 'flex', gap: '1rem' }}>
+          <span>Art.nr. {sak.delbestilling.hmsnr}</span>
+          <span>Serienr. {sak.delbestilling.serienr}</span>
+        </Detail>
         <Avstand marginBottom={4} />
         {sak.delbestilling.deler.map((delLinje, index) => (
           <DelRekke key={index}>
             <BodyShort size="medium">{delLinje.del.navn}</BodyShort>
-            <Label size="medium">{delLinje.antall} stk</Label>
+            <BodyShort size="medium">{delLinje.antall} stk</BodyShort>
           </DelRekke>
         ))}
         <Avstand marginBottom={4} />
-        <InfoLinje>
-          <div>
-            <Label size="small">{t('bestillinger.kort.innsendt')}:</Label>
-            <BodyShort size="small">{datoString}</BodyShort>
-          </div>
-          <div>
-            <Label size="small">{t('bestillinger.kort.levering')}:</Label>
-            <BodyShort size="small">
-              {sak.delbestilling.levering === Levering.TIL_XK_LAGER
-                ? t('bestillinger.tilXKLager')
-                : t('bestillinger.serviceOppdrag')}
-            </BodyShort>
-          </div>
-        </InfoLinje>
+
+        <BodyShort size="small" spacing>
+          {t('bestillinger.kort.innsendt')} {datoString}
+        </BodyShort>
+
+        {delbestillerrolle.harXKLager && (
+          <BodyShort size="small">
+            {sak.delbestilling.levering === Levering.TIL_XK_LAGER
+              ? t('bestillinger.tilXKLager')
+              : t('bestillinger.serviceOppdrag')}
+          </BodyShort>
+        )}
       </Panel>
     </Avstand>
   )

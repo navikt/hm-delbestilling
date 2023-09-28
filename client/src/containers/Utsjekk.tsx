@@ -200,6 +200,7 @@ const Utsjekk = () => {
         id: handlekurv.id,
         hmsnr: handlekurv.hjelpemiddel.hmsnr,
         serienr: handlekurv.serienr,
+        navn: handlekurv.hjelpemiddel.navn,
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
         harOpplæringPåBatteri: handlekurv.harOpplæringPåBatteri,

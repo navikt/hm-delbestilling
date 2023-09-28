@@ -15,8 +15,6 @@ import BestillingsKort from './BestillingsKort'
 const SakerBanner = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 1rem;
-  margin-top: 1.5rem;
   gap: 8px;
   align-items: center;
   h2 {
@@ -86,7 +84,8 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
     let bestillinger = tidligereBestillingerForValg[valg]
     if (bestillinger) {
       bestillinger = bestillinger.sort((a, b) => b.opprettet.getTime() - a.opprettet.getTime())
-      return maksBestillinger ? bestillinger.slice(0, maksBestillinger) : bestillinger
+      // return maksBestillinger ? bestillinger.slice(0, maksBestillinger) : bestillinger
+      return bestillinger
     }
     return undefined
   }, [tidligereBestillingerForValg, valg, maksBestillinger])
@@ -108,18 +107,14 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
 
   return (
     <>
-      <SakerBanner>
-        <Heading level="2" size="small">
-          {text}
-        </Heading>
+      {/* <SakerBanner>
         {henterTidligereBestillinger && tidligereBestillinger && <Loader size="small" />}
-        {/*<ToggleGroup defaultValue="mine" size="small" onChange={(val) => setValg(val as Valg)}>
+        <ToggleGroup defaultValue="mine" size="small" onChange={(val) => setValg(val as Valg)}>
           <ToggleGroup.Item value="mine">Mine</ToggleGroup.Item>
           <ToggleGroup.Item value="kommunens">Kommunens</ToggleGroup.Item>
-        </ToggleGroup>*/}
-      </SakerBanner>
+        </ToggleGroup>
+      </SakerBanner> */}
 
-      <Avstand marginBottom={4} />
       {tidligereBestillinger && tidligereBestillinger.length > 0 ? (
         <>
           {tidligereBestillinger.map((sak) => (

@@ -2,6 +2,7 @@ export interface Hjelpemiddel {
   navn: string
   hmsnr: string
   deler: Del[] | undefined
+  type: string
 }
 
 export interface Del {
@@ -31,6 +32,7 @@ export interface Delbestilling {
   id: string
   hmsnr: string
   serienr: string
+  navn: string | undefined
   deler: DelLinje[]
   levering: Levering
   harOpplæringPåBatteri: boolean | undefined
@@ -59,7 +61,22 @@ export interface Delbestillerrolle {
   kanBestilleDeler: boolean
   harXKLager: boolean
   erKommunaltAnsatt: boolean
+  kommunaleOrgs: Organisasjon[] | undefined
   erIPilot: boolean
+}
+
+export interface Organisasjon {
+  orgnr: string
+  navn: string
+  orgform: string
+  overordnetOrgnr: string | undefined
+  næringskoder: Næringskode[]
+  kommunenummer: string | undefined
+}
+
+export interface Næringskode {
+  kode: string
+  beskrivelse: string
 }
 
 export type Valg = 'mine' | 'kommunens'

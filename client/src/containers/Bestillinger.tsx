@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { ArrowLeftIcon } from '@navikt/aksel-icons'
 import { Button, Heading } from '@navikt/ds-react'
 
-import { Avstand } from '../components/Avstand'
 import BestillingsListe from '../components/BestillingsListe'
+import Rolleswitcher from '../components/Rolleswitcher'
 import Content from '../styledcomponents/Content'
 
 const BannerContainer = styled.header`
@@ -16,38 +17,28 @@ const BannerContainer = styled.header`
   align-items: flex-end;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1rem;
   padding-top: 1.5rem;
 `
 
 const Bestillinger = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <main>
       <Content>
+        <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => navigate('/')}>
+          Tilbake
+        </Button>
         <BannerContainer>
-          <Heading size="xlarge">{t('bestillinger.dine')}</Heading>
+          <Heading size="large">{t('bestillinger.dine')}</Heading>
           <Button onClick={() => navigate('/')}>{t('oversikt.nyBestilling')}</Button>
         </BannerContainer>
-        {/*<GuidePanel poster>
-          {t('bestillinger.guide.tekst')}
-          <ReadMore
-            style={{ marginTop: '2rem' }}
-            header={
-              isOpen ? t('bestillinger.guide.statuser.lukk') : t('bestillinger.guide.statuser.apne')
-            }
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <Heading size="medium" level="2">
-              {t('bestillinger.guide.statuser.beskrivelse')}
-            </Heading>
-          </ReadMore>
-        </GuidePanel>*/}
-        <Avstand marginTop={12} />
+
         <BestillingsListe text={t('bestillinger.saker')} />
       </Content>
+      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && <Rolleswitcher />}
     </main>
   )
 }
