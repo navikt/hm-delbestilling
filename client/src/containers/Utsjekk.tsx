@@ -21,6 +21,7 @@ import DelInfo from '../components/DelInfo'
 import Errors from '../components/Errors'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import LeggTilDel from '../components/LeggTilDel'
+import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher'
 import { useRolleContext } from '../context/rolle'
 import { GlobalStyle } from '../GlobalStyle'
@@ -226,7 +227,7 @@ const Utsjekk = () => {
               <Trans
                 i18nKey={'error.sessionExpired'}
                 components={{
-                  link: <a href="/hjelpemidler/delbestilling/login">her</a>,
+                  link: <Lenke href="/hjelpemidler/delbestilling/login" lenketekst="her" />,
                 }}
               />
             </>
