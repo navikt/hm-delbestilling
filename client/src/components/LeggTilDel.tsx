@@ -42,9 +42,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       {hjelpemiddel.deler
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => {
-          const hmsnrsLeveringUke48 = ['249612']
-          const visVarselOmLevering = hmsnrsLeveringUke48.includes(del.hmsnr)
-
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
@@ -57,11 +54,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                     {knappeTekst}
                   </Button>
                 </DelInnhold>
-                {visVarselOmLevering && (
-                  <Avstand marginTop={4}>
-                    <Alert variant="info">{t('leggTilDel.delIkkePåLager')}</Alert>
-                  </Avstand>
-                )}
               </CustomPanel>
             </Avstand>
           )

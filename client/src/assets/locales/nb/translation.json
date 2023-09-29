@@ -60,7 +60,6 @@
   "kvittering.bestillingMottatt": "Vi har mottatt bestilling av {{ antall }} del(er) til {{ navn }} med art.nr. {{ hmsnr }} og serienr. {{ serienr }}.",
 
   "leggTilDel.ingenDeler": "Vi tilbyr foreløpig bare et begrenset utvalg deler i denne løsningen, og vi har for øyeblikket ingen deler til dette hjelpemiddelet.",
-  "leggTilDel.delIkkePåLager": "Denne delen er mulig å bestille, men er ikke på lager før tidligst uke 48.",
 
   "levering.Levering": "Levering",
   "levering.title": "Hvor skal delene plasseres når de har blitt levert til kommunen?",
@@ -89,5 +88,4 @@
   "oversikt.nyBestilling": "Ny bestilling",
 
   "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke gjenspeiler virkeligheten."
-
 }
