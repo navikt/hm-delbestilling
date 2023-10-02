@@ -90,7 +90,10 @@
             "kategori": "Dekk",
             "maksAntall": 2
           },
-          "antall": 2
+          "antall": 2,
+          "status": "SKIPNINGSBEKREFTET",
+          "datoSkipningsbekreftet": "2023-10-02"
+
         },
         {
           "del": {
@@ -108,7 +111,7 @@
     },
     "opprettet": "2023-06-22T12:42:03.712112",
     "sistOppdatert": "2023-06-22T12:42:03.712112",
-    "status": "INNSENDT"
+    "status": "DELVIS_SKIPNINGSBEKREFTET"
   },
   {
     "saksnummer": 4,
@@ -134,7 +137,7 @@
     },
     "opprettet": "2023-07-18T08:50:44.730108",
     "sistOppdatert": "2023-07-18T08:50:44.730108",
-    "status": "KLARGJORT"
+    "status": "REGISTRERT"
   },
   {
     "saksnummer": 5,
@@ -143,7 +146,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
-      "deler": [
+      "deler": [  
         {
           "del": {
             "hmsnr": "150817",
@@ -160,7 +163,7 @@
     },
     "opprettet": "2023-07-18T11:10:30.5311",
     "sistOppdatert": "2023-07-18T11:10:30.5311",
-    "status": "INNSENDT"
+    "status": "LUKKET"
   },
   {
     "saksnummer": 6,
@@ -189,32 +192,6 @@
     "status": "INNSENDT"
   },
   {
-    "saksnummer": 7,
-    "delbestilling": {
-      "id": "3b815e0b-d357-4d87-b018-474d6406d7cc",
-      "hmsnr": "236958",
-      "serienr": "687273",
-      "navn": "Panthera U3 Light",
-      "deler": [
-        {
-          "del": {
-            "hmsnr": "150817",
-            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
-            "levArtNr": "1000038",
-            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
-            "kategori": "Dekk",
-            "maksAntall": 2
-          },
-          "antall": 1
-        }
-      ],
-      "levering": "TIL_XK_LAGER"
-    },
-    "opprettet": "2023-07-25T08:15:24.141289",
-    "sistOppdatert": "2023-07-25T08:15:24.141289",
-    "status": "INNSENDT"
-  },
-  {
     "saksnummer": 8,
     "delbestilling": {
       "id": "c7c9ed03-6096-4d15-bade-3ec7d13fb213",
@@ -231,7 +208,10 @@
             "kategori": "Dekk",
             "maksAntall": 2
           },
-          "antall": 1
+          "antall": 1,
+          "status": "SKIPNINGSBEKREFTET",
+          "datoSkipningsbekreftet": "2023-09-29",
+          "forventetLeveringsdato": "2023-10-02"
         },
         {
           "del": {
@@ -242,65 +222,16 @@
             "kategori": "Dekk",
             "maksAntall": 2
           },
-          "antall": 1
+          "antall": 1,
+          "status": "SKIPNINGSBEKREFTET",
+          "datoSkipningsbekreftet": "2023-09-29",
+          "forventetLeveringsdato": "2023-10-02"
         }
       ],
       "levering": "TIL_XK_LAGER"
     },
     "opprettet": "2023-07-25T13:38:53.745194",
     "sistOppdatert": "2023-07-25T13:38:53.745194",
-    "status": "INNSENDT"
-  },
-  {
-    "saksnummer": 9,
-    "delbestilling": {
-      "id": "2e438136-fb25-426e-ae62-d029b85ec5ae",
-      "hmsnr": "236958",
-      "serienr": "687273",
-      "navn": "Panthera U3 Light",
-      "deler": [
-        {
-          "del": {
-            "hmsnr": "150817",
-            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
-            "levArtNr": "1000038",
-            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
-            "kategori": "Dekk",
-            "maksAntall": 2
-          },
-          "antall": 1
-        }
-      ],
-      "levering": "TIL_XK_LAGER"
-    },
-    "opprettet": "2023-07-26T07:13:21.893781",
-    "sistOppdatert": "2023-07-26T07:13:21.893781",
-    "status": "INNSENDT"
-  },
-  {
-    "saksnummer": 10,
-    "delbestilling": {
-      "id": "7f7d5830-15a9-483d-8d14-bdbdd0adc74c",
-      "hmsnr": "236958",
-      "serienr": "687273",
-      "navn": "Panthera U3 Light",
-      "deler": [
-        {
-          "del": {
-            "hmsnr": "150817",
-            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
-            "levArtNr": "1000038",
-            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
-            "kategori": "Dekk",
-            "maksAntall": 2
-          },
-          "antall": 1
-        }
-      ],
-      "levering": "TIL_XK_LAGER"
-    },
-    "opprettet": "2023-07-26T08:17:40.092063",
-    "sistOppdatert": "2023-07-26T08:17:40.092063",
-    "status": "INNSENDT"
+    "status": "SKIPNINGSBEKREFTET"
   }
 ]

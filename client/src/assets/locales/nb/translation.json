@@ -24,6 +24,13 @@
   "bestillinger.delBlirLevertTilKommunen": "Delen blir levert til kommunens mottakssted. Innbyggers navn vil stå på pakken med delen.",
   "bestillinger.sendInn": "Send inn bestilling",
   "bestillinger.slett": "Slett bestilling",
+  "bestillinger.ordrestatus.INNSENDT": "Mottatt",
+  "bestillinger.ordrestatus.REGISTRERT": "Mottatt",
+  "bestillinger.ordrestatus.KLARGJORT": "Mottatt",
+  "bestillinger.ordrestatus.LUKKET": "Bestillingen er levert",
+  "bestillinger.dellinjestatus.SKIPNINGSBEKREFTET": "Plukket på lager",
+  "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
+  "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventet levering {{dato}}",
 
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må inneholde 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.",

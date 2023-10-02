@@ -18,14 +18,17 @@ export interface Handlekurv {
   id: string
   serienr: string
   hjelpemiddel: Hjelpemiddel
-  deler: DelLinje[]
+  deler: Dellinje[]
   levering: Levering | undefined
   harOpplæringPåBatteri: boolean | undefined
 }
 
-export interface DelLinje {
+export interface Dellinje {
   del: Del
   antall: number
+  status?: Dellinjestatus
+  datoSkipningsbekreftet?: string
+  forventetLeveringsdato?: string
 }
 
 export interface Delbestilling {
@@ -33,7 +36,7 @@ export interface Delbestilling {
   hmsnr: string
   serienr: string
   navn: string | undefined
-  deler: DelLinje[]
+  deler: Dellinje[]
   levering: Levering
   harOpplæringPåBatteri: boolean | undefined
 }
@@ -41,15 +44,22 @@ export interface Delbestilling {
 export interface DelbestillingSak {
   saksnummer: number
   delbestilling: Delbestilling
-  status: Status
-  opprettet: Date
-  sistOppdatert: Date
+  status: Ordrestatus
+  opprettet: string
+  sistOppdatert: string
 }
 
-export enum Status {
+export enum Ordrestatus {
   INNSENDT = 'INNSENDT',
-  KLARGJORT = 'KLARGJORT',
   REGISTRERT = 'REGISTRERT',
+  KLARGJORT = 'KLARGJORT',
+  DELVIS_SKIPNINGSBEKREFTET = 'DELVIS_SKIPNINGSBEKREFTET',
+  SKIPNINGSBEKREFTET = 'SKIPNINGSBEKREFTET',
+  LUKKET = 'LUKKET',
+}
+
+export enum Dellinjestatus {
+  SKIPNINGSBEKREFTET = 'SKIPNINGSBEKREFTET',
 }
 
 export enum Levering {
