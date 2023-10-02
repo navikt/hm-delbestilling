@@ -62,7 +62,6 @@ export interface Delbestillerrolle {
   harXKLager: boolean
   erKommunaltAnsatt: boolean
   kommunaleOrgs: Organisasjon[] | undefined
-  erIPilot: boolean
 }
 
 export interface Organisasjon {

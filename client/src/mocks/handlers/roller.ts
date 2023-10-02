@@ -11,7 +11,6 @@ const rollerHandlers = [
           kanBestilleDeler: true,
           harXKLager: true,
           erKommunaltAnsatt: true,
-          erIPilot: true,
           kommunaleOrgs: [
             {
               orgnr: '0001',

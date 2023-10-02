@@ -59,9 +59,6 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
     return <div>{t('error.ingenRolle')}</div>
   } else if (delbestillerrolle.erKommunaltAnsatt === false) {
     feilmeldingsTekst = t('error.ikkeKommunaltAnsatt')
-  } else if (delbestillerrolle.erIPilot === false) {
-    // TODO fjern etter lansering 02.10.2023
-    feilmeldingsTekst = 'Du kan ikke bestille deler akkurat nå (du er ikke i pilot).'
   } else if (delbestillerrolle.kanBestilleDeler === false) {
     feilmeldingsTekst = 'error.kanIkkeBestilleDeler'
   }
