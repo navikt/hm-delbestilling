@@ -1,7 +1,7 @@
 {
   "bestillinger.tilXKLager": "Til XK-lager",
   "bestillinger.serviceOppdrag": "Blir brukt i serviceoppdrag",
-  "bestillinger.dineSiste": "Dine siste bestillingar av delar",
+  "bestillinger.dineSiste": "Dine innsende bestillingar av delar",
   "bestillinger.saker": "Saker",
   "bestillinger.kort.innsendt": "Innsendt",
   "bestillinger.kort.oppdatert": "Oppdatert",
@@ -69,7 +69,7 @@
   "feilside.noeGikkGalt": "Noko gjekk gale og sida kan ikkje visast",
   "feilside.prøvPåNytt": "Prøv på nytt",
 
-  "felles.overskrift": "Bestill del til hjelpemiddel",
+  "felles.overskrift": "Bestilling av delar til hjelpemiddel",
   "felles.Bekreft": "Stadfest",
   "felles.forsiden": "framsida",
   "felles.Endre": "Endre",
