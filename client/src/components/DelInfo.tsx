@@ -56,7 +56,7 @@ const Beskrivelser = styled.div`
 const DelInfo = ({ navn, hmsnr, levArtNr, img }: Props) => {
   return (
     <>
-      <ImgWrap>{img ? <img src={img} alt={navn} /> : <PlaceholderIcon />}</ImgWrap>
+      <ImgWrap aria-hidden>{img ? <img src={img} alt={navn} /> : <PlaceholderIcon />}</ImgWrap>
 
       <Beskrivelser>
         <Heading size="small" level="4" spacing>
