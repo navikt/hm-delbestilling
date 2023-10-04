@@ -9,6 +9,7 @@ import { GlobalStyle } from '../GlobalStyle'
 import Content from '../styledcomponents/Content'
 import { DelLinje, Handlekurv } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
+import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
@@ -23,13 +24,15 @@ const Kvittering = () => {
   const state = location.state as LocationState | null
 
   useEffect(() => {
-    window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
-    // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
-    window.history.replaceState({}, document.title)
+    if (isProd()) {
+      window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
+      // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
+      window.history.replaceState({}, document.title)
 
-    setTimeout(() => {
-      window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
-    }, 200)
+      setTimeout(() => {
+        window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
+      }, 200)
+    }
   }, [])
 
   const handleNyBestillingClick = () => {
