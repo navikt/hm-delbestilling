@@ -49,17 +49,6 @@ const Kvittering = () => {
     }, 0)
   }
 
-  if (!handlekurv) {
-    return (
-      <>
-        <div>{t('kvittering.fantIkkeKvittering')}</div>
-        <Button variant="secondary" onClick={handleNyBestillingClick}>
-          {t('kvittering.startNyBestilling')}
-        </Button>
-      </>
-    )
-  }
-
   return (
     <main>
       <GlobalStyle mainBg="white" />
@@ -67,14 +56,18 @@ const Kvittering = () => {
         <Heading level="2" size="large" spacing>
           Kvittering
         </Heading>
-        <Alert variant="success">
-          {t('kvittering.bestillingMottatt', {
-            antall: hentAntallDeler(handlekurv.deler),
-            navn: handlekurv.hjelpemiddel.navn,
-            hmsnr: handlekurv.hjelpemiddel.hmsnr,
-            serienr: handlekurv.serienr,
-          })}
-        </Alert>
+        {handlekurv && (
+          <Alert variant="success">
+            {t('kvittering.bestillingMottatt', {
+              antall: hentAntallDeler(handlekurv.deler),
+              navn: handlekurv.hjelpemiddel.navn,
+              hmsnr: handlekurv.hjelpemiddel.hmsnr,
+              serienr: handlekurv.serienr,
+            })}
+          </Alert>
+        )}
+        {!handlekurv && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}
+
         <Avstand marginTop={10} />
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Button variant="secondary" onClick={handleNyBestillingClick}>

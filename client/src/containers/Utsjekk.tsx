@@ -259,7 +259,7 @@ const Utsjekk = () => {
             <Trans
               i18nKey={'error.fantIngenHandlekurv'}
               components={{
-                link: <a href="/hjelpemidler/delbestilling/">{t('felles.forsiden')}</a>,
+                link: <Lenke href="/hjelpemidler/delbestilling/" lenketekst={t('felles.forsiden')} />,
               }}
             />
           </GuidePanel>
