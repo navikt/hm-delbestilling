@@ -281,7 +281,7 @@ const Utsjekk = () => {
             </Avstand>
           )}
           <CustomPanel border>
-            <Heading level="3" size="small" spacing>
+            <Heading level="2" size="small" spacing>
               {t('bestillinger.bestillDelerTil', { navn: handlekurv.hjelpemiddel.navn })}
             </Heading>
             <BodyShort style={{ display: 'flex', gap: '20px' }}>
@@ -304,7 +304,7 @@ const Utsjekk = () => {
           ) : (
             <>
               <Avstand marginBottom={12}>
-                <Heading level="2" size="medium" spacing id="deler">
+                <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
                 {handlekurv.deler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}

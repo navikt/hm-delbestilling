@@ -128,7 +128,7 @@ const Index = () => {
           <>
             <CustomPanel border>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                <Heading size="xsmall" level="4" spacing>
+                <Heading size="xsmall" level="2" spacing>
                   {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                 </Heading>
                 <Button

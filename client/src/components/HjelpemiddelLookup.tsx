@@ -111,7 +111,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
 
   return (
     <CustomPanel border>
-      <Heading size="xsmall" level="3">
+      <Heading size="xsmall" level="2">
         {t('oppslag.hvilketHjelpemiddel')}
       </Heading>
       <Avstand marginBottom={8} />
