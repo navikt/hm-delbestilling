@@ -347,23 +347,26 @@ const Utsjekk = () => {
 
               {handlekurvInneholderBatteri && (
                 <Avstand marginBottom={8}>
-                  <ConfirmationPanel
-                    id={'opplæring-batteri'}
-                    checked={!!handlekurv.harOpplæringPåBatteri}
-                    label={t('bestillinger.harFåttOpplæringBatteri')}
-                    onChange={(e) =>
-                      setHandlekurv((prev) => {
-                        if (!prev) return undefined
-                        return {
-                          ...prev,
-                          harOpplæringPåBatteri: e.target.checked,
-                        }
-                      })
-                    }
-                    error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
-                  >
-                    {t('felles.Bekreft')}
-                  </ConfirmationPanel>
+                  <Avstand marginBottom={4}>
+                    <ConfirmationPanel
+                      id={'opplæring-batteri'}
+                      checked={!!handlekurv.harOpplæringPåBatteri}
+                      label={t('bestillinger.harFåttOpplæringBatteri')}
+                      onChange={(e) =>
+                        setHandlekurv((prev) => {
+                          if (!prev) return undefined
+                          return {
+                            ...prev,
+                            harOpplæringPåBatteri: e.target.checked,
+                          }
+                        })
+                      }
+                      error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
+                    >
+                      {t('felles.Bekreft')}
+                    </ConfirmationPanel>
+                  </Avstand>
+                  <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
                 </Avstand>
               )}
 
