@@ -76,19 +76,17 @@ const BestillingsKort = ({ sak }: Props) => {
         </Detail>
         <Avstand marginBottom={4} />
         {sak.delbestilling.deler.map((dellinje, index) => (
-          <>
-            <Dellinje>
-              <DelRekke key={index}>
-                <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
-                <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
-              </DelRekke>
-              {!visOrdrestatusTag && (
-                <Avstand marginBottom={2}>
-                  <DellinjestatusTag dellinje={dellinje} />
-                </Avstand>
-              )}
-            </Dellinje>
-          </>
+          <Dellinje key={index}>
+            <DelRekke>
+              <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
+              <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
+            </DelRekke>
+            {!visOrdrestatusTag && (
+              <Avstand marginBottom={2}>
+                <DellinjestatusTag dellinje={dellinje} />
+              </Avstand>
+            )}
+          </Dellinje>
         ))}
         <Avstand marginBottom={4} />
 
