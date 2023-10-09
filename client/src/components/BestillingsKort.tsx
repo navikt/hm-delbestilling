@@ -36,7 +36,7 @@ const Dellinje = styled.div`
   :not(:last-child) {
     margin-bottom: 0.5rem;
   }
-  padding: 5px 0;
+  padding: 8px 0;
 `
 
 const InfoLinje = styled.div`
@@ -81,11 +81,7 @@ const BestillingsKort = ({ sak }: Props) => {
               <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
               <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
             </DelRekke>
-            {!visOrdrestatusTag && (
-              <Avstand marginBottom={2}>
-                <DellinjestatusTag dellinje={dellinje} />
-              </Avstand>
-            )}
+            {!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}
           </Dellinje>
         ))}
         <Avstand marginBottom={4} />
