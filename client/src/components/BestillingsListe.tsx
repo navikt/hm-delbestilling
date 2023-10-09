@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Button, Heading, Loader, ToggleGroup } from '@navikt/ds-react'
+import { Button, Loader } from '@navikt/ds-react'
 
 import useAuth from '../hooks/useAuth'
 import rest from '../services/rest'
-import { Del, Delbestilling, DelbestillingSak, Hjelpemiddel, Valg } from '../types/Types'
+import { DelbestillingSak, Valg } from '../types/Types'
 
 import { Avstand } from './Avstand'
 import BestillingsKort from './BestillingsKort'

@@ -1,27 +1,16 @@
 import React, { useMemo } from 'react'
-import { Hmac } from 'crypto'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
-import { BodyShort, Button, Detail, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
+import { BodyShort, Detail, Heading, Panel } from '@navikt/ds-react'
 
 import { useRolleContext } from '../context/rolle'
 import { formaterNorskDato } from '../helpers/utils'
-import { Delbestilling, DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
+import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
 
 import { Avstand } from './Avstand'
 import DellinjestatusTag from './DellinjestatusTag'
 import OrdrestatusTag from './OrdrestatusTag'
-
-const HeaderRekke = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  h3 {
-    flex: 1;
-  }
-`
 
 const DelRekke = styled.div`
   display: flex;
@@ -37,19 +26,6 @@ const Dellinje = styled.div`
     margin-bottom: 0.5rem;
   }
   padding: 8px 0;
-`
-
-const InfoLinje = styled.div`
-  display: flex;
-  flex-direction: row;
-  div {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-  }
-  div:first-child {
-    flex: 1;
-  }
 `
 
 interface Props {
