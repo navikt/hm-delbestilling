@@ -1,7 +1,7 @@
 {
   "bestillinger.tilXKLager": "Til XK-lager",
   "bestillinger.serviceOppdrag": "Brukes i serviceoppdrag",
-  "bestillinger.dineSiste": "Dine siste bestillinger av deler",
+  "bestillinger.dineSiste": "Dine innsendte bestillinger av deler",
   "bestillinger.saker": "Saker",
   "bestillinger.kort.innsendt": "Innsendt",
   "bestillinger.kort.oppdatert": "Oppdatert",
@@ -10,7 +10,7 @@
   "bestillinger.status.REGISTRERT": "Registrert",
   "bestillinger.ingenBestillinger": "Ingen tidligere bestillinger",
   "bestillinger.visAlle": "Vis alle",
-  "bestillinger.loggInnForÅSeBestillinger": "Logg inn for å se bestillinger",
+  "bestillinger.loggInnForÅSeBestillinger": "Logg inn for å se dine innsendte bestillinger.",
   "bestillinger.bestillingTil": "Bestilling til {{navn}}",
   "bestillinger.bestill": "Bestill",
   "bestillinger.tilbakeTilBestillingen": "Tilbake til bestillingen",
@@ -31,6 +31,7 @@
   "bestillinger.dellinjestatus.SKIPNINGSBEKREFTET": "Plukket på lager",
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventet levering {{dato}}",
+  "bestillinger.gjenvinningAvBatterier": "Husk at gamle batterier må leveres på en forsvarlig måte til gjenvinning.",
 
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må inneholde 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.",
@@ -62,7 +63,7 @@
   "info.kanBestilleDelerTil": "Som tekniker kan du bestille deler til",
   "info.omDigiHoT": "Tjenesten utvikles av <linkDigihot></linkDigihot>. Du kan sende oss spørsmål eller tilbakemeldinger om den digitale tjenesten på <linkEmail></linkEmail>. Ikke send opplysninger om brukerne, vi kan ikke se sakene dine. Hvis du har spørsmål om saksbehandling og levering, så må du ta kontakt med din hjelpemiddelsentral.",
 
-  "kvittering.fantIkkeKvittering": "Fant ingen kvittering",
+  "kvittering.fantIkkeKvittering": "Fant ingen kvittering.",
   "kvittering.startNyBestilling": "Start ny bestilling",
   "kvittering.bestillingMottatt": "Vi har mottatt bestilling av {{ antall }} del(er) til {{ navn }} med art.nr. {{ hmsnr }} og serienr. {{ serienr }}.",
 
@@ -76,7 +77,7 @@
   "feilside.noeGikkGalt": "Noe gikk galt og siden kan ikke vises",
   "feilside.prøvPåNytt": "Prøv på nytt",
 
-  "felles.overskrift": "Bestill del til hjelpemiddel",
+  "felles.overskrift": "Bestilling av deler til hjelpemidler",
   "felles.Bekreft": "Bekreft",
   "felles.forsiden": "forsiden",
   "felles.Endre": "Endre",

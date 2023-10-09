@@ -13,7 +13,6 @@ import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import { defaultAntall } from '../helpers/delHelper'
 import useAuth from '../hooks/useAuth'
-import { CenteredContent } from '../styledcomponents/CenteredContent'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
@@ -26,12 +25,12 @@ const Index = () => {
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
-  const { loginStatus } = useAuth()
+  const { sjekkerLogin, sjekkLoginStatus } = useAuth()
   const navigate = useNavigate()
   const { t } = useTranslation()
 
   useEffect(() => {
-    loginStatus().then(setErLoggetInn)
+    sjekkLoginStatus().then(setErLoggetInn)
   }, [])
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
@@ -47,8 +46,7 @@ const Index = () => {
     window.sessionStorage.setItem(SESSIONSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
 
     try {
-      const erLoggetInn = await loginStatus()
-      if (erLoggetInn) {
+      if (await sjekkLoginStatus()) {
         navigate('/utsjekk')
       } else {
         window.location.replace('/hjelpemidler/delbestilling/login')
@@ -74,26 +72,22 @@ const Index = () => {
             />
 
             <Avstand marginTop={10}>
-              {erLoggetInn ? (
-                <LinkPanel
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault()
+              <LinkPanel
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (erLoggetInn) {
                     navigate('/bestillinger')
-                  }}
-                >
-                  <LinkPanel.Title>{t('bestillinger.dineSiste')}</LinkPanel.Title>
-                </LinkPanel>
-              ) : (
-                <CenteredContent>
-                  <Button
-                    onClick={() => window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')}
-                    variant="secondary"
-                  >
-                    {t('bestillinger.loggInnForÅSeBestillinger')}
-                  </Button>
-                </CenteredContent>
-              )}
+                  } else {
+                    window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')
+                  }
+                }}
+              >
+                <LinkPanel.Title>{t('bestillinger.dineSiste')}</LinkPanel.Title>
+                {!sjekkerLogin && !erLoggetInn && (
+                  <LinkPanel.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkPanel.Description>
+                )}
+              </LinkPanel>
             </Avstand>
 
             <Avstand marginTop={10}>
@@ -128,7 +122,7 @@ const Index = () => {
           <>
             <CustomPanel border>
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                <Heading size="xsmall" level="4" spacing>
+                <Heading size="xsmall" level="2" spacing>
                   {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                 </Heading>
                 <Button

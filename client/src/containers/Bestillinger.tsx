@@ -32,7 +32,9 @@ const Bestillinger = () => {
           Tilbake
         </Button>
         <BannerContainer>
-          <Heading size="large">{t('bestillinger.dineSiste')}</Heading>
+          <Heading size="large" level="2">
+            {t('bestillinger.dineSiste')}
+          </Heading>
           <Button onClick={() => navigate('/')}>{t('oversikt.nyBestilling')}</Button>
         </BannerContainer>
 

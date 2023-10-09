@@ -50,7 +50,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
   const [henterTidligereBestillinger, setHenterTidligereBestillinger] = useState(true)
   const [valg, setValg] = useState<Valg>('mine')
   const navigate = useNavigate()
-  const { loginStatus } = useAuth()
+  const { sjekkLoginStatus } = useAuth()
 
   useEffect(() => {
     hentBestillinger(valg)
@@ -60,7 +60,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
     console.log(`Henter bestillinger for ${valg}`)
 
     try {
-      const erLoggetInn = await loginStatus()
+      const erLoggetInn = await sjekkLoginStatus()
       if (erLoggetInn) {
         setHenterTidligereBestillinger(true)
         let bestillinger = await rest.hentBestillinger(valg)
@@ -92,7 +92,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
 
   const handleGåTilBestillinger = async () => {
     try {
-      const erLoggetInn = await loginStatus()
+      const erLoggetInn = await sjekkLoginStatus()
       if (erLoggetInn) {
         navigate('/bestillinger')
       } else {

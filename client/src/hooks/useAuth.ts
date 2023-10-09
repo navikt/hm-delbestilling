@@ -1,10 +1,18 @@
+import { useState } from 'react'
+
 import rest, { API_PATH } from '../services/rest'
 import { DelbestillerrolleResponse } from '../types/HttpTypes'
 
 const useAuth = () => {
-  const loginStatus = async () => {
+  const [sjekkerLogin, setSjekkerLogin] = useState(false)
+
+  const sjekkLoginStatus = () => {
     try {
-      return rest.sjekkLoginStatus()
+      setSjekkerLogin(true)
+      return rest
+        .sjekkLoginStatus()
+        .then((result) => result)
+        .finally(() => setSjekkerLogin(false))
     } catch (err) {
       console.log(`Kunne ikke sjekke loginstatus`, err)
       throw err
@@ -21,7 +29,8 @@ const useAuth = () => {
   }
 
   return {
-    loginStatus,
+    sjekkerLogin,
+    sjekkLoginStatus,
     rolle,
   }
 }

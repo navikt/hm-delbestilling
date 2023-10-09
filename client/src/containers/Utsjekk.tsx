@@ -259,7 +259,7 @@ const Utsjekk = () => {
             <Trans
               i18nKey={'error.fantIngenHandlekurv'}
               components={{
-                link: <a href="/hjelpemidler/delbestilling/">{t('felles.forsiden')}</a>,
+                link: <Lenke href="/hjelpemidler/delbestilling/" lenketekst={t('felles.forsiden')} />,
               }}
             />
           </GuidePanel>
@@ -281,7 +281,7 @@ const Utsjekk = () => {
             </Avstand>
           )}
           <CustomPanel border>
-            <Heading level="3" size="small" spacing>
+            <Heading level="2" size="small" spacing>
               {t('bestillinger.bestillDelerTil', { navn: handlekurv.hjelpemiddel.navn })}
             </Heading>
             <BodyShort style={{ display: 'flex', gap: '20px' }}>
@@ -304,7 +304,7 @@ const Utsjekk = () => {
           ) : (
             <>
               <Avstand marginBottom={12}>
-                <Heading level="2" size="medium" spacing id="deler">
+                <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
                 {handlekurv.deler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
@@ -347,23 +347,26 @@ const Utsjekk = () => {
 
               {handlekurvInneholderBatteri && (
                 <Avstand marginBottom={8}>
-                  <ConfirmationPanel
-                    id={'opplæring-batteri'}
-                    checked={!!handlekurv.harOpplæringPåBatteri}
-                    label={t('bestillinger.harFåttOpplæringBatteri')}
-                    onChange={(e) =>
-                      setHandlekurv((prev) => {
-                        if (!prev) return undefined
-                        return {
-                          ...prev,
-                          harOpplæringPåBatteri: e.target.checked,
-                        }
-                      })
-                    }
-                    error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
-                  >
-                    {t('felles.Bekreft')}
-                  </ConfirmationPanel>
+                  <Avstand marginBottom={4}>
+                    <ConfirmationPanel
+                      id={'opplæring-batteri'}
+                      checked={!!handlekurv.harOpplæringPåBatteri}
+                      label={t('bestillinger.harFåttOpplæringBatteri')}
+                      onChange={(e) =>
+                        setHandlekurv((prev) => {
+                          if (!prev) return undefined
+                          return {
+                            ...prev,
+                            harOpplæringPåBatteri: e.target.checked,
+                          }
+                        })
+                      }
+                      error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
+                    >
+                      {t('felles.Bekreft')}
+                    </ConfirmationPanel>
+                  </Avstand>
+                  <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
                 </Avstand>
               )}
 
