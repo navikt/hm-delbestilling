@@ -141,24 +141,7 @@ const Utsjekk = () => {
   }
 
   const hentInnsendingFeil = (innsendingFeil: DelbestillingFeil): string => {
-    switch (innsendingFeil) {
-      case DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING:
-        return t('error.ULIK_GEOGRAFISK_TILKNYTNING')
-      case DelbestillingFeil.INGET_UTLÅN:
-        return t('error.INGET_UTLÅN')
-      case DelbestillingFeil.KAN_IKKE_BESTILLE:
-        return t('error.KAN_IKKE_BESTILLE')
-      case DelbestillingFeil.BRUKER_IKKE_FUNNET:
-        return t('error.BRUKER_IKKE_FUNNET')
-      case DelbestillingFeil.BESTILLE_TIL_SEG_SELV:
-        return t('error.BESTILLE_TIL_SEG_SELV')
-      case DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER:
-        return t('error.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER')
-      case DelbestillingFeil.ULIK_ADRESSE_PDL_OEBS:
-        return t('error.ULIK_ADRESSE_PDL_OEBS')
-      default:
-        return innsendingFeil
-    }
+    return t(`error.${innsendingFeil}`)
   }
 
   const validerBestilling = (handlekurv: Handlekurv) => {
