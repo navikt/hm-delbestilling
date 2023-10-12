@@ -67,7 +67,7 @@ const apiHandlers = [
     const id = delbestilling.id
 
     tidligereBestillinger.push({
-      saksnummer: tidligereBestillinger.length + 1,
+      saksnummer: (tidligereBestillinger.length + 1).toString(),
       delbestilling,
       opprettet: new Date(),
       sistOppdatert: new Date(),
