@@ -3,6 +3,7 @@ import { Hmac } from 'crypto'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
+import { PrinterSmallIcon } from '@navikt/aksel-icons'
 import { BodyShort, Button, Detail, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
 
 import { useRolleContext } from '../context/rolle'
@@ -10,14 +11,11 @@ import { Delbestilling, DelbestillingSak, Levering, Status } from '../types/Type
 
 import { Avstand } from './Avstand'
 
-const HeaderRekke = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  h3 {
-    flex: 1;
-  }
+const Toolbar = styled.div`
+  border-top: 1px solid;
+  margin-top: 20px;
+  padding-top: 16px;
+  text-align: right;
 `
 
 const DelRekke = styled.div`
@@ -71,7 +69,7 @@ const BestillingsKort = ({ sak }: Props) => {
   const { delbestillerrolle } = useRolleContext()
   return (
     <Avstand marginBottom={4}>
-      <Panel border>
+      <Panel border style={{ position: 'relative' }}>
         <Heading size="small" level="3">
           {/* TODO: fjern sjekk når alle produkter har fått navn */}
           {sak.delbestilling.navn ? <>Bestilling til {sak.delbestilling.navn}</> : <>Bestilling</>}
@@ -100,6 +98,12 @@ const BestillingsKort = ({ sak }: Props) => {
               : t('bestillinger.serviceOppdrag')}
           </BodyShort>
         )}
+
+        <Toolbar>
+          <Button icon={<PrinterSmallIcon />} variant="secondary">
+            Skriv ut
+          </Button>
+        </Toolbar>
       </Panel>
     </Avstand>
   )

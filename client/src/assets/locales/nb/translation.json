@@ -58,14 +58,17 @@
 
   "kvittering.fantIkkeKvittering": "Fant ingen kvittering.",
   "kvittering.startNyBestilling": "Start ny bestilling",
-  "kvittering.bestillingMottatt": "Vi har mottatt bestilling av {{ antall }} del(er) til {{ navn }} med art.nr. {{ hmsnr }} og serienr. {{ serienr }}.",
+  "kvittering.bestillingMottatt_one": "Vi har mottatt bestilling av følgende del til {{ navn }} med art.nr. {{ hmsnr }} og serienr. {{ serienr }}",
+  "kvittering.bestillingMottatt_other": "Vi har mottatt bestilling av følgende deler til {{ navn }} med art.nr. {{ hmsnr }} og serienr. {{ serienr }}",
 
   "leggTilDel.ingenDeler": "Vi tilbyr foreløpig bare et begrenset utvalg deler i denne løsningen, og vi har for øyeblikket ingen deler til dette hjelpemiddelet.",
 
   "levering.Levering": "Levering",
   "levering.title": "Hvor skal delene plasseres når de har blitt levert til kommunen?",
-  "levering.xkLager": "Delene skal legges på XK-lager",
-  "levering.serviceOppdrag": "Delene skal brukes i serviceoppdrag hos bruker",
+  "levering.xkLager_one": "Delen skal legges på XK-lager",
+  "levering.xkLager_other": "Delene skal legges på XK-lager",
+  "levering.serviceOppdrag_one": "Delen skal brukes i serviceoppdrag hos bruker",
+  "levering.serviceOppdrag_other": "Delene skal brukes i serviceoppdrag hos bruker",
 
   "feilside.noeGikkGalt": "Noe gikk galt og siden kan ikke vises",
   "feilside.prøvPåNytt": "Prøv på nytt",

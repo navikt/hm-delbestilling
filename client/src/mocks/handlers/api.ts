@@ -114,7 +114,7 @@ const apiHandlers = [
       )
     }
 
-    return res(ctx.delay(450), ctx.status(StatusCodes.CREATED), ctx.json({ id: delbestilling.id }))
+    return res(ctx.delay(450), ctx.status(StatusCodes.CREATED), ctx.json({ id: delbestilling.id, saksnummer: '123' }))
   }),
 
   rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {

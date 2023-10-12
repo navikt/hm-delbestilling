@@ -25,7 +25,7 @@ import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher'
 import { useRolleContext } from '../context/rolle'
 import { GlobalStyle } from '../GlobalStyle'
-import { defaultAntall } from '../helpers/delHelper'
+import { defaultAntall, hentAntallDeler } from '../helpers/delHelper'
 import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
@@ -199,7 +199,7 @@ const Utsjekk = () => {
           feilmelding: hentInnsendingFeil(response.feil),
         })
       } else {
-        navigate('/kvittering', { state: { handlekurv } })
+        navigate('/kvittering', { state: { saksnummer: response.saksnummer, handlekurv } })
       }
     } catch (err: any) {
       logInnsendingFeil('FEIL_FRA_BACKEND')
@@ -369,8 +369,12 @@ const Utsjekk = () => {
                       onChange={(levering: Levering) => setLevering(levering)}
                       error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
                     >
-                      <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
-                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
+                      <Radio value={Levering.TIL_XK_LAGER}>
+                        {t('levering.xkLager', { count: hentAntallDeler(handlekurv.deler) })}
+                      </Radio>
+                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>
+                        {t('levering.serviceOppdrag', { count: hentAntallDeler(handlekurv.deler) })}
+                      </Radio>
                     </RadioGroup>
                   </>
                 )}

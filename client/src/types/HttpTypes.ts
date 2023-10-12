@@ -27,6 +27,7 @@ export interface DelbestillingRequest {
 export interface DelbestillingResponse {
   id: string
   feil?: DelbestillingFeil
+  saksnummer?: string | null
 }
 
 export enum DelbestillingFeil {
