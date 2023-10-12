@@ -32,14 +32,14 @@ export interface Delbestilling {
   id: string
   hmsnr: string
   serienr: string
-  navn: string | undefined
+  navn: string
   deler: DelLinje[]
   levering: Levering
   harOpplæringPåBatteri: boolean | undefined
 }
 
 export interface DelbestillingSak {
-  saksnummer: number
+  saksnummer: string
   delbestilling: Delbestilling
   status: Status
   opprettet: Date
