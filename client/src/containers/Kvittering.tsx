@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useReactToPrint } from 'react-to-print'
-import styled from 'styled-components'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
-import { Alert, BodyShort, Button, Heading, Label, Panel } from '@navikt/ds-react'
+import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import BestillingsOppsummering from '../components/BestillingsOppsummering'
@@ -80,14 +78,14 @@ const Kvittering = () => {
         {!handlekurv && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}
 
         <Avstand marginTop={10} />
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+        <HStack justify="center">
           <Button variant="secondary" onClick={handleNyBestillingClick}>
             {t('kvittering.startNyBestilling')}
           </Button>
           <Button variant="tertiary" onClick={() => setPrintErAktiv(true)} icon={<PrinterSmallIcon />}>
             Skriv ut
           </Button>
-        </div>
+        </HStack>
       </Content>
     </main>
   )

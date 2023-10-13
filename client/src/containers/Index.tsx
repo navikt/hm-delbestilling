@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Button, Heading, Link, LinkPanel, Panel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -121,7 +121,7 @@ const Index = () => {
         {hjelpemiddel && (
           <>
             <CustomPanel border>
-              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+              <HStack align="end" justify="space-between">
                 <Heading size="xsmall" level="2" spacing>
                   {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                 </Heading>
@@ -134,7 +134,7 @@ const Index = () => {
                 >
                   {t('felles.Endre')}
                 </Button>
-              </div>
+              </HStack>
               <BodyShort style={{ display: 'flex', gap: '20px' }}>
                 <span>Art.nr. {hmsnr}</span>
                 <span>Serienr. {serienr}</span>
