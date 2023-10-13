@@ -55,11 +55,11 @@ const BestillingsOppsummering = ({
 
   useEffect(() => {
     if (printErAktiv) {
-      handlePrint()
+      triggerPrint()
     }
   }, [printErAktiv])
 
-  const handlePrint = useReactToPrint({
+  const triggerPrint = useReactToPrint({
     content: () => printRef.current,
     onBeforePrint: () => {
       logPrintKvitteringÅpnet()

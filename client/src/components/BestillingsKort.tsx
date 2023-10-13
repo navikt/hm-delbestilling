@@ -1,11 +1,10 @@
-import React, { useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
-import { Button, Panel, TagProps } from '@navikt/ds-react'
+import { Button, Panel } from '@navikt/ds-react'
 
-import { DelbestillingSak, Status } from '../types/Types'
+import { DelbestillingSak } from '../types/Types'
 
 import { Avstand } from './Avstand'
 import BestillingsOppsummering from './BestillingsOppsummering'
@@ -18,27 +17,7 @@ interface Props {
   sak: DelbestillingSak
 }
 
-function tagTypeForStatus(status: Status): TagProps['variant'] {
-  switch (status) {
-    case 'INNSENDT':
-      return 'neutral'
-    case 'KLARGJORT':
-    case 'REGISTRERT':
-      return 'info'
-    default:
-      return 'info'
-  }
-}
-
 const BestillingsKort = ({ sak }: Props) => {
-  const { t } = useTranslation()
-  const etikettType = tagTypeForStatus(sak.status)
-  const datoString = sak.opprettet.toLocaleString('no', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-  // const { delbestillerrolle } = useRolleContext()
   const [printErAktiv, setPrintErAktiv] = useState(false)
   return (
     <>
