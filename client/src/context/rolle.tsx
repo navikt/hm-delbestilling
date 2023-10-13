@@ -3,7 +3,7 @@ import { useErrorBoundary } from 'react-error-boundary'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import { GuidePanel, Loader } from '@navikt/ds-react'
+import { GuidePanel, HStack, Loader } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import useAuth from '../hooks/useAuth'
@@ -46,9 +46,9 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   if (henterRolle) {
     return (
       <Avstand paddingTop={16} paddingBottom={16}>
-        <div style={{ textAlign: 'center' }}>
+        <HStack justify="center">
           <Loader size="large" />
-        </div>
+        </HStack>
       </Avstand>
     )
   }

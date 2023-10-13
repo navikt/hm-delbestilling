@@ -14,6 +14,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  VStack,
 } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
@@ -375,14 +376,16 @@ const Utsjekk = () => {
                   </>
                 )}
               </Avstand>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+
+              <VStack align="center" gap="3">
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
                   {t('bestillinger.sendInn')}
                 </Button>
                 <Button icon={<TrashIcon />} variant="tertiary" onClick={slettBestilling}>
                   {t('bestillinger.slett')}
                 </Button>
-              </div>
+              </VStack>
+
               {valideringsFeil.length > 0 && <Errors valideringsFeil={valideringsFeil} />}
               {feilmelding && (
                 <Avstand marginTop={4}>

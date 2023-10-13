@@ -20,14 +20,12 @@ const HjelpemiddelKnapp = ({ hjelpemiddel, aktiv, setAktivtHjelpemiddel }: Props
   return (
     <>
       <LinkPanel border={aktiv} onClick={() => setAktivtHjelpemiddel(hjelpemiddel)}>
-        <div style={{ alignItems: 'flex-end', justifyContent: 'space-between', flexDirection: 'column', flex: 1 }}>
-          <Heading size="xsmall" level="4" spacing>
-            {navn}
-          </Heading>
-          <BodyShort>
-            <strong>{t('oversikt.antallDeler')}:</strong> {antallTilgjengeligeDeler}
-          </BodyShort>
-        </div>
+        <Heading size="xsmall" level="4" spacing>
+          {navn}
+        </Heading>
+        <BodyShort>
+          <strong>{t('oversikt.antallDeler')}:</strong> {antallTilgjengeligeDeler}
+        </BodyShort>
       </LinkPanel>
       <Avstand marginBottom={4} />
     </>
