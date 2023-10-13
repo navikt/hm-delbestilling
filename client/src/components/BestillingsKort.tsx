@@ -11,7 +11,6 @@ import { Avstand } from './Avstand'
 import BestillingsOppsummering from './BestillingsOppsummering'
 
 const Toolbar = styled.div`
-  padding-top: 16px;
   text-align: right;
 `
 
