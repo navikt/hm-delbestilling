@@ -59,7 +59,7 @@ const BestillingsKort = ({ sak }: Props) => {
             saksnummer={sak.saksnummer}
           />
           <Toolbar>
-            <Button icon={<PrinterSmallIcon />} variant="secondary" onClick={() => setPrintErAktiv(true)}>
+            <Button icon={<PrinterSmallIcon />} variant="tertiary" onClick={() => setPrintErAktiv(true)}>
               Skriv ut
             </Button>
           </Toolbar>
