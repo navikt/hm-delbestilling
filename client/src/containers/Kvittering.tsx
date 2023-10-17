@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { Alert, Button, Heading } from '@navikt/ds-react'
+import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import { GlobalStyle } from '../GlobalStyle'
@@ -69,11 +69,11 @@ const Kvittering = () => {
         {!handlekurv && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}
 
         <Avstand marginTop={10} />
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <HStack justify="center">
           <Button variant="secondary" onClick={handleNyBestillingClick}>
             {t('kvittering.startNyBestilling')}
           </Button>
-        </div>
+        </HStack>
       </Content>
     </main>
   )
