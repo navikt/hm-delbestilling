@@ -15,7 +15,7 @@ import {
   OppslagRequest,
   OppslagResponse,
 } from '../../types/HttpTypes'
-import { DelbestillingSak, Status } from '../../types/Types'
+import { DelbestillingSak, Ordrestatus } from '../../types/Types'
 
 let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
@@ -69,9 +69,9 @@ const apiHandlers = [
     tidligereBestillinger.push({
       saksnummer: tidligereBestillinger.length + 1,
       delbestilling,
-      opprettet: new Date(),
-      sistOppdatert: new Date(),
-      status: Status.INNSENDT,
+      opprettet: new Date().toDateString(),
+      sistOppdatert: new Date().toDateString(),
+      status: Ordrestatus.INNSENDT,
     })
 
     if (delbestilling.serienr === '000000') {

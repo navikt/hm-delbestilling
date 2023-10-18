@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Button, Heading, Loader, ToggleGroup } from '@navikt/ds-react'
+import { Button, Loader } from '@navikt/ds-react'
 
 import useAuth from '../hooks/useAuth'
 import rest from '../services/rest'
-import { Del, Delbestilling, DelbestillingSak, Hjelpemiddel, Valg } from '../types/Types'
+import { DelbestillingSak, Valg } from '../types/Types'
 
 import { Avstand } from './Avstand'
 import BestillingsKort from './BestillingsKort'
@@ -83,7 +83,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
   const tidligereBestillinger = useMemo(() => {
     let bestillinger = tidligereBestillingerForValg[valg]
     if (bestillinger) {
-      bestillinger = bestillinger.sort((a, b) => b.opprettet.getTime() - a.opprettet.getTime())
+      bestillinger = bestillinger.sort((a, b) => new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime())
       // return maksBestillinger ? bestillinger.slice(0, maksBestillinger) : bestillinger
       return bestillinger
     }

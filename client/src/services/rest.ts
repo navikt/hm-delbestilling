@@ -70,12 +70,7 @@ const hentBestillinger = async (valg: Valg): Promise<DelbestillingSak[] | undefi
   } else if (valg === 'kommunens') {
     bestillinger = await hentBestillingerForKommune()
   }
-  if (bestillinger) {
-    return bestillinger.map((sak) => ({
-      ...sak,
-      opprettet: new Date(sak.opprettet),
-    }))
-  }
+  return bestillinger
 }
 
 const hentBestillingerForBruker = async (): Promise<DelbestillingSak[]> => {

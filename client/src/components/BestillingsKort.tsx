@@ -1,24 +1,16 @@
 import React, { useMemo } from 'react'
-import { Hmac } from 'crypto'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
-import { BodyShort, Button, Detail, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
+import { BodyShort, Detail, Heading, Panel } from '@navikt/ds-react'
 
 import { useRolleContext } from '../context/rolle'
-import { Delbestilling, DelbestillingSak, Levering, Status } from '../types/Types'
+import { formaterNorskDato } from '../helpers/utils'
+import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
 
 import { Avstand } from './Avstand'
-
-const HeaderRekke = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  h3 {
-    flex: 1;
-  }
-`
+import DellinjestatusTag from './DellinjestatusTag'
+import OrdrestatusTag from './OrdrestatusTag'
 
 const DelRekke = styled.div`
   display: flex;
@@ -26,49 +18,27 @@ const DelRekke = styled.div`
   p:first-child {
     flex: 1;
   }
+`
+
+const Dellinje = styled.div`
+  border-bottom: 1px solid var(--a-gray-300);
   :not(:last-child) {
     margin-bottom: 0.5rem;
   }
-`
-
-const InfoLinje = styled.div`
-  display: flex;
-  flex-direction: row;
-  div {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-  }
-  div:first-child {
-    flex: 1;
-  }
+  padding: 8px 0;
 `
 
 interface Props {
   sak: DelbestillingSak
 }
 
-function tagTypeForStatus(status: Status): TagProps['variant'] {
-  switch (status) {
-    case 'INNSENDT':
-      return 'neutral'
-    case 'KLARGJORT':
-    case 'REGISTRERT':
-      return 'info'
-    default:
-      return 'info'
-  }
-}
-
 const BestillingsKort = ({ sak }: Props) => {
   const { t } = useTranslation()
-  const etikettType = tagTypeForStatus(sak.status)
-  const datoString = sak.opprettet.toLocaleString('no', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
   const { delbestillerrolle } = useRolleContext()
+
+  const visOrdrestatusTag =
+    sak.status !== Ordrestatus.DELVIS_SKIPNINGSBEKREFTET && sak.status !== Ordrestatus.SKIPNINGSBEKREFTET
+
   return (
     <Avstand marginBottom={4}>
       <Panel border>
@@ -81,25 +51,32 @@ const BestillingsKort = ({ sak }: Props) => {
           <span>Serienr. {sak.delbestilling.serienr}</span>
         </Detail>
         <Avstand marginBottom={4} />
-        {sak.delbestilling.deler.map((delLinje, index) => (
-          <DelRekke key={index}>
-            <BodyShort size="medium">{delLinje.del.navn}</BodyShort>
-            <BodyShort size="medium">{delLinje.antall} stk</BodyShort>
-          </DelRekke>
+        {sak.delbestilling.deler.map((dellinje, index) => (
+          <Dellinje key={index}>
+            <DelRekke>
+              <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
+              <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
+            </DelRekke>
+            {!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}
+          </Dellinje>
         ))}
         <Avstand marginBottom={4} />
 
-        <BodyShort size="small" spacing>
-          {t('bestillinger.kort.innsendt')} {datoString}
-        </BodyShort>
-
         {delbestillerrolle.harXKLager && (
-          <BodyShort size="small">
-            {sak.delbestilling.levering === Levering.TIL_XK_LAGER
-              ? t('bestillinger.tilXKLager')
-              : t('bestillinger.serviceOppdrag')}
+          <BodyShort size="small" spacing>
+            <strong>
+              {sak.delbestilling.levering === Levering.TIL_XK_LAGER
+                ? t('bestillinger.tilXKLager')
+                : t('bestillinger.serviceOppdrag')}
+            </strong>
           </BodyShort>
         )}
+
+        <BodyShort size="small" spacing>
+          {t('bestillinger.kort.innsendt')} {formaterNorskDato(sak.opprettet)}
+        </BodyShort>
+
+        {visOrdrestatusTag && <OrdrestatusTag sak={sak} />}
       </Panel>
     </Avstand>
   )

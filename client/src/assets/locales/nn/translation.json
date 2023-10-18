@@ -24,6 +24,13 @@
   "bestillinger.delBlirLevertTilKommunen": "Delen blir levert til mottaksstaden til kommunen. Innbyggjars namn vil stå på pakken med delen.",
   "bestillinger.sendInn": "Send inn bestilling",
   "bestillinger.slett": "Slett bestilling",
+  "bestillinger.ordrestatus.INNSENDT": "Mottatt hos NAV",
+  "bestillinger.ordrestatus.REGISTRERT": "Mottatt hos NAV",
+  "bestillinger.ordrestatus.KLARGJORT": "Mottatt hos NAV",
+  "bestillinger.ordrestatus.LUKKET": "Levert",
+  "bestillinger.dellinjestatus.SKIPNINGSBEKREFTET": "Plukka på lager",
+  "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
+  "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventa levering {{dato}}",
   "bestillinger.gjenvinningAvBatterier": "Hugs at gamle batteri må leverast på ein forsvarleg måte til gjenvinning.",
 
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må innehalda 6 siffer.",

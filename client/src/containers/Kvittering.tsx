@@ -7,7 +7,7 @@ import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
 import { Avstand } from '../components/Avstand'
 import { GlobalStyle } from '../GlobalStyle'
 import Content from '../styledcomponents/Content'
-import { DelLinje, Handlekurv } from '../types/Types'
+import { Dellinje, Handlekurv } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
 import { isProd } from '../utils/utils'
 
@@ -43,7 +43,7 @@ const Kvittering = () => {
 
   const handlekurv = state?.handlekurv
 
-  const hentAntallDeler = (deler: DelLinje[]): number => {
+  const hentAntallDeler = (deler: Dellinje[]): number => {
     return deler.reduce((acc, curr) => {
       return acc + curr.antall
     }, 0)
