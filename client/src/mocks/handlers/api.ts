@@ -131,7 +131,7 @@ const apiHandlers = [
       ctx.delay(450),
       ctx.status(StatusCodes.CREATED),
       ctx.json({
-        id: delbestilling.id,
+        id,
         feil: null,
         saksnummer: nyDelbestilling.saksnummer,
         lagretDelbestilling: nyDelbestilling,
