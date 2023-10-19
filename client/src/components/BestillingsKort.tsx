@@ -91,14 +91,14 @@ const BestillingsKort = ({ sak }: Props) => {
         </BodyShort>
 
         <BodyShort size="small" spacing>
-          Saksnummer: {sak.saksnummer}
+          {t('felles.saksnummer')}: {sak.saksnummer}
         </BodyShort>
 
         <SkjulForPrint>
           {visOrdrestatusTag && <OrdrestatusTag sak={sak} />}
           <div style={{ position: 'absolute', right: 10, bottom: 10 }}>
             <Button variant="tertiary" onClick={handlePrint} icon={<PrinterSmallIcon />}>
-              Skriv ut
+              {t('felles.skrivUt')}
             </Button>
           </div>
         </SkjulForPrint>
