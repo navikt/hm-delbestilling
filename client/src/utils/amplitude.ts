@@ -21,6 +21,7 @@ export enum digihot_customevents {
   KATEGORI_FILTRERING = 'filtrering på kategori',
   INNSENDING_FEIL = 'feil ved innsending',
   START_NY_BESTILING = 'start ny bestilling',
+  PRINT_AV_BESTILLING_ÅPNET = 'print av bestilling åpnet',
 }
 
 const SKJEMANAVN = 'hm-delbestilling'
@@ -91,4 +92,8 @@ export const logBestillingSlettet = () => {
 
 export const logStartNyBestilling = () => {
   logAmplitudeEvent(digihot_customevents.START_NY_BESTILING)
+}
+
+export const logPrintAvBestillingÅpnet = () => {
+  logAmplitudeEvent(digihot_customevents.PRINT_AV_BESTILLING_ÅPNET)
 }

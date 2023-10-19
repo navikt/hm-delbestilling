@@ -93,7 +93,6 @@
           "antall": 2,
           "status": "SKIPNINGSBEKREFTET",
           "datoSkipningsbekreftet": "2023-10-02"
-
         },
         {
           "del": {
@@ -146,7 +145,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
-      "deler": [  
+      "deler": [
         {
           "del": {
             "hmsnr": "150817",
@@ -192,7 +191,7 @@
     "status": "INNSENDT"
   },
   {
-    "saksnummer": 8,
+    "saksnummer": 7,
     "delbestilling": {
       "id": "c7c9ed03-6096-4d15-bade-3ec7d13fb213",
       "hmsnr": "236958",

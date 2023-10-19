@@ -5,16 +5,17 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
+import BestillingsKort from '../components/BestillingsKort'
 import { GlobalStyle } from '../GlobalStyle'
 import Content from '../styledcomponents/Content'
-import { Dellinje, Handlekurv } from '../types/Types'
+import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
 type LocationState = {
-  handlekurv: Handlekurv
+  lagretDelbestilling: DelbestillingSak | null
 }
 
 const Kvittering = () => {
@@ -41,32 +42,23 @@ const Kvittering = () => {
     window.scrollTo(0, 0)
   }
 
-  const handlekurv = state?.handlekurv
-
-  const hentAntallDeler = (deler: Dellinje[]): number => {
-    return deler.reduce((acc, curr) => {
-      return acc + curr.antall
-    }, 0)
-  }
+  const lagretDelbestilling = state?.lagretDelbestilling
 
   return (
     <main>
       <GlobalStyle mainBg="white" />
       <Content>
-        <Heading level="2" size="large" spacing>
-          Kvittering
-        </Heading>
-        {handlekurv && (
-          <Alert variant="success">
-            {t('kvittering.bestillingMottatt', {
-              antall: hentAntallDeler(handlekurv.deler),
-              navn: handlekurv.hjelpemiddel.navn,
-              hmsnr: handlekurv.hjelpemiddel.hmsnr,
-              serienr: handlekurv.serienr,
-            })}
-          </Alert>
+        {lagretDelbestilling && (
+          <>
+            <Alert variant="success">{t('kvittering.bestillingMottatt')}</Alert>
+            <Avstand marginTop={8} />
+            <Heading level="2" size="large" spacing>
+              Kvittering
+            </Heading>
+            <BestillingsKort sak={lagretDelbestilling} />
+          </>
         )}
-        {!handlekurv && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}
+        {!lagretDelbestilling && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}
 
         <Avstand marginTop={10} />
         <HStack justify="center">
