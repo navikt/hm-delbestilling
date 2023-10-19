@@ -23,7 +23,8 @@
     },
     "opprettet": "2023-06-22T11:33:28.785459",
     "sistOppdatert": "2023-06-22T11:33:28.785459",
-    "status": "INNSENDT"
+    "status": "INNSENDT",
+    "oebsOrdrenummer": null
   },
   {
     "saksnummer": 2,
@@ -71,7 +72,8 @@
     },
     "opprettet": "2023-06-22T11:33:53.474711",
     "sistOppdatert": "2023-06-22T11:33:53.474711",
-    "status": "KLARGJORT"
+    "status": "KLARGJORT",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 3,
@@ -110,7 +112,8 @@
     },
     "opprettet": "2023-06-22T12:42:03.712112",
     "sistOppdatert": "2023-06-22T12:42:03.712112",
-    "status": "DELVIS_SKIPNINGSBEKREFTET"
+    "status": "DELVIS_SKIPNINGSBEKREFTET",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 4,
@@ -136,7 +139,8 @@
     },
     "opprettet": "2023-07-18T08:50:44.730108",
     "sistOppdatert": "2023-07-18T08:50:44.730108",
-    "status": "REGISTRERT"
+    "status": "REGISTRERT",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 5,
@@ -162,7 +166,8 @@
     },
     "opprettet": "2023-07-18T11:10:30.5311",
     "sistOppdatert": "2023-07-18T11:10:30.5311",
-    "status": "LUKKET"
+    "status": "LUKKET",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 6,
@@ -188,7 +193,8 @@
     },
     "opprettet": "2023-07-18T13:10:48.949403",
     "sistOppdatert": "2023-07-18T13:10:48.949403",
-    "status": "INNSENDT"
+    "status": "INNSENDT",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 7,
@@ -231,6 +237,7 @@
     },
     "opprettet": "2023-07-25T13:38:53.745194",
     "sistOppdatert": "2023-07-25T13:38:53.745194",
-    "status": "SKIPNINGSBEKREFTET"
+    "status": "SKIPNINGSBEKREFTET",
+    "oebsOrdrenummer": "123456"
   }
 ]
