@@ -15,7 +15,7 @@ import { isProd } from '../utils/utils'
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
 type LocationState = {
-  delbestillingSak: DelbestillingSak | null
+  delbestillingSak: DelbestillingSak
 }
 
 const Kvittering = () => {
