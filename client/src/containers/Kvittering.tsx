@@ -15,7 +15,7 @@ import { isProd } from '../utils/utils'
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
 type LocationState = {
-  lagretDelbestilling: DelbestillingSak | null
+  delbestillingSak: DelbestillingSak | null
 }
 
 const Kvittering = () => {
@@ -42,23 +42,23 @@ const Kvittering = () => {
     window.scrollTo(0, 0)
   }
 
-  const lagretDelbestilling = state?.lagretDelbestilling
+  const delbestillingSak = state?.delbestillingSak
 
   return (
     <main>
       <GlobalStyle mainBg="white" />
       <Content>
-        {lagretDelbestilling && (
+        {delbestillingSak && (
           <>
             <Alert variant="success">{t('kvittering.bestillingMottatt')}</Alert>
             <Avstand marginTop={8} />
             <Heading level="2" size="large" spacing>
               Kvittering
             </Heading>
-            <BestillingsKort sak={lagretDelbestilling} />
+            <BestillingsKort sak={delbestillingSak} />
           </>
         )}
-        {!lagretDelbestilling && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}
+        {!delbestillingSak && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}
 
         <Avstand marginTop={10} />
         <HStack justify="center">

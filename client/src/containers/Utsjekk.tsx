@@ -200,7 +200,7 @@ const Utsjekk = () => {
           feilmelding: hentInnsendingFeil(response.feil),
         })
       } else {
-        navigate('/kvittering', { state: { lagretDelbestilling: response.lagretDelbestilling } })
+        navigate('/kvittering', { state: { delbestillingSak: response.delbestillingSak } })
       }
     } catch (err: any) {
       logInnsendingFeil('FEIL_FRA_BACKEND')

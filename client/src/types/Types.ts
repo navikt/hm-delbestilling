@@ -44,8 +44,8 @@ export interface Delbestilling {
 export interface DelbestillingSak {
   saksnummer: number
   delbestilling: Delbestilling
-  status: Ordrestatus
   opprettet: string
+  status: Ordrestatus
   sistOppdatert: string
   oebsOrdrenummer: string | null
 }

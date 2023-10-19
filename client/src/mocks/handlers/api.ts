@@ -70,7 +70,7 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, lagretDelbestilling: null })
+        ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -78,7 +78,7 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV, saksnummer: null, lagretDelbestilling: null })
+        ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -90,7 +90,7 @@ const apiHandlers = [
           id,
           feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
           saksnummer: null,
-          lagretDelbestilling: null,
+          delbestillingSak: null,
         })
       )
     }
@@ -99,7 +99,7 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE, saksnummer: null, lagretDelbestilling: null })
+        ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -111,7 +111,7 @@ const apiHandlers = [
           id,
           feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
           saksnummer: null,
-          lagretDelbestilling: null,
+          delbestillingSak: null,
         })
       )
     }
@@ -134,7 +134,7 @@ const apiHandlers = [
         id,
         feil: null,
         saksnummer: nyDelbestilling.saksnummer,
-        lagretDelbestilling: nyDelbestilling,
+        delbestillingSak: nyDelbestilling,
       })
     )
   }),
