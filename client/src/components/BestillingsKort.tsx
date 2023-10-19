@@ -48,7 +48,7 @@ const BestillingsKort = ({ sak }: Props) => {
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
     onBeforePrint: () => {
-      logPrintAvBestillingÅpnet()
+      logPrintAvBestillingÅpnet(window.location.pathname)
     },
     documentTitle: `kvittering_delbestilling_${sak.saksnummer}`,
   })

@@ -94,6 +94,8 @@ export const logStartNyBestilling = () => {
   logAmplitudeEvent(digihot_customevents.START_NY_BESTILING)
 }
 
-export const logPrintAvBestillingÅpnet = () => {
-  logAmplitudeEvent(digihot_customevents.PRINT_AV_BESTILLING_ÅPNET)
+export const logPrintAvBestillingÅpnet = (pathname: string) => {
+  logAmplitudeEvent(digihot_customevents.PRINT_AV_BESTILLING_ÅPNET, {
+    pathname,
+  })
 }
