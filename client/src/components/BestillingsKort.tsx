@@ -1,12 +1,15 @@
-import React, { useMemo } from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useReactToPrint } from 'react-to-print'
 import styled from 'styled-components'
 
-import { BodyShort, Detail, Heading, Panel } from '@navikt/ds-react'
+import { PrinterSmallIcon } from '@navikt/aksel-icons'
+import { BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
 
 import { useRolleContext } from '../context/rolle'
 import { formaterNorskDato } from '../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
+import { logPrintAvBestillingÅpnet } from '../utils/amplitude'
 
 import { Avstand } from './Avstand'
 import DellinjestatusTag from './DellinjestatusTag'
@@ -28,22 +31,35 @@ const Dellinje = styled.div`
   padding: 8px 0;
 `
 
+const SkjulForPrint = styled.div`
+  @media print {
+    display: none;
+  }
+`
+
 interface Props {
   sak: DelbestillingSak
 }
 
 const BestillingsKort = ({ sak }: Props) => {
   const { t } = useTranslation()
-  const { delbestillerrolle } = useRolleContext()
+
+  const printRef = useRef<HTMLDivElement>(null)
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    onBeforePrint: () => {
+      logPrintAvBestillingÅpnet(window.location.pathname)
+    },
+    documentTitle: `kvittering_delbestilling_${sak.saksnummer}`,
+  })
 
   const visOrdrestatusTag =
     sak.status !== Ordrestatus.DELVIS_SKIPNINGSBEKREFTET && sak.status !== Ordrestatus.SKIPNINGSBEKREFTET
 
   return (
     <Avstand marginBottom={4}>
-      <Panel border>
+      <Panel border style={{ position: 'relative' }} ref={printRef}>
         <Heading size="small" level="3">
-          {/* TODO: fjern sjekk når alle produkter har fått navn */}
           {sak.delbestilling.navn ? <>Bestilling til {sak.delbestilling.navn}</> : <>Bestilling</>}
         </Heading>
         <Detail style={{ display: 'flex', gap: '1rem' }}>
@@ -57,26 +73,35 @@ const BestillingsKort = ({ sak }: Props) => {
               <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
               <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
             </DelRekke>
-            {!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}
+            <SkjulForPrint>{!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}</SkjulForPrint>
           </Dellinje>
         ))}
         <Avstand marginBottom={4} />
 
-        {delbestillerrolle.harXKLager && (
-          <BodyShort size="small" spacing>
-            <strong>
-              {sak.delbestilling.levering === Levering.TIL_XK_LAGER
-                ? t('bestillinger.tilXKLager')
-                : t('bestillinger.serviceOppdrag')}
-            </strong>
-          </BodyShort>
-        )}
+        <BodyShort size="small" spacing>
+          <strong>
+            {sak.delbestilling.levering === Levering.TIL_XK_LAGER
+              ? t('bestillinger.tilXKLager')
+              : t('bestillinger.serviceOppdrag')}
+          </strong>
+        </BodyShort>
 
         <BodyShort size="small" spacing>
           {t('bestillinger.kort.innsendt')} {formaterNorskDato(sak.opprettet)}
         </BodyShort>
 
-        {visOrdrestatusTag && <OrdrestatusTag sak={sak} />}
+        <BodyShort size="small" spacing>
+          {t('felles.saksnummer')}: {sak.saksnummer}
+        </BodyShort>
+
+        <SkjulForPrint>
+          {visOrdrestatusTag && <OrdrestatusTag sak={sak} />}
+          <div style={{ position: 'absolute', right: 10, bottom: 10 }}>
+            <Button variant="tertiary" onClick={handlePrint} icon={<PrinterSmallIcon />}>
+              {t('felles.skrivUt')}
+            </Button>
+          </div>
+        </SkjulForPrint>
       </Panel>
     </Avstand>
   )

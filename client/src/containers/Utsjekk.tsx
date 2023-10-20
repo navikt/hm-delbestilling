@@ -200,7 +200,7 @@ const Utsjekk = () => {
           feilmelding: hentInnsendingFeil(response.feil),
         })
       } else {
-        navigate('/kvittering', { state: { handlekurv } })
+        navigate('/kvittering', { state: { delbestillingSak: response.delbestillingSak } })
       }
     } catch (err: any) {
       logInnsendingFeil('FEIL_FRA_BACKEND')
@@ -377,6 +377,12 @@ const Utsjekk = () => {
                 )}
               </Avstand>
 
+              {feilmelding && (
+                <Avstand marginBottom={4}>
+                  <Feilmelding feilmelding={feilmelding} />
+                </Avstand>
+              )}
+
               <VStack align="center" gap="3">
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
                   {t('bestillinger.sendInn')}
@@ -387,11 +393,6 @@ const Utsjekk = () => {
               </VStack>
 
               {valideringsFeil.length > 0 && <Errors valideringsFeil={valideringsFeil} />}
-              {feilmelding && (
-                <Avstand marginTop={4}>
-                  <Feilmelding feilmelding={feilmelding} />
-                </Avstand>
-              )}
             </>
           )}
         </>

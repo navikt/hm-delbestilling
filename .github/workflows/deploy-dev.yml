@@ -9,7 +9,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - statuser
+      - print-bestilling-v2
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}

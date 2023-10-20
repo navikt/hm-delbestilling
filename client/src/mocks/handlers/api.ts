@@ -66,19 +66,11 @@ const apiHandlers = [
 
     const id = delbestilling.id
 
-    tidligereBestillinger.push({
-      saksnummer: tidligereBestillinger.length + 1,
-      delbestilling,
-      opprettet: new Date().toDateString(),
-      sistOppdatert: new Date().toDateString(),
-      status: Ordrestatus.INNSENDT,
-    })
-
     if (delbestilling.serienr === '000000') {
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET })
+        ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -86,7 +78,7 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV })
+        ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -94,7 +86,12 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({ id, feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING })
+        ctx.json({
+          id,
+          feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
+          saksnummer: null,
+          delbestillingSak: null,
+        })
       )
     }
 
@@ -102,7 +99,7 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE })
+        ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -110,11 +107,36 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({ id, feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER })
+        ctx.json({
+          id,
+          feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
+          saksnummer: null,
+          delbestillingSak: null,
+        })
       )
     }
 
-    return res(ctx.delay(450), ctx.status(StatusCodes.CREATED), ctx.json({ id: delbestilling.id }))
+    const nyDelbestilling = {
+      saksnummer: tidligereBestillinger.length + 1,
+      delbestilling,
+      opprettet: new Date().toISOString(),
+      sistOppdatert: new Date().toISOString(),
+      status: Ordrestatus.INNSENDT,
+      oebsOrdrenummer: null,
+    }
+
+    tidligereBestillinger.push(nyDelbestilling)
+
+    return res(
+      ctx.delay(450),
+      ctx.status(StatusCodes.CREATED),
+      ctx.json({
+        id,
+        feil: null,
+        saksnummer: nyDelbestilling.saksnummer,
+        delbestillingSak: nyDelbestilling,
+      })
+    )
   }),
 
   rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {

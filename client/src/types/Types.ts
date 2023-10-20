@@ -35,7 +35,7 @@ export interface Delbestilling {
   id: string
   hmsnr: string
   serienr: string
-  navn: string | undefined
+  navn: string
   deler: Dellinje[]
   levering: Levering
   harOpplæringPåBatteri: boolean | undefined
@@ -44,9 +44,10 @@ export interface Delbestilling {
 export interface DelbestillingSak {
   saksnummer: number
   delbestilling: Delbestilling
-  status: Ordrestatus
   opprettet: string
+  status: Ordrestatus
   sistOppdatert: string
+  oebsOrdrenummer: string | null
 }
 
 export enum Ordrestatus {
