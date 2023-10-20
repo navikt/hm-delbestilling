@@ -21,6 +21,15 @@ const Layout = () => {
               <Alert variant="info">{t('testbanner')}</Alert>
             </Avstand>
           )}
+          <Avstand marginBottom={6}>
+            <Alert variant="warning" style={{ textAlign: 'left' }}>
+              <Heading size="small" level="2">
+                Teknisk vedlikehold
+              </Heading>
+              Grunnet teknisk vedlikehold vil det ikke mulig å sende inn delbestillinger i perioden kl 1800 fredag 20.
+              oktober, til og med søndag 22. oktober.
+            </Alert>
+          </Avstand>
           <Heading level="1" size="xlarge">
             {t('felles.overskrift')}
           </Heading>
