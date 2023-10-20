@@ -83,7 +83,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
   const tidligereBestillinger = useMemo(() => {
     let bestillinger = tidligereBestillingerForValg[valg]
     if (bestillinger) {
-      bestillinger = bestillinger.sort((a, b) => new Date(b.saksnummer).getTime() - new Date(a.saksnummer).getTime())
+      bestillinger = bestillinger.sort((a, b) => b.saksnummer - a.saksnummer)
       // return maksBestillinger ? bestillinger.slice(0, maksBestillinger) : bestillinger
       return bestillinger
     }
