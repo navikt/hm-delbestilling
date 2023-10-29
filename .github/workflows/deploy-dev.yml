@@ -9,7 +9,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - print-bestilling-v2
+      - brukerpasstest
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
@@ -59,6 +59,16 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .hotnais/dev-ekstern.yaml
+          PRINT_PAYLOAD: true
+          VAR: commit=${{ github.sha }}
+          IMAGE: ${{steps.docker-build-push.outputs.image}}
+      
+      - name: Deploy to dev-gcp (ekstern brukerpass)
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .hotnais/dev-ekstern-brukerpass.yaml
           PRINT_PAYLOAD: true
           VAR: commit=${{ github.sha }}
           IMAGE: ${{steps.docker-build-push.outputs.image}}

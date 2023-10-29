@@ -28,12 +28,13 @@ const OmÅBestilleDeler = () => {
         {t('info.omÅBestilleDeler')}
       </Heading>
       <ul>
-        <li>{t('info.kunForTeknikere')}</li>
+        {/* <li>{t('info.kunForTeknikere')}</li> */}
         {typer.length > 0 && (
           <li>
             {t('info.kanBestilleDelerTil')} {typer.join(', ')}.
           </li>
         )}
+        <li>{t('info.artnrPåSølvlappen')}</li>
       </ul>
     </Panel>
   )
