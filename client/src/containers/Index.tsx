@@ -71,7 +71,7 @@ const Index = () => {
               setHjelpemiddel={setHjelpemiddel}
             />
 
-            <Avstand marginTop={10}>
+            {/* <Avstand marginTop={10}>
               <LinkPanel
                 href="#"
                 onClick={(e) => {
@@ -88,7 +88,7 @@ const Index = () => {
                   <LinkPanel.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkPanel.Description>
                 )}
               </LinkPanel>
-            </Avstand>
+            </Avstand> */}
 
             <Avstand marginTop={10}>
               <OmÅBestilleDeler />

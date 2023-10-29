@@ -370,8 +370,16 @@ const Utsjekk = () => {
                       onChange={(levering: Levering) => setLevering(levering)}
                       error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
                     >
-                      <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
-                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
+                      {/* <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
+                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio> */}
+                      <Radio value={Levering.KOMMUNEN_REPARERER}>{t('levering.KOMMUNEN_REPARERER')}</Radio>
+                      {handlekurv.levering === Levering.KOMMUNEN_REPARERER && (
+                        <Alert variant="info">{t('levering.KOMMUNEN_REPARERER.leveringstid')}</Alert>
+                      )}
+                      <Radio value={Levering.JEG_REPARERER_KOMMUNEN_UTLEVERER}>
+                        {t('levering.JEG_REPARERER_KOMMUNEN_UTLEVERER')}
+                      </Radio>
+                      <Radio value={Levering.JEG_HENTER_OG_REPARERER}>{t('levering.JEG_HENTER_OG_REPARERER')}</Radio>
                     </RadioGroup>
                   </>
                 )}

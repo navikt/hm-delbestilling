@@ -80,9 +80,13 @@ const BestillingsKort = ({ sak }: Props) => {
 
         <BodyShort size="small" spacing>
           <strong>
-            {sak.delbestilling.levering === Levering.TIL_XK_LAGER
-              ? t('bestillinger.tilXKLager')
-              : t('bestillinger.serviceOppdrag')}
+            {sak.delbestilling.levering === Levering.TIL_XK_LAGER && t('bestillinger.tilXKLager')}
+            {sak.delbestilling.levering === Levering.TIL_SERVICE_OPPDRAG && t('bestillinger.serviceOppdrag')}
+            {sak.delbestilling.levering === Levering.KOMMUNEN_REPARERER && t('bestillinger.KOMMUNEN_REPARERER')}
+            {sak.delbestilling.levering === Levering.JEG_REPARERER_KOMMUNEN_UTLEVERER &&
+              t('bestillinger.JEG_REPARERER_KOMMUNEN_UTLEVERER')}
+            {sak.delbestilling.levering === Levering.JEG_HENTER_OG_REPARERER &&
+              t('bestillinger.JEG_HENTER_OG_REPARERER')}
           </strong>
         </BodyShort>
 

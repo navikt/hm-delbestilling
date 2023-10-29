@@ -2,6 +2,11 @@
   "bestillinger.tilXKLager": "Til XK-lager",
   "bestillinger.serviceOppdrag": "Blir brukt i serviceoppdrag",
   "bestillinger.dineSiste": "Dine innsende bestillingar av delar",
+
+  "bestillinger.KOMMUNEN_REPARERER": "Kommunen leverer og reparerer",
+  "bestillinger.JEG_REPARERER_KOMMUNEN_UTLEVERER": "Kommunen leverer, eg reparerer",
+  "bestillinger.JEG_HENTER_OG_REPARERER": "Eg hentar og reparerer",
+
   "bestillinger.saker": "Saker",
   "bestillinger.kort.innsendt": "Innsendt",
   "bestillinger.kort.oppdatert": "Oppdatert",
@@ -74,6 +79,11 @@
   "levering.title": "Kvar skal delane plasserast når dei har vorte leverte til kommunen?",
   "levering.xkLager": "Delane skal leggjast på XK-lager",
   "levering.serviceOppdrag": "Delane skal brukast i serviceoppdrag hos brukar",
+
+  "levering.KOMMUNEN_REPARERER": "Eg ønskjer at kommunen skal reparera hjelpemiddelet.",
+  "levering.KOMMUNEN_REPARERER.leveringstid": "Det kan ta ca ei veke før du blir kontakta av kommunen for å avtala tidspunkt for reperasjon.",
+  "levering.JEG_REPARERER_KOMMUNEN_UTLEVERER": "Eg reparerer hjelpemiddelet sjølv, og eg ønskjer at kommunen utleverer delen heim til meg.",
+  "levering.JEG_HENTER_OG_REPARERER": "Eg reparerer hjelpemiddelet sjølv, og eg ønskjer å henta delen sjølv hos Hjelpemiddelsentralen.",
 
   "feilside.noeGikkGalt": "Noko gjekk gale og sida kan ikkje visast",
   "feilside.prøvPåNytt": "Prøv på nytt",
