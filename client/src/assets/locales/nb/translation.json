@@ -55,8 +55,9 @@
   "error.ikkeKommunaltAnsatt": "Du er ikke kommunalt ansatt, og kan derfor ikke bestille deler.",
   "error.kanIkkeBestilleDeler": "Du kan ikke bestille deler.",
 
-  "hjelpemidler.sok.deler": "deler",
-  "hjelpemidler.sok.del": "del",
+  "hjelpemidler.sok.deler_zero": "ingen deler",
+  "hjelpemidler.sok.deler_one": "1 del",
+  "hjelpemidler.sok.deler_other": "{{count}} deler",
 
   "info.omÅBestilleDeler": "Om å bestille deler",
   "info.kunForTeknikere": "Denne tjenesten er kun for teknikere i kommunen.",

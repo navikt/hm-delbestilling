@@ -55,8 +55,9 @@
   "error.ikkeKommunaltAnsatt": "Du er ikkje kommunalt tilsett, og kan derfor ikkje bestilla delar.",
   "error.kanIkkeBestilleDeler": "Du kan ikkje bestilla delar.",
 
-  "hjelpemidler.sok.deler": "delar",
-  "hjelpemidler.sok.del": "del",
+  "hjelpemidler.sok.deler_zero": "ingen delar",
+  "hjelpemidler.sok.deler_one": "1 del",
+  "hjelpemidler.sok.deler_other": "{{count}} delar",
 
   "info.omÅBestilleDeler": "Om å bestilla delar",
   "info.kunForTeknikere": "Denne tenesta er berre for teknikarar i kommunen.",

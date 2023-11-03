@@ -53,15 +53,10 @@ const HjelpemiddelVelger = ({ aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpem
       >
         {hjelpemidler.map(({ navn, deler }, index) => {
           const antallTilgjengeligeDeler = deler?.length || 0
-          const delerText =
-            antallTilgjengeligeDeler == 0
-              ? t('oversikt.ingenDeler')
-              : antallTilgjengeligeDeler == 1
-              ? `1 ${t('hjelpemidler.sok.del')} del`
-              : `${antallTilgjengeligeDeler} ${t('hjelpemidler.sok.deler')}`
+
           return (
             <option key={index} value={navn}>
-              {navn} ({delerText})
+              {navn} ({t('hjelpemidler.sok.deler', { count: antallTilgjengeligeDeler })})
             </option>
           )
         })}
