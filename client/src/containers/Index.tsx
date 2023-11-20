@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
@@ -20,8 +20,9 @@ import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
 const Index = () => {
-  const [hmsnr, setHmsnr] = useState('')
-  const [serienr, setSerienr] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [hmsnr, setHmsnr] = useState(searchParams.get('artnr') ?? '')
+  const [serienr, setSerienr] = useState(searchParams.get('serienr') ?? '')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
