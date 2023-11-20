@@ -1,22 +1,19 @@
-import React, { useMemo } from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useReactToPrint } from 'react-to-print'
 import styled from 'styled-components'
 
-import { BodyShort, Button, Heading, Label, Link, Panel, Tag, TagProps } from '@navikt/ds-react'
+import { PrinterSmallIcon } from '@navikt/aksel-icons'
+import { BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
 
-import { Delbestilling, DelbestillingSak, Levering, Status } from '../types/Types'
+import { useRolleContext } from '../context/rolle'
+import { formaterNorskDato } from '../helpers/utils'
+import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
+import { logPrintAvBestillingÅpnet } from '../utils/amplitude'
 
 import { Avstand } from './Avstand'
-
-const HeaderRekke = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  h3 {
-    flex: 1;
-  }
-`
+import DellinjestatusTag from './DellinjestatusTag'
+import OrdrestatusTag from './OrdrestatusTag'
 
 const DelRekke = styled.div`
   display: flex;
@@ -24,21 +21,19 @@ const DelRekke = styled.div`
   p:first-child {
     flex: 1;
   }
+`
+
+const Dellinje = styled.div`
+  border-bottom: 1px solid var(--a-gray-300);
   :not(:last-child) {
     margin-bottom: 0.5rem;
   }
+  padding: 8px 0;
 `
 
-const InfoLinje = styled.div`
-  display: flex;
-  flex-direction: row;
-  div {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-  }
-  div:first-child {
-    flex: 1;
+const SkjulForPrint = styled.div`
+  @media print {
+    display: none;
   }
 `
 
@@ -46,59 +41,67 @@ interface Props {
   sak: DelbestillingSak
 }
 
-function tagTypeForStatus(status: Status): TagProps['variant'] {
-  switch (status) {
-    case 'INNSENDT':
-      return 'neutral'
-    case 'KLARGJORT':
-    case 'REGISTRERT':
-      return 'info'
-    default:
-      return 'info'
-  }
-}
-
 const BestillingsKort = ({ sak }: Props) => {
   const { t } = useTranslation()
-  const etikettType = tagTypeForStatus(sak.status)
-  const datoString = sak.opprettet.toLocaleString('no', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
+
+  const printRef = useRef<HTMLDivElement>(null)
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    onBeforePrint: () => {
+      logPrintAvBestillingÅpnet(window.location.pathname)
+    },
+    documentTitle: `kvittering_delbestilling_${sak.saksnummer}`,
   })
+
+  const visOrdrestatusTag =
+    sak.status !== Ordrestatus.DELVIS_SKIPNINGSBEKREFTET && sak.status !== Ordrestatus.SKIPNINGSBEKREFTET
+
   return (
-    <Avstand marginBottom={2}>
-      <Panel border>
-        <HeaderRekke>
-          <Heading size="small" level="3">
-            Hmsnr: {sak.delbestilling.hmsnr} Serienr: {sak.delbestilling.serienr}
-          </Heading>
-          {/* <Tag variant={etikettType} size="small">
-            {t(`bestillinger.status.${sak.status}`)}
-          </Tag> */}
-        </HeaderRekke>
+    <Avstand marginBottom={4}>
+      <Panel border style={{ position: 'relative' }} ref={printRef}>
+        <Heading size="small" level="3">
+          {sak.delbestilling.navn ? <>Bestilling til {sak.delbestilling.navn}</> : <>Bestilling</>}
+        </Heading>
+        <Detail style={{ display: 'flex', gap: '1rem' }}>
+          <span>Art.nr. {sak.delbestilling.hmsnr}</span>
+          <span>Serienr. {sak.delbestilling.serienr}</span>
+        </Detail>
         <Avstand marginBottom={4} />
-        {sak.delbestilling.deler.map((delLinje, index) => (
-          <DelRekke key={index}>
-            <BodyShort size="medium">{delLinje.del.navn}</BodyShort>
-            <Label size="medium">{delLinje.antall} stk</Label>
-          </DelRekke>
+        {sak.delbestilling.deler.map((dellinje, index) => (
+          <Dellinje key={index}>
+            <DelRekke>
+              <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
+              <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
+            </DelRekke>
+            <SkjulForPrint>{!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}</SkjulForPrint>
+          </Dellinje>
         ))}
         <Avstand marginBottom={4} />
-        <InfoLinje>
-          <div>
-            <Label size="small">{t('bestillinger.kort.opprettet')}:</Label>
-            <BodyShort size="small">{datoString}</BodyShort>
+
+        <BodyShort size="small" spacing>
+          <strong>
+            {sak.delbestilling.levering === Levering.TIL_XK_LAGER
+              ? t('bestillinger.tilXKLager')
+              : t('bestillinger.serviceOppdrag')}
+          </strong>
+        </BodyShort>
+
+        <BodyShort size="small" spacing>
+          {t('bestillinger.kort.innsendt')} {formaterNorskDato(sak.opprettet)}
+        </BodyShort>
+
+        <BodyShort size="small" spacing>
+          {t('felles.saksnummer')}: {sak.saksnummer}
+        </BodyShort>
+
+        <SkjulForPrint>
+          {visOrdrestatusTag && <OrdrestatusTag sak={sak} />}
+          <div style={{ position: 'absolute', right: 10, bottom: 10 }}>
+            <Button variant="tertiary" onClick={handlePrint} icon={<PrinterSmallIcon />}>
+              {t('felles.skrivUt')}
+            </Button>
           </div>
-          <div>
-            <Label size="small">{t('bestillinger.kort.levering')}:</Label>
-            <BodyShort size="small">
-              {sak.delbestilling.levering === Levering.TIL_XK_LAGER
-                ? t('bestillinger.tilXKLager')
-                : t('bestillinger.serviceOppdrag')}
-            </BodyShort>
-          </div>
-        </InfoLinje>
+        </SkjulForPrint>
       </Panel>
     </Avstand>
   )

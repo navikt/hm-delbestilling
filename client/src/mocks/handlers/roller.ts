@@ -15,15 +15,14 @@ const rollerHandlers = [
           erKommunaltAnsatt: true,
           kommunaleOrgs: [
             {
-              kommunenummer: '3010',
-              navn: 'Oslo kommune',
-              næringskoder: [{ kode: '1234', beskrivelse: 'beskrivelse' }],
+              orgnr: '0001',
+              navn: 'Oslo Teknikere',
               orgform: 'KOMM',
-              orgnr: '1234',
               overordnetOrgnr: null,
+              næringskoder: [],
+              kommunenummer: '0301',
             },
           ],
-          erIPilot: true,
         },
       })
     )

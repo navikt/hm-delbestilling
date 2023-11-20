@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyShort, Button, GuidePanel, Heading, Link, Panel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import BestillingsListe from '../components/BestillingsListe'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import LeggTilDel from '../components/LeggTilDel'
+import Lenke from '../components/Lenke'
+import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import { defaultAntall } from '../helpers/delHelper'
 import useAuth from '../hooks/useAuth'
-import { CenteredContent } from '../styledcomponents/CenteredContent'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
@@ -26,12 +25,12 @@ const Index = () => {
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
-  const { loginStatus } = useAuth()
+  const { sjekkerLogin, sjekkLoginStatus } = useAuth()
   const navigate = useNavigate()
   const { t } = useTranslation()
 
   useEffect(() => {
-    loginStatus().then(setErLoggetInn)
+    sjekkLoginStatus().then(setErLoggetInn)
   }, [])
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
@@ -41,13 +40,13 @@ const Index = () => {
       hjelpemiddel,
       deler: [{ del, antall: defaultAntall(del) }],
       levering: undefined,
+      harOpplæringPåBatteri: undefined,
     }
 
     window.sessionStorage.setItem(SESSIONSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
 
     try {
-      const erLoggetInn = await loginStatus()
-      if (erLoggetInn) {
+      if (await sjekkLoginStatus()) {
         navigate('/utsjekk')
       } else {
         window.location.replace('/hjelpemidler/delbestilling/login')
@@ -55,16 +54,13 @@ const Index = () => {
     } catch (e: any) {
       console.log(e)
       // TODO: vis feilmelding
-      alert('Vi klarte ikke å sjekke loginstatus akkurat nå. Prøv igjen senere.')
+      alert(t('error.klarteIkkeSjekkeLoginStatus'))
     }
   }
 
   return (
     <main>
       <Content>
-        <Heading level="2" size="large" spacing>
-          Bestill del
-        </Heading>
         {!hjelpemiddel && (
           <>
             <HjelpemiddelLookup
@@ -75,41 +71,59 @@ const Index = () => {
               setHjelpemiddel={setHjelpemiddel}
             />
 
-            {erLoggetInn ? (
-              <>
-                <Avstand marginTop={12} />
-                <BestillingsListe text={t('bestillinger.dineSiste')} maksBestillinger={2} />
-              </>
-            ) : (
-              <>
-                <Avstand marginTop={16} />
-                <CenteredContent>
-                  <Button
-                    onClick={() => window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')}
-                    variant="secondary"
-                  >
-                    Logg inn for å se bestillinger
-                  </Button>
-                </CenteredContent>
-              </>
-            )}
+            <Avstand marginTop={10}>
+              <LinkPanel
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (erLoggetInn) {
+                    navigate('/bestillinger')
+                  } else {
+                    window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')
+                  }
+                }}
+              >
+                <LinkPanel.Title>{t('bestillinger.dineSiste')}</LinkPanel.Title>
+                {!sjekkerLogin && !erLoggetInn && (
+                  <LinkPanel.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkPanel.Description>
+                )}
+              </LinkPanel>
+            </Avstand>
 
-            <Avstand marginTop={16}>
-              <GuidePanel>
-                Denne tjenesten er kun for teknikere i kommunen. Som tekniker kan du bestille fra et begrenset utvalg av
-                deler til Panthera, Minicrosser, X850, Comet, og Orion. Tjenesten er under utvikling av DigiHoT -
-                Digitalisering av hjelpemidler og tilrettelegging. Spørsmål og tilbakemeldinger kan du sende på e-post
-                til <Link href="mailto:digihot@nav.no">digihot@nav.no</Link>
-              </GuidePanel>
+            <Avstand marginTop={10}>
+              <OmÅBestilleDeler />
+            </Avstand>
+
+            <Avstand marginTop={10}>
+              <Panel>
+                <Heading level="2" size="medium" spacing>
+                  Kontakt oss
+                </Heading>
+                <BodyLong>
+                  <Trans
+                    i18nKey={'info.omDigiHoT'}
+                    components={{
+                      linkDigihot: (
+                        <Lenke
+                          href="https://www.nav.no/no/nav-og-samfunn/samarbeid/hjelpemidler/digitalisering-av-hjelpemiddelomradet"
+                          target={'_blank'}
+                          lenketekst="DigiHoT – Digitalisering av hjelpemidler og tilrettelegging"
+                        />
+                      ),
+                      linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
+                    }}
+                  />
+                </BodyLong>
+              </Panel>
             </Avstand>
           </>
         )}
         {hjelpemiddel && (
           <>
             <CustomPanel border>
-              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                <Heading size="xsmall" level="4" spacing>
-                  Bestilling til {hjelpemiddel.navn}
+              <HStack align="end" justify="space-between">
+                <Heading size="xsmall" level="2" spacing>
+                  {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                 </Heading>
                 <Button
                   icon={<PencilIcon />}
@@ -118,9 +132,9 @@ const Index = () => {
                     setHjelpemiddel(undefined)
                   }}
                 >
-                  Endre
+                  {t('felles.Endre')}
                 </Button>
-              </div>
+              </HStack>
               <BodyShort style={{ display: 'flex', gap: '20px' }}>
                 <span>Art.nr. {hmsnr}</span>
                 <span>Serienr. {serienr}</span>
@@ -130,7 +144,7 @@ const Index = () => {
             <LeggTilDel
               hjelpemiddel={hjelpemiddel}
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
-              knappeTekst="Bestill"
+              knappeTekst={t('bestillinger.bestill')}
             />
           </>
         )}

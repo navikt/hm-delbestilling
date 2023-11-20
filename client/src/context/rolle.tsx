@@ -1,8 +1,9 @@
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
+import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import { GuidePanel, Loader } from '@navikt/ds-react'
+import { GuidePanel, HStack, Loader } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import { Feilmelding } from '../components/Feilmelding'
@@ -25,6 +26,7 @@ const RolleContext = React.createContext<RolleContextType>({
 const visRolleSwitcher = window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp'
 
 export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
+  const { t } = useTranslation()
   const [henterRolle, setHenterRolle] = useState(true)
   const [delbestillerrolle, setDelbestillerrolle] = useState<Delbestillerrolle | undefined>()
   const { showBoundary } = useErrorBoundary()
@@ -48,9 +50,9 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   if (henterRolle) {
     return (
       <Avstand paddingTop={16} paddingBottom={16}>
-        <div style={{ textAlign: 'center' }}>
+        <HStack justify="center">
           <Loader size="large" />
-        </div>
+        </HStack>
       </Avstand>
     )
   }
@@ -58,9 +60,11 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   let feilmeldingsTekst = ''
 
   if (!delbestillerrolle) {
-    return <div>Ingen delbestillerrolle</div>
+    return <div>{t('error.ingenRolle')}</div>
+  } else if (delbestillerrolle.erKommunaltAnsatt === false) {
+    feilmeldingsTekst = t('error.ikkeKommunaltAnsatt')
   } else if (delbestillerrolle.kanBestilleDeler === false) {
-    feilmeldingsTekst = 'Du kan ikke bestille deler.'
+    feilmeldingsTekst = 'error.kanIkkeBestilleDeler'
   }
 
   if (feilmeldingsTekst) {

@@ -1,4 +1,4 @@
-import { Delbestillerrolle, Delbestilling } from './Types'
+import { Delbestillerrolle, Delbestilling, DelbestillingSak } from './Types'
 import { Hjelpemiddel } from './Types'
 
 export interface OppslagRequest {
@@ -26,7 +26,9 @@ export interface DelbestillingRequest {
 
 export interface DelbestillingResponse {
   id: string
-  feil?: DelbestillingFeil
+  feil: DelbestillingFeil | null
+  saksnummer: number | null
+  delbestillingSak: DelbestillingSak | null
 }
 
 export enum DelbestillingFeil {

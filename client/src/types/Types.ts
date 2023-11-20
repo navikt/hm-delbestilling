@@ -2,6 +2,7 @@ export interface Hjelpemiddel {
   navn: string
   hmsnr: string
   deler: Del[] | undefined
+  type: string
 }
 
 export interface Del {
@@ -17,22 +18,28 @@ export interface Handlekurv {
   id: string
   serienr: string
   hjelpemiddel: Hjelpemiddel
-  deler: DelLinje[]
+  deler: Dellinje[]
   levering: Levering | undefined
+  harOpplæringPåBatteri: boolean | undefined
 }
 
-export interface DelLinje {
+export interface Dellinje {
   del: Del
   antall: number
+  status?: Dellinjestatus
+  datoSkipningsbekreftet?: string
+  forventetLeveringsdato?: string
 }
 
 export interface Delbestilling {
   id: string
   hmsnr: string
   serienr: string
-  deler: DelLinje[]
+  navn: string
+  deler: Dellinje[]
   levering: Levering
   rolle: Rolle | null
+  harOpplæringPåBatteri: boolean | undefined
 }
 
 export enum Rolle {
@@ -43,15 +50,23 @@ export enum Rolle {
 export interface DelbestillingSak {
   saksnummer: number
   delbestilling: Delbestilling
-  status: Status
-  opprettet: Date
-  sistOppdatert: Date
+  opprettet: string
+  status: Ordrestatus
+  sistOppdatert: string
+  oebsOrdrenummer: string | null
 }
 
-export enum Status {
+export enum Ordrestatus {
   INNSENDT = 'INNSENDT',
-  KLARGJORT = 'KLARGJORT',
   REGISTRERT = 'REGISTRERT',
+  KLARGJORT = 'KLARGJORT',
+  DELVIS_SKIPNINGSBEKREFTET = 'DELVIS_SKIPNINGSBEKREFTET',
+  SKIPNINGSBEKREFTET = 'SKIPNINGSBEKREFTET',
+  LUKKET = 'LUKKET',
+}
+
+export enum Dellinjestatus {
+  SKIPNINGSBEKREFTET = 'SKIPNINGSBEKREFTET',
 }
 
 export enum Levering {
@@ -64,9 +79,13 @@ export interface Delbestillerrolle {
   erBrukerpassbruker: boolean
   kanBestilleDeler: boolean
   harXKLager: boolean
-  kommunaleOrgs: Organisasjon[]
   erKommunaltAnsatt: boolean
-  erIPilot: boolean
+  kommunaleOrgs: Organisasjon[] | undefined
+}
+
+export interface Næringskode {
+  kode: string
+  beskrivelse: string
 }
 
 export interface Organisasjon {

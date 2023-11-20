@@ -53,15 +53,10 @@ const HjelpemiddelVelger = ({ aktivtHjelpemiddel, setAktivtHjelpemiddel, hjelpem
       >
         {hjelpemidler.map(({ navn, deler }, index) => {
           const antallTilgjengeligeDeler = deler?.length || 0
-          const delerText =
-            antallTilgjengeligeDeler == 0
-              ? t('hjelpemidler.sok.ingenDeler')
-              : antallTilgjengeligeDeler == 1
-              ? `1 ${t('hjelpemidler.sok.del')} del`
-              : `${antallTilgjengeligeDeler} ${t('hjelpemidler.sok.deler')}`
+
           return (
             <option key={index} value={navn}>
-              {navn} ({delerText})
+              {navn} ({t('hjelpemidler.sok.deler', { count: antallTilgjengeligeDeler })})
             </option>
           )
         })}
@@ -83,8 +78,8 @@ const HjelpemiddelVelgerMedSøk = ({
     søkeUtrykk
   )
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: 400 }}>
-      <Label>{t('visuellOversikt.søkEtterHjelpemiddel')}</Label>
+    <Content>
+      <Label>{t('oversikt.søkEtterHjelpemiddel')}</Label>
       <Search label="Typesøk" onChange={setSøkeUtrykk} variant="simple" value={søkeUtrykk} />
       <Avstand paddingBottom={4} />
 
@@ -110,10 +105,10 @@ const HjelpemiddelVelgerMedSøk = ({
       )}
       {hjelpemidlerUtvalg.length == 0 && (
         <Heading level="3" size="small" style={{ padding: '0.5rem' }} role="alert">
-          {t('hjelpemidler.sok.ingenTreff')}
+          {t('oversikt.ingenTreff')}
         </Heading>
       )}
-    </div>
+    </Content>
   )
 }
 
@@ -170,20 +165,19 @@ const Oversikt = () => {
             setAktivtHjelpemiddel={setAktivtHjelpemiddel}
           />
         )}
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-          <Avstand paddingLeft={4} paddingRight={4} paddingBottom={4}>
-            <Heading size="medium" level="3" spacing>
-              Deler til {aktivtHjelpemiddel?.navn}
+
+        <Avstand paddingLeft={4} paddingRight={4} paddingBottom={4}>
+          <Heading size="medium" level="3" spacing>
+            Deler til {aktivtHjelpemiddel?.navn}
+          </Heading>
+          {ingenDeler ? (
+            <Heading level="3" size="small" style={{ padding: '0.5rem' }} role="alert">
+              {t('oversikt.ingenDeler')}
             </Heading>
-            {ingenDeler ? (
-              <Heading level="3" size="small" style={{ padding: '0.5rem' }} role="alert">
-                {t('hjelpemidler.sok.ingenDeler')}
-              </Heading>
-            ) : (
-              <DelListe deler={aktivtHjelpemiddel?.deler} />
-            )}
-          </Avstand>
-        </div>
+          ) : (
+            <DelListe deler={aktivtHjelpemiddel?.deler} />
+          )}
+        </Avstand>
       </OversiktInnhold>
     </main>
   )

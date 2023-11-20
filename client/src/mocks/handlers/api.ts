@@ -15,10 +15,10 @@ import {
   OppslagRequest,
   OppslagResponse,
 } from '../../types/HttpTypes'
-import { DelbestillingSak, Status } from '../../types/Types'
+import { DelbestillingSak, Ordrestatus } from '../../types/Types'
 
-let tidligereBestillinger = delBestillingMock.slice(0, 4) as unknown as DelbestillingSak[]
-let tidligereBestillingerKommune = delBestillingMock.slice(4) as unknown as DelbestillingSak[]
+let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
+let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
 
 const apiHandlers = [
   rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
@@ -66,19 +66,11 @@ const apiHandlers = [
 
     const id = delbestilling.id
 
-    tidligereBestillinger.push({
-      saksnummer: tidligereBestillinger.length + 1,
-      delbestilling,
-      opprettet: new Date(),
-      sistOppdatert: new Date(),
-      status: Status.INNSENDT,
-    })
-
     if (delbestilling.serienr === '000000') {
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET })
+        ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -86,7 +78,7 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV })
+        ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -94,7 +86,12 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({ id, feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING })
+        ctx.json({
+          id,
+          feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
+          saksnummer: null,
+          delbestillingSak: null,
+        })
       )
     }
 
@@ -102,7 +99,7 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE })
+        ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE, saksnummer: null, delbestillingSak: null })
       )
     }
 
@@ -110,11 +107,36 @@ const apiHandlers = [
       return res(
         ctx.delay(450),
         ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({ id, feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER })
+        ctx.json({
+          id,
+          feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
+          saksnummer: null,
+          delbestillingSak: null,
+        })
       )
     }
 
-    return res(ctx.delay(450), ctx.status(StatusCodes.CREATED), ctx.json({ id: delbestilling.id }))
+    const nyDelbestilling = {
+      saksnummer: tidligereBestillinger.length + 1,
+      delbestilling,
+      opprettet: new Date().toISOString(),
+      sistOppdatert: new Date().toISOString(),
+      status: Ordrestatus.INNSENDT,
+      oebsOrdrenummer: null,
+    }
+
+    tidligereBestillinger.push(nyDelbestilling)
+
+    return res(
+      ctx.delay(450),
+      ctx.status(StatusCodes.CREATED),
+      ctx.json({
+        id,
+        feil: null,
+        saksnummer: nyDelbestilling.saksnummer,
+        delbestillingSak: nyDelbestilling,
+      })
+    )
   }),
 
   rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
@@ -123,9 +145,6 @@ const apiHandlers = [
 
   rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
-  }),
-  rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
-    return res(ctx.delay(250), ctx.json(hjelpemidlerMock))
   }),
   rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(hjelpemidlerMock))

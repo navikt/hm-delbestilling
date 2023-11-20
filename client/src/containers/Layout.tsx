@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
 import { Alert, Heading } from '@navikt/ds-react'
@@ -9,6 +10,7 @@ import Header from '../styledcomponents/Header'
 
 // Delte page-komponenter for hver side
 const Layout = () => {
+  const { t } = useTranslation()
   const visTestMiljoBanner = window.appSettings.USE_MSW === true && window.location.hostname !== 'localhost'
   return (
     <>
@@ -16,14 +18,11 @@ const Layout = () => {
         <Content>
           {visTestMiljoBanner && (
             <Avstand marginTop={4} marginBottom={8}>
-              <Alert variant="info">
-                Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke gjenspeiler
-                virkeligheten.
-              </Alert>
+              <Alert variant="info">{t('testbanner')}</Alert>
             </Avstand>
           )}
           <Heading level="1" size="xlarge">
-            Bestill del til hjelpemiddel
+            {t('felles.overskrift')}
           </Heading>
         </Content>
       </Header>

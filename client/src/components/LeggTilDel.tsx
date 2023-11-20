@@ -42,11 +42,8 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       {hjelpemiddel.deler
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => {
-          const hmsnrsLeveringUke48 = ['249612']
-          const visVarselOmLevering = hmsnrsLeveringUke48.includes(del.hmsnr)
-
           return (
-            <Avstand marginBottom={2} key={del.hmsnr}>
+            <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
                 <DelInnhold>
                   <FlexedStack>
@@ -57,13 +54,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                     {knappeTekst}
                   </Button>
                 </DelInnhold>
-                {visVarselOmLevering && (
-                  <Avstand marginTop={4}>
-                    <Alert variant="info">
-                      Denne delen er mulig å bestille, men er ikke på lager før tidligst uke 48.
-                    </Alert>
-                  </Avstand>
-                )}
               </CustomPanel>
             </Avstand>
           )

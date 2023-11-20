@@ -5,6 +5,7 @@
       "id": "de859ec4-ff4b-4f61-826d-33e1ba3d8093",
       "hmsnr": "236958",
       "serienr": "687273",
+      "navn": "Panthera U3 Light",
       "deler": [
         {
           "del": {
@@ -22,7 +23,8 @@
     },
     "opprettet": "2023-06-22T11:33:28.785459",
     "sistOppdatert": "2023-06-22T11:33:28.785459",
-    "status": "INNSENDT"
+    "status": "INNSENDT",
+    "oebsOrdrenummer": null
   },
   {
     "saksnummer": 2,
@@ -30,6 +32,7 @@
       "id": "c026e6f8-8e70-445d-897a-b891405f91f3",
       "hmsnr": "236958",
       "serienr": "687273",
+      "navn": "Panthera U3 Light",
       "deler": [
         {
           "del": {
@@ -69,7 +72,8 @@
     },
     "opprettet": "2023-06-22T11:33:53.474711",
     "sistOppdatert": "2023-06-22T11:33:53.474711",
-    "status": "KLARGJORT"
+    "status": "KLARGJORT",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 3,
@@ -77,6 +81,7 @@
       "id": "0c2ea291-d085-4b15-9437-d4d9c4d27f0e",
       "hmsnr": "236958",
       "serienr": "687273",
+      "navn": "Panthera U3 Light",
       "deler": [
         {
           "del": {
@@ -87,7 +92,9 @@
             "kategori": "Dekk",
             "maksAntall": 2
           },
-          "antall": 2
+          "antall": 2,
+          "status": "SKIPNINGSBEKREFTET",
+          "datoSkipningsbekreftet": "2023-10-02"
         },
         {
           "del": {
@@ -105,7 +112,8 @@
     },
     "opprettet": "2023-06-22T12:42:03.712112",
     "sistOppdatert": "2023-06-22T12:42:03.712112",
-    "status": "INNSENDT"
+    "status": "DELVIS_SKIPNINGSBEKREFTET",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 4,
@@ -113,6 +121,7 @@
       "id": "ab4fcb18-c62d-4f6b-85d0-403d3797a34c",
       "hmsnr": "236958",
       "serienr": "687273",
+      "navn": "Panthera U3 Light",
       "deler": [
         {
           "del": {
@@ -130,7 +139,8 @@
     },
     "opprettet": "2023-07-18T08:50:44.730108",
     "sistOppdatert": "2023-07-18T08:50:44.730108",
-    "status": "KLARGJORT"
+    "status": "REGISTRERT",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 5,
@@ -138,6 +148,7 @@
       "id": "65f3a155-342f-4557-8427-f06e78f7597f",
       "hmsnr": "236958",
       "serienr": "687273",
+      "navn": "Panthera U3 Light",
       "deler": [
         {
           "del": {
@@ -155,7 +166,8 @@
     },
     "opprettet": "2023-07-18T11:10:30.5311",
     "sistOppdatert": "2023-07-18T11:10:30.5311",
-    "status": "INNSENDT"
+    "status": "LUKKET",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 6,
@@ -163,6 +175,7 @@
       "id": "de841c1e-e00e-4950-9d51-730eb3542512",
       "hmsnr": "236958",
       "serienr": "687273",
+      "navn": "Panthera U3 Light",
       "deler": [
         {
           "del": {
@@ -180,39 +193,16 @@
     },
     "opprettet": "2023-07-18T13:10:48.949403",
     "sistOppdatert": "2023-07-18T13:10:48.949403",
-    "status": "INNSENDT"
+    "status": "INNSENDT",
+    "oebsOrdrenummer": "123456"
   },
   {
     "saksnummer": 7,
     "delbestilling": {
-      "id": "3b815e0b-d357-4d87-b018-474d6406d7cc",
-      "hmsnr": "236958",
-      "serienr": "687273",
-      "deler": [
-        {
-          "del": {
-            "hmsnr": "150817",
-            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
-            "levArtNr": "1000038",
-            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
-            "kategori": "Dekk",
-            "maksAntall": 2
-          },
-          "antall": 1
-        }
-      ],
-      "levering": "TIL_XK_LAGER"
-    },
-    "opprettet": "2023-07-25T08:15:24.141289",
-    "sistOppdatert": "2023-07-25T08:15:24.141289",
-    "status": "INNSENDT"
-  },
-  {
-    "saksnummer": 8,
-    "delbestilling": {
       "id": "c7c9ed03-6096-4d15-bade-3ec7d13fb213",
       "hmsnr": "236958",
       "serienr": "687273",
+      "navn": "Panthera U3 Light",
       "deler": [
         {
           "del": {
@@ -223,7 +213,10 @@
             "kategori": "Dekk",
             "maksAntall": 2
           },
-          "antall": 1
+          "antall": 1,
+          "status": "SKIPNINGSBEKREFTET",
+          "datoSkipningsbekreftet": "2023-09-29",
+          "forventetLeveringsdato": "2023-10-02"
         },
         {
           "del": {
@@ -234,63 +227,17 @@
             "kategori": "Dekk",
             "maksAntall": 2
           },
-          "antall": 1
+          "antall": 1,
+          "status": "SKIPNINGSBEKREFTET",
+          "datoSkipningsbekreftet": "2023-09-29",
+          "forventetLeveringsdato": "2023-10-02"
         }
       ],
       "levering": "TIL_XK_LAGER"
     },
     "opprettet": "2023-07-25T13:38:53.745194",
     "sistOppdatert": "2023-07-25T13:38:53.745194",
-    "status": "INNSENDT"
-  },
-  {
-    "saksnummer": 9,
-    "delbestilling": {
-      "id": "2e438136-fb25-426e-ae62-d029b85ec5ae",
-      "hmsnr": "236958",
-      "serienr": "687273",
-      "deler": [
-        {
-          "del": {
-            "hmsnr": "150817",
-            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
-            "levArtNr": "1000038",
-            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
-            "kategori": "Dekk",
-            "maksAntall": 2
-          },
-          "antall": 1
-        }
-      ],
-      "levering": "TIL_XK_LAGER"
-    },
-    "opprettet": "2023-07-26T07:13:21.893781",
-    "sistOppdatert": "2023-07-26T07:13:21.893781",
-    "status": "INNSENDT"
-  },
-  {
-    "saksnummer": 10,
-    "delbestilling": {
-      "id": "7f7d5830-15a9-483d-8d14-bdbdd0adc74c",
-      "hmsnr": "236958",
-      "serienr": "687273",
-      "deler": [
-        {
-          "del": {
-            "hmsnr": "150817",
-            "navn": "Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24\"x1",
-            "levArtNr": "1000038",
-            "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
-            "kategori": "Dekk",
-            "maksAntall": 2
-          },
-          "antall": 1
-        }
-      ],
-      "levering": "TIL_XK_LAGER"
-    },
-    "opprettet": "2023-07-26T08:17:40.092063",
-    "sistOppdatert": "2023-07-26T08:17:40.092063",
-    "status": "INNSENDT"
+    "status": "SKIPNINGSBEKREFTET",
+    "oebsOrdrenummer": "123456"
   }
 ]
