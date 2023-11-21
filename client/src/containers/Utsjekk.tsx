@@ -365,6 +365,9 @@ const Utsjekk = () => {
                 <Heading spacing level="3" size="medium">
                   {t('levering.Levering')}
                 </Heading>
+                {delbestillerrolle.erBrukerpassbruker && (
+                  <div>TODO: hva slags valg/info skal vises her for brukerpassbruker?</div>
+                )}
                 {!delbestillerrolle.harXKLager && (
                   <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>
                 )}
