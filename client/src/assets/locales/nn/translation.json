@@ -28,6 +28,7 @@
   "bestillinger.ordrestatus.REGISTRERT": "Mottatt hos NAV",
   "bestillinger.ordrestatus.KLARGJORT": "Mottatt hos NAV",
   "bestillinger.ordrestatus.LUKKET": "Levert",
+  "bestillinger.ordrestatus.ANNULLERT": "Annullert",
   "bestillinger.dellinjestatus.SKIPNINGSBEKREFTET": "Plukka på lager",
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventa levering {{dato}}",

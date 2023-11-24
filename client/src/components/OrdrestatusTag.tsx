@@ -17,6 +17,8 @@ function variantForOrdestatus(ordrestatus: Ordrestatus): TagProps['variant'] {
       return 'info'
     case Ordrestatus.LUKKET:
       return 'neutral'
+    case Ordrestatus.ANNULLERT:
+      return 'error'
     default:
       return 'neutral'
   }
