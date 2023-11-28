@@ -1,6 +1,7 @@
 {
   "hjelpemiddel": {
     "navn": "Panthera U3 Light",
+    "type": "Panthera",
     "hmsnr": "236958",
     "deler": [
       {
@@ -108,7 +109,8 @@
         "levArtNr": "602293-99-0",
         "kategori": "Batteri",
         "maksAntall": 2,
-        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png"
+        "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
+        "defaultAntall": 2
       }
     ]
   }
