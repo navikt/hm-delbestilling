@@ -11,7 +11,6 @@ import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
-import { defaultAntall } from '../helpers/delHelper'
 import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
@@ -38,7 +37,7 @@ const Index = () => {
       id: uuidv4(),
       serienr,
       hjelpemiddel,
-      deler: [{ del, antall: defaultAntall(del) }],
+      deler: [{ del, antall: del.defaultAntall }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
     }

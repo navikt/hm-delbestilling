@@ -12,6 +12,7 @@ export interface Del {
   img: string | null
   kategori: string
   maksAntall: number
+  defaultAntall: number
 }
 
 export interface Handlekurv {

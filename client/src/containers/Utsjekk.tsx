@@ -26,7 +26,6 @@ import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher'
 import { useRolleContext } from '../context/rolle'
 import { GlobalStyle } from '../GlobalStyle'
-import { defaultAntall } from '../helpers/delHelper'
 import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
@@ -99,7 +98,7 @@ const Utsjekk = () => {
       if (!prev) return undefined
       return {
         ...prev,
-        deler: [...prev.deler, { del, antall: defaultAntall(del) }],
+        deler: [...prev.deler, { del, antall: del.defaultAntall }],
       }
     })
 
