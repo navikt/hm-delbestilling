@@ -18,7 +18,7 @@ interface Props {
 const Feilmelding = ({ feilmelding }: Props) => {
   const { t } = useTranslation()
   return (
-    <Alert variant={feilmelding.variant ?? 'error'} data-cy="feilmelding">
+    <Alert variant={feilmelding.variant ?? 'error'} data-cy="feilmelding" role="alert">
       <>
         {feilmelding.feilmelding}
         {feilmelding.tekniskFeilmelding && (

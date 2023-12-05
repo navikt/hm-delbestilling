@@ -357,6 +357,7 @@ const Utsjekk = () => {
                 <Heading spacing level="3" size="medium">
                   {t('levering.Levering')}
                 </Heading>
+
                 {!delbestillerrolle.harXKLager && (
                   <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>
                 )}
@@ -374,6 +375,12 @@ const Utsjekk = () => {
                     </RadioGroup>
                   </>
                 )}
+
+                {valideringsFeil.length > 0 && (
+                  <Avstand marginTop={4}>
+                    <Errors valideringsFeil={valideringsFeil} />
+                  </Avstand>
+                )}
               </Avstand>
 
               {feilmelding && (
@@ -390,8 +397,6 @@ const Utsjekk = () => {
                   {t('bestillinger.slett')}
                 </Button>
               </VStack>
-
-              {valideringsFeil.length > 0 && <Errors valideringsFeil={valideringsFeil} />}
             </>
           )}
         </>
