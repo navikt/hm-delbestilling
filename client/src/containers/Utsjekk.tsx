@@ -82,11 +82,11 @@ const Utsjekk = () => {
   const handlekurvInneholderBatteri = handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
 
   useEffect(() => {
-    // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
-    if (!visXKLagerValg) {
+    // Teknikere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
+    if (!visXKLagerValg && delbestillerrolle.erTekniker) {
       setLevering(Levering.TIL_SERVICE_OPPDRAG)
     }
-  }, [visXKLagerValg])
+  }, [visXKLagerValg, delbestillerrolle.erTekniker])
 
   useEffect(() => {
     // Re-valider når felter oppdateres etter innsending har blitt forsøkt
@@ -364,13 +364,11 @@ const Utsjekk = () => {
                 <Heading spacing level="3" size="medium">
                   {t('levering.Levering')}
                 </Heading>
-                {delbestillerrolle.erBrukerpassbruker && (
-                  <div>TODO: hva slags valg/info skal vises her for brukerpassbruker?</div>
-                )}
 
-                {!delbestillerrolle.harXKLager && (
+                {delbestillerrolle.erTekniker && !delbestillerrolle.harXKLager && (
                   <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>
                 )}
+
                 {visXKLagerValg && (
                   <RadioGroup
                     id="levering"
@@ -381,6 +379,31 @@ const Utsjekk = () => {
                   >
                     <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
                     <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
+                  </RadioGroup>
+                )}
+
+                {delbestillerrolle.erBrukerpassbruker && (
+                  <RadioGroup
+                    id="levering"
+                    legend={t('levering.title')}
+                    value={handlekurv.levering ?? ''}
+                    onChange={(levering: Levering) => setLevering(levering)}
+                    error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
+                  >
+                    <Radio value={Levering.KOMMUNEN_SKAL_REPARERE}>
+                      Jeg ønsker at kommunen skal reparere hjelpemiddelet.
+                    </Radio>
+                    {handlekurv.levering === Levering.KOMMUNEN_SKAL_REPARERE && (
+                      <Alert variant="info">
+                        Det kan ta cirka en uke før du blir kontaktet av kommunen for å avtale tidspunkt for reparasjon.
+                      </Alert>
+                    )}
+                    <Radio value={Levering.REPARERER_SELV_KOMMUNEN_UTLEVERER}>
+                      Jeg reparerer hjelpemidlet selv, og jeg ønsker at kommunen utleverer delen hjem til meg.
+                    </Radio>
+                    <Radio value={Levering.REPARERER_SELV_HENTER_SELV_PÅ_HMS}>
+                      Jeg reparerer hjelpemidlet selv, og jeg ønsker å hente delen selv hos Hjelpemiddelsentralen.
+                    </Radio>
                   </RadioGroup>
                 )}
 

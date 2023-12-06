@@ -72,8 +72,13 @@ export enum Dellinjestatus {
 }
 
 export enum Levering {
+  // For tekniker
   TIL_XK_LAGER = 'TIL_XK_LAGER',
   TIL_SERVICE_OPPDRAG = 'TIL_SERVICE_OPPDRAG',
+  // For brukerpass
+  KOMMUNEN_SKAL_REPARERE = 'KOMMUNEN_SKAL_REPARERE',
+  REPARERER_SELV_KOMMUNEN_UTLEVERER = 'REPARERER_SELV_KOMMUNEN_UTLEVERER',
+  REPARERER_SELV_HENTER_SELV_PÅ_HMS = 'REPARERER_SELV_HENTER_SELV_PÅ_HMS',
 }
 
 export interface Delbestillerrolle {

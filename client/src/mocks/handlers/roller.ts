@@ -8,10 +8,10 @@ const rollerHandlers = [
       ctx.delay(250),
       ctx.json({
         delbestillerrolle: {
-          erTekniker: true,
-          erBrukerpassbruker: false,
+          erTekniker: false,
+          erBrukerpassbruker: true,
           kanBestilleDeler: true,
-          harXKLager: true,
+          harXKLager: false,
           erKommunaltAnsatt: true,
           kommunaleOrgs: [
             {
