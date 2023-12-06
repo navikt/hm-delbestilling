@@ -2,7 +2,6 @@ import { StatusCodes } from 'http-status-codes'
 import { rest } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
-import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
 import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import { API_PATH } from '../../services/rest'
@@ -15,7 +14,7 @@ import {
   OppslagRequest,
   OppslagResponse,
 } from '../../types/HttpTypes'
-import { DelbestillingSak, Ordrestatus } from '../../types/Types'
+import { DelbestillingSak, Hjelpemiddel, Ordrestatus } from '../../types/Types'
 
 let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
@@ -46,7 +45,12 @@ const apiHandlers = [
       return res(ctx.delay(450), ctx.status(StatusCodes.TOO_MANY_REQUESTS))
     }
 
-    const hjelpemiddel = hmsnr === '167624' ? hjelpemiddelMockComet.hjelpemiddel : hjelpemiddelMockPanthera.hjelpemiddel
+    let hjelpemiddel: Hjelpemiddel | undefined = hjelpemidlerMock.hjelpemidlerMedDeler.find((hm) => hm.hmsnr === hmsnr)
+
+    if (!hjelpemiddel) {
+      // Default til Panthera
+      hjelpemiddel = hjelpemiddelMockPanthera.hjelpemiddel
+    }
 
     return res(ctx.delay(250), ctx.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined }))
   }),
