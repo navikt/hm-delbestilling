@@ -2,7 +2,7 @@ import React, { SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
-import { Button, Heading, Panel, TextField } from '@navikt/ds-react'
+import { Button, Heading, TextField } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
@@ -45,6 +45,7 @@ interface Props {
   setSerienr: React.Dispatch<SetStateAction<string>>
   setHjelpemiddel: React.Dispatch<SetStateAction<Hjelpemiddel | undefined>>
 }
+
 const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
   const { t } = useTranslation()
   const [gjørOppslag, setGjørOppslag] = useState(false)

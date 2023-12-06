@@ -11,7 +11,6 @@ import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
-import { defaultAntall } from '../helpers/delHelper'
 import useAuth from '../hooks/useAuth'
 import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
@@ -59,7 +58,7 @@ const Index = () => {
       id: uuidv4(),
       serienr,
       hjelpemiddel,
-      deler: [{ del, antall: defaultAntall(del) }],
+      deler: [{ del, antall: del.defaultAntall }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
     }
@@ -154,9 +153,15 @@ const Index = () => {
           <>
             <CustomPanel border>
               <HStack align="end" justify="space-between">
-                <Heading size="xsmall" level="2" spacing>
-                  {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
-                </Heading>
+                <div>
+                  <Heading size="xsmall" level="2" spacing>
+                    {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
+                  </Heading>
+                  <BodyShort style={{ display: 'flex', gap: '20px' }}>
+                    <span>Art.nr. {hmsnr}</span>
+                    <span>Serienr. {serienr}</span>
+                  </BodyShort>
+                </div>
                 <Button
                   icon={<PencilIcon />}
                   variant="tertiary"
@@ -168,10 +173,6 @@ const Index = () => {
                   {t('felles.Endre')}
                 </Button>
               </HStack>
-              <BodyShort style={{ display: 'flex', gap: '20px' }}>
-                <span>Art.nr. {hmsnr}</span>
-                <span>Serienr. {serienr}</span>
-              </BodyShort>
             </CustomPanel>
             <Avstand marginBottom={12} />
             <LeggTilDel

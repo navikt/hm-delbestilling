@@ -10,7 +10,7 @@ import BestillingsListe from '../components/BestillingsListe'
 import Rolleswitcher from '../components/Rolleswitcher'
 import Content from '../styledcomponents/Content'
 
-const BannerContainer = styled.header`
+const BannerContainer = styled.div`
   display: flex;
   flex: 1;
   justify-content: space-between;

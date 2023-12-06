@@ -239,5 +239,32 @@
     "sistOppdatert": "2023-07-25T13:38:53.745194",
     "status": "SKIPNINGSBEKREFTET",
     "oebsOrdrenummer": "123456"
+  },
+  {
+    "saksnummer": 8,
+    "delbestilling": {
+      "id": "de859ec4-ff4b-4f61-826d-33e1ba3d8093",
+      "hmsnr": "236958",
+      "serienr": "687273",
+      "navn": "Panthera U3 Light",
+      "deler": [
+        {
+          "del": {
+            "hmsnr": "150928",
+            "navn": "Svinghjul kompakt 5\"/120mm",
+            "levArtNr": null,
+            "img": null,
+            "kategori": "Svinghjul",
+            "maksAntall": 2
+          },
+          "antall": 2
+        }
+      ],
+      "levering": "TIL_XK_LAGER"
+    },
+    "opprettet": "2023-10-22T11:33:28.785459",
+    "sistOppdatert": "2023-10-22T11:33:28.785459",
+    "status": "ANNULLERT",
+    "oebsOrdrenummer": null
   }
 ]

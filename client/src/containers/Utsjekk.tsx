@@ -26,7 +26,6 @@ import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher'
 import { useRolleContext } from '../context/rolle'
 import { GlobalStyle } from '../GlobalStyle'
-import { defaultAntall } from '../helpers/delHelper'
 import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
@@ -101,7 +100,7 @@ const Utsjekk = () => {
       if (!prev) return undefined
       return {
         ...prev,
-        deler: [...prev.deler, { del, antall: defaultAntall(del) }],
+        deler: [...prev.deler, { del, antall: del.defaultAntall }],
       }
     })
 
@@ -368,6 +367,7 @@ const Utsjekk = () => {
                 {delbestillerrolle.erBrukerpassbruker && (
                   <div>TODO: hva slags valg/info skal vises her for brukerpassbruker?</div>
                 )}
+
                 {!delbestillerrolle.harXKLager && (
                   <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>
                 )}
@@ -382,6 +382,12 @@ const Utsjekk = () => {
                     <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
                     <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
                   </RadioGroup>
+                )}
+
+                {valideringsFeil.length > 0 && (
+                  <Avstand marginTop={4}>
+                    <Errors valideringsFeil={valideringsFeil} />
+                  </Avstand>
                 )}
               </Avstand>
 
@@ -399,8 +405,6 @@ const Utsjekk = () => {
                   {t('bestillinger.slett')}
                 </Button>
               </VStack>
-
-              {valideringsFeil.length > 0 && <Errors valideringsFeil={valideringsFeil} />}
             </>
           )}
         </>

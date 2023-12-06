@@ -12,6 +12,7 @@ export interface Del {
   img: string | null
   kategori: string
   maksAntall: number
+  defaultAntall: number
 }
 
 export interface Handlekurv {
@@ -63,6 +64,7 @@ export enum Ordrestatus {
   DELVIS_SKIPNINGSBEKREFTET = 'DELVIS_SKIPNINGSBEKREFTET',
   SKIPNINGSBEKREFTET = 'SKIPNINGSBEKREFTET',
   LUKKET = 'LUKKET',
+  ANNULLERT = 'ANNULLERT',
 }
 
 export enum Dellinjestatus {
