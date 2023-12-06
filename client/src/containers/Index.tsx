@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Panel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Loader, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -13,6 +13,7 @@ import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import { defaultAntall } from '../helpers/delHelper'
 import useAuth from '../hooks/useAuth'
+import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
@@ -21,8 +22,11 @@ export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
 const Index = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [hmsnr, setHmsnr] = useState(searchParams.get('artnr') ?? '')
-  const [serienr, setSerienr] = useState(searchParams.get('serienr') ?? '')
+  const hmsnrNrParam = searchParams.get('artnr')
+  const [hmsnr, setHmsnr] = useState(hmsnrNrParam ?? '')
+  const serienrParam = searchParams.get('serienr')
+  const [serienr, setSerienr] = useState(serienrParam ?? '')
+
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
@@ -32,6 +36,22 @@ const Index = () => {
 
   useEffect(() => {
     sjekkLoginStatus().then(setErLoggetInn)
+  }, [])
+
+  // Hvis artnr og serienr er satt med searchparams, gjør oppslag med en gang
+  useEffect(() => {
+    console.log('hmsnrNrParam:', hmsnr)
+    console.log('serienrParam:', serienr)
+    if (hmsnrNrParam && serienrParam) {
+      ;(async () => {
+        const oppslag = await rest.hjelpemiddelOppslag(hmsnrNrParam, serienrParam)
+        console.log('oppslag:', oppslag)
+
+        if (oppslag.hjelpemiddel) {
+          setHjelpemiddel(oppslag.hjelpemiddel)
+        }
+      })()
+    }
   }, [])
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
@@ -57,6 +77,17 @@ const Index = () => {
       // TODO: vis feilmelding
       alert(t('error.klarteIkkeSjekkeLoginStatus'))
     }
+  }
+
+  // TODO: fix oppslag på ikke-tilgjengelig hmsnr
+  if (hmsnrNrParam && serienrParam && !hjelpemiddel) {
+    return (
+      <main>
+        <Content>
+          <Loader />
+        </Content>
+      </main>
+    )
   }
 
   return (
@@ -130,6 +161,7 @@ const Index = () => {
                   icon={<PencilIcon />}
                   variant="tertiary"
                   onClick={() => {
+                    setSearchParams(undefined)
                     setHjelpemiddel(undefined)
                   }}
                 >
