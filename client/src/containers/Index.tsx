@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
-import { PencilIcon } from '@navikt/aksel-icons'
+import { PencilIcon, XMarkIcon } from '@navikt/aksel-icons'
 import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Loader, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
@@ -13,6 +13,7 @@ import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import useAuth from '../hooks/useAuth'
 import rest from '../services/rest'
+import { CenteredContent } from '../styledcomponents/CenteredContent'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
@@ -25,6 +26,7 @@ const Index = () => {
   const [hmsnr, setHmsnr] = useState(hmsnrNrParam ?? '')
   const serienrParam = searchParams.get('serienr')
   const [serienr, setSerienr] = useState(serienrParam ?? '')
+  const visEndreKnapp = !hmsnrNrParam && !serienrParam
 
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [erLoggetInn, setErLoggetInn] = useState(false)
@@ -39,13 +41,9 @@ const Index = () => {
 
   // Hvis artnr og serienr er satt med searchparams, gjør oppslag med en gang
   useEffect(() => {
-    console.log('hmsnrNrParam:', hmsnr)
-    console.log('serienrParam:', serienr)
     if (hmsnrNrParam && serienrParam) {
       ;(async () => {
         const oppslag = await rest.hjelpemiddelOppslag(hmsnrNrParam, serienrParam)
-        console.log('oppslag:', oppslag)
-
         if (oppslag.hjelpemiddel) {
           setHjelpemiddel(oppslag.hjelpemiddel)
         }
@@ -162,16 +160,18 @@ const Index = () => {
                     <span>Serienr. {serienr}</span>
                   </BodyShort>
                 </div>
-                <Button
-                  icon={<PencilIcon />}
-                  variant="tertiary"
-                  onClick={() => {
-                    setSearchParams(undefined)
-                    setHjelpemiddel(undefined)
-                  }}
-                >
-                  {t('felles.Endre')}
-                </Button>
+                {visEndreKnapp && (
+                  <Button
+                    icon={<PencilIcon />}
+                    variant="tertiary"
+                    onClick={() => {
+                      setSearchParams(undefined)
+                      setHjelpemiddel(undefined)
+                    }}
+                  >
+                    {t('felles.Endre')}
+                  </Button>
+                )}
               </HStack>
             </CustomPanel>
             <Avstand marginBottom={12} />
@@ -180,6 +180,19 @@ const Index = () => {
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
               knappeTekst={t('bestillinger.bestill')}
             />
+            <Avstand marginTop={10}>
+              <CenteredContent>
+                <Button
+                  variant="tertiary"
+                  icon={<XMarkIcon />}
+                  onClick={() => {
+                    setHjelpemiddel(undefined)
+                  }}
+                >
+                  Avbryt bestilling
+                </Button>
+              </CenteredContent>
+            </Avstand>
           </>
         )}
       </Content>
