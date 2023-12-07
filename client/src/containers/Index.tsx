@@ -190,6 +190,7 @@ const Index = () => {
                     setSearchParams(undefined)
                     setHmsnr('')
                     setSerienr('')
+                    window.scrollTo(0, 0)
                   }}
                 >
                   Avbryt bestilling
