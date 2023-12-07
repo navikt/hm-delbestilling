@@ -19,6 +19,7 @@ declare global {
       GIT_COMMIT?: string
       MILJO?: 'dev-gcp' | 'prod-gcp'
       USE_MSW?: boolean
+      DINEHJELPEMIDLER_URL: string
     }
   }
 }

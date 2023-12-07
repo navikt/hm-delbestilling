@@ -26,7 +26,8 @@ const Index = () => {
   const [hmsnr, setHmsnr] = useState(hmsnrNrParam ?? '')
   const serienrParam = searchParams.get('serienr')
   const [serienr, setSerienr] = useState(serienrParam ?? '')
-  const visEndreKnapp = !hmsnrNrParam && !serienrParam
+
+  const harArtnrOgSerienrParams = hmsnrNrParam && serienrParam
 
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [erLoggetInn, setErLoggetInn] = useState(false)
@@ -160,7 +161,7 @@ const Index = () => {
                     <span>Serienr. {serienr}</span>
                   </BodyShort>
                 </div>
-                {visEndreKnapp && (
+                {!harArtnrOgSerienrParams && (
                   <Button
                     icon={<PencilIcon />}
                     variant="tertiary"
@@ -186,11 +187,16 @@ const Index = () => {
                   variant="tertiary"
                   icon={<XMarkIcon />}
                   onClick={() => {
-                    setHjelpemiddel(undefined)
-                    setSearchParams(undefined)
-                    setHmsnr('')
-                    setSerienr('')
-                    window.scrollTo(0, 0)
+                    // Antar at bruker har kommet fra dinehjelpemidler
+                    if (harArtnrOgSerienrParams) {
+                      window.location.href = window.appSettings.DINEHJELPEMIDLER_URL
+                    } else {
+                      setHjelpemiddel(undefined)
+                      setSearchParams(undefined)
+                      setHmsnr('')
+                      setSerienr('')
+                      window.scrollTo(0, 0)
+                    }
                   }}
                 >
                   Avbryt bestilling

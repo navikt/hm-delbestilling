@@ -25,6 +25,7 @@ const htmlPlugin = ({ development }: { development?: boolean }): Plugin => ({
               GIT_COMMIT: 'ukjent',
               MILJO: 'dev-gcp',
               USE_MSW: true,
+              DINEHJELPEMIDLER_URL: 'http://localhost:3000/hjelpemidler/dinehjelpemidler/',
             }`,
           },
         ],
@@ -58,7 +59,7 @@ export default defineConfig((env) => ({
     manifest: true,
   },
   server: {
-    port: 3000,
+    port: 3001,
   },
   test: {
     globals: true,

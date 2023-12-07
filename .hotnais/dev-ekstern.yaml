@@ -38,3 +38,5 @@ spec:
       value: 'true'
     - name: GIT_COMMIT
       value: {{commit}}
+    - name: DINEHJELPEMIDLER_URL
+      value: https://hjelpemidler-delbestilling-side.ekstern.dev.nav.no/hjelpemidler/dinehjelpemidler

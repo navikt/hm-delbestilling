@@ -72,7 +72,7 @@ const spaHandler: RequestHandler = async (req, res) => {
       params: {
         context: 'samarbeidspartner',
         logoutWarning: true,
-      }
+      },
     })
     res.render('index.html', decorator)
   } catch (err: unknown) {
@@ -87,6 +87,7 @@ const settingsHandler: RequestHandler = (req, res) => {
     GIT_COMMIT: process.env.GIT_COMMIT,
     MILJO: process.env.NAIS_CLUSTER_NAME,
     USE_MSW: process.env.USE_MSW === 'true',
+    DINEHJELPEMIDLER_URL: process.env.DINEHJELPEMIDLER_URL,
   }
   res.type('.js')
   res.send(`window.appSettings = ${JSON.stringify(appSettings)}`)
