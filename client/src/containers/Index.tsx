@@ -27,7 +27,7 @@ const Index = () => {
   const serienrParam = searchParams.get('serienr')
   const [serienr, setSerienr] = useState(serienrParam ?? '')
 
-  const harArtnrOgSerienrParams = hmsnrNrParam && serienrParam
+  const harArtnrOgSerienrParams = !!(hmsnrNrParam && serienrParam)
 
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [erLoggetInn, setErLoggetInn] = useState(false)
@@ -180,6 +180,7 @@ const Index = () => {
               hjelpemiddel={hjelpemiddel}
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
               knappeTekst={t('bestillinger.bestill')}
+              harArtnrOgSerienrParams={harArtnrOgSerienrParams}
             />
             <Avstand marginTop={10}>
               <CenteredContent>
