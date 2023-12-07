@@ -80,8 +80,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', har
                 {!kanBestilleDel && (
                   <Avstand marginTop={4}>
                     <BodyShort>
-                      Som brukerpassbruker kan du ikke bestille denne delen. Ta kontakt med hjelpemiddelsentralen for
-                      hjelp.
+                      Som brukerpassbruker kan du ikke bestille denne delen. Ta kontakt med tekniker.
                     </BodyShort>
                   </Avstand>
                 )}
