@@ -187,6 +187,9 @@ const Index = () => {
                   icon={<XMarkIcon />}
                   onClick={() => {
                     setHjelpemiddel(undefined)
+                    setSearchParams(undefined)
+                    setHmsnr('')
+                    setSerienr('')
                   }}
                 >
                   Avbryt bestilling
