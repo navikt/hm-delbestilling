@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Panel } from '@navikt/ds-react'
+import { Alert, BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -62,6 +62,15 @@ const Index = () => {
       <Content>
         {!hjelpemiddel && (
           <>
+            <Avstand marginBottom={10}>
+              <Alert variant="info" style={{ marginBottom: '1rem' }}>
+                <Heading level="2" size="small">
+                  {t('nyhet.nyeDelerHeading')}
+                </Heading>
+                {t('nyhet.nyeDelerLagtTil')}
+              </Alert>
+            </Avstand>
+
             <HjelpemiddelLookup
               hmsnr={hmsnr}
               setHmsnr={setHmsnr}
