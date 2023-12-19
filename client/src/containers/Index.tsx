@@ -144,9 +144,9 @@ const Index = () => {
                     components={{
                       linkDigihot: (
                         <Lenke
-                          href="https://www.nav.no/no/nav-og-samfunn/samarbeid/hjelpemidler/digitalisering-av-hjelpemiddelomradet"
+                          href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
                           target={'_blank'}
-                          lenketekst="DigiHoT – Digitalisering av hjelpemidler og tilrettelegging"
+                          lenketekst="Les mer om bruk av digitale løsninger på hjelpemiddelområdet"
                         />
                       ),
                       linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
