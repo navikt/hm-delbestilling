@@ -39,8 +39,6 @@
     "@vitejs/plugin-react": "^4.0.4",
     "axe-core": "^4.5.2",
     "cross-env": "^7.0.3",
-    "cypress": "^12.17.3",
-    "cypress-axe": "^1.1.0",
     "debug": "^4.3.2",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.3.0",
@@ -64,8 +62,6 @@
     "preview": "vite preview",
     "lint": "eslint --ext ts,tsx .",
     "lint:fix": "eslint --ext ts,tsx --fix .",
-    "cypress:run": "cypress run --config-file=cypress.config.ts",
-    "cypress:open": "cypress open --config-file=cypress.config.ts",
     "codegen": "graphql-codegen --config codegen.yml && prettier -w ./src/generated/**/*.ts"
   },
   "msw": {
