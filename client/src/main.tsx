@@ -28,9 +28,6 @@ const init = async () => {
   initAmplitude()
   initDecorator()
   const rootElement = document.getElementById('root')!!
-  if (Modal.setAppElement) {
-    Modal.setAppElement(rootElement)
-  }
   createRoot(rootElement).render(<App />)
 }
 
