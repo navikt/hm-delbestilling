@@ -6,9 +6,7 @@ export const CustomPanel = styled(Panel)`
   padding: 24px;
 `
 
-export const SentrertContent = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  padding: 20px;
+export const DottedPanel = styled(CustomPanel)`
+  border: 2px dashed var(--a-grayalpha-600);
+  background: transparent;
 `
