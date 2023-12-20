@@ -13,7 +13,7 @@ import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
-import { CustomPanel, DottedPanel } from '../styledcomponents/CustomPanel'
+import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
@@ -55,10 +55,6 @@ const Index = () => {
       // TODO: vis feilmelding
       alert(t('error.klarteIkkeSjekkeLoginStatus'))
     }
-  }
-
-  const handleClickManglerDel = () => {
-    window.hj('event', 'digihot_delbestilling_mangler_del_feedback')
   }
 
   return (
@@ -160,14 +156,6 @@ const Index = () => {
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
               knappeTekst={t('bestillinger.bestill')}
             />
-            <DottedPanel>
-              <Avstand centered>
-                <BodyShort spacing>
-                  <strong>Finner du ikke delen du er ute etter?</strong>
-                </BodyShort>
-                <Button onClick={handleClickManglerDel}>Fortell oss om det</Button>
-              </Avstand>
-            </DottedPanel>
           </>
         )}
       </Content>

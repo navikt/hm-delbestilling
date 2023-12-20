@@ -1,10 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, Button, Heading } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Heading } from '@navikt/ds-react'
 
 import useDelKategorier from '../hooks/useDelKategorier'
-import { CustomPanel } from '../styledcomponents/CustomPanel'
+import { CustomPanel, DottedPanel } from '../styledcomponents/CustomPanel'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import { Del, Hjelpemiddel } from '../types/Types'
 
@@ -21,6 +21,10 @@ interface Props {
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
   const { t } = useTranslation()
+
+  const handleClickManglerDel = () => {
+    window.hj('event', 'digihot_delbestilling_mangler_del_feedback')
+  }
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return <Alert variant="info">{t('leggTilDel.ingenDeler')}</Alert>
@@ -58,6 +62,14 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
             </Avstand>
           )
         })}
+      <DottedPanel>
+        <Avstand centered>
+          <BodyShort spacing>
+            <strong>Finner du ikke delen du er ute etter?</strong>
+          </BodyShort>
+          <Button onClick={handleClickManglerDel}>Fortell oss om det</Button>
+        </Avstand>
+      </DottedPanel>
     </>
   )
 }
