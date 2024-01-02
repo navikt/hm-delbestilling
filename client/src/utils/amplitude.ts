@@ -1,6 +1,6 @@
-import amplitude from 'amplitude-js'
-
-import { DelbestillingFeil, OppslagFeil } from '../types/HttpTypes'
+import * as amplitude from '@amplitude/analytics-browser'
+const AMPLITUDE_API_KEY_PREPROD = 'b0ea5ed50acc6bdf505e3f6cdf76b99d' // Nav.no - preprod
+const AMPLITUDE_API_KEY_PROD = '10798841ebeba333b8ece6c046322d76' // Nav.no - produksjon
 
 export enum amplitude_taxonomy {
   SKJEMA_START = 'skjema startet',
@@ -28,12 +28,14 @@ const SKJEMANAVN = 'hm-delbestilling'
 
 export const initAmplitude = () => {
   if (amplitude) {
-    amplitude.getInstance().init('default', '', {
-      apiEndpoint: 'amplitude.nav.no/collect-auto',
-      saveEvents: false,
-      includeUtm: true,
-      includeReferrer: true,
-      platform: window.location.toString(),
+    const apiKey = window.appSettings.MILJO === 'prod-gcp' ? AMPLITUDE_API_KEY_PROD : AMPLITUDE_API_KEY_PREPROD
+    amplitude.init(apiKey, {
+      useBatch: false,
+      serverUrl: 'https://amplitude.nav.no/collect-auto',
+      defaultTracking: false,
+      ingestionMetadata: {
+        sourceName: window.location.toString(),
+      },
     })
   }
 }
@@ -48,7 +50,7 @@ export function logAmplitudeEvent(eventName: string, data?: any) {
     }
     try {
       if (amplitude) {
-        amplitude.getInstance().logEvent(eventName, data)
+        amplitude.track(eventName, data)
       }
     } catch (error) {
       console.error(error)
