@@ -29,9 +29,9 @@ const SKJEMANAVN = 'hm-delbestilling'
 export const initAmplitude = () => {
   if (amplitude) {
     const apiKey = window.appSettings.MILJO === 'prod-gcp' ? AMPLITUDE_API_KEY_PROD : AMPLITUDE_API_KEY_PREPROD
-    amplitude.init(apiKey, undefined, {
+    amplitude.init('default', undefined, {
       useBatch: false,
-      serverUrl: 'https://amplitude.nav.no/collect',
+      serverUrl: 'https://amplitude.nav.no/collect-auto',
       defaultTracking: false,
       ingestionMetadata: {
         sourceName: window.location.toString(),
