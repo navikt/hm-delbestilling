@@ -26,7 +26,7 @@ const SKJEMANAVN = 'hm-delbestilling'
 
 export const initAmplitude = () => {
   if (amplitude) {
-    amplitude.init('default', undefined, {
+    amplitude.init('default', '', {
       useBatch: false,
       serverUrl: 'https://amplitude.nav.no/collect-auto',
       defaultTracking: false,
