@@ -31,7 +31,7 @@ export const initAmplitude = () => {
     const apiKey = window.appSettings.MILJO === 'prod-gcp' ? AMPLITUDE_API_KEY_PROD : AMPLITUDE_API_KEY_PREPROD
     amplitude.init(apiKey, {
       useBatch: false,
-      serverUrl: 'https://amplitude.nav.no/collect-auto',
+      serverUrl: 'https://amplitude.nav.no/collect',
       defaultTracking: false,
       ingestionMetadata: {
         sourceName: window.location.toString(),
