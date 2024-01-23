@@ -33,7 +33,6 @@ function pathRewriteBasedOnEnvironment(req: Request): string {
   return req.originalUrl
     .replace('/hjelpemidler/delbestilling/api', '/api')
     .replace('/hjelpemidler/delbestilling/roller', '/api')
-    .replace('/hjelpemidler/delbestilling/hjelpemiddeldatabasen', '/graphql')
 }
 
 function setup() {
