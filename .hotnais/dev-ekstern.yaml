@@ -7,7 +7,6 @@ metadata:
     team: teamdigihot
 spec:
   image: {{ image }}
-  team: teamdigihot
   port: 5000
   replicas:
     min: 1
