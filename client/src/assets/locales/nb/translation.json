@@ -63,6 +63,8 @@
   "info.omÅBestilleDeler": "Om å bestille deler",
   "info.kunForTeknikere": "Denne tjenesten er kun for teknikere i kommunen.",
   "info.kanBestilleDelerTil": "Som tekniker kan du bestille deler til",
+  "info.oversiktOverDeler": "Her kan du se <link></link>.",
+  "info.oversiktOverDeler.lenketekst": "oversikt over deler som kan bestilles i løsningen",
   "info.omDigiHoT": "Tjenesten utvikles av DigiHot. <linkDigihot></linkDigihot>. Du kan sende oss spørsmål eller tilbakemeldinger om den digitale tjenesten på <linkEmail></linkEmail>. Ikke send opplysninger om brukerne, vi kan ikke se sakene dine. Hvis du har spørsmål om saksbehandling og levering, så må du ta kontakt med din hjelpemiddelsentral.",
 
   "kvittering.fantIkkeKvittering": "Fant ingen kvittering.",

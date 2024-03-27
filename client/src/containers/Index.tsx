@@ -9,12 +9,12 @@ import { Alert, BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, P
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import LeggTilDel from '../components/LeggTilDel'
-import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
+import { Lenke } from '../components/Lenke'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 

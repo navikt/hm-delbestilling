@@ -63,6 +63,8 @@
   "info.omÅBestilleDeler": "Om å bestilla delar",
   "info.kunForTeknikere": "Denne tenesta er berre for teknikarar i kommunen.",
   "info.kanBestilleDelerTil": "Som teknikar kan du bestilla delar til",
+  "info.oversiktOverDeler": "Her kan du sjå <link></link>.",
+  "info.oversiktOverDeler.lenketekst": "oversikt over delar som kan bestillast i løysinga",
   "info.omDigiHoT": "Tenesta blir utvikla av DigiHot. <linkDigihot></linkDigihot>. Du kan senda oss spørsmål eller tilbakemeldingar om den digitale tenesta på <linkEmail></linkEmail>. Ikkje send opplysningar om brukarane, me kan ikkje sjå sakene dine. Viss du har spørsmål om saksbehandling og levering, så må du ta kontakt med hjelpemiddelsentralen din.",
 
   "kvittering.fantIkkeKvittering": "Fann inga kvittering.",
