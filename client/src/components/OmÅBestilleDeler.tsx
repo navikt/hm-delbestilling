@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
-import { Heading, Panel } from '@navikt/ds-react'
+import { BodyLong, Heading, Panel } from '@navikt/ds-react'
 
 import { useHjelpemidler } from '../hooks/useHjelpemidler'
-import { LenkeMedLogging } from './Lenke'
 
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
@@ -34,19 +34,6 @@ const OmÅBestilleDeler = () => {
             {t('info.kanBestilleDelerTil')} {typer.join(', ')}.
           </li>
         )}
-        <li>
-          <Trans
-            i18nKey={'info.oversiktOverDeler'}
-            components={{
-              link: (
-                <LenkeMedLogging
-                  href="/hjelpemidler/delbestilling/oversikt"
-                  lenketekst={t('info.oversiktOverDeler.lenketekst')}
-                />
-              ),
-            }}
-          />
-        </li>
       </ul>
     </Panel>
   )

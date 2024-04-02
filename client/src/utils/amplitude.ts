@@ -98,9 +98,3 @@ export const logPrintAvBestillingÅpnet = (pathname: string) => {
     pathname,
   })
 }
-
-export function logNavigeringLenke(destinasjon: string) {
-  logAmplitudeEvent(amplitude_taxonomy.NAVIGERE, {
-    destinasjon: destinasjon,
-  })
-}

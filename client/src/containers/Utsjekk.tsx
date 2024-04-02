@@ -22,6 +22,7 @@ import DelInfo from '../components/DelInfo'
 import Errors from '../components/Errors'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import LeggTilDel from '../components/LeggTilDel'
+import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher'
 import { useRolleContext } from '../context/rolle'
 import { GlobalStyle } from '../GlobalStyle'
@@ -39,7 +40,6 @@ import {
 } from '../utils/amplitude'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-import { Lenke } from '../components/Lenke'
 
 const Toolbar = styled.div`
   padding: 1rem;
