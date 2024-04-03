@@ -1,23 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import { Heading, Loader } from '@navikt/ds-react'
+import { Heading, Loader, Table } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 import { AlleDelerPerHjmTypeResponse } from '../types/HttpTypes'
 import { Avstand } from '../components/Avstand'
-import styled from 'styled-components'
-
-const TH = styled.th`
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-`
-
-const TD = styled.td`
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-`
 
 const Delliste = () => {
   const [hjmDeler, setHjmDeler] = useState<AlleDelerPerHjmTypeResponse | undefined>()
@@ -53,22 +40,26 @@ const Delliste = () => {
           <Heading size="large">Alle deler som kan bestilles i løsningen</Heading>
         </Avstand>
 
-        <table style={{ borderCollapse: 'collapse' }}>
-          <tr>
-            <TH>Art.nr.</TH>
-            <TH>Navn</TH>
-            <TH>Hjelpemiddel</TH>
-          </tr>
-          {Object.entries(hjmDeler).map(([hjmtype, deler]) =>
-            deler.map((del, index) => (
-              <tr key={index}>
-                <TD>{del.hmsnr}</TD>
-                <TD>{del.navn}</TD>
-                <TD>{hjmtype}</TD>
-              </tr>
-            ))
-          )}
-        </table>
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell scope="col">Art.nr.</Table.HeaderCell>
+              <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
+              <Table.HeaderCell scope="col">Hjelpemiddel</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {Object.entries(hjmDeler).map(([hjmtype, deler]) =>
+              deler.map((del, i) => (
+                <Table.Row key={i}>
+                  <Table.DataCell>{del.hmsnr}</Table.DataCell>
+                  <Table.DataCell>{del.navn}</Table.DataCell>
+                  <Table.DataCell>{hjmtype}</Table.DataCell>
+                </Table.Row>
+              ))
+            )}
+          </Table.Body>
+        </Table>
       </Avstand>
     </div>
   )
