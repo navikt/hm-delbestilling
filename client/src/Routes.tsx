@@ -9,6 +9,7 @@ import Layout from './containers/Layout'
 import Oversikt from './containers/Oversikt'
 import Utsjekk from './containers/Utsjekk'
 import { RolleContextLayout } from './context/rolle'
+import Delliste from './containers/Delliste'
 
 const Routes = () => {
   return (
@@ -20,6 +21,7 @@ const Routes = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
           <Route path="/oversikt" element={<Oversikt />} />
+          <Route path="/delliste" element={<Delliste />} />
           {/* Dette er routes som krever at innlogget bruker har en delbestillerrolle */}
           <Route element={<RolleContextLayout />}>
             <Route path="/utsjekk" element={<Utsjekk />} />

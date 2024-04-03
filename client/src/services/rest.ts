@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 
 import {
+  AlleDelerPerHjmTypeResponse,
   AlleHjelpemidlerMedDelerResponse,
   DelbestillerrolleResponse,
   DelbestillingResponse,
@@ -63,6 +64,12 @@ const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerR
   return await response.json()
 }
 
+const hentAlleDeler = async (): Promise<AlleDelerPerHjmTypeResponse> => {
+  const response = await fetch(API_PATH + '/deler')
+  await handleResponse(response.clone())
+  return await response.json()
+}
+
 const hentBestillinger = async (valg: Valg): Promise<DelbestillingSak[] | undefined> => {
   let bestillinger: DelbestillingSak[] | undefined = undefined
   if (valg === 'mine') {
@@ -120,6 +127,7 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
 export default {
   hjelpemiddelOppslag,
   hentAlleHjelpemidlerMedDeler,
+  hentAlleDeler,
   sendInnBestilling,
   hentBestillinger,
   hentBestillingerForBruker,

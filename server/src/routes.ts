@@ -50,6 +50,8 @@ export const routes = {
     router.get('/', spaHandler)
     server.get('/oversikt', spaHandler)
     router.get('/oversikt', spaHandler)
+    server.get('/delliste', spaHandler)
+    router.get('/delliste', spaHandler)
     server.get('/bestillinger', authMiddleware.requiresLogin(), spaHandler)
     router.get('/bestillinger', authMiddleware.requiresLogin(), spaHandler)
 
@@ -72,7 +74,7 @@ const spaHandler: RequestHandler = async (req, res) => {
       params: {
         context: 'samarbeidspartner',
         logoutWarning: true,
-      }
+      },
     })
     res.render('index.html', decorator)
   } catch (err: unknown) {
