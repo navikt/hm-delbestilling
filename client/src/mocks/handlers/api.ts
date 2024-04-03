@@ -5,8 +5,10 @@ import delBestillingMock from '../../services/delbestilling-mock.json'
 import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
 import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
+import dellisteMock from '../../services/delliste-mock.json'
 import { API_PATH } from '../../services/rest'
 import {
+  AlleDelerPerHjmTypeResponse,
   AlleHjelpemidlerMedDelerResponse,
   DelbestillingFeil,
   DelbestillingRequest,
@@ -148,6 +150,9 @@ const apiHandlers = [
   }),
   rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
     return res(ctx.delay(250), ctx.json(hjelpemidlerMock))
+  }),
+  rest.get<{}, {}, AlleDelerPerHjmTypeResponse>(`${API_PATH}/deler`, (req, res, ctx) => {
+    return res(ctx.delay(700), ctx.json(dellisteMock))
   }),
 ]
 

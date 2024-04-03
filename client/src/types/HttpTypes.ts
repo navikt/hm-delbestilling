@@ -1,5 +1,4 @@
-import { Delbestillerrolle, Delbestilling, DelbestillingSak } from './Types'
-import { Hjelpemiddel } from './Types'
+import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel } from './Types'
 
 export interface OppslagRequest {
   hmsnr: string
@@ -13,6 +12,10 @@ export interface OppslagResponse {
 
 export interface AlleHjelpemidlerMedDelerResponse {
   hjelpemidlerMedDeler: Hjelpemiddel[]
+}
+
+export interface AlleDelerPerHjmTypeResponse {
+  [hjmtype: string]: Del[]
 }
 
 export enum OppslagFeil {
