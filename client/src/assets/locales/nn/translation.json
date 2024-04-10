@@ -48,7 +48,7 @@
   "error.BRUKER_IKKE_FUNNET": "Me klarte ikkje å finna nokon bruker knytt til dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.",
   "error.BESTILLE_TIL_SEG_SELV": "Du har ikkje lov til å bestilla delar til produkt du sjølv har utlån på.",
   "error.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER": "Du kan berre senda inn 2 bestillingar per artikkelnr+serienr per døgn.",
-  "error.ULIK_ADRESSE_PDL_OEBS": "Du kan ikkje bestilla til denne brukaren, det er ulik adresse i folkeregisteret og OEBS. Dette kjem kanskje av ein feil i OEBS som følgje av kommuneendringar 1. januar, som vil bli retta snarast.",
+  "error.ULIK_ADRESSE_PDL_OEBS": "Du kan ikkje bestilla til denne brukaren, det er ulik adresse i folkeregisteret og OEBS.",
   "error.sessionExpired": "Økta di er utgått, og du må logga inn på nytt for å kunna senda inn bestillinga. Trykk for <link></link> å gjera det.",
   "error.noeFeilMedInnsending": "Noko gjekk feil med innsending, prøv igjen seinare",
   "error.fantIngenHandlekurv": "Fann inga handlekorg. Gå til <link></link> for å starta ei ny bestilling.",
