@@ -13,6 +13,7 @@ export interface Del {
   kategori: string
   maksAntall: number
   defaultAntall: number
+  datoLagtTil?: string
 }
 
 export interface Handlekurv {

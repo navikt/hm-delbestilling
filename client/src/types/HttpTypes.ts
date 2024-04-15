@@ -14,7 +14,12 @@ export interface AlleHjelpemidlerMedDelerResponse {
   hjelpemidlerMedDeler: Hjelpemiddel[]
 }
 
-export interface AlleDelerPerHjmTypeResponse {
+export interface DellisteOversiktResponse {
+  oppdatert: string
+  deler: DelerPerHjmType
+}
+
+export interface DelerPerHjmType {
   [hjmtype: string]: Del[]
 }
 

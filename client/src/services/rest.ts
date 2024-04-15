@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 
 import {
-  AlleDelerPerHjmTypeResponse,
+  DellisteOversiktResponse,
   AlleHjelpemidlerMedDelerResponse,
   DelbestillerrolleResponse,
   DelbestillingResponse,
@@ -64,8 +64,8 @@ const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerR
   return await response.json()
 }
 
-const hentAlleDeler = async (): Promise<AlleDelerPerHjmTypeResponse> => {
-  const response = await fetch(API_PATH + '/deler')
+const hentAlleDeler = async (): Promise<DellisteOversiktResponse> => {
+  const response = await fetch(API_PATH + '/deler-v2')
   await handleResponse(response.clone())
   return await response.json()
 }
