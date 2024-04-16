@@ -46,8 +46,8 @@ const Delliste = () => {
             <Table.Row>
               <Table.HeaderCell>Art.nr.</Table.HeaderCell>
               <Table.HeaderCell>Navn</Table.HeaderCell>
-              <Table.HeaderCell>Hjelpemiddel</Table.HeaderCell>
-              <Table.HeaderCell>Dato lagt til</Table.HeaderCell>
+              <Table.HeaderCell style={{ minWidth: '10rem' }}>Hjelpemiddel</Table.HeaderCell>
+              <Table.HeaderCell style={{ minWidth: '7rem' }}>Dato lagt til</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -55,8 +55,8 @@ const Delliste = () => {
               <Table.Row key={i}>
                 <Table.DataCell>{del.hmsnr}</Table.DataCell>
                 <Table.DataCell>{del.navn}</Table.DataCell>
-                <Table.DataCell style={{ minWidth: '10rem' }}>{del.hjmNavn}</Table.DataCell>
-                <Table.DataCell style={{ minWidth: '7rem' }}>{del.lagtTil}</Table.DataCell>
+                <Table.DataCell>{del.hjmNavn}</Table.DataCell>
+                <Table.DataCell>{del.lagtTil}</Table.DataCell>
               </Table.Row>
             ))}
           </Table.Body>
