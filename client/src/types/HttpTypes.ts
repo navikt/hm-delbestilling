@@ -14,13 +14,16 @@ export interface AlleHjelpemidlerMedDelerResponse {
   hjelpemidlerMedDeler: Hjelpemiddel[]
 }
 
-export interface DellisteOversiktResponse {
-  oppdatert: string
-  deler: DelerPerHjmType
+export interface DellisteResponse {
+  sistOppdatert: string
+  deler: DellisteDel[]
 }
 
-export interface DelerPerHjmType {
-  [hjmtype: string]: Del[]
+export interface DellisteDel {
+  hmsnr: string
+  navn: string
+  hjmNavn: string
+  lagtTil: string
 }
 
 export enum OppslagFeil {
