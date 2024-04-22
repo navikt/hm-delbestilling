@@ -8,7 +8,9 @@ const MAKS_HJELPEMIDLER = 5
 export const useHjelpemidler = () => {
   const [aktivtHjelpemiddel, setAktivtHjelpemiddel] = useState<Hjelpemiddel | undefined>()
   const [hjelpemidler, setHjelpemidler] = useState<Hjelpemiddel[]>([])
+  const [henterHjelpemidler, setHenterHjelpemidler] = useState(false)
   useEffect(() => {
+    setHenterHjelpemidler(true)
     rest
       .hentAlleHjelpemidlerMedDeler()
       .then((result) => result.hjelpemidlerMedDeler)
@@ -25,8 +27,11 @@ export const useHjelpemidler = () => {
         setHjelpemidler(hjelpemidler)
         setAktivtHjelpemiddel(hjelpemidler[0])
       })
+      .finally(() => {
+        setHenterHjelpemidler(false)
+      })
   }, [])
-  return { hjelpemidler, aktivtHjelpemiddel, setAktivtHjelpemiddel }
+  return { hjelpemidler, aktivtHjelpemiddel, setAktivtHjelpemiddel, henterHjelpemidler }
 }
 
 export const useHjelpemidlerUtvalg = (

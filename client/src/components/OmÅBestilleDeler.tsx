@@ -2,24 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import { BodyLong, Heading, Panel } from '@navikt/ds-react'
+import { BodyLong, Heading, Panel, Skeleton } from '@navikt/ds-react'
 
 import { useHjelpemidler } from '../hooks/useHjelpemidler'
 
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
-  const { hjelpemidler } = useHjelpemidler()
-  const [typer, setTyper] = useState<string[]>([])
+  const { hjelpemidler, henterHjelpemidler } = useHjelpemidler()
+  const [navn, setNavn] = useState<string[]>([])
 
-  // Lag en liste over de typene av hjelpemidler vi har i sortimentet vårt som også vi har deler til.
+  // Lag en liste over de hjelpemidlene vi har i sortimentet vårt som også vi har deler til.
   useEffect(() => {
-    const typerMedDeler = hjelpemidler.reduce((acc, curr) => {
-      if (!acc.includes(curr.type) && curr.deler && curr.deler.length > 0) {
-        acc.push(curr.type)
+    const hjelpemidlerMedDeler = hjelpemidler.reduce((acc, curr) => {
+      if (!acc.includes(curr.navn) && curr.deler && curr.deler.length > 0) {
+        acc.push(curr.navn)
       }
       return acc
     }, [] as string[])
-    setTyper(typerMedDeler)
+    setNavn(hjelpemidlerMedDeler)
   }, [hjelpemidler])
 
   return (
@@ -27,14 +27,22 @@ const OmÅBestilleDeler = () => {
       <Heading level="2" size="medium" spacing>
         {t('info.omÅBestilleDeler')}
       </Heading>
-      <ul>
-        <li>{t('info.kunForTeknikere')}</li>
-        {typer.length > 0 && (
-          <li>
-            {t('info.kanBestilleDelerTil')} {typer.join(', ')}.
-          </li>
-        )}
-      </ul>
+
+      {henterHjelpemidler ? (
+        <>
+          <Skeleton variant="text" height="60px" style={{ transform: 'scale(1, 0.8' }}></Skeleton>
+          <Skeleton variant="text" height="60px" style={{ transform: 'scale(1, 0.8' }}></Skeleton>
+        </>
+      ) : (
+        <ul>
+          <li>{t('info.kunForTeknikere')}</li>
+          {navn.length > 0 && (
+            <li>
+              {t('info.kanBestilleDelerTil')} {navn.join(', ')}.
+            </li>
+          )}
+        </ul>
+      )}
     </Panel>
   )
 }

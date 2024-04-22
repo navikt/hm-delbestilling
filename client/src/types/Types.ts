@@ -2,7 +2,6 @@ export interface Hjelpemiddel {
   navn: string
   hmsnr: string
   deler: Del[] | undefined
-  type: string
 }
 
 export interface Del {
