@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { Alert, BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Panel } from '@navikt/ds-react'
+import { Alert, BodyLong, BodyShort, Button, Heading, HStack, Label, Link, LinkPanel, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -65,19 +65,23 @@ const Index = () => {
             <Avstand marginBottom={10}>
               <Alert variant="info" style={{ marginBottom: '1rem' }}>
                 <Heading level="2" size="small">
-                  {t('nyhet.nyeDelerHeading')}
+                  Teknisk vedlikehold i helgen
                 </Heading>
-                {t('nyhet.nyeDelerLagtTil')}
+                <Label>20. september kl 16:00 - 23. september kl. 07:00</Label>
+                <BodyShort>
+                  På grunn av planlagt vedlikeholdsarbeid vil det ikke være mulig å sende inn bestillinger på deler i
+                  denne perioden.
+                </BodyShort>
               </Alert>
             </Avstand>
 
-            <HjelpemiddelLookup
+            {/* <HjelpemiddelLookup
               hmsnr={hmsnr}
               setHmsnr={setHmsnr}
               serienr={serienr}
               setSerienr={setSerienr}
               setHjelpemiddel={setHjelpemiddel}
-            />
+            /> */}
 
             <Avstand marginTop={10}>
               <LinkPanel
