@@ -1,18 +1,18 @@
 import { StatusCodes } from 'http-status-codes'
-import { rest } from 'msw'
+import { delay, http, HttpResponse } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
+import dellisteMock from '../../services/delliste-mock.json'
 import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
 import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
-import dellisteMock from '../../services/delliste-mock.json'
 import { API_PATH } from '../../services/rest'
 import {
-  DellisteResponse,
   AlleHjelpemidlerMedDelerResponse,
   DelbestillingFeil,
   DelbestillingRequest,
   DelbestillingResponse,
+  DellisteResponse,
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
@@ -23,38 +23,38 @@ let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
 
 const apiHandlers = [
-  rest.post<OppslagRequest, {}, OppslagResponse>(`${API_PATH}/oppslag`, (req, res, ctx) => {
-    // req.body er egentlig deprecated, men det er problemer med å inferre typen fra generic
-    // https://github.com/mswjs/msw/discussions/1308#discussioncomment-3389160
-    const { hmsnr } = req.body
+  http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag`, async ({ request }) => {
+    const { hmsnr } = await request.json()
+
+    await delay(250)
 
     if (hmsnr === '333333') {
-      return res(
-        ctx.delay(250),
-        ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN })
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN },
+        { status: StatusCodes.NOT_FOUND }
       )
     }
 
     if (hmsnr === '000000') {
-      return res(
-        ctx.delay(250),
-        ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL })
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL },
+        { status: StatusCodes.NOT_FOUND }
       )
     }
 
     if (hmsnr === '444444') {
-      return res(ctx.delay(450), ctx.status(StatusCodes.TOO_MANY_REQUESTS))
+      throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
     const hjelpemiddel = hmsnr === '167624' ? hjelpemiddelMockComet.hjelpemiddel : hjelpemiddelMockPanthera.hjelpemiddel
 
-    return res(ctx.delay(250), ctx.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined }))
+    return HttpResponse.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined })
   }),
 
-  rest.post<DelbestillingRequest, {}, DelbestillingResponse>(`${API_PATH}/delbestilling`, async (req, res, ctx) => {
-    const { delbestilling } = req.body
+  http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {
+    const { delbestilling } = await request.json()
+
+    await delay(450)
 
     if (
       !delbestilling ||
@@ -63,58 +63,63 @@ const apiHandlers = [
       !delbestilling.serienr ||
       !delbestilling.levering
     ) {
-      return res(ctx.status(StatusCodes.BAD_REQUEST))
+      throw new HttpResponse('Bad Request', { status: StatusCodes.BAD_REQUEST })
     }
 
     const id = delbestilling.id
 
     if (delbestilling.serienr === '000000') {
-      return res(
-        ctx.delay(450),
-        ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null })
+      return HttpResponse.json(
+        { id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null },
+        { status: StatusCodes.NOT_FOUND }
       )
     }
 
     if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '111111') {
-      return res(
-        ctx.delay(450),
-        ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({ id, feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV, saksnummer: null, delbestillingSak: null })
+      return HttpResponse.json(
+        {
+          id,
+          feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV,
+          saksnummer: null,
+          delbestillingSak: null,
+        },
+        { status: StatusCodes.FORBIDDEN }
       )
     }
 
     if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '444444') {
-      return res(
-        ctx.delay(450),
-        ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({
+      return HttpResponse.json(
+        {
           id,
           feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
           saksnummer: null,
           delbestillingSak: null,
-        })
+        },
+        { status: StatusCodes.FORBIDDEN }
       )
     }
 
     if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '555555') {
-      return res(
-        ctx.delay(450),
-        ctx.status(StatusCodes.NOT_FOUND),
-        ctx.json({ id, feil: DelbestillingFeil.KAN_IKKE_BESTILLE, saksnummer: null, delbestillingSak: null })
+      return HttpResponse.json(
+        {
+          id,
+          feil: DelbestillingFeil.KAN_IKKE_BESTILLE,
+          saksnummer: null,
+          delbestillingSak: null,
+        },
+        { status: StatusCodes.NOT_FOUND }
       )
     }
 
     if (delbestilling.hmsnr === '222222' && delbestilling.serienr === '666666') {
-      return res(
-        ctx.delay(450),
-        ctx.status(StatusCodes.FORBIDDEN),
-        ctx.json({
+      return HttpResponse.json(
+        {
           id,
           feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
           saksnummer: null,
           delbestillingSak: null,
-        })
+        },
+        { status: StatusCodes.FORBIDDEN }
       )
     }
 
@@ -129,30 +134,33 @@ const apiHandlers = [
 
     tidligereBestillinger.push(nyDelbestilling)
 
-    return res(
-      ctx.delay(450),
-      ctx.status(StatusCodes.CREATED),
-      ctx.json({
+    return HttpResponse.json(
+      {
         id,
         feil: null,
         saksnummer: nyDelbestilling.saksnummer,
         delbestillingSak: nyDelbestilling,
-      })
+      },
+      { status: StatusCodes.CREATED }
     )
   }),
 
-  rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, (req, res, ctx) => {
-    return res(ctx.delay(250), ctx.json(tidligereBestillinger))
+  http.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, async () => {
+    await delay(250)
+    return HttpResponse.json(tidligereBestillinger)
   }),
 
-  rest.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, (req, res, ctx) => {
-    return res(ctx.delay(250), ctx.json(tidligereBestillingerKommune))
+  http.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, async () => {
+    await delay(250)
+    return HttpResponse.json(tidligereBestillingerKommune)
   }),
-  rest.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, (req, res, ctx) => {
-    return res(ctx.delay(250), ctx.json(hjelpemidlerMock))
+  http.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, async () => {
+    await delay(250)
+    return HttpResponse.json(hjelpemidlerMock)
   }),
-  rest.get<{}, {}, DellisteResponse>(`${API_PATH}/deler`, (req, res, ctx) => {
-    return res(ctx.delay(700), ctx.json(dellisteMock))
+  http.get<{}, {}, DellisteResponse>(`${API_PATH}/deler`, async () => {
+    await delay(250)
+    return HttpResponse.json(dellisteMock)
   }),
 ]
 

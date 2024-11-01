@@ -1,4 +1,5 @@
-import { rest, setupWorker } from 'msw'
+import { http, HttpResponse } from 'msw'
+import { setupWorker } from 'msw/browser'
 
 import handlers from './handlers/index'
 
@@ -10,6 +11,7 @@ let started = false
 // Make it accessible for cypress
 window.msw = {
   worker,
-  rest,
+  http,
+  HttpResponse,
   started,
 }
