@@ -6,6 +6,7 @@ import { Outlet } from 'react-router-dom'
 import { GuidePanel, HStack, Loader } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
+import IngenTilgang from '../components/IngenTilgang'
 import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
 import { Delbestillerrolle } from '../types/Types'
@@ -62,6 +63,8 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   } else if (delbestillerrolle.kanBestilleDeler === false) {
     feilmeldingsTekst = 'error.kanIkkeBestilleDeler'
   }
+
+  return <IngenTilgang />
 
   if (feilmeldingsTekst) {
     return (
