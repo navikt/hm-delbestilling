@@ -13,6 +13,7 @@ import {
   Link,
   Radio,
   RadioGroup,
+  ReadMore,
   Select,
 } from '@navikt/ds-react'
 
@@ -28,7 +29,7 @@ interface Ansettelsesforhold {
   orgForm: OrgForm
 }
 
-interface Forespørsel {
+interface Tilgangforespørsel {
   navn: string
   type: 'Bestille deler'
   stillingstittel: string
@@ -64,18 +65,18 @@ const IngenTilgang = () => {
       <GlobalStyle />
       <Content>
         <GuidePanel>
-          Det kan se ut som du ikke har tilgang til å bestille deler. Du kan bruke veilederen under til å be om tilgang.
+          Det kan se ut som du ikke har tilgang til å bestille deler. Du kan bruke veilederen under for å be om tilgang.
         </GuidePanel>
         <Avstand marginTop={4}>
-          <Tilgangforespørsel />
+          <BeOmTilgang />
         </Avstand>
       </Content>
     </main>
   )
 }
 
-const Tilgangforespørsel = () => {
-  const [forespørsel, setForespørsel] = useState<Forespørsel | undefined>(undefined)
+const BeOmTilgang = () => {
+  const [tilgangforespørsel, setTilgangforespørsel] = useState<Tilgangforespørsel | undefined>(undefined)
 
   // TODO: gjør request for å hente ansettelselsforhold
   // TODO: håndter ingen ansettelsesforhold
@@ -86,9 +87,16 @@ const Tilgangforespørsel = () => {
         Be om tilgang for å bestille deler
       </Heading>
 
-      <BodyShort spacing>Vi ser at du har følgende ansettelsesforhold. Velg riktig ansettelsesforhold.</BodyShort>
+      <BodyShort spacing>
+        Vi ser at du har følgende ansettelsesforhold. Du må velge hvilket ansettelsesforhold tilgangen skal gjelde for.
+      </BodyShort>
 
-      <Avstand marginBottom={4}>
+      <ReadMore header="Jeg ser ikke ansettelsesforholdet mitt">
+        Hvis du ikke ser riktig ansettelsesforhold, kan det hende det ikke har blitt registrert i Aareg ennå. Du bør da
+        ta kontakt med din hjelpemiddelsentral for videre hjelp.
+      </ReadMore>
+
+      <Avstand marginBottom={4} marginTop={6}>
         <RadioGroup
           legend={
             <HStack gap="2">
@@ -99,7 +107,7 @@ const Tilgangforespørsel = () => {
             </HStack>
           }
           onChange={(val: Ansettelsesforhold) => {
-            setForespørsel({
+            setTilgangforespørsel({
               navn: 'Max Mekker',
               type: 'Bestille deler',
               stillingstittel: val.stillingstittel,
@@ -117,13 +125,13 @@ const Tilgangforespørsel = () => {
           ))}
         </RadioGroup>
       </Avstand>
-      {forespørsel && forespørsel?.orgForm !== OrgForm.KOMM && (
+      {tilgangforespørsel && tilgangforespørsel?.orgForm !== OrgForm.KOMM && (
         <Avstand marginBottom={4}>
           <Select
-            label={`Velg hvilken kommune ${forespørsel.orgNavn} representerer`}
+            label={`Velg hvilken kommune ${tilgangforespørsel.orgNavn} representerer`}
             onChange={(e) => {
-              setForespørsel((prev) => ({
-                ...prev!, // ??
+              setTilgangforespørsel((prev) => ({
+                ...prev!,
                 påVegneAvKommune: e.target.value,
               }))
             }}
@@ -133,34 +141,41 @@ const Tilgangforespørsel = () => {
             <option value="Oslo">Oslo</option>
             <option value="Vadsø">Vadsø</option>
           </Select>
+          <ReadMore header="Hvorfor må jeg velge dette?">
+            {tilgangforespørsel.orgNavn} er ikke en kommunal organisasjon. Du må derfor velge hvilken kommune denne
+            organisasjonen har avtale med.
+          </ReadMore>
         </Avstand>
       )}
 
-      {forespørsel && (
-        <Avstand marginBottom={4}>
-          <ConfirmationPanel label="Jeg godtar at tilgangstyrer i Nav kan se denne informasjonen">
+      {tilgangforespørsel && (
+        <>
+          <Box background="bg-subtle" padding="4">
             <Heading level="3" size="small" spacing>
-              Dette sendes til Nav
+              Dette sendes i forespørselen til Nav
             </Heading>
             <BodyShort>
-              <Label>Navn:</Label> Rolf Hansen
+              <Label>Navn:</Label> Max Mekker
             </BodyShort>
             <BodyShort>
-              <Label>Type forespørsel:</Label> Bestille deler
+              <Label>Jeg vil:</Label> Bestille deler til hjelpemidler
             </BodyShort>
             <BodyShort>
-              <Label>Stillingstittel:</Label> {forespørsel.stillingstittel}
+              <Label>Stillingstittel:</Label> {tilgangforespørsel.stillingstittel}
             </BodyShort>
             <BodyShort>
-              <Label>Organisasjon:</Label> {forespørsel.orgNavn}
+              <Label>Organisasjon:</Label> {tilgangforespørsel.orgNavn}
             </BodyShort>
-            {forespørsel.påVegneAvKommune && (
+            {tilgangforespørsel.påVegneAvKommune && (
               <BodyShort>
-                <Label>På vegne av:</Label> {forespørsel.påVegneAvKommune} kommune
+                <Label>På vegne av:</Label> {tilgangforespørsel.påVegneAvKommune} kommune
               </BodyShort>
             )}
-          </ConfirmationPanel>
-        </Avstand>
+          </Box>
+          <Avstand marginBottom={4}>
+            <ConfirmationPanel label="Jeg godtar at tilgangstyrer i Nav kan se denne informasjonen"></ConfirmationPanel>
+          </Avstand>
+        </>
       )}
 
       <Button>Send inn</Button>
