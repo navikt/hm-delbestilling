@@ -55,3 +55,22 @@ export enum DelbestillingFeil {
 export interface DelbestillerrolleResponse {
   delbestillerrolle: Delbestillerrolle
 }
+
+export interface TilgangsforespørselgrunnlagResponse {
+  navn: string
+  arbeidsforhold: Arbeidsforhold[]
+}
+
+export interface Arbeidsforhold {
+  overordnetOrganisasjon: Organisasjon
+  organisasjon: Organisasjon
+  stillingstittel: string
+  kommunenummer: string
+  kommunenavn: string
+}
+
+export interface Organisasjon {
+  nummer: string
+  navn: string
+  form: string
+}

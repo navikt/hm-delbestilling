@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   BodyShort,
@@ -21,6 +21,7 @@ import { GlobalStyle } from '../GlobalStyle'
 import Content from '../styledcomponents/Content'
 
 import { Avstand } from './Avstand'
+import useTilgang from '../hooks/useTilgang'
 
 interface Ansettelsesforhold {
   stillingstittel: string
@@ -77,6 +78,15 @@ const IngenTilgang = () => {
 
 const BeOmTilgang = () => {
   const [tilgangforespørsel, setTilgangforespørsel] = useState<Tilgangforespørsel | undefined>(undefined)
+
+  const { henterTilgangsforespørselgrunnlag, hentTilgangsforespørselgrunnlag } = useTilgang()
+
+  useEffect(() => {
+    ;(async () => {
+      const tilgangsforespørselgrunnlag = await hentTilgangsforespørselgrunnlag()
+      console.log('tilgangsforespørselgrunnlag:', tilgangsforespørselgrunnlag)
+    })()
+  }, [])
 
   // TODO: gjør request for å hente ansettelselsforhold
   // TODO: håndter ingen ansettelsesforhold
