@@ -1,4 +1,13 @@
-import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel } from './Types'
+import {
+  Del,
+  Delbestillerrolle,
+  Delbestilling,
+  DelbestillingSak,
+  Hjelpemiddel,
+  Tilgangsforespørsel,
+  Tilgangsforespørselgrunnlag,
+  Tilgangsforespørselstatus,
+} from './Types'
 
 export interface OppslagRequest {
   hmsnr: string
@@ -57,20 +66,9 @@ export interface DelbestillerrolleResponse {
 }
 
 export interface TilgangsforespørselgrunnlagResponse {
-  navn: string
-  arbeidsforhold: Arbeidsforhold[]
+  grunnlag: Tilgangsforespørselgrunnlag
 }
 
-export interface Arbeidsforhold {
-  overordnetOrganisasjon: Organisasjon
-  organisasjon: Organisasjon
-  stillingstittel: string
-  kommunenummer: string
-  kommunenavn: string
-}
-
-export interface Organisasjon {
-  nummer: string
-  navn: string
-  form: string
+export interface TilgangsforespørselRequest {
+  forespørsel: Tilgangsforespørsel
 }

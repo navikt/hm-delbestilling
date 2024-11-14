@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import React from 'react'
 
 import {
   BodyShort,
@@ -11,6 +12,7 @@ import {
   HStack,
   Label,
   Link,
+  Loader,
   Radio,
   RadioGroup,
   ReadMore,
@@ -18,47 +20,11 @@ import {
 } from '@navikt/ds-react'
 
 import { GlobalStyle } from '../GlobalStyle'
+import useTilgang from '../hooks/useTilgang'
 import Content from '../styledcomponents/Content'
+import { Arbeidsforhold, Kommune, Rettighet, Tilgangsforespørsel, Tilgangsforespørselgrunnlag } from '../types/Types'
 
 import { Avstand } from './Avstand'
-import useTilgang from '../hooks/useTilgang'
-
-interface Ansettelsesforhold {
-  stillingstittel: string
-  orgNavn: string
-  orgNr: number
-  orgForm: OrgForm
-}
-
-interface Tilgangforespørsel {
-  navn: string
-  type: 'Bestille deler'
-  stillingstittel: string
-  orgNavn: string
-  orgNr: number
-  orgForm: OrgForm
-  påVegneAvKommune: string | undefined
-}
-
-enum OrgForm {
-  KOMM = 'KOMM',
-  BEDR = 'BEDR',
-}
-
-const ansettelsesforhold: Ansettelsesforhold[] = [
-  {
-    stillingstittel: ' Montør (tekniske hjelpemidler)',
-    orgNavn: 'Oslo kommune rehabilitering og mestring',
-    orgNr: 1,
-    orgForm: OrgForm.KOMM,
-  },
-  {
-    stillingstittel: ' Montør (tekniske hjelpemidler)',
-    orgNavn: 'Privat Teknikerselskap AS',
-    orgNr: 2,
-    orgForm: OrgForm.BEDR,
-  },
-]
 
 const IngenTilgang = () => {
   return (
@@ -77,21 +43,37 @@ const IngenTilgang = () => {
 }
 
 const BeOmTilgang = () => {
-  const [tilgangforespørsel, setTilgangforespørsel] = useState<Tilgangforespørsel | undefined>(undefined)
+  const [tilgangforespørsel, setTilgangforespørsel] = useState<Tilgangsforespørsel | undefined>(undefined)
+  const [grunnlag, setGrunnlag] = useState<Tilgangsforespørselgrunnlag | undefined>(undefined)
 
-  const { henterTilgangsforespørselgrunnlag, hentTilgangsforespørselgrunnlag } = useTilgang()
+  const {
+    henterTilgangsforespørselgrunnlag,
+    hentTilgangsforespørselgrunnlag,
+    senderTilgangsforespørsel,
+    sendTilgangsforespørsel,
+  } = useTilgang()
 
   useEffect(() => {
     ;(async () => {
       const tilgangsforespørselgrunnlag = await hentTilgangsforespørselgrunnlag()
       console.log('tilgangsforespørselgrunnlag:', tilgangsforespørselgrunnlag)
+      setGrunnlag(tilgangsforespørselgrunnlag.grunnlag)
     })()
   }, [])
 
-  // TODO: gjør request for å hente ansettelselsforhold
-  // TODO: håndter ingen ansettelsesforhold
+  if (!grunnlag) {
+    // TODO: error håndtering
+    return <Loader />
+  }
+
+  if (grunnlag.arbeidsforhold.length === 0) {
+    // TODO vis noe fornuftig her
+    return <BodyShort>Du har ingen ansettelsesforhold.</BodyShort>
+  }
 
   return (
+    // <InnsendteTilgangsforespørsler />
+
     <Box background="bg-default" padding="8">
       <Heading size="medium" level="2" spacing>
         Be om tilgang for å bestille deler
@@ -116,44 +98,47 @@ const BeOmTilgang = () => {
               </HelpText>
             </HStack>
           }
-          onChange={(val: Ansettelsesforhold) => {
+          onChange={(val: Arbeidsforhold) => {
             setTilgangforespørsel({
-              navn: 'Max Mekker',
-              type: 'Bestille deler',
-              stillingstittel: val.stillingstittel,
-              orgNavn: val.orgNavn,
-              orgForm: val.orgForm,
-              orgNr: val.orgNr,
+              navn: grunnlag.navn,
+              rettighet: Rettighet.DELBESTILLING,
+              arbeidsforhold: val,
               påVegneAvKommune: undefined,
             })
           }}
         >
-          {ansettelsesforhold.map((forhold, i) => (
+          {grunnlag.arbeidsforhold.map((forhold, i) => (
             <Radio value={forhold} key={i}>
-              {forhold.stillingstittel} i <Link href="#">{forhold.orgNavn}</Link>
+              {forhold.stillingstittel} i <Link href="#">{forhold.organisasjon.navn}</Link>
             </Radio>
           ))}
         </RadioGroup>
       </Avstand>
-      {tilgangforespørsel && tilgangforespørsel?.orgForm !== OrgForm.KOMM && (
+      {tilgangforespørsel && tilgangforespørsel?.arbeidsforhold.overordnetOrganisasjon.orgform !== 'KOMM' && (
         <Avstand marginBottom={4}>
           <Select
-            label={`Velg hvilken kommune ${tilgangforespørsel.orgNavn} representerer`}
+            label={`Velg hvilken kommune ${tilgangforespørsel.arbeidsforhold.organisasjon.navn} representerer`}
             onChange={(e) => {
+              const kommune = kommuner[e.target.value]
               setTilgangforespørsel((prev) => ({
                 ...prev!,
-                påVegneAvKommune: e.target.value,
+                påVegneAvKommune: kommune,
               }))
             }}
           >
             <option>Velg kommune</option>
-            <option value="Lørenskog">Lørenskog</option>
-            <option value="Oslo">Oslo</option>
-            <option value="Vadsø">Vadsø</option>
+            {Object.values(kommuner).map((kommune) => {
+              // TODO kan vi gjøre det enklere å velge her?
+              return (
+                <option key={kommune.kommunenummer} value={kommune.kommunenummer}>
+                  {kommune.kommunenavn}
+                </option>
+              )
+            })}
           </Select>
           <ReadMore header="Hvorfor må jeg velge dette?">
-            {tilgangforespørsel.orgNavn} er ikke en kommunal organisasjon. Du må derfor velge hvilken kommune denne
-            organisasjonen har avtale med.
+            {tilgangforespørsel.arbeidsforhold.organisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge
+            hvilken kommune denne organisasjonen har avtale med.
           </ReadMore>
         </Avstand>
       )}
@@ -171,14 +156,14 @@ const BeOmTilgang = () => {
               <Label>Jeg vil:</Label> Bestille deler til hjelpemidler
             </BodyShort>
             <BodyShort>
-              <Label>Stillingstittel:</Label> {tilgangforespørsel.stillingstittel}
+              <Label>Stillingstittel:</Label> {tilgangforespørsel.arbeidsforhold.stillingstittel}
             </BodyShort>
             <BodyShort>
-              <Label>Organisasjon:</Label> {tilgangforespørsel.orgNavn}
+              <Label>Organisasjon:</Label> {tilgangforespørsel.arbeidsforhold.organisasjon.navn}
             </BodyShort>
             {tilgangforespørsel.påVegneAvKommune && (
               <BodyShort>
-                <Label>På vegne av:</Label> {tilgangforespørsel.påVegneAvKommune} kommune
+                <Label>På vegne av:</Label> {tilgangforespørsel.påVegneAvKommune.kommunenavn} kommune
               </BodyShort>
             )}
           </Box>
@@ -188,13 +173,21 @@ const BeOmTilgang = () => {
         </>
       )}
 
-      <Button>Send inn</Button>
+      <Button
+        onClick={() => {
+          sendTilgangsforespørsel(tilgangforespørsel!)
+
+        }}
+        loading={senderTilgangsforespørsel}
+      >
+        Send inn
+      </Button>
     </Box>
   )
 }
 
 // TODO: fjerne mock, gjør oppslag mot digihot-oppslag
-const kommuner = {
+const kommuner: { [kommunenr: string]: Kommune } = {
   '1101': {
     fylkesnummer: '11',
     fylkesnavn: 'Rogaland',

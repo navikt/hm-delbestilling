@@ -92,3 +92,45 @@ export interface Næringskode {
 }
 
 export type Valg = 'mine' | 'kommunens'
+
+export interface Tilgangsforespørselgrunnlag {
+  navn: string
+  arbeidsforhold: Arbeidsforhold[]
+}
+
+export interface Tilgangsforespørsel {
+  navn: string
+  arbeidsforhold: Arbeidsforhold
+  rettighet: Rettighet
+  påVegneAvKommune: Kommune | undefined
+}
+
+export interface InnsendtTilgangsforespørsel extends Tilgangsforespørsel {
+  status: Tilgangsforespørselstatus
+}
+
+export enum Rettighet {
+  DELBESTILLING = 'DELBESTILLING',
+}
+
+export interface Arbeidsforhold {
+  overordnetOrganisasjon: Organisasjon
+  organisasjon: Organisasjon
+  stillingstittel: string
+  kommune: Kommune
+}
+
+export interface Kommune {
+  fylkesnummer: string | undefined
+  fylkesnavn: string | undefined
+  kommunenummer: string
+  kommunenavn: string
+  fylkenummer: string
+  fylkenavn: string
+}
+
+export enum Tilgangsforespørselstatus {
+  AVVENTER_BEHANDLING = 'AVVENTER_BEHANDLING',
+  GODKJENT = 'GODKJENT',
+  AVSLÅTT = 'AVSLÅTT',
+}

@@ -8,7 +8,7 @@ import {
   OppslagResponse,
   TilgangsforespørselgrunnlagResponse,
 } from '../types/HttpTypes'
-import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
+import { Delbestilling, DelbestillingSak, Tilgangsforespørsel, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
@@ -117,6 +117,17 @@ const hentForespørselgrunnlag = async (): Promise<TilgangsforespørselgrunnlagR
   return await response.json()
 }
 
+const sendTilgangsforespørsel = async (tilgangsforespørsel: Tilgangsforespørsel): Promise<Response> => {
+  const response = await fetchPost(`${ROLLER_PATH}/tilgang/foresporsel`, {
+    body: JSON.stringify({ forespørsel: tilgangsforespørsel }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  await handleResponse(response.clone())
+  return await response.json()
+}
+
 const sjekkLoginStatus = async (): Promise<boolean> => {
   const response = await fetch(`${REST_BASE_PATH}/auth/status`)
 
@@ -142,4 +153,5 @@ export default {
   hentRolle,
   sjekkLoginStatus,
   hentForespørselgrunnlag,
+  sendTilgangsforespørsel,
 }

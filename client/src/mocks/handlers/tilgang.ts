@@ -1,6 +1,6 @@
 import { delay, http, HttpResponse } from 'msw'
 
-import { TilgangsforespørselgrunnlagResponse } from '../../types/HttpTypes'
+import { TilgangsforespørselgrunnlagResponse, TilgangsforespørselRequest } from '../../types/HttpTypes'
 
 const tilgangHandlers = [
   http.get<{}, {}, TilgangsforespørselgrunnlagResponse>(
@@ -8,42 +8,73 @@ const tilgangHandlers = [
     async () => {
       await delay(500)
       return HttpResponse.json({
-        navn: 'Max Mekker',
-        arbeidsforhold: [
-          {
-            kommunenavn: 'Oslo',
-            kommunenummer: '0301',
-            organisasjon: {
-              navn: 'Oslo kommune rehabilitering og mestring',
-              form: 'BEDR',
-              nummer: '0',
+        grunnlag: {
+          navn: 'Max Mekker',
+          arbeidsforhold: [
+            {
+              kommune: {
+                kommunenavn: 'Oslo',
+                kommunenummer: '0301',
+                fylkenavn: 'Oslo',
+                fylkenummer: '01',
+                fylkesnavn: 'Oslo',
+                fylkesnummer: '01',
+              },
+              organisasjon: {
+                navn: 'Oslo kommune rehabilitering og mestring',
+                orgform: 'BEDR',
+                orgnr: '0',
+                overordnetOrgnr: '0',
+                næringskoder: [],
+                kommunenummer: '0301',
+              },
+              overordnetOrganisasjon: {
+                navn: 'Oslo kommune',
+                orgform: 'KOMM',
+                orgnr: '0',
+                overordnetOrgnr: undefined,
+                næringskoder: [],
+                kommunenummer: '0301',
+              },
+              stillingstittel: 'Montør (tekniske hjelpemidler)',
             },
-            overordnetOrganisasjon: {
-              navn: 'Oslo kommune',
-              form: 'KOMM',
-              nummer: '0',
+            {
+              kommune: {
+                kommunenavn: 'Oslo',
+                kommunenummer: '0301',
+                fylkenavn: 'Oslo',
+                fylkenummer: '01',
+                fylkesnavn: 'Oslo',
+                fylkesnummer: '01',
+              },
+              organisasjon: {
+                navn: 'Privat Teknikerselskap AS',
+                orgform: 'BEDR',
+                orgnr: '0',
+                næringskoder: [],
+                overordnetOrgnr: '0',
+                kommunenummer: '0301',
+              },
+              overordnetOrganisasjon: {
+                navn: 'Privat Teknikerselskap AS',
+                orgform: 'BEDR',
+                orgnr: '0',
+                næringskoder: [],
+                overordnetOrgnr: undefined,
+                kommunenummer: '0301',
+              },
+              stillingstittel: 'Montør (tekniske hjelpemidler)',
             },
-            stillingstittel: 'Montør (tekniske hjelpemidler)',
-          },
-          {
-            kommunenavn: 'Oslo',
-            kommunenummer: '0301',
-            organisasjon: {
-              navn: 'Privat Teknikerselskap AS',
-              form: 'BEDR',
-              nummer: '0',
-            },
-            overordnetOrganisasjon: {
-              navn: 'Privat Teknikerselskap AS',
-              form: 'BEDR',
-              nummer: '0',
-            },
-            stillingstittel: 'Montør (tekniske hjelpemidler)',
-          },
-        ],
+          ],
+        },
       })
     }
   ),
+
+  http.post<{}, TilgangsforespørselRequest, any>('/hjelpemidler/delbestilling/roller/tilgang/foresporsel', async () => {
+    await delay(1000)
+    return new HttpResponse('Created', { status: 201 })
+  }),
 ]
 
 export default tilgangHandlers
