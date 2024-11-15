@@ -44,9 +44,6 @@ const IngenTilgang = () => {
     <main>
       <GlobalStyle />
       <Content>
-        <GuidePanel>
-          Det kan se ut som du ikke har tilgang til å bestille deler. Du kan bruke veilederen under for å be om tilgang.
-        </GuidePanel>
         <Avstand marginTop={4}>
           <Tilganger />
         </Avstand>
@@ -73,6 +70,11 @@ const Tilganger = () => {
 
   return (
     <>
+      {innsendteTilgangsforespørsler && innsendteTilgangsforespørsler.length === 0 && (
+        <GuidePanel>
+          Det kan se ut som du ikke har tilgang til å bestille deler. Du kan bruke veilederen under for å be om tilgang.
+        </GuidePanel>
+      )}
       {innsendteTilgangsforespørsler && innsendteTilgangsforespørsler.length > 0 && (
         <InnsendteTilgangsforespørsler
           innsendteTilgangsforespørsler={innsendteTilgangsforespørsler}
@@ -126,12 +128,23 @@ const InnsendteTilgangsforespørsler = ({
               <Table.DataCell>{innsendt.navn}</Table.DataCell>
               <Table.DataCell>{innsendt.rettighet}</Table.DataCell>
               <Table.DataCell>{new Date().toLocaleDateString()}</Table.DataCell>
-              <Table.DataCell>{innsendt.status}</Table.DataCell>
-              {innsendt.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING && (
+              <Table.DataCell>
+                <HStack gap={'1'}>
+                  {innsendt.status}
+                  {innsendt.status === Tilgangsforespørselstatus.AVSLÅTT && (
+                    <HelpText title="Hva gjør jeg nå?">
+                      Tilgangsforespørselen din har blitt avslått av Nav Hjelpemiddelsentral. Kontakt din lokale
+                      Hjelpemiddelsentral dersom du mener at dette er feil.
+                    </HelpText>
+                  )}
+                </HStack>
+              </Table.DataCell>
+              {innsendt.status !== Tilgangsforespørselstatus.AVSLÅTT && (
                 <Table.DataCell>
                   <Button
                     loading={sletterTilgangsforespørsel}
                     onClick={() => {
+                      // TODO vis "er du sikker?"
                       slettTilgangsforespørsel(innsendt.id)
                     }}
                   >
@@ -296,7 +309,7 @@ const BeOmTilgang = () => {
         }}
         loading={senderTilgangsforespørsel}
       >
-        Send inn
+        Be om tilgang
       </Button>
     </Box>
   )
