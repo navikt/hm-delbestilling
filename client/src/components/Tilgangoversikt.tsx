@@ -37,7 +37,7 @@ import {
 
 import { Avstand } from './Avstand'
 
-const QUERY_KEY_INNSENDTEFORESPØRSLER = ''
+const QUERY_KEY_INNSENDTEFORESPØRSLER = 'innsendteforespørsler'
 
 const IngenTilgang = () => {
   return (
