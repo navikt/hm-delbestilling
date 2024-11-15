@@ -58,8 +58,7 @@ const IngenTilgang = () => {
 const Tilganger = () => {
   const { data: innsendteTilgangsforespørsler, isFetching } = useQuery<InnsendtTilgangsforespørsel[]>({
     queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER],
-    queryFn: () =>
-      fetch(`${ROLLER_PATH}/tilgang/innsendteforesporsler?rettighet=DELBESTILLING`).then((res) => res.json()),
+    queryFn: () => fetch(`${ROLLER_PATH}/tilgang/foresporsel?rettighet=DELBESTILLING`).then((res) => res.json()),
   })
 
   if (isFetching) {
@@ -75,7 +74,10 @@ const Tilganger = () => {
   return (
     <>
       {innsendteTilgangsforespørsler && innsendteTilgangsforespørsler.length > 0 && (
-        <InnsendteTilgangsforespørsler innsendteTilgangsforespørsler={innsendteTilgangsforespørsler} />
+        <InnsendteTilgangsforespørsler
+          innsendteTilgangsforespørsler={innsendteTilgangsforespørsler}
+          harAktivTilgangsforespørselForDelbestilling={harAktivTilgangsforespørselForDelbestilling}
+        />
       )}
       <Avstand marginBottom={2} />
       {!harAktivTilgangsforespørselForDelbestilling && <BeOmTilgang />}
@@ -85,9 +87,24 @@ const Tilganger = () => {
 
 const InnsendteTilgangsforespørsler = ({
   innsendteTilgangsforespørsler,
+  harAktivTilgangsforespørselForDelbestilling,
 }: {
   innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[]
+  harAktivTilgangsforespørselForDelbestilling: boolean
 }) => {
+  const queryClient = useQueryClient()
+  const { mutate: slettTilgangsforespørsel, isPending: sletterTilgangsforespørsel } = useMutation({
+    mutationFn: (id: string) => {
+      return rest.slettTilgangsforespørsel(id)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
+    },
+    onError: (error) => {
+      alert(error)
+    },
+  })
+
   return (
     <Box background="bg-default" padding="8">
       <Heading size="medium" level="2" spacing>
@@ -100,6 +117,7 @@ const InnsendteTilgangsforespørsler = ({
             <Table.HeaderCell>Rettighet</Table.HeaderCell>
             <Table.HeaderCell>Sendt inn</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
+            {harAktivTilgangsforespørselForDelbestilling && <Table.HeaderCell>Handling</Table.HeaderCell>}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -109,6 +127,18 @@ const InnsendteTilgangsforespørsler = ({
               <Table.DataCell>{innsendt.rettighet}</Table.DataCell>
               <Table.DataCell>{new Date().toLocaleDateString()}</Table.DataCell>
               <Table.DataCell>{innsendt.status}</Table.DataCell>
+              {innsendt.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING && (
+                <Table.DataCell>
+                  <Button
+                    loading={sletterTilgangsforespørsel}
+                    onClick={() => {
+                      slettTilgangsforespørsel(innsendt.id)
+                    }}
+                  >
+                    Slett
+                  </Button>
+                </Table.DataCell>
+              )}
             </Table.Row>
           ))}
         </Table.Body>

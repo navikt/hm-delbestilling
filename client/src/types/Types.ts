@@ -106,6 +106,7 @@ export interface Tilgangsforespørsel {
 }
 
 export interface InnsendtTilgangsforespørsel extends Tilgangsforespørsel {
+  id: string
   status: Tilgangsforespørselstatus
 }
 

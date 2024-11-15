@@ -46,6 +46,10 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
   return fetch(url, { method: 'POST', ...otherParams })
 }
 
+const fetchDelete: (url: string, otherParams?: any, timeout?: number) => Promise<Response> = (url, otherParams) => {
+  return fetch(url, { method: 'DELETE', ...otherParams })
+}
+
 const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<OppslagResponse> => {
   const response = await fetchPost(API_PATH + '/oppslag', {
     body: JSON.stringify({ hmsnr, serienr }),
@@ -128,6 +132,12 @@ const sendTilgangsforespørsel = async (tilgangsforespørsel: Tilgangsforespørs
   return await response.text()
 }
 
+const slettTilgangsforespørsel = async (id: string): Promise<string> => {
+  const response = await fetchDelete(`${ROLLER_PATH}/tilgang/foresporsel/${id}`)
+  await handleResponse(response.clone())
+  return await response.text()
+}
+
 const sjekkLoginStatus = async (): Promise<boolean> => {
   const response = await fetch(`${REST_BASE_PATH}/auth/status`)
 
@@ -154,4 +164,5 @@ export default {
   sjekkLoginStatus,
   hentForespørselgrunnlag,
   sendTilgangsforespørsel,
+  slettTilgangsforespørsel,
 }
