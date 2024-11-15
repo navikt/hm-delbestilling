@@ -20,7 +20,7 @@ const useTilgang = () => {
     }
   }
 
-  const sendTilgangsforespørsel = async (tilgangsforespørsel: Tilgangsforespørsel): Promise<Response> => {
+  const sendTilgangsforespørsel = async (tilgangsforespørsel: Tilgangsforespørsel): Promise<string> => {
     try {
       setSenderTilgangsforespørsel(true)
       return await rest.sendTilgangsforespørsel(tilgangsforespørsel)
