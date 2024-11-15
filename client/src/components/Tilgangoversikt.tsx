@@ -16,8 +16,8 @@ import {
   Radio,
   RadioGroup,
   ReadMore,
-  Select,
   Table,
+  UNSAFE_Combobox,
 } from '@navikt/ds-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -115,9 +115,9 @@ const InnsendteTilgangsforespørsler = ({
       <Table>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Navn</Table.HeaderCell>
             <Table.HeaderCell>Rettighet</Table.HeaderCell>
             <Table.HeaderCell>Sendt inn</Table.HeaderCell>
+            <Table.HeaderCell>Kommune</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
             {harAktivTilgangsforespørselForDelbestilling && <Table.HeaderCell>Handling</Table.HeaderCell>}
           </Table.Row>
@@ -125,9 +125,12 @@ const InnsendteTilgangsforespørsler = ({
         <Table.Body>
           {innsendteTilgangsforespørsler.map((innsendt, i) => (
             <Table.Row key={i}>
-              <Table.DataCell>{innsendt.navn}</Table.DataCell>
               <Table.DataCell>{innsendt.rettighet}</Table.DataCell>
               <Table.DataCell>{new Date().toLocaleDateString()}</Table.DataCell>
+              <Table.DataCell>
+                {innsendt.påVegneAvKommune && <>{innsendt.påVegneAvKommune.kommunenavn}</>}
+                {!innsendt.påVegneAvKommune && <>{innsendt.arbeidsforhold.kommune.kommunenavn}</>}
+              </Table.DataCell>
               <Table.DataCell>
                 <HStack gap={'1'}>
                   {innsendt.status}
@@ -139,8 +142,8 @@ const InnsendteTilgangsforespørsler = ({
                   )}
                 </HStack>
               </Table.DataCell>
-              {innsendt.status !== Tilgangsforespørselstatus.AVSLÅTT && (
-                <Table.DataCell>
+              <Table.DataCell>
+                {innsendt.status !== Tilgangsforespørselstatus.AVSLÅTT && (
                   <Button
                     loading={sletterTilgangsforespørsel}
                     onClick={() => {
@@ -150,8 +153,8 @@ const InnsendteTilgangsforespørsler = ({
                   >
                     Slett
                   </Button>
-                </Table.DataCell>
-              )}
+                )}
+              </Table.DataCell>
             </Table.Row>
           ))}
         </Table.Body>
@@ -162,7 +165,8 @@ const InnsendteTilgangsforespørsler = ({
 
 const BeOmTilgang = () => {
   const queryClient = useQueryClient()
-  const [tilgangforespørsel, setTilgangforespørsel] = useState<Tilgangsforespørsel | undefined>(undefined)
+  const [valgtArbeidsforhold, setValgtarbeidsforhold] = useState<Arbeidsforhold | undefined>(undefined)
+  const [valgteKommuner, setValgteKommuner] = useState<Kommune[]>([])
 
   const {
     data: grunnlagData,
@@ -174,9 +178,29 @@ const BeOmTilgang = () => {
   })
   const { grunnlag } = grunnlagData ?? {}
 
-  const { mutate: sendTilgangsforespørsel, isPending: senderTilgangsforespørsel } = useMutation({
-    mutationFn: (t: Tilgangsforespørsel) => {
-      return rest.sendTilgangsforespørsel(t) // TODO: trenger vi egentlig en egen rest-funksjon her?
+  const { mutate: sendTilgangsforespørsler, isPending: senderTilgangsforespørsel } = useMutation({
+    mutationFn: (arbeidsforhold: Arbeidsforhold) => {
+      const forespørsler: Tilgangsforespørsel[] = []
+
+      if (arbeidsforhold.overordnetOrganisasjon.orgform === 'KOMM') {
+        forespørsler.push({
+          arbeidsforhold,
+          navn: grunnlag?.navn!,
+          rettighet: Rettighet.DELBESTILLING,
+          påVegneAvKommune: undefined,
+        })
+      } else {
+        valgteKommuner.forEach((vk) =>
+          forespørsler.push({
+            arbeidsforhold,
+            navn: grunnlag?.navn!,
+            rettighet: Rettighet.DELBESTILLING,
+            påVegneAvKommune: vk,
+          })
+        )
+      }
+
+      return rest.sendTilgangsforespørsler(forespørsler)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
@@ -229,12 +253,7 @@ const BeOmTilgang = () => {
             </HStack>
           }
           onChange={(arbeidsforhold: Arbeidsforhold) => {
-            setTilgangforespørsel({
-              navn: grunnlag.navn,
-              rettighet: Rettighet.DELBESTILLING,
-              arbeidsforhold,
-              påVegneAvKommune: undefined,
-            })
+            setValgtarbeidsforhold(arbeidsforhold)
           }}
         >
           {grunnlag.arbeidsforhold.map((forhold, i) => (
@@ -244,36 +263,32 @@ const BeOmTilgang = () => {
           ))}
         </RadioGroup>
       </Avstand>
-      {tilgangforespørsel && tilgangforespørsel?.arbeidsforhold.overordnetOrganisasjon.orgform !== 'KOMM' && (
+      {valgtArbeidsforhold && valgtArbeidsforhold.overordnetOrganisasjon.orgform !== 'KOMM' && (
         <Avstand marginBottom={4}>
-          <Select
-            label={`Velg hvilken kommune ${tilgangforespørsel.arbeidsforhold.organisasjon.navn} representerer`}
-            onChange={(e) => {
-              const kommune = kommuner[e.target.value]
-              setTilgangforespørsel((prev) => ({
-                ...prev!,
-                påVegneAvKommune: kommune,
-              }))
-            }}
-          >
-            <option>Velg kommune</option>
-            {Object.values(kommuner).map((kommune) => {
-              // TODO kan vi gjøre det enklere å velge her?
-              return (
-                <option key={kommune.kommunenummer} value={kommune.kommunenummer}>
-                  {kommune.kommunenavn}
-                </option>
+          <UNSAFE_Combobox
+            label={`Velg hvilke kommuner ${valgtArbeidsforhold.organisasjon.navn} representerer`}
+            options={Object.values(kommuner).map((kommune) => `${kommune.kommunenavn} - ${kommune.fylkesnavn}`)}
+            isMultiSelect
+            maxSelected={{ limit: 5, message: 'Du kan kun velge 5 kommuner om gangen.' }}
+            onToggleSelected={(selected) => {
+              const [kommunenavn, fylkesnavn] = selected.split(' - ')
+              const kommune = Object.values(kommuner).find(
+                (k) => k.kommunenavn === kommunenavn && k.fylkenavn === fylkesnavn
               )
-            })}
-          </Select>
+
+              if (kommune) {
+                setValgteKommuner((prev) => [...prev, kommune])
+              }
+            }}
+          ></UNSAFE_Combobox>
           <ReadMore header="Hvorfor må jeg velge dette?">
-            {tilgangforespørsel.arbeidsforhold.organisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge
-            hvilken kommune denne organisasjonen har avtale med.
+            {valgtArbeidsforhold.organisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge hvilke kommuner
+            denne organisasjonen har avtale med.
           </ReadMore>
         </Avstand>
       )}
 
-      {tilgangforespørsel && (
+      {valgtArbeidsforhold && (
         <>
           <Box background="bg-subtle" padding="4">
             <Heading level="3" size="small" spacing>
@@ -286,14 +301,14 @@ const BeOmTilgang = () => {
               <Label>Jeg vil:</Label> Bestille deler til hjelpemidler
             </BodyShort>
             <BodyShort>
-              <Label>Stillingstittel:</Label> {tilgangforespørsel.arbeidsforhold.stillingstittel}
+              <Label>Stillingstittel:</Label> {valgtArbeidsforhold.stillingstittel}
             </BodyShort>
             <BodyShort>
-              <Label>Organisasjon:</Label> {tilgangforespørsel.arbeidsforhold.organisasjon.navn}
+              <Label>Organisasjon:</Label> {valgtArbeidsforhold.organisasjon.navn}
             </BodyShort>
-            {tilgangforespørsel.påVegneAvKommune && (
+            {valgteKommuner.length > 0 && (
               <BodyShort>
-                <Label>På vegne av:</Label> {tilgangforespørsel.påVegneAvKommune.kommunenavn} kommune
+                <Label>På vegne av:</Label> {valgteKommuner.map(({ kommunenavn }) => kommunenavn).join(', ')}
               </BodyShort>
             )}
           </Box>
@@ -305,7 +320,11 @@ const BeOmTilgang = () => {
 
       <Button
         onClick={() => {
-          sendTilgangsforespørsel(tilgangforespørsel!)
+          if (valgtArbeidsforhold) {
+            sendTilgangsforespørsler(valgtArbeidsforhold)
+          } else {
+            alert('Du må velge arbeidsforhold')
+          }
         }}
         loading={senderTilgangsforespørsel}
       >

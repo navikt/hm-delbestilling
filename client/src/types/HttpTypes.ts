@@ -70,5 +70,5 @@ export interface TilgangsforespørselgrunnlagResponse {
 }
 
 export interface TilgangsforespørselRequest {
-  forespørsel: Tilgangsforespørsel
+  forespørsler: Tilgangsforespørsel[]
 }

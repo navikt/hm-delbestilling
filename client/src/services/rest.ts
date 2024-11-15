@@ -121,9 +121,9 @@ const hentForespørselgrunnlag = async (): Promise<TilgangsforespørselgrunnlagR
   return await response.json()
 }
 
-const sendTilgangsforespørsel = async (tilgangsforespørsel: Tilgangsforespørsel): Promise<string> => {
+const sendTilgangsforespørsler = async (tilgangsforespørsler: Tilgangsforespørsel[]): Promise<string> => {
   const response = await fetchPost(`${ROLLER_PATH}/tilgang/foresporsel`, {
-    body: JSON.stringify({ forespørsel: tilgangsforespørsel }),
+    body: JSON.stringify({ forespørsler: tilgangsforespørsler }),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -163,6 +163,6 @@ export default {
   hentRolle,
   sjekkLoginStatus,
   hentForespørselgrunnlag,
-  sendTilgangsforespørsel,
+  sendTilgangsforespørsler,
   slettTilgangsforespørsel,
 }

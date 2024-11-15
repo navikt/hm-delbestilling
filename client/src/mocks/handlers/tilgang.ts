@@ -79,14 +79,18 @@ const tilgangHandlers = [
     '/hjelpemidler/delbestilling/roller/tilgang/foresporsel',
     async ({ request }) => {
       await delay(1000)
-      const { forespørsel } = await request.json()
-      innsendteTilgangsforespørsler.push({
-        ...forespørsel,
-        id: uuidv4(),
-        status: !!forespørsel.påVegneAvKommune
-          ? Tilgangsforespørselstatus.AVSLÅTT
-          : Tilgangsforespørselstatus.AVVENTER_BEHANDLING,
+      const { forespørsler } = await request.json()
+
+      forespørsler.forEach((forespørsel) => {
+        innsendteTilgangsforespørsler.push({
+          ...forespørsel,
+          id: uuidv4(),
+          status: !!forespørsel.påVegneAvKommune
+            ? Tilgangsforespørselstatus.AVSLÅTT
+            : Tilgangsforespørselstatus.AVVENTER_BEHANDLING,
+        })
       })
+
       return HttpResponse.text('Created', { status: 201 })
     }
   ),
