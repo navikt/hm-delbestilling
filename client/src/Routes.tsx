@@ -23,7 +23,6 @@ const Routes = () => {
           <Route path="/" element={<Index />} />
           <Route path="/oversikt" element={<Oversikt />} />
           <Route path="/delliste" element={<Delliste />} />
-          {/* TODO: kanskje legge denne bak en contextlayout som krever innlogget (men ikke rolle) */}
           <Route path="/tilgang" element={<Tilgang />} />
           {/* Dette er routes som krever at innlogget bruker har en delbestillerrolle */}
           <Route element={<RolleContextLayout />}>
