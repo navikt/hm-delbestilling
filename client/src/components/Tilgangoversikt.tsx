@@ -227,6 +227,8 @@ const BeOmTilgang = () => {
     return <BodyShort>Du har ingen ansettelsesforhold.</BodyShort>
   }
 
+  console.log('valgteKommuner:', valgteKommuner)
+
   return (
     <Box background="bg-default" padding="8">
       <Heading size="medium" level="2" spacing>
@@ -254,6 +256,7 @@ const BeOmTilgang = () => {
           }
           onChange={(arbeidsforhold: Arbeidsforhold) => {
             setValgtarbeidsforhold(arbeidsforhold)
+            setValgteKommuner([])
           }}
         >
           {grunnlag.arbeidsforhold.map((forhold, i) => (
@@ -270,14 +273,20 @@ const BeOmTilgang = () => {
             options={Object.values(kommuner).map((kommune) => `${kommune.kommunenavn} - ${kommune.fylkesnavn}`)}
             isMultiSelect
             maxSelected={{ limit: 5, message: 'Du kan kun velge 5 kommuner om gangen.' }}
-            onToggleSelected={(selected) => {
-              const [kommunenavn, fylkesnavn] = selected.split(' - ')
+            onToggleSelected={(option, isSelected) => {
+              const [kommunenavn, fylkesnavn] = option.split(' - ')
+
               const kommune = Object.values(kommuner).find(
                 (k) => k.kommunenavn === kommunenavn && k.fylkenavn === fylkesnavn
               )
 
               if (kommune) {
-                setValgteKommuner((prev) => [...prev, kommune])
+                if (isSelected) {
+                  setValgteKommuner((prev) => [...prev, kommune])
+                } else {
+                  // TODO: fix hackete
+                  setValgteKommuner((prev) => prev.filter((k) => `${k.kommunenavn} - ${k.fylkesnavn}` !== option))
+                }
               }
             }}
           ></UNSAFE_Combobox>
