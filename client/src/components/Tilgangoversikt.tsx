@@ -55,14 +55,14 @@ const IngenTilgang = () => {
 }
 
 const Tilganger = () => {
-  const { data: innsendteTilgangsforespørsler, isPending } = useQuery<InnsendtTilgangsforespørsel[]>({
+  const { data: innsendteTilgangsforespørsler, isFetching } = useQuery<InnsendtTilgangsforespørsel[]>({
     queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER],
     queryFn: () =>
       fetch(`${ROLLER_PATH}/tilgang/innsendteforesporsler?rettighet=DELBESTILLING`).then((res) => res.json()),
   })
 
-  if (isPending) {
-    return <Loader />
+  if (isFetching) {
+    return <CenteredLoader />
   }
 
   const harAktivTilgangsforespørselForDelbestilling = (innsendteTilgangsforespørsler ?? []).some(
@@ -130,7 +130,7 @@ const BeOmTilgang = () => {
   })
 
   if (henterGrunnlag) {
-    return <Loader />
+    return <CenteredLoader />
   }
 
   if (grunnlagError) {
@@ -256,6 +256,14 @@ const BeOmTilgang = () => {
         Send inn
       </Button>
     </Box>
+  )
+}
+
+const CenteredLoader = () => {
+  return (
+    <HStack justify={'center'} padding="8">
+      <Loader />
+    </HStack>
   )
 }
 
