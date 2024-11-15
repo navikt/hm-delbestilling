@@ -201,7 +201,7 @@ const requiresValidToken = (): RequestHandler => async (req, res, next) => {
   }
 }
 
-const requiresLogin = (): RequestHandler => async (req, res, next) => {
+const requiresLogin = (redirectRoute: string = "utsjekk"): RequestHandler => async (req, res, next) => {
   await setIsAuthenticated(req, res, next)
 
   if (config.isMocked() || req.isAuthenticated) {
@@ -209,7 +209,7 @@ const requiresLogin = (): RequestHandler => async (req, res, next) => {
     next()
   } else {
     debugLogger('requiresLogin: token not present or invalid, redirecting to login page')
-    res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}/utsjekk`)
+    res.redirect(`${config.basePath}/oauth2/login?redirect=${config.app.redirectUrl}/${redirectRoute}`)
   }
 }
 

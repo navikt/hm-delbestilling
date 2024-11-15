@@ -54,6 +54,8 @@ export const routes = {
     router.get('/delliste', spaHandler)
     server.get('/bestillinger', authMiddleware.requiresLogin(), spaHandler)
     router.get('/bestillinger', authMiddleware.requiresLogin(), spaHandler)
+    server.get('/tilgang', authMiddleware.requiresLogin("tilgang"), spaHandler)
+    router.get('/tilgang', authMiddleware.requiresLogin("tilgang"), spaHandler)
 
     return router
   },
