@@ -1,6 +1,9 @@
 import { delay, http, HttpResponse } from 'msw'
 
 import { TilgangsforespørselgrunnlagResponse, TilgangsforespørselRequest } from '../../types/HttpTypes'
+import { InnsendtTilgangsforespørsel, Tilgangsforespørselstatus } from '../../types/Types'
+
+const innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[] = []
 
 const tilgangHandlers = [
   http.get<{}, {}, TilgangsforespørselgrunnlagResponse>(
@@ -71,10 +74,31 @@ const tilgangHandlers = [
     }
   ),
 
-  http.post<{}, TilgangsforespørselRequest, any>('/hjelpemidler/delbestilling/roller/tilgang/foresporsel', async () => {
-    await delay(1000)
-    return new HttpResponse('Created', { status: 201 })
-  }),
+  http.post<{}, TilgangsforespørselRequest, any>(
+    '/hjelpemidler/delbestilling/roller/tilgang/foresporsel',
+    async ({ request }) => {
+      await delay(1000)
+      const { forespørsel } = await request.json()
+      innsendteTilgangsforespørsler.push({
+        ...forespørsel,
+        status: !!forespørsel.påVegneAvKommune
+          ? Tilgangsforespørselstatus.AVSLÅTT
+          : Tilgangsforespørselstatus.AVVENTER_BEHANDLING,
+      })
+      return new HttpResponse('Created', { status: 201 })
+    }
+  ),
+
+  http.get<{ rettighet: string }, {}, {}>(
+    '/hjelpemidler/delbestilling/roller/tilgang/innsendteforesporsler',
+    async ({ request }) => {
+      const url = new URL(request.url)
+      const rettighet = url.searchParams.get('rettighet')
+
+      await delay(500)
+      return HttpResponse.json(innsendteTilgangsforespørsler.filter((innsendt) => innsendt.rettighet === rettighet))
+    }
+  ),
 ]
 
 export default tilgangHandlers

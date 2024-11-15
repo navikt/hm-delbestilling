@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
+  Alert,
   BodyShort,
   Box,
   Button,
@@ -18,13 +18,25 @@ import {
   ReadMore,
   Select,
 } from '@navikt/ds-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { GlobalStyle } from '../GlobalStyle'
-import useTilgang from '../hooks/useTilgang'
+import { ROLLER_PATH } from '../services/rest'
+import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
-import { Arbeidsforhold, Kommune, Rettighet, Tilgangsforespørsel, Tilgangsforespørselgrunnlag } from '../types/Types'
+import { TilgangsforespørselgrunnlagResponse } from '../types/HttpTypes'
+import {
+  Arbeidsforhold,
+  InnsendtTilgangsforespørsel,
+  Kommune,
+  Rettighet,
+  Tilgangsforespørsel,
+  Tilgangsforespørselstatus,
+} from '../types/Types'
 
 import { Avstand } from './Avstand'
+
+const QUERY_KEY_INNSENDTEFORESPØRSLER = ''
 
 const IngenTilgang = () => {
   return (
@@ -35,35 +47,99 @@ const IngenTilgang = () => {
           Det kan se ut som du ikke har tilgang til å bestille deler. Du kan bruke veilederen under for å be om tilgang.
         </GuidePanel>
         <Avstand marginTop={4}>
-          <BeOmTilgang />
+          <Tilganger />
         </Avstand>
       </Content>
     </main>
   )
 }
 
+const Tilganger = () => {
+  const { data: innsendteTilgangsforespørsler, isPending } = useQuery<InnsendtTilgangsforespørsel[]>({
+    queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER],
+    queryFn: () =>
+      fetch(`${ROLLER_PATH}/tilgang/innsendteforesporsler?rettighet=DELBESTILLING`).then((res) => res.json()),
+  })
+
+  if (isPending) {
+    return <Loader />
+  }
+
+  const harAktivTilgangsforespørselForDelbestilling = (innsendteTilgangsforespørsler ?? []).some(
+    (innsendt) =>
+      innsendt.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING &&
+      innsendt.rettighet === Rettighet.DELBESTILLING
+  )
+
+  return (
+    <>
+      {innsendteTilgangsforespørsler && innsendteTilgangsforespørsler.length > 0 && (
+        <InnsendteTilgangsforespørsler innsendteTilgangsforespørsler={innsendteTilgangsforespørsler} />
+      )}
+
+      <Avstand marginBottom={2} />
+
+      {!harAktivTilgangsforespørselForDelbestilling && <BeOmTilgang />}
+    </>
+  )
+}
+
+const InnsendteTilgangsforespørsler = ({
+  innsendteTilgangsforespørsler,
+}: {
+  innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[]
+}) => {
+  return (
+    <Box background="bg-default" padding="8">
+      <Heading size="medium" level="2" spacing>
+        Dine forespørsler for å bestille deler
+      </Heading>
+      {innsendteTilgangsforespørsler.map((innsendt, i) => (
+        <div key={i}>
+          {innsendt.navn} - {innsendt.rettighet} - {innsendt.status}
+        </div>
+      ))}
+    </Box>
+  )
+}
+
 const BeOmTilgang = () => {
+  const queryClient = useQueryClient()
   const [tilgangforespørsel, setTilgangforespørsel] = useState<Tilgangsforespørsel | undefined>(undefined)
-  const [grunnlag, setGrunnlag] = useState<Tilgangsforespørselgrunnlag | undefined>(undefined)
 
   const {
-    henterTilgangsforespørselgrunnlag,
-    hentTilgangsforespørselgrunnlag,
-    senderTilgangsforespørsel,
-    sendTilgangsforespørsel,
-  } = useTilgang()
+    data: grunnlagData,
+    isPending: henterGrunnlag,
+    error: grunnlagError,
+  } = useQuery<TilgangsforespørselgrunnlagResponse>({
+    queryKey: ['grunnlag'],
+    queryFn: () => fetch(`${ROLLER_PATH}/tilgang/grunnlag`).then((res) => res.json()),
+  })
+  const { grunnlag } = grunnlagData ?? {}
 
-  useEffect(() => {
-    ;(async () => {
-      const tilgangsforespørselgrunnlag = await hentTilgangsforespørselgrunnlag()
-      console.log('tilgangsforespørselgrunnlag:', tilgangsforespørselgrunnlag)
-      setGrunnlag(tilgangsforespørselgrunnlag.grunnlag)
-    })()
-  }, [])
+  const { mutate: sendTilgangsforespørsel, isPending: senderTilgangsforespørsel } = useMutation({
+    mutationFn: (t: Tilgangsforespørsel) => {
+      return rest.sendTilgangsforespørsel(t) // TODO: trenger vi egentlig en egen rest-funksjon her?
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
+    },
+    onError: (error) => {
+      alert(error)
+    },
+  })
+
+  if (henterGrunnlag) {
+    return <Loader />
+  }
+
+  if (grunnlagError) {
+    return <Alert variant="error">Klarte ikke å hente grunnlag</Alert>
+  }
 
   if (!grunnlag) {
     // TODO: error håndtering
-    return <Loader />
+    return <div>Fant ikke noe grunnlag.</div>
   }
 
   if (grunnlag.arbeidsforhold.length === 0) {
@@ -72,8 +148,6 @@ const BeOmTilgang = () => {
   }
 
   return (
-    // <InnsendteTilgangsforespørsler />
-
     <Box background="bg-default" padding="8">
       <Heading size="medium" level="2" spacing>
         Be om tilgang for å bestille deler
@@ -176,7 +250,6 @@ const BeOmTilgang = () => {
       <Button
         onClick={() => {
           sendTilgangsforespørsel(tilgangforespørsel!)
-
         }}
         loading={senderTilgangsforespørsel}
       >

@@ -117,7 +117,7 @@ const hentForespørselgrunnlag = async (): Promise<TilgangsforespørselgrunnlagR
   return await response.json()
 }
 
-const sendTilgangsforespørsel = async (tilgangsforespørsel: Tilgangsforespørsel): Promise<Response> => {
+const sendTilgangsforespørsel = async (tilgangsforespørsel: Tilgangsforespørsel): Promise<string> => {
   const response = await fetchPost(`${ROLLER_PATH}/tilgang/foresporsel`, {
     body: JSON.stringify({ forespørsel: tilgangsforespørsel }),
     headers: {
@@ -125,7 +125,7 @@ const sendTilgangsforespørsel = async (tilgangsforespørsel: Tilgangsforespørs
     },
   })
   await handleResponse(response.clone())
-  return await response.json()
+  return await response.text()
 }
 
 const sjekkLoginStatus = async (): Promise<boolean> => {

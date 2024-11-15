@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react'
+
+import { Loader } from '@navikt/ds-react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import Tilgangoversikt from '../components/Tilgangoversikt'
 import useAuth from '../hooks/useAuth'
-import { Loader } from '@navikt/ds-react'
 
 interface Props {}
+const queryClient = new QueryClient()
 
 const Tilgang = ({}: Props) => {
   const { sjekkLoginStatus, sjekkerLogin } = useAuth()
@@ -21,7 +25,11 @@ const Tilgang = ({}: Props) => {
     return <Loader />
   }
 
-  return <Tilgangoversikt />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Tilgangoversikt />
+    </QueryClientProvider>
+  )
 }
 
 export default Tilgang
