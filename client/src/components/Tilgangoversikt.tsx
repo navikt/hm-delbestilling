@@ -17,6 +17,7 @@ import {
   RadioGroup,
   ReadMore,
   Select,
+  Table,
 } from '@navikt/ds-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -76,9 +77,7 @@ const Tilganger = () => {
       {innsendteTilgangsforespørsler && innsendteTilgangsforespørsler.length > 0 && (
         <InnsendteTilgangsforespørsler innsendteTilgangsforespørsler={innsendteTilgangsforespørsler} />
       )}
-
       <Avstand marginBottom={2} />
-
       {!harAktivTilgangsforespørselForDelbestilling && <BeOmTilgang />}
     </>
   )
@@ -94,11 +93,26 @@ const InnsendteTilgangsforespørsler = ({
       <Heading size="medium" level="2" spacing>
         Dine forespørsler for å bestille deler
       </Heading>
-      {innsendteTilgangsforespørsler.map((innsendt, i) => (
-        <div key={i}>
-          {innsendt.navn} - {innsendt.rettighet} - {innsendt.status}
-        </div>
-      ))}
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Navn</Table.HeaderCell>
+            <Table.HeaderCell>Rettighet</Table.HeaderCell>
+            <Table.HeaderCell>Sendt inn</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {innsendteTilgangsforespørsler.map((innsendt, i) => (
+            <Table.Row key={i}>
+              <Table.DataCell>{innsendt.navn}</Table.DataCell>
+              <Table.DataCell>{innsendt.rettighet}</Table.DataCell>
+              <Table.DataCell>{new Date().toLocaleDateString()}</Table.DataCell>
+              <Table.DataCell>{innsendt.status}</Table.DataCell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
     </Box>
   )
 }
@@ -138,7 +152,6 @@ const BeOmTilgang = () => {
   }
 
   if (!grunnlag) {
-    // TODO: error håndtering
     return <div>Fant ikke noe grunnlag.</div>
   }
 
@@ -172,11 +185,11 @@ const BeOmTilgang = () => {
               </HelpText>
             </HStack>
           }
-          onChange={(val: Arbeidsforhold) => {
+          onChange={(arbeidsforhold: Arbeidsforhold) => {
             setTilgangforespørsel({
               navn: grunnlag.navn,
               rettighet: Rettighet.DELBESTILLING,
-              arbeidsforhold: val,
+              arbeidsforhold,
               påVegneAvKommune: undefined,
             })
           }}
