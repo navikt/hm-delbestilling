@@ -56,6 +56,7 @@ const Tilganger = () => {
   const { data: innsendteTilgangsforespørsler, isFetching } = useQuery<InnsendtTilgangsforespørsel[]>({
     queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER],
     queryFn: () => fetch(`${ROLLER_PATH}/tilgang/foresporsel?rettighet=DELBESTILLING`).then((res) => res.json()),
+    refetchOnWindowFocus: false,
   })
 
   if (isFetching) {
