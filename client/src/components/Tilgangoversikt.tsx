@@ -183,7 +183,7 @@ const BeOmTilgang = () => {
     mutationFn: (arbeidsforhold: Arbeidsforhold) => {
       const forespørsler: Tilgangsforespørsel[] = []
 
-      if (arbeidsforhold.overordnetOrganisasjon.orgform === 'KOMM') {
+      if (arbeidsforhold.overordnetOrganisasjon.form === 'KOMM') {
         forespørsler.push({
           arbeidsforhold,
           navn: grunnlag?.navn!,
@@ -267,7 +267,7 @@ const BeOmTilgang = () => {
           ))}
         </RadioGroup>
       </Avstand>
-      {valgtArbeidsforhold && valgtArbeidsforhold.overordnetOrganisasjon.orgform !== 'KOMM' && (
+      {valgtArbeidsforhold && valgtArbeidsforhold.overordnetOrganisasjon.form !== 'KOMM' && (
         <Avstand marginBottom={4}>
           <UNSAFE_Combobox
             label={`Velg hvilke kommuner ${valgtArbeidsforhold.organisasjon.navn} representerer`}
@@ -292,8 +292,8 @@ const BeOmTilgang = () => {
             }}
           ></UNSAFE_Combobox>
           <ReadMore header="Hvorfor må jeg velge dette?">
-            {valgtArbeidsforhold.organisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge hvilke kommuner
-            denne organisasjonen har avtale med.
+            {valgtArbeidsforhold.overordnetOrganisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge
+            hvilke kommuner denne organisasjonen har avtale med.
           </ReadMore>
         </Avstand>
       )}

@@ -74,16 +74,23 @@ export interface Delbestillerrolle {
   kanBestilleDeler: boolean
   harXKLager: boolean
   erKommunaltAnsatt: boolean
-  kommunaleOrgs: Organisasjon[] | undefined
+  kommunaleOrgs: RolleOrganisasjon[] | undefined
 }
 
-export interface Organisasjon {
+export interface RolleOrganisasjon {
   orgnr: string
   navn: string
   orgform: string
   overordnetOrgnr: string | undefined
   næringskoder: Næringskode[]
   kommunenummer: string | undefined
+}
+
+// TODO: trenger vi egentlig to interfaces for orgs?
+export interface TilgangOrganisasjon {
+  nummer: string
+  navn: string
+  form: string
 }
 
 export interface Næringskode {
@@ -115,8 +122,8 @@ export enum Rettighet {
 }
 
 export interface Arbeidsforhold {
-  overordnetOrganisasjon: Organisasjon
-  organisasjon: Organisasjon
+  overordnetOrganisasjon: TilgangOrganisasjon
+  organisasjon: TilgangOrganisasjon
   stillingstittel: string
   kommune: Kommune
 }
