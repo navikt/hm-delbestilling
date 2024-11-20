@@ -142,3 +142,18 @@ export enum Tilgangsforespørselstatus {
   GODKJENT = 'GODKJENT',
   AVSLÅTT = 'AVSLÅTT',
 }
+
+export interface Tilgang {
+  id: string
+  navn: string
+  arbeidsforhold: Arbeidsforhold
+  rettighet: Rettighet
+  behandlendeEnhet: any
+  status: Tilgangstatus
+}
+
+export enum Tilgangstatus {
+  'AKTIV' = 'AKTIV',
+  'SLETTET_AV_TILGANGSSTYRER' = 'SLETTET_AV_TILGANGSSTYRER',
+  'SLETTET_AV_INNSENDER' = 'SLETTET_AV_INNSENDER',
+}

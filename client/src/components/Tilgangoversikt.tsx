@@ -31,6 +31,7 @@ import {
   InnsendtTilgangsforespørsel,
   Kommune,
   Rettighet,
+  Tilgang,
   Tilgangsforespørsel,
   Tilgangsforespørselstatus,
 } from '../types/Types'
@@ -38,6 +39,7 @@ import {
 import { Avstand } from './Avstand'
 
 const QUERY_KEY_INNSENDTEFORESPØRSLER = 'innsendteforespørsler'
+const QUERY_KEY_TILGANGER = 'tilganger'
 
 const IngenTilgang = () => {
   return (
@@ -53,13 +55,29 @@ const IngenTilgang = () => {
 }
 
 const Tilganger = () => {
-  const { data: innsendteTilgangsforespørsler, isFetching } = useQuery<InnsendtTilgangsforespørsel[]>({
+  const { data: innsendteTilgangsforespørsler, isFetching: henterInnsendteForespørsler } = useQuery<
+    InnsendtTilgangsforespørsel[]
+  >({
     queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER],
     queryFn: () => fetch(`${ROLLER_PATH}/tilgang/foresporsel?rettighet=DELBESTILLING`).then((res) => res.json()),
     refetchOnWindowFocus: false,
   })
 
-  if (isFetching) {
+  const { data: tilganger, isFetching: henterTilganger } = useQuery<Tilgang[]>({
+    queryKey: [QUERY_KEY_TILGANGER],
+    queryFn: () => {
+      return rest.hentTilganger()
+    },
+    refetchOnWindowFocus: false,
+  })
+
+  console.log('tilganger:', tilganger)
+
+  if (henterInnsendteForespørsler || henterTilganger) {
+    return <CenteredLoader />
+  }
+
+  if (!tilganger) {
     return <CenteredLoader />
   }
 
@@ -71,7 +89,13 @@ const Tilganger = () => {
 
   return (
     <>
-      {innsendteTilgangsforespørsler && innsendteTilgangsforespørsler.length === 0 && (
+      {tilganger.length > 0 && (
+        <Alert variant="success">
+          Du har allerede følgende tilganger:{' '}
+          {tilganger.map((t) => `${t.rettighet} for ${t.arbeidsforhold.organisasjon.navn}`)}
+        </Alert>
+      )}
+      {tilganger.length === 0 && (
         <GuidePanel>
           Det kan se ut som du ikke har tilgang til å bestille deler. Du kan bruke veilederen under for å be om tilgang.
         </GuidePanel>
