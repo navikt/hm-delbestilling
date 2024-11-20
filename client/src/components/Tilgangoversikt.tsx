@@ -305,7 +305,7 @@ const BeOmTilgang = () => {
               Dette sendes i forespørselen til Nav
             </Heading>
             <BodyShort>
-              <Label>Navn:</Label> Max Mekker
+              <Label>Navn:</Label> {grunnlag.navn}
             </BodyShort>
             <BodyShort>
               <Label>Jeg vil:</Label> Bestille deler til hjelpemidler
