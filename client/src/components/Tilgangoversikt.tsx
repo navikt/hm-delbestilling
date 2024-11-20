@@ -120,6 +120,8 @@ const Tilganger = () => {
       )}
       <Avstand marginBottom={2} />
       {!harAktivTilgangsforespørselForDelbestilling && <BeOmTilgang />}
+
+      <Admin innsendteTilgangsforespørsler={innsendteTilgangsforespørsler} />
     </>
   )
 }
@@ -264,8 +266,6 @@ const BeOmTilgang = () => {
     return <BodyShort>Du har ingen ansettelsesforhold.</BodyShort>
   }
 
-  console.log('valgteKommuner:', valgteKommuner)
-
   return (
     <Box background="bg-default" padding="8">
       <Heading size="medium" level="2" spacing>
@@ -376,6 +376,80 @@ const BeOmTilgang = () => {
       >
         Be om tilgang
       </Button>
+    </Box>
+  )
+}
+
+const Admin = ({
+  innsendteTilgangsforespørsler,
+}: {
+  innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[] | undefined
+}) => {
+  const queryClient = useQueryClient()
+  const { mutate: oppdaterForespørselStatus, isPending: oppdatererForespørselStatus } = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: Tilgangsforespørselstatus }) => {
+      return rest.oppdaterForespørselStatus(id, status)
+    },
+    onSuccess: () => {
+      console.log('Status oppdatert!')
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER, QUERY_KEY_TILGANGER] })
+    },
+    onError: (error) => {
+      alert(error)
+    },
+  })
+
+  if (!innsendteTilgangsforespørsler || innsendteTilgangsforespørsler.length === 0) {
+    return <div>Det er ingen tilgangsforespørsler inne</div>
+  }
+
+  const avventerBehandling = innsendteTilgangsforespørsler.filter(
+    (f) => f.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING
+  )
+
+  if (avventerBehandling.length === 0) {
+    return <div>Det er ingen forespørsler som avventer behandling</div>
+  }
+
+  return (
+    <Box style={{ border: '2px dotted' }} padding="4">
+      <Heading level="2" spacing size="small">
+        Admin
+      </Heading>
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>ID</Table.HeaderCell>
+            <Table.HeaderCell>Navn</Table.HeaderCell>
+            <Table.HeaderCell>Organisasjon</Table.HeaderCell>
+            <Table.HeaderCell>Handling</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {avventerBehandling.map((f) => (
+            <Table.Row key={f.id}>
+              <Table.DataCell>{f.id}</Table.DataCell>
+              <Table.DataCell>{f.navn}</Table.DataCell>
+              <Table.DataCell>{f.arbeidsforhold.organisasjon.navn}</Table.DataCell>
+              <Table.DataCell>
+                <Button
+                  onClick={() => oppdaterForespørselStatus({ id: f.id, status: Tilgangsforespørselstatus.GODKJENT })}
+                  loading={oppdatererForespørselStatus}
+                >
+                  Godkjenn
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => oppdaterForespørselStatus({ id: f.id, status: Tilgangsforespørselstatus.AVSLÅTT })}
+                  loading={oppdatererForespørselStatus}
+                >
+                  Avslå
+                </Button>
+              </Table.DataCell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
     </Box>
   )
 }

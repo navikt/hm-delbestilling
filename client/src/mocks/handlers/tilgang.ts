@@ -76,34 +76,34 @@ const tilgangHandlers = [
 
     await delay(500)
     return HttpResponse.json([
-      {
-        id: uuidv4(),
-        navn: 'Max Mekker',
-        behandlendeEnhet: {},
-        rettighet: Rettighet.DELBESTILLING,
-        status: Tilgangstatus.AKTIV,
-        arbeidsforhold: {
-          kommune: {
-            kommunenavn: 'Oslo',
-            kommunenummer: '0301',
-            fylkenavn: 'Oslo',
-            fylkenummer: '01',
-            fylkesnavn: 'Oslo',
-            fylkesnummer: '01',
-          },
-          organisasjon: {
-            navn: 'Oslo kommune rehabilitering og mestring',
-            form: 'BEDR',
-            nummer: '0',
-          },
-          overordnetOrganisasjon: {
-            navn: 'Oslo kommune',
-            form: 'KOMM',
-            nummer: '0',
-          },
-          stillingstittel: 'Montør (tekniske hjelpemidler)',
-        },
-      },
+      // {
+      //   id: uuidv4(),
+      //   navn: 'Max Mekker',
+      //   behandlendeEnhet: {},
+      //   rettighet: Rettighet.DELBESTILLING,
+      //   status: Tilgangstatus.AKTIV,
+      //   arbeidsforhold: {
+      //     kommune: {
+      //       kommunenavn: 'Oslo',
+      //       kommunenummer: '0301',
+      //       fylkenavn: 'Oslo',
+      //       fylkenummer: '01',
+      //       fylkesnavn: 'Oslo',
+      //       fylkesnummer: '01',
+      //     },
+      //     organisasjon: {
+      //       navn: 'Oslo kommune rehabilitering og mestring',
+      //       form: 'BEDR',
+      //       nummer: '0',
+      //     },
+      //     overordnetOrganisasjon: {
+      //       navn: 'Oslo kommune',
+      //       form: 'KOMM',
+      //       nummer: '0',
+      //     },
+      //     stillingstittel: 'Montør (tekniske hjelpemidler)',
+      //   },
+      // },
     ])
   }),
 
@@ -147,6 +147,18 @@ const tilgangHandlers = [
 
       innsendteTilgangsforespørsler = innsendteTilgangsforespørsler.filter((forespørsel) => forespørsel.id !== id)
 
+      return HttpResponse.text('OK', { status: 200 })
+    }
+  ),
+
+  http.put<{}, { id: string; status: Tilgangsforespørselstatus }, {}>(
+    '/hjelpemidler/delbestilling/roller/tilgang/foresporsel/status',
+    async ({ request }) => {
+      const { id, status } = await request.json()
+
+      await delay(500)
+
+      innsendteTilgangsforespørsler = innsendteTilgangsforespørsler.map((f) => (f.id === id ? { ...f, status } : f))
       return HttpResponse.text('OK', { status: 200 })
     }
   ),

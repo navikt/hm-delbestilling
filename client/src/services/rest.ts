@@ -8,7 +8,14 @@ import {
   OppslagResponse,
   TilgangsforespørselgrunnlagResponse,
 } from '../types/HttpTypes'
-import { Delbestilling, DelbestillingSak, Tilgang, Tilgangsforespørsel, Valg } from '../types/Types'
+import {
+  Delbestilling,
+  DelbestillingSak,
+  Tilgang,
+  Tilgangsforespørsel,
+  Tilgangsforespørselstatus,
+  Valg,
+} from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
@@ -48,6 +55,10 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
 
 const fetchDelete: (url: string, otherParams?: any, timeout?: number) => Promise<Response> = (url, otherParams) => {
   return fetch(url, { method: 'DELETE', ...otherParams })
+}
+
+const fetchPut: (url: string, otherParams?: any, timeout?: number) => Promise<Response> = (url, otherParams) => {
+  return fetch(url, { method: 'PUT', ...otherParams })
 }
 
 const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<OppslagResponse> => {
@@ -138,6 +149,17 @@ const slettTilgangsforespørsel = async (id: string): Promise<string> => {
   return await response.text()
 }
 
+const oppdaterForespørselStatus = async (id: string, status: Tilgangsforespørselstatus): Promise<string> => {
+  const response = await fetchPut(`${ROLLER_PATH}/tilgang/foresporsel/status`, {
+    body: JSON.stringify({ id, status }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  await handleResponse(response.clone())
+  return await response.text()
+}
+
 const hentTilganger = async (): Promise<Tilgang[]> => {
   const response = await fetch(`${ROLLER_PATH}/tilgang?rettighet=DELBESTILLING`)
   await handleResponse(response.clone())
@@ -172,4 +194,5 @@ export default {
   sendTilgangsforespørsler,
   slettTilgangsforespørsel,
   hentTilganger,
+  oppdaterForespørselStatus,
 }
