@@ -34,6 +34,7 @@ import {
   Tilgang,
   Tilgangsforespørsel,
   Tilgangsforespørselstatus,
+  Tilgangstatus,
 } from '../types/Types'
 
 import { Avstand } from './Avstand'
@@ -87,18 +88,29 @@ const Tilganger = () => {
       innsendt.rettighet === Rettighet.DELBESTILLING
   )
 
+  const aktiveTilganger = tilganger.filter((t) => t.status === Tilgangstatus.AKTIV)
+  const inaktiveTilganger = tilganger.filter((t) => t.status !== Tilgangstatus.AKTIV)
+
   return (
     <>
-      {tilganger.length > 0 && (
+      {aktiveTilganger.length > 0 && (
         <Alert variant="success">
           Du har allerede følgende tilganger:{' '}
           {tilganger.map((t) => `${t.rettighet} for ${t.arbeidsforhold.organisasjon.navn}`)}
         </Alert>
       )}
-      {tilganger.length === 0 && (
+      {aktiveTilganger.length === 0 && (
         <GuidePanel>
           Det kan se ut som du ikke har tilgang til å bestille deler. Du kan bruke veilederen under for å be om tilgang.
         </GuidePanel>
+      )}
+      {inaktiveTilganger.length > 0 && (
+        <div>
+          Du har følgende inaktive tilganger:{' '}
+          {inaktiveTilganger.map(
+            (t) => `${t.rettighet} for ${t.arbeidsforhold.organisasjon.navn}. Status: ${t.status}`
+          )}
+        </div>
       )}
       {innsendteTilgangsforespørsler && innsendteTilgangsforespørsler.length > 0 && (
         <InnsendteTilgangsforespørsler
