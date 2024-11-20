@@ -56,7 +56,13 @@ const IngenTilgang = () => {
 }
 
 const Tilganger = () => {
-  const { data: innsendteTilgangsforespørsler, isFetching: henterInnsendteForespørsler } = useQuery<
+  const { data: tilganger, isFetching: henterTilganger } = useQuery<Tilgang[]>({
+    queryKey: [QUERY_KEY_TILGANGER],
+    queryFn: () => rest.hentTilganger(),
+    refetchOnWindowFocus: false,
+  })
+
+  const { data: innsendteTilgangsforespørsler, isFetching: henterInnsendteTilgangsforespørsler } = useQuery<
     InnsendtTilgangsforespørsel[]
   >({
     queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER],
@@ -64,17 +70,7 @@ const Tilganger = () => {
     refetchOnWindowFocus: false,
   })
 
-  const { data: tilganger, isFetching: henterTilganger } = useQuery<Tilgang[]>({
-    queryKey: [QUERY_KEY_TILGANGER],
-    queryFn: () => {
-      return rest.hentTilganger()
-    },
-    refetchOnWindowFocus: false,
-  })
-
-  console.log('tilganger:', tilganger)
-
-  if (henterInnsendteForespørsler || henterTilganger) {
+  if (henterInnsendteTilgangsforespørsler || henterTilganger) {
     return <CenteredLoader />
   }
 
@@ -136,12 +132,8 @@ const InnsendteTilgangsforespørsler = ({
 }) => {
   const queryClient = useQueryClient()
   const { mutate: slettTilgangsforespørsel, isPending: sletterTilgangsforespørsel } = useMutation({
-    mutationFn: (id: string) => {
-      return rest.slettTilgangsforespørsel(id)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
-    },
+    mutationFn: (id: string) => rest.slettTilgangsforespørsel(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] }),
     onError: (error) => {
       alert(error)
     },
@@ -243,6 +235,8 @@ const BeOmTilgang = () => {
       return rest.sendTilgangsforespørsler(forespørsler)
     },
     onSuccess: () => {
+      // TODO: kanskje bruke setQueryData i stedet?
+      // https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
     },
     onError: (error) => {
@@ -388,11 +382,9 @@ const Admin = ({
 }) => {
   const queryClient = useQueryClient()
   const { mutate: oppdaterForespørselStatus, isPending: oppdatererForespørselStatus } = useMutation({
-    mutationFn: ({ id, status }: { id: string; status: Tilgangsforespørselstatus }) => {
-      return rest.oppdaterForespørselStatus(id, status)
-    },
+    mutationFn: ({ id, status }: { id: string; status: Tilgangsforespørselstatus }) =>
+      rest.oppdaterForespørselStatus(id, status),
     onSuccess: () => {
-      console.log('Status oppdatert!')
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_TILGANGER] })
     },
