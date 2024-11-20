@@ -121,6 +121,7 @@ const Tilganger = () => {
       <Avstand marginBottom={2} />
       {!harAktivTilgangsforespørselForDelbestilling && <BeOmTilgang />}
 
+      <Avstand marginBottom={8} />
       <Admin innsendteTilgangsforespørsler={innsendteTilgangsforespørsler} />
     </>
   )
@@ -182,7 +183,7 @@ const InnsendteTilgangsforespørsler = ({
                 </HStack>
               </Table.DataCell>
               <Table.DataCell>
-                {innsendt.status !== Tilgangsforespørselstatus.AVSLÅTT && (
+                {innsendt.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING && (
                   <Button
                     loading={sletterTilgangsforespørsel}
                     onClick={() => {
@@ -392,7 +393,8 @@ const Admin = ({
     },
     onSuccess: () => {
       console.log('Status oppdatert!')
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER, QUERY_KEY_TILGANGER] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_TILGANGER] })
     },
     onError: (error) => {
       alert(error)

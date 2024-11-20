@@ -75,36 +75,7 @@ const tilgangHandlers = [
     const rettighet = url.searchParams.get('rettighet')
 
     await delay(500)
-    return HttpResponse.json([
-      // {
-      //   id: uuidv4(),
-      //   navn: 'Max Mekker',
-      //   behandlendeEnhet: {},
-      //   rettighet: Rettighet.DELBESTILLING,
-      //   status: Tilgangstatus.AKTIV,
-      //   arbeidsforhold: {
-      //     kommune: {
-      //       kommunenavn: 'Oslo',
-      //       kommunenummer: '0301',
-      //       fylkenavn: 'Oslo',
-      //       fylkenummer: '01',
-      //       fylkesnavn: 'Oslo',
-      //       fylkesnummer: '01',
-      //     },
-      //     organisasjon: {
-      //       navn: 'Oslo kommune rehabilitering og mestring',
-      //       form: 'BEDR',
-      //       nummer: '0',
-      //     },
-      //     overordnetOrganisasjon: {
-      //       navn: 'Oslo kommune',
-      //       form: 'KOMM',
-      //       nummer: '0',
-      //     },
-      //     stillingstittel: 'Montør (tekniske hjelpemidler)',
-      //   },
-      // },
-    ])
+    return HttpResponse.json(tilganger)
   }),
 
   http.post<{}, TilgangsforespørselRequest, any>(
@@ -159,6 +130,19 @@ const tilgangHandlers = [
       await delay(500)
 
       innsendteTilgangsforespørsler = innsendteTilgangsforespørsler.map((f) => (f.id === id ? { ...f, status } : f))
+
+      if (status === Tilgangsforespørselstatus.GODKJENT) {
+        const forespørsel = innsendteTilgangsforespørsler.find((f) => f.id === id)!
+        tilganger.push({
+          id,
+          navn: forespørsel.navn,
+          arbeidsforhold: forespørsel.arbeidsforhold,
+          rettighet: forespørsel.rettighet,
+          behandlendeEnhet: {},
+          status: Tilgangstatus.AKTIV,
+        })
+      }
+
       return HttpResponse.text('OK', { status: 200 })
     }
   ),
