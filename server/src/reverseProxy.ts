@@ -27,12 +27,14 @@ function options(targetAudience: string): ProxyOptions {
 const envProperties = {
   API_URL: process.env.API_URL || 'http://localhost:9090',
   ROLLER_URL: process.env.ROLLER_URL || 'http://localhost:8091',
+  OPPSLAG_URL: process.env.OPPSLAG_URL || 'http://localhost:8091',
 }
 
 function pathRewriteBasedOnEnvironment(req: Request): string {
   return req.originalUrl
     .replace('/hjelpemidler/delbestilling/api', '/api')
     .replace('/hjelpemidler/delbestilling/roller', '/api')
+    .replace('/hjelpemidler/delbestilling/oppslag', '/api')
 }
 
 function setup() {
@@ -45,6 +47,7 @@ function setup() {
 const handlers = {
   api: (): RequestHandler => proxy(envProperties.API_URL, options(config.app.targetAudienceAPI)),
   roller: (): RequestHandler => proxy(envProperties.ROLLER_URL, options(config.app.targetAudienceRoller)),
+  oppslag: (): RequestHandler => proxy(envProperties.OPPSLAG_URL),
 }
 
 export const reverseProxy = {

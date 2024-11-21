@@ -10,6 +10,7 @@ import {
 import {
   Delbestilling,
   DelbestillingSak,
+  Kommune,
   Tilgang,
   Tilgangsforespørsel,
   Tilgangsforespørselgrunnlag,
@@ -20,6 +21,7 @@ import {
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
 export const ROLLER_PATH = REST_BASE_PATH + '/roller'
+export const OPPSLAG_PATH = REST_BASE_PATH + '/oppslag'
 
 export class ApiError extends Error {
   statusCode: number | undefined
@@ -180,6 +182,16 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
   return true
 }
 
+export interface Kommuner {
+  [kommunenr: string]: Kommune
+}
+
+const hentKommuner = async (): Promise<Kommuner> => {
+  const response = await fetch(`${OPPSLAG_PATH}/geografi/kommuner`)
+  await handleResponse(response.clone())
+  return await response.json()
+}
+
 export default {
   hjelpemiddelOppslag,
   hentAlleHjelpemidlerMedDeler,
@@ -195,4 +207,5 @@ export default {
   slettTilgangsforespørsel,
   hentTilganger,
   oppdaterTilgangsforespørselstatus,
+  hentKommuner,
 }

@@ -129,8 +129,6 @@ export interface Arbeidsforhold {
 }
 
 export interface Kommune {
-  fylkesnummer: string | undefined
-  fylkesnavn: string | undefined
   kommunenummer: string
   kommunenavn: string
   fylkenummer: string
@@ -150,6 +148,7 @@ export interface Tilgang {
   rettighet: Rettighet
   behandlendeEnhet: any
   status: Tilgangstatus
+  representertKommune: Kommune
 }
 
 export enum Tilgangstatus {

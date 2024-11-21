@@ -39,6 +39,8 @@ spec:
       value: http://hm-roller.teamdigihot.svc.cluster.local
     - name: ROLLER_AUDIENCE
       value: prod-gcp:teamdigihot:hm-roller
+    - name: OPPSLAG_URL
+      value: http://digihot-oppslag.teamdigihot.svc.cluster.local
     - name: REDIRECT_URL
       value: https://www.nav.no/hjelpemidler/delbestilling
     - name: USE_MSW
@@ -53,5 +55,6 @@ spec:
       rules:
         - application: hm-delbestilling-api
         - application: hm-roller
+        - application: digihot-oppslag
         - application: nav-dekoratoren
           namespace: personbruker
