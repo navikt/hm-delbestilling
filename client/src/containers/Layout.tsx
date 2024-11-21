@@ -1,17 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import { Alert, Heading } from '@navikt/ds-react'
+import { Alert, Heading, Link } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
+import useAuth from '../hooks/useAuth'
+import { Delbestillerrolle } from '../types/Types'
+import { BASE_PATH } from '../App'
 
 // Delte page-komponenter for hver side
 const Layout = () => {
   const { t } = useTranslation()
   const visTestMiljoBanner = window.appSettings.USE_MSW === true && window.location.hostname !== 'localhost'
+
   return (
     <>
       <Header>
@@ -26,9 +30,48 @@ const Layout = () => {
           </Heading>
         </Content>
       </Header>
+      <RettighetPåminnelse />
       <Outlet />
     </>
   )
+}
+
+const RettighetPåminnelse = () => {
+  const { rolle } = useAuth()
+  const [delbestillerrolle, setDelbestillerrolle] = useState<Delbestillerrolle | undefined>()
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const response = await rolle()
+        setDelbestillerrolle(response.delbestillerrolle)
+      } catch (err: any) {
+        console.log(err)
+      }
+    })()
+  }, [])
+
+  console.log('delbestillerrolle:', delbestillerrolle)
+
+  if (!delbestillerrolle) {
+    return null
+  }
+
+  let advarselTekst: React.ReactNode
+
+  if (!delbestillerrolle.delbestillerrettighet.harRettighet) {
+    advarselTekst = (
+      <>
+        Det kan se ut som du ikke har fått den nye rettigheten for å bestille deler. Du kan fortsette bestille deler,
+        men om x antall uker må du ha bedt om den nye rettigheten. Trykk <Link href={`${BASE_PATH}tilgang`}>her</Link>{' '}
+        for å gjøre det.
+      </>
+    )
+  }
+
+  if (advarselTekst) {
+    return <Alert variant="warning">{advarselTekst}</Alert>
+  }
 }
 
 export default Layout

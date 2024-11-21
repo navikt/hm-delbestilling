@@ -73,8 +73,14 @@ export enum Levering {
 export interface Delbestillerrolle {
   kanBestilleDeler: boolean
   harXKLager: boolean
-  erKommunaltAnsatt: boolean
   kommunaleOrgs: RolleOrganisasjon[] | undefined
+  erKommunaltAnsatt: boolean
+  delbestillerrettighet: Delbestillerrettighet
+}
+
+export interface Delbestillerrettighet {
+  harRettighet: boolean
+  tilganger: Tilgang[]
 }
 
 export interface RolleOrganisasjon {
