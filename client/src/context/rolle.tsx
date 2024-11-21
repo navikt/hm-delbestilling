@@ -57,10 +57,14 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (!delbestillerrolle) {
     return <div>{t('error.ingenRolle')}</div>
-  } else if (delbestillerrolle.erKommunaltAnsatt === false) {
-    feilmeldingsTekst = t('error.ikkeKommunaltAnsatt')
-  } else if (delbestillerrolle.kanBestilleDeler === false) {
-    feilmeldingsTekst = 'error.kanIkkeBestilleDeler'
+  } else {
+    if (!delbestillerrolle.delbestillerrettighet.harRettighet) {
+      if (delbestillerrolle.erKommunaltAnsatt === false) {
+        feilmeldingsTekst = t('error.ikkeKommunaltAnsatt')
+      } else if (delbestillerrolle.kanBestilleDeler === false) {
+        feilmeldingsTekst = t('error.kanIkkeBestilleDeler')
+      }
+    }
   }
 
   if (feilmeldingsTekst) {
