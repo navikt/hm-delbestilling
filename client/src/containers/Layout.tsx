@@ -4,12 +4,12 @@ import { Outlet } from 'react-router-dom'
 
 import { Alert, Heading, Link } from '@navikt/ds-react'
 
+import { BASE_PATH } from '../App'
 import { Avstand } from '../components/Avstand'
+import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
-import useAuth from '../hooks/useAuth'
 import { Delbestillerrolle } from '../types/Types'
-import { BASE_PATH } from '../App'
 
 // Delte page-komponenter for hver side
 const Layout = () => {
@@ -51,8 +51,6 @@ const RettighetPåminnelse = () => {
     })()
   }, [])
 
-  console.log('delbestillerrolle:', delbestillerrolle)
-
   if (!delbestillerrolle) {
     return null
   }
@@ -72,6 +70,8 @@ const RettighetPåminnelse = () => {
   if (advarselTekst) {
     return <Alert variant="warning">{advarselTekst}</Alert>
   }
+
+  return null
 }
 
 export default Layout
