@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
 import { Alert, Heading, Link } from '@navikt/ds-react'
 
@@ -40,6 +40,8 @@ const RettighetPåminnelse = () => {
   const { rolle } = useAuth()
   const [delbestillerrolle, setDelbestillerrolle] = useState<Delbestillerrolle | undefined>()
 
+  const { pathname } = useLocation()
+
   useEffect(() => {
     ;(async () => {
       try {
@@ -50,6 +52,10 @@ const RettighetPåminnelse = () => {
       }
     })()
   }, [])
+
+  if (pathname === '/tilgang') {
+    return null
+  }
 
   if (!delbestillerrolle) {
     return null

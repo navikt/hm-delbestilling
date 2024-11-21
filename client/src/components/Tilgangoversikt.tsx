@@ -38,6 +38,7 @@ import {
 } from '../types/Types'
 
 import { Avstand } from './Avstand'
+import { BASE_PATH } from '../App'
 
 const QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER = 'innsendteforespørsler'
 const QUERY_KEY_TILGANGER = 'tilganger'
@@ -47,6 +48,7 @@ const Tilgangsoversikt = () => {
     <main>
       <GlobalStyle />
       <Content>
+        <Link href={BASE_PATH}>Til forsiden</Link>
         <Avstand marginTop={4}>
           <Avstand marginBottom={4}>
             <Tilganger />
