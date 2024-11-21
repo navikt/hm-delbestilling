@@ -17,7 +17,7 @@ const tilgangHandlers = [
   http.get<{}, {}, TilgangsforespørselgrunnlagResponse>(
     '/hjelpemidler/delbestilling/roller/tilgang/grunnlag',
     async () => {
-      await delay(500)
+      await delay(1000)
       return HttpResponse.json({
         grunnlag: {
           navn: 'Max Mekker',

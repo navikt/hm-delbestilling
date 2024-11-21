@@ -48,7 +48,13 @@ const Tilgangsoversikt = () => {
       <GlobalStyle />
       <Content>
         <Avstand marginTop={4}>
-          <Tilganger />
+          <Avstand marginBottom={4}>
+            <Tilganger />
+          </Avstand>
+          <Avstand marginBottom={4}>
+            <InnsendteTilgangsforespørsler />
+          </Avstand>
+          <Admin />
         </Avstand>
       </Content>
     </main>
@@ -62,27 +68,14 @@ const Tilganger = () => {
     refetchOnWindowFocus: false,
   })
 
-  const { data: innsendteTilgangsforespørsler, isFetching: henterInnsendteTilgangsforespørsler } = useQuery<
-    InnsendtTilgangsforespørsel[]
-  >({
-    queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER],
-    queryFn: () => fetch(`${ROLLER_PATH}/tilgang/foresporsel?rettighet=DELBESTILLING`).then((res) => res.json()),
-    refetchOnWindowFocus: false,
-  })
-
-  if (henterInnsendteTilgangsforespørsler || henterTilganger) {
-    return <CenteredLoader />
+  if (henterTilganger) {
+    // return <CenteredLoader />
+    return null
   }
 
   if (!tilganger) {
-    return <CenteredLoader />
+    return <div>Fant ingen tilganger</div>
   }
-
-  const harAktivTilgangsforespørselForDelbestilling = (innsendteTilgangsforespørsler ?? []).some(
-    (innsendt) =>
-      innsendt.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING &&
-      innsendt.rettighet === Rettighet.DELBESTILLING
-  )
 
   const aktiveTilganger = tilganger.filter((t) => t.status === Tilgangstatus.AKTIV)
   const inaktiveTilganger = tilganger.filter((t) => t.status !== Tilgangstatus.AKTIV)
@@ -96,18 +89,16 @@ const Tilganger = () => {
         </GuidePanel>
       )}
       {aktiveTilganger.length > 0 && (
-        <Avstand marginBottom={4}>
-          <Alert variant="success">
-            <BodyShort>Du har allerede følgende tilganger:</BodyShort>
-            <ul>
-              {tilganger.map((t, i) => (
-                <li key={i}>
-                  {t.rettighet} for {t.arbeidsforhold.organisasjon.navn}
-                </li>
-              ))}
-            </ul>
-          </Alert>
-        </Avstand>
+        <Alert variant="success">
+          <BodyShort>Du har allerede disse tilgangene:</BodyShort>
+          <ul>
+            {tilganger.map((t, i) => (
+              <li key={i}>
+                {t.rettighet} for {t.arbeidsforhold.organisasjon.navn}
+              </li>
+            ))}
+          </ul>
+        </Alert>
       )}
       {inaktiveTilganger.length > 0 && (
         <div>
@@ -117,29 +108,16 @@ const Tilganger = () => {
           )}
         </div>
       )}
-      {innsendteTilgangsforespørsler && innsendteTilgangsforespørsler.length > 0 && (
-        <InnsendteTilgangsforespørsler
-          innsendteTilgangsforespørsler={innsendteTilgangsforespørsler}
-          harAktivTilgangsforespørselForDelbestilling={harAktivTilgangsforespørselForDelbestilling}
-        />
-      )}
-      <Avstand marginBottom={2} />
-      {!harAktivTilgangsforespørselForDelbestilling && <BeOmTilgang />}
-
-      <Avstand marginBottom={8} />
-      <Admin innsendteTilgangsforespørsler={innsendteTilgangsforespørsler} />
     </>
   )
 }
 
-const InnsendteTilgangsforespørsler = ({
-  innsendteTilgangsforespørsler,
-  harAktivTilgangsforespørselForDelbestilling,
-}: {
-  innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[]
-  harAktivTilgangsforespørselForDelbestilling: boolean
-}) => {
+const InnsendteTilgangsforespørsler = () => {
   const queryClient = useQueryClient()
+
+  const { data: innsendteTilgangsforespørsler, isFetching: henterInnsendteTilgangsforespørsler } =
+    useInnsendteTilgangsforespørsler()
+
   const { mutate: slettTilgangsforespørsel, isPending: sletterTilgangsforespørsel } = useMutation({
     mutationFn: (id: string) => rest.slettTilgangsforespørsel(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] }),
@@ -148,60 +126,85 @@ const InnsendteTilgangsforespørsler = ({
     },
   })
 
+  if (henterInnsendteTilgangsforespørsler) {
+    return <CenteredLoader />
+  }
+
+  if (!innsendteTilgangsforespørsler) {
+    return <div>Ingen innsendte tilgangsforespørsler</div>
+  }
+
+  if (innsendteTilgangsforespørsler.length === 0) {
+    return <BeOmTilgang />
+  }
+
+  const harAktivTilgangsforespørselForDelbestilling = innsendteTilgangsforespørsler.some(
+    (innsendt) =>
+      innsendt.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING &&
+      innsendt.rettighet === Rettighet.DELBESTILLING
+  )
+
   return (
-    <Box background="bg-default" padding="8">
-      <Heading size="medium" level="2" spacing>
-        Dine tilgangsforespørsler
-      </Heading>
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Rettighet</Table.HeaderCell>
-            <Table.HeaderCell>Sendt inn</Table.HeaderCell>
-            <Table.HeaderCell>Kommune</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-            {harAktivTilgangsforespørselForDelbestilling && <Table.HeaderCell>Handling</Table.HeaderCell>}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {innsendteTilgangsforespørsler.map((innsendt, i) => (
-            <Table.Row key={i}>
-              <Table.DataCell>{innsendt.rettighet}</Table.DataCell>
-              <Table.DataCell>{new Date().toLocaleDateString()}</Table.DataCell>
-              <Table.DataCell>
-                {innsendt.påVegneAvKommune && <>{innsendt.påVegneAvKommune.kommunenavn}</>}
-                {!innsendt.påVegneAvKommune && <>{innsendt.arbeidsforhold.kommune.kommunenavn}</>}
-              </Table.DataCell>
-              <Table.DataCell>
-                <HStack gap="1">
-                  {innsendt.status}
-                  {innsendt.status === Tilgangsforespørselstatus.AVSLÅTT && (
-                    <HelpText title="Hva gjør jeg nå?">
-                      Tilgangsforespørselen din har blitt avslått av Nav Hjelpemiddelsentral. Kontakt din lokale
-                      Hjelpemiddelsentral dersom du mener at dette er feil.
-                    </HelpText>
-                  )}
-                </HStack>
-              </Table.DataCell>
-              <Table.DataCell>
-                {innsendt.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING && (
-                  <Button
-                    loading={sletterTilgangsforespørsel}
-                    onClick={() => {
-                      if (window.confirm('Er du sikker på at du vil slette denne forespørselen?')) {
-                        slettTilgangsforespørsel(innsendt.id)
-                      }
-                    }}
-                  >
-                    Slett
-                  </Button>
-                )}
-              </Table.DataCell>
+    <>
+      <Box background="bg-default" padding="8">
+        <Heading size="medium" level="2" spacing>
+          Dine tilgangsforespørsler
+        </Heading>
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Rettighet</Table.HeaderCell>
+              <Table.HeaderCell>Sendt inn</Table.HeaderCell>
+              <Table.HeaderCell>Kommune</Table.HeaderCell>
+              <Table.HeaderCell>Status</Table.HeaderCell>
+              {harAktivTilgangsforespørselForDelbestilling && <Table.HeaderCell>Handling</Table.HeaderCell>}
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </Box>
+          </Table.Header>
+          <Table.Body>
+            {innsendteTilgangsforespørsler.map((innsendt, i) => (
+              <Table.Row key={i}>
+                <Table.DataCell>{innsendt.rettighet}</Table.DataCell>
+                <Table.DataCell>{new Date().toLocaleDateString()}</Table.DataCell>
+                <Table.DataCell>
+                  {innsendt.påVegneAvKommune && <>{innsendt.påVegneAvKommune.kommunenavn}</>}
+                  {!innsendt.påVegneAvKommune && <>{innsendt.arbeidsforhold.kommune.kommunenavn}</>}
+                </Table.DataCell>
+                <Table.DataCell>
+                  <HStack gap="1">
+                    {innsendt.status}
+                    {innsendt.status === Tilgangsforespørselstatus.AVSLÅTT && (
+                      <HelpText title="Hva gjør jeg nå?">
+                        Tilgangsforespørselen din har blitt avslått av Nav Hjelpemiddelsentral. Kontakt din lokale
+                        Hjelpemiddelsentral dersom du mener at dette er feil.
+                      </HelpText>
+                    )}
+                  </HStack>
+                </Table.DataCell>
+                <Table.DataCell>
+                  {innsendt.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING && (
+                    <Button
+                      loading={sletterTilgangsforespørsel}
+                      onClick={() => {
+                        if (window.confirm('Er du sikker på at du vil slette denne forespørselen?')) {
+                          slettTilgangsforespørsel(innsendt.id)
+                        }
+                      }}
+                    >
+                      Slett
+                    </Button>
+                  )}
+                </Table.DataCell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Box>
+      {!harAktivTilgangsforespørselForDelbestilling && (
+        <Avstand marginTop={2}>
+          <BeOmTilgang />
+        </Avstand>
+      )}
+    </>
   )
 }
 
@@ -254,21 +257,8 @@ const BeOmTilgang = () => {
     },
   })
 
-  if (henterGrunnlag) {
-    return <CenteredLoader />
-  }
-
   if (grunnlagError) {
     return <Alert variant="error">Klarte ikke å hente grunnlag</Alert>
-  }
-
-  if (!grunnlag) {
-    return <div>Fant ikke noe grunnlag.</div>
-  }
-
-  if (grunnlag.arbeidsforhold.length === 0) {
-    // TODO vis noe fornuftig her
-    return <BodyShort>Du har ingen ansettelsesforhold.</BodyShort>
   }
 
   return (
@@ -277,120 +267,143 @@ const BeOmTilgang = () => {
         Be om tilgang for å bestille deler
       </Heading>
 
-      <BodyShort spacing>
-        Vi ser at du har følgende ansettelsesforhold. Du må velge hvilket ansettelsesforhold tilgangen skal gjelde for.
-      </BodyShort>
-
-      <ReadMore header="Jeg ser ikke ansettelsesforholdet mitt">
-        Hvis du ikke ser riktig ansettelsesforhold, kan det hende det ikke har blitt registrert i Aareg ennå. Du bør da
-        ta kontakt med din hjelpemiddelsentral for videre hjelp.
-      </ReadMore>
-
-      <Avstand marginBottom={4} marginTop={6}>
-        <RadioGroup
-          legend={
-            <HStack gap="2">
-              <span>Velg ansettelsesforhold</span>
-              <HelpText title="Hva er dette?">
-                Dette er hentet fra Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret) og Brønnøysundregistrene.
-              </HelpText>
-            </HStack>
-          }
-          onChange={(arbeidsforhold: Arbeidsforhold) => {
-            setValgtarbeidsforhold(arbeidsforhold)
-            setValgteKommuner([])
-          }}
-        >
-          {grunnlag.arbeidsforhold.map((forhold, i) => (
-            <Radio value={forhold} key={i}>
-              {forhold.stillingstittel} i <Link href="#">{forhold.organisasjon.navn}</Link>
-            </Radio>
-          ))}
-        </RadioGroup>
-      </Avstand>
-      {valgtArbeidsforhold && (
+      {henterGrunnlag ? (
+        <CenteredLoader />
+      ) : !grunnlag ? (
+        <BodyShort>Fant ikke noe grunnlag.</BodyShort>
+      ) : grunnlag.arbeidsforhold.length === 0 ? (
+        <BodyShort>Du har ingen ansettelsesforhold.</BodyShort>
+      ) : (
         <>
-          {valgtArbeidsforhold.overordnetOrganisasjon.form !== 'KOMM' && (
-            <Avstand marginBottom={4}>
-              <UNSAFE_Combobox
-                label={`Velg hvilke kommuner ${valgtArbeidsforhold.organisasjon.navn} representerer`}
-                options={Object.values(kommuner).map((kommune) => `${kommune.kommunenavn} - ${kommune.fylkesnavn}`)}
-                isMultiSelect
-                maxSelected={{ limit: 5, message: 'Du kan kun velge 5 kommuner om gangen.' }}
-                onToggleSelected={(option, isSelected) => {
-                  const [kommunenavn, fylkesnavn] = option.split(' - ')
+          <BodyShort spacing>
+            Vi ser at du har følgende ansettelsesforhold. Du må velge hvilket ansettelsesforhold tilgangen skal gjelde
+            for.
+          </BodyShort>
 
-                  const kommune = Object.values(kommuner).find(
-                    (k) => k.kommunenavn === kommunenavn && k.fylkenavn === fylkesnavn
-                  )
+          <ReadMore header="Jeg ser ikke ansettelsesforholdet mitt">
+            Hvis du ikke ser riktig ansettelsesforhold, kan det hende det ikke har blitt registrert i Aareg ennå. Du bør
+            da ta kontakt med din hjelpemiddelsentral for videre hjelp.
+          </ReadMore>
 
-                  if (kommune) {
-                    if (isSelected) {
-                      setValgteKommuner((prev) => [...prev, kommune])
-                    } else {
-                      // TODO: fix hackete
-                      setValgteKommuner((prev) => prev.filter((k) => `${k.kommunenavn} - ${k.fylkesnavn}` !== option))
-                    }
-                  }
-                }}
-              />
-              <ReadMore header="Hvorfor må jeg velge dette?">
-                {valgtArbeidsforhold.overordnetOrganisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge
-                hvilke kommuner denne organisasjonen har avtale med.
-              </ReadMore>
-            </Avstand>
+          <Avstand marginBottom={4} marginTop={6}>
+            <RadioGroup
+              legend={
+                <HStack gap="2">
+                  <span>Velg ansettelsesforhold</span>
+                  <HelpText title="Hva er dette?">
+                    Dette er hentet fra Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret) og
+                    Brønnøysundregistrene.
+                  </HelpText>
+                </HStack>
+              }
+              onChange={(arbeidsforhold: Arbeidsforhold) => {
+                setValgtarbeidsforhold(arbeidsforhold)
+                setValgteKommuner([])
+              }}
+            >
+              {grunnlag.arbeidsforhold.map((forhold, i) => (
+                <Radio value={forhold} key={i}>
+                  {forhold.stillingstittel} i <Link href="#">{forhold.organisasjon.navn}</Link>
+                </Radio>
+              ))}
+            </RadioGroup>
+          </Avstand>
+          {valgtArbeidsforhold && (
+            <>
+              {valgtArbeidsforhold.overordnetOrganisasjon.form !== 'KOMM' && (
+                <Avstand marginBottom={4}>
+                  <UNSAFE_Combobox
+                    label={`Velg hvilke kommuner ${valgtArbeidsforhold.organisasjon.navn} representerer`}
+                    options={Object.values(kommuner).map((kommune) => `${kommune.kommunenavn} - ${kommune.fylkesnavn}`)}
+                    isMultiSelect
+                    maxSelected={{ limit: 5, message: 'Du kan kun velge 5 kommuner om gangen.' }}
+                    onToggleSelected={(option, isSelected) => {
+                      const [kommunenavn, fylkesnavn] = option.split(' - ')
+
+                      const kommune = Object.values(kommuner).find(
+                        (k) => k.kommunenavn === kommunenavn && k.fylkenavn === fylkesnavn
+                      )
+
+                      if (kommune) {
+                        if (isSelected) {
+                          setValgteKommuner((prev) => [...prev, kommune])
+                        } else {
+                          // TODO: fix hackete
+                          setValgteKommuner((prev) =>
+                            prev.filter((k) => `${k.kommunenavn} - ${k.fylkesnavn}` !== option)
+                          )
+                        }
+                      }
+                    }}
+                  />
+                  <ReadMore header="Hvorfor må jeg velge dette?">
+                    {valgtArbeidsforhold.overordnetOrganisasjon.navn} er ikke en kommunal organisasjon. Du må derfor
+                    velge hvilke kommuner denne organisasjonen har avtale med.
+                  </ReadMore>
+                </Avstand>
+              )}
+
+              <Box background="bg-subtle" padding="4">
+                <Heading level="3" size="small" spacing>
+                  Dette sendes i forespørselen til Nav
+                </Heading>
+                <BodyShort>
+                  <Label>Navn:</Label> {grunnlag.navn}
+                </BodyShort>
+                <BodyShort>
+                  <Label>Jeg vil:</Label> Bestille deler til hjelpemidler
+                </BodyShort>
+                <BodyShort>
+                  <Label>Stillingstittel:</Label> {valgtArbeidsforhold.stillingstittel}
+                </BodyShort>
+                <BodyShort>
+                  <Label>Organisasjon:</Label> {valgtArbeidsforhold.organisasjon.navn}
+                </BodyShort>
+                {valgteKommuner.length > 0 && (
+                  <BodyShort>
+                    <Label>På vegne av:</Label> {valgteKommuner.map(({ kommunenavn }) => kommunenavn).join(', ')}
+                  </BodyShort>
+                )}
+              </Box>
+              <Avstand marginBottom={4}>
+                <ConfirmationPanel label="Jeg godtar at tilgangstyrer i Nav kan se denne informasjonen"></ConfirmationPanel>
+              </Avstand>
+            </>
           )}
 
-          <Box background="bg-subtle" padding="4">
-            <Heading level="3" size="small" spacing>
-              Dette sendes i forespørselen til Nav
-            </Heading>
-            <BodyShort>
-              <Label>Navn:</Label> {grunnlag.navn}
-            </BodyShort>
-            <BodyShort>
-              <Label>Jeg vil:</Label> Bestille deler til hjelpemidler
-            </BodyShort>
-            <BodyShort>
-              <Label>Stillingstittel:</Label> {valgtArbeidsforhold.stillingstittel}
-            </BodyShort>
-            <BodyShort>
-              <Label>Organisasjon:</Label> {valgtArbeidsforhold.organisasjon.navn}
-            </BodyShort>
-            {valgteKommuner.length > 0 && (
-              <BodyShort>
-                <Label>På vegne av:</Label> {valgteKommuner.map(({ kommunenavn }) => kommunenavn).join(', ')}
-              </BodyShort>
-            )}
-          </Box>
-          <Avstand marginBottom={4}>
-            <ConfirmationPanel label="Jeg godtar at tilgangstyrer i Nav kan se denne informasjonen"></ConfirmationPanel>
-          </Avstand>
+          <Button
+            onClick={() => {
+              if (valgtArbeidsforhold) {
+                sendTilgangsforespørsler(valgtArbeidsforhold)
+              } else {
+                alert('Du må velge arbeidsforhold')
+              }
+            }}
+            loading={senderTilgangsforespørsel}
+          >
+            Be om tilgang
+          </Button>
         </>
       )}
-
-      <Button
-        onClick={() => {
-          if (valgtArbeidsforhold) {
-            sendTilgangsforespørsler(valgtArbeidsforhold)
-          } else {
-            alert('Du må velge arbeidsforhold')
-          }
-        }}
-        loading={senderTilgangsforespørsel}
-      >
-        Be om tilgang
-      </Button>
     </Box>
   )
 }
 
-const Admin = ({
-  innsendteTilgangsforespørsler,
-}: {
-  innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[] | undefined
-}) => {
+const useInnsendteTilgangsforespørsler = () => {
+  const queryResponse = useQuery<InnsendtTilgangsforespørsel[]>({
+    queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER],
+    queryFn: () => fetch(`${ROLLER_PATH}/tilgang/foresporsel?rettighet=DELBESTILLING`).then((res) => res.json()),
+    refetchOnWindowFocus: false,
+  })
+
+  return queryResponse
+}
+
+const Admin = () => {
   const queryClient = useQueryClient()
+
+  const { data: innsendteTilgangsforespørsler } = useInnsendteTilgangsforespørsler()
+
   const { mutate: oppdaterTilgangsforespørselstatus, isPending: oppdatererForespørselStatus } = useMutation({
     mutationFn: ({ id, status }: { id: string; status: Tilgangsforespørselstatus }) =>
       rest.oppdaterTilgangsforespørselstatus(id, status),
@@ -398,66 +411,61 @@ const Admin = ({
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_TILGANGER] })
     },
-    onError: (error) => {
-      alert(error)
-    },
+    onError: (error) => alert(error),
   })
 
-  if (!innsendteTilgangsforespørsler || innsendteTilgangsforespørsler.length === 0) {
-    return <div>Det er ingen tilgangsforespørsler inne</div>
-  }
-
-  const avventerBehandling = innsendteTilgangsforespørsler.filter(
+  const avventerBehandling = (innsendteTilgangsforespørsler ?? []).filter(
     (f) => f.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING
   )
-
-  if (avventerBehandling.length === 0) {
-    return <div>Det er ingen forespørsler som avventer behandling</div>
-  }
 
   return (
     <Box style={{ border: '2px dotted' }} padding="4">
       <Heading level="2" spacing size="small">
         Admin
       </Heading>
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>ID</Table.HeaderCell>
-            <Table.HeaderCell>Navn</Table.HeaderCell>
-            <Table.HeaderCell>Organisasjon</Table.HeaderCell>
-            <Table.HeaderCell>Handling</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {avventerBehandling.map((f) => (
-            <Table.Row key={f.id}>
-              <Table.DataCell>{f.id}</Table.DataCell>
-              <Table.DataCell>{f.navn}</Table.DataCell>
-              <Table.DataCell>{f.arbeidsforhold.organisasjon.navn}</Table.DataCell>
-              <Table.DataCell>
-                <Button
-                  onClick={() =>
-                    oppdaterTilgangsforespørselstatus({ id: f.id, status: Tilgangsforespørselstatus.GODKJENT })
-                  }
-                  loading={oppdatererForespørselStatus}
-                >
-                  Godkjenn
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() =>
-                    oppdaterTilgangsforespørselstatus({ id: f.id, status: Tilgangsforespørselstatus.AVSLÅTT })
-                  }
-                  loading={oppdatererForespørselStatus}
-                >
-                  Avslå
-                </Button>
-              </Table.DataCell>
+
+      {avventerBehandling.length === 0 ? (
+        <BodyShort>Det er ingen tilgangsforespørsler som avventer behandling.</BodyShort>
+      ) : (
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>ID</Table.HeaderCell>
+              <Table.HeaderCell>Navn</Table.HeaderCell>
+              <Table.HeaderCell>Organisasjon</Table.HeaderCell>
+              <Table.HeaderCell>Handling</Table.HeaderCell>
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+          </Table.Header>
+          <Table.Body>
+            {avventerBehandling.map((f) => (
+              <Table.Row key={f.id}>
+                <Table.DataCell>{f.id}</Table.DataCell>
+                <Table.DataCell>{f.navn}</Table.DataCell>
+                <Table.DataCell>{f.arbeidsforhold.organisasjon.navn}</Table.DataCell>
+                <Table.DataCell>
+                  <Button
+                    onClick={() =>
+                      oppdaterTilgangsforespørselstatus({ id: f.id, status: Tilgangsforespørselstatus.GODKJENT })
+                    }
+                    loading={oppdatererForespørselStatus}
+                  >
+                    Godkjenn
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() =>
+                      oppdaterTilgangsforespørselstatus({ id: f.id, status: Tilgangsforespørselstatus.AVSLÅTT })
+                    }
+                    loading={oppdatererForespørselStatus}
+                  >
+                    Avslå
+                  </Button>
+                </Table.DataCell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      )}
     </Box>
   )
 }
