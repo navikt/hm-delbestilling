@@ -267,7 +267,13 @@ const BeOmTilgang = () => {
       ) : !grunnlag ? (
         <BodyShort>Fant ikke noe grunnlag.</BodyShort>
       ) : grunnlag.arbeidsforhold.length === 0 ? (
-        <BodyShort>Du har ingen ansettelsesforhold.</BodyShort>
+        <>
+          <BodyShort>Du har ingen registrerte ansettelsesforhold.</BodyShort>
+          <ReadMore header="Hva gjør jeg nå?">
+            Hvis du ikke ser riktig ansettelsesforhold, kan det hende det ikke har blitt registrert i Aareg ennå. Du bør
+            da ta kontakt med din hjelpemiddelsentral for videre hjelp.
+          </ReadMore>
+        </>
       ) : (
         <>
           <BodyShort spacing>
