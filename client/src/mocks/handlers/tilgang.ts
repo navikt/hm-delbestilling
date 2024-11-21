@@ -25,8 +25,6 @@ const tilgangHandlers = [
             kommunenummer: '0301',
             fylkenavn: 'Oslo',
             fylkenummer: '01',
-            fylkesnavn: 'Oslo',
-            fylkesnummer: '01',
           },
           organisasjon: {
             navn: 'Oslo kommune rehabilitering og mestring',
@@ -46,8 +44,6 @@ const tilgangHandlers = [
             kommunenummer: '0301',
             fylkenavn: 'Oslo',
             fylkenummer: '01',
-            fylkesnavn: 'Oslo',
-            fylkesnummer: '01',
           },
           organisasjon: {
             navn: 'Privat Teknikerselskap AS',
@@ -135,6 +131,7 @@ const tilgangHandlers = [
           rettighet: forespørsel.rettighet,
           behandlendeEnhet: {},
           status: Tilgangstatus.AKTIV,
+          representertKommune: forespørsel.påVegneAvKommune ?? forespørsel.arbeidsforhold.kommune,
         })
       }
 

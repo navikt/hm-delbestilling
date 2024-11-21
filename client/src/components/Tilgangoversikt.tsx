@@ -315,7 +315,7 @@ const BeOmTilgang = () => {
             <>
               {valgtArbeidsforhold.overordnetOrganisasjon.form !== KOMMUNAL_ORGFORM && (
                 <Avstand marginBottom={4}>
-                  <Kommunevalg />
+                  <Kommunevalg valgtArbeidsforhold={valgtArbeidsforhold} setValgteKommuner={setValgteKommuner} />
                   <ReadMore header="Hvorfor må jeg velge dette?">
                     {valgtArbeidsforhold.overordnetOrganisasjon.navn} er ikke en kommunal organisasjon. Du må derfor
                     velge hvilke kommuner denne organisasjonen har avtale med.
