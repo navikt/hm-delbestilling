@@ -1,6 +1,7 @@
 import { delay, http, HttpResponse } from 'msw'
 
 import { Kommuner } from '../../services/rest'
+
 import kommuner from './data/kommuner.json'
 
 const oppslagHandlers = [
