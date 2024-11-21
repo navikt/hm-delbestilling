@@ -65,10 +65,6 @@ export interface DelbestillerrolleResponse {
   delbestillerrolle: Delbestillerrolle
 }
 
-export interface TilgangsforespørselgrunnlagResponse {
-  grunnlag: Tilgangsforespørselgrunnlag
-}
-
 export interface TilgangsforespørselRequest {
   forespørsler: Tilgangsforespørsel[]
 }

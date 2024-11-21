@@ -6,13 +6,13 @@ import {
   DelbestillingResponse,
   DellisteResponse,
   OppslagResponse,
-  TilgangsforespørselgrunnlagResponse,
 } from '../types/HttpTypes'
 import {
   Delbestilling,
   DelbestillingSak,
   Tilgang,
   Tilgangsforespørsel,
+  Tilgangsforespørselgrunnlag,
   Tilgangsforespørselstatus,
   Valg,
 } from '../types/Types'
@@ -126,7 +126,7 @@ const hentRolle = async (): Promise<DelbestillerrolleResponse> => {
   return await response.json()
 }
 
-const hentTilgangsforespørselgrunnlag = async (): Promise<TilgangsforespørselgrunnlagResponse> => {
+const hentTilgangsforespørselgrunnlag = async (): Promise<Tilgangsforespørselgrunnlag> => {
   const response = await fetch(`${ROLLER_PATH}/tilgang/grunnlag`)
   await handleResponse(response.clone())
   return await response.json()

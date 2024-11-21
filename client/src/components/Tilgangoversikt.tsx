@@ -25,7 +25,6 @@ import { GlobalStyle } from '../GlobalStyle'
 import { ROLLER_PATH } from '../services/rest'
 import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
-import { TilgangsforespørselgrunnlagResponse } from '../types/HttpTypes'
 import {
   Arbeidsforhold,
   InnsendtTilgangsforespørsel,
@@ -33,6 +32,7 @@ import {
   Rettighet,
   Tilgang,
   Tilgangsforespørsel,
+  Tilgangsforespørselgrunnlag,
   Tilgangsforespørselstatus,
   Tilgangstatus,
 } from '../types/Types'
@@ -214,14 +214,13 @@ const BeOmTilgang = () => {
   const [valgteKommuner, setValgteKommuner] = useState<Kommune[]>([])
 
   const {
-    data: grunnlagData,
+    data: grunnlag,
     isPending: henterGrunnlag,
     error: grunnlagError,
-  } = useQuery<TilgangsforespørselgrunnlagResponse>({
+  } = useQuery<Tilgangsforespørselgrunnlag>({
     queryKey: ['grunnlag'],
     queryFn: () => rest.hentTilgangsforespørselgrunnlag(),
   })
-  const { grunnlag } = grunnlagData ?? {}
 
   const { mutate: sendTilgangsforespørsler, isPending: senderTilgangsforespørsel } = useMutation({
     mutationFn: (arbeidsforhold: Arbeidsforhold) => {
@@ -247,11 +246,7 @@ const BeOmTilgang = () => {
 
       return rest.sendTilgangsforespørsler(forespørsler)
     },
-    onSuccess: () => {
-      // TODO: kanskje bruke setQueryData i stedet?
-      // https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] }),
     onError: (error) => {
       alert(error)
     },
@@ -390,13 +385,11 @@ const BeOmTilgang = () => {
 }
 
 const useInnsendteTilgangsforespørsler = () => {
-  const queryResponse = useQuery<InnsendtTilgangsforespørsel[]>({
+  return useQuery<InnsendtTilgangsforespørsel[]>({
     queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER],
     queryFn: () => fetch(`${ROLLER_PATH}/tilgang/foresporsel?rettighet=DELBESTILLING`).then((res) => res.json()),
     refetchOnWindowFocus: false,
   })
-
-  return queryResponse
 }
 
 const Admin = () => {
