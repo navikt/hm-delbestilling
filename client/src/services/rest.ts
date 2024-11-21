@@ -126,7 +126,7 @@ const hentRolle = async (): Promise<DelbestillerrolleResponse> => {
   return await response.json()
 }
 
-const hentForespørselgrunnlag = async (): Promise<TilgangsforespørselgrunnlagResponse> => {
+const hentTilgangsforespørselgrunnlag = async (): Promise<TilgangsforespørselgrunnlagResponse> => {
   const response = await fetch(`${ROLLER_PATH}/tilgang/grunnlag`)
   await handleResponse(response.clone())
   return await response.json()
@@ -149,7 +149,7 @@ const slettTilgangsforespørsel = async (id: string): Promise<string> => {
   return await response.text()
 }
 
-const oppdaterForespørselStatus = async (id: string, status: Tilgangsforespørselstatus): Promise<string> => {
+const oppdaterTilgangsforespørselstatus = async (id: string, status: Tilgangsforespørselstatus): Promise<string> => {
   const response = await fetchPut(`${ROLLER_PATH}/tilgang/foresporsel/status`, {
     body: JSON.stringify({ id, status }),
     headers: {
@@ -190,9 +190,9 @@ export default {
   hentBestillingerForKommune,
   hentRolle,
   sjekkLoginStatus,
-  hentForespørselgrunnlag,
+  hentTilgangsforespørselgrunnlag,
   sendTilgangsforespørsler,
   slettTilgangsforespørsel,
   hentTilganger,
-  oppdaterForespørselStatus,
+  oppdaterTilgangsforespørselstatus,
 }

@@ -39,10 +39,10 @@ import {
 
 import { Avstand } from './Avstand'
 
-const QUERY_KEY_INNSENDTEFORESPØRSLER = 'innsendteforespørsler'
+const QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER = 'innsendteforespørsler'
 const QUERY_KEY_TILGANGER = 'tilganger'
 
-const IngenTilgang = () => {
+const Tilgangsoversikt = () => {
   return (
     <main>
       <GlobalStyle />
@@ -65,7 +65,7 @@ const Tilganger = () => {
   const { data: innsendteTilgangsforespørsler, isFetching: henterInnsendteTilgangsforespørsler } = useQuery<
     InnsendtTilgangsforespørsel[]
   >({
-    queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER],
+    queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER],
     queryFn: () => fetch(`${ROLLER_PATH}/tilgang/foresporsel?rettighet=DELBESTILLING`).then((res) => res.json()),
     refetchOnWindowFocus: false,
   })
@@ -89,16 +89,25 @@ const Tilganger = () => {
 
   return (
     <>
-      {aktiveTilganger.length > 0 && (
-        <Alert variant="success">
-          Du har allerede følgende tilganger:{' '}
-          {tilganger.map((t) => `${t.rettighet} for ${t.arbeidsforhold.organisasjon.navn}`)}
-        </Alert>
-      )}
       {aktiveTilganger.length === 0 && (
         <GuidePanel>
-          Det kan se ut som du ikke har tilgang til å bestille deler. Du kan bruke veilederen under for å be om tilgang.
+          Det kan se ut som du ikke har noen aktive tilganger til å bestille deler. Du kan bruke veilederen under for å
+          be om tilgang.
         </GuidePanel>
+      )}
+      {aktiveTilganger.length > 0 && (
+        <Avstand marginBottom={4}>
+          <Alert variant="success">
+            <BodyShort>Du har allerede følgende tilganger:</BodyShort>
+            <ul>
+              {tilganger.map((t, i) => (
+                <li key={i}>
+                  {t.rettighet} for {t.arbeidsforhold.organisasjon.navn}
+                </li>
+              ))}
+            </ul>
+          </Alert>
+        </Avstand>
       )}
       {inaktiveTilganger.length > 0 && (
         <div>
@@ -133,7 +142,7 @@ const InnsendteTilgangsforespørsler = ({
   const queryClient = useQueryClient()
   const { mutate: slettTilgangsforespørsel, isPending: sletterTilgangsforespørsel } = useMutation({
     mutationFn: (id: string) => rest.slettTilgangsforespørsel(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] }),
     onError: (error) => {
       alert(error)
     },
@@ -142,7 +151,7 @@ const InnsendteTilgangsforespørsler = ({
   return (
     <Box background="bg-default" padding="8">
       <Heading size="medium" level="2" spacing>
-        Dine forespørsler for å bestille deler
+        Dine tilgangsforespørsler
       </Heading>
       <Table>
         <Table.Header>
@@ -164,7 +173,7 @@ const InnsendteTilgangsforespørsler = ({
                 {!innsendt.påVegneAvKommune && <>{innsendt.arbeidsforhold.kommune.kommunenavn}</>}
               </Table.DataCell>
               <Table.DataCell>
-                <HStack gap={'1'}>
+                <HStack gap="1">
                   {innsendt.status}
                   {innsendt.status === Tilgangsforespørselstatus.AVSLÅTT && (
                     <HelpText title="Hva gjør jeg nå?">
@@ -179,8 +188,9 @@ const InnsendteTilgangsforespørsler = ({
                   <Button
                     loading={sletterTilgangsforespørsel}
                     onClick={() => {
-                      // TODO vis "er du sikker?"
-                      slettTilgangsforespørsel(innsendt.id)
+                      if (window.confirm('Er du sikker på at du vil slette denne forespørselen?')) {
+                        slettTilgangsforespørsel(innsendt.id)
+                      }
                     }}
                   >
                     Slett
@@ -206,7 +216,7 @@ const BeOmTilgang = () => {
     error: grunnlagError,
   } = useQuery<TilgangsforespørselgrunnlagResponse>({
     queryKey: ['grunnlag'],
-    queryFn: () => fetch(`${ROLLER_PATH}/tilgang/grunnlag`).then((res) => res.json()),
+    queryFn: () => rest.hentTilgangsforespørselgrunnlag(),
   })
   const { grunnlag } = grunnlagData ?? {}
 
@@ -237,7 +247,7 @@ const BeOmTilgang = () => {
     onSuccess: () => {
       // TODO: kanskje bruke setQueryData i stedet?
       // https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
     },
     onError: (error) => {
       alert(error)
@@ -298,39 +308,39 @@ const BeOmTilgang = () => {
           ))}
         </RadioGroup>
       </Avstand>
-      {valgtArbeidsforhold && valgtArbeidsforhold.overordnetOrganisasjon.form !== 'KOMM' && (
-        <Avstand marginBottom={4}>
-          <UNSAFE_Combobox
-            label={`Velg hvilke kommuner ${valgtArbeidsforhold.organisasjon.navn} representerer`}
-            options={Object.values(kommuner).map((kommune) => `${kommune.kommunenavn} - ${kommune.fylkesnavn}`)}
-            isMultiSelect
-            maxSelected={{ limit: 5, message: 'Du kan kun velge 5 kommuner om gangen.' }}
-            onToggleSelected={(option, isSelected) => {
-              const [kommunenavn, fylkesnavn] = option.split(' - ')
-
-              const kommune = Object.values(kommuner).find(
-                (k) => k.kommunenavn === kommunenavn && k.fylkenavn === fylkesnavn
-              )
-
-              if (kommune) {
-                if (isSelected) {
-                  setValgteKommuner((prev) => [...prev, kommune])
-                } else {
-                  // TODO: fix hackete
-                  setValgteKommuner((prev) => prev.filter((k) => `${k.kommunenavn} - ${k.fylkesnavn}` !== option))
-                }
-              }
-            }}
-          ></UNSAFE_Combobox>
-          <ReadMore header="Hvorfor må jeg velge dette?">
-            {valgtArbeidsforhold.overordnetOrganisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge
-            hvilke kommuner denne organisasjonen har avtale med.
-          </ReadMore>
-        </Avstand>
-      )}
-
       {valgtArbeidsforhold && (
         <>
+          {valgtArbeidsforhold.overordnetOrganisasjon.form !== 'KOMM' && (
+            <Avstand marginBottom={4}>
+              <UNSAFE_Combobox
+                label={`Velg hvilke kommuner ${valgtArbeidsforhold.organisasjon.navn} representerer`}
+                options={Object.values(kommuner).map((kommune) => `${kommune.kommunenavn} - ${kommune.fylkesnavn}`)}
+                isMultiSelect
+                maxSelected={{ limit: 5, message: 'Du kan kun velge 5 kommuner om gangen.' }}
+                onToggleSelected={(option, isSelected) => {
+                  const [kommunenavn, fylkesnavn] = option.split(' - ')
+
+                  const kommune = Object.values(kommuner).find(
+                    (k) => k.kommunenavn === kommunenavn && k.fylkenavn === fylkesnavn
+                  )
+
+                  if (kommune) {
+                    if (isSelected) {
+                      setValgteKommuner((prev) => [...prev, kommune])
+                    } else {
+                      // TODO: fix hackete
+                      setValgteKommuner((prev) => prev.filter((k) => `${k.kommunenavn} - ${k.fylkesnavn}` !== option))
+                    }
+                  }
+                }}
+              />
+              <ReadMore header="Hvorfor må jeg velge dette?">
+                {valgtArbeidsforhold.overordnetOrganisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge
+                hvilke kommuner denne organisasjonen har avtale med.
+              </ReadMore>
+            </Avstand>
+          )}
+
           <Box background="bg-subtle" padding="4">
             <Heading level="3" size="small" spacing>
               Dette sendes i forespørselen til Nav
@@ -381,11 +391,11 @@ const Admin = ({
   innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[] | undefined
 }) => {
   const queryClient = useQueryClient()
-  const { mutate: oppdaterForespørselStatus, isPending: oppdatererForespørselStatus } = useMutation({
+  const { mutate: oppdaterTilgangsforespørselstatus, isPending: oppdatererForespørselStatus } = useMutation({
     mutationFn: ({ id, status }: { id: string; status: Tilgangsforespørselstatus }) =>
-      rest.oppdaterForespørselStatus(id, status),
+      rest.oppdaterTilgangsforespørselstatus(id, status),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTEFORESPØRSLER] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_TILGANGER] })
     },
     onError: (error) => {
@@ -427,14 +437,18 @@ const Admin = ({
               <Table.DataCell>{f.arbeidsforhold.organisasjon.navn}</Table.DataCell>
               <Table.DataCell>
                 <Button
-                  onClick={() => oppdaterForespørselStatus({ id: f.id, status: Tilgangsforespørselstatus.GODKJENT })}
+                  onClick={() =>
+                    oppdaterTilgangsforespørselstatus({ id: f.id, status: Tilgangsforespørselstatus.GODKJENT })
+                  }
                   loading={oppdatererForespørselStatus}
                 >
                   Godkjenn
                 </Button>
                 <Button
                   variant="danger"
-                  onClick={() => oppdaterForespørselStatus({ id: f.id, status: Tilgangsforespørselstatus.AVSLÅTT })}
+                  onClick={() =>
+                    oppdaterTilgangsforespørselstatus({ id: f.id, status: Tilgangsforespørselstatus.AVSLÅTT })
+                  }
                   loading={oppdatererForespørselStatus}
                 >
                   Avslå
@@ -3316,4 +3330,4 @@ const kommuner: { [kommunenr: string]: Kommune } = {
   },
 }
 
-export default IngenTilgang
+export default Tilgangsoversikt
