@@ -80,6 +80,7 @@ export interface Delbestillerrolle {
 
 export interface Delbestillerrettighet {
   harRettighet: boolean
+  forespørsler: InnsendtTilgangsforespørsel[]
   tilganger: Tilgang[]
 }
 

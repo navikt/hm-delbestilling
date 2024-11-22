@@ -1,4 +1,5 @@
 import React, { SetStateAction, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   Alert,
@@ -38,17 +39,26 @@ import {
 } from '../types/Types'
 
 import { Avstand } from './Avstand'
-import { BASE_PATH } from '../App'
 
 const QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER = 'innsendteforespørsler'
 const QUERY_KEY_TILGANGER = 'tilganger'
 
 const Tilgangsoversikt = () => {
+  const navigate = useNavigate()
+
   return (
     <main>
       <GlobalStyle />
       <Content>
-        <Link href={BASE_PATH}>Til forsiden</Link>
+        <Link
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            navigate('/')
+          }}
+        >
+          Til forsiden
+        </Link>
         <Avstand marginTop={4}>
           <Avstand marginBottom={4}>
             <Tilganger />
@@ -122,7 +132,10 @@ const InnsendteTilgangsforespørsler = () => {
 
   const { mutate: slettTilgangsforespørsel, isPending: sletterTilgangsforespørsel } = useMutation({
     mutationFn: (id: string) => rest.slettTilgangsforespørsel(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
+      queryClient.invalidateQueries({ queryKey: ['delbestillerrolle'] })
+    },
     onError: (error) => {
       alert(error)
     },
@@ -250,7 +263,10 @@ const BeOmTilgang = () => {
 
       return rest.sendTilgangsforespørsler(forespørsler)
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
+      queryClient.invalidateQueries({ queryKey: ['delbestillerrolle'] })
+    },
     onError: (error) => {
       alert(error)
     },
@@ -440,6 +456,7 @@ const Admin = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_TILGANGER] })
+      queryClient.invalidateQueries({ queryKey: ['delbestillerrolle'] })
     },
     onError: (error) => alert(error),
   })

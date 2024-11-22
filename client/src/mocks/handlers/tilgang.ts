@@ -10,8 +10,8 @@ import {
   Tilgangstatus,
 } from '../../types/Types'
 
-let innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[] = []
-let tilganger: Tilgang[] = []
+export let innsendteTilgangsforespørsler: InnsendtTilgangsforespørsel[] = []
+export let tilganger: Tilgang[] = []
 
 const tilgangHandlers = [
   http.get<{}, {}, Tilgangsforespørselgrunnlag>('/hjelpemidler/delbestilling/roller/tilgang/grunnlag', async () => {
@@ -96,7 +96,9 @@ const tilgangHandlers = [
       const rettighet = url.searchParams.get('rettighet')
 
       await delay(500)
-      return HttpResponse.json(innsendteTilgangsforespørsler.filter((innsendt) => innsendt.rettighet === rettighet))
+      return HttpResponse.json(
+        innsendteTilgangsforespørsler.filter((innsendt) => (rettighet ? innsendt.rettighet === rettighet : innsendt))
+      )
     }
   ),
 

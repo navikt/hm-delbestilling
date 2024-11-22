@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { Alert, Heading, Link } from '@navikt/ds-react'
+import { useQuery } from '@tanstack/react-query'
 
-import { BASE_PATH } from '../App'
 import { Avstand } from '../components/Avstand'
-import useAuth from '../hooks/useAuth'
+import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
-import { Delbestillerrolle } from '../types/Types'
+import { DelbestillerrolleResponse } from '../types/HttpTypes'
+import { Rettighet, Tilgangsforespørselstatus } from '../types/Types'
 
 // Delte page-komponenter for hver side
 const Layout = () => {
@@ -37,21 +38,15 @@ const Layout = () => {
 }
 
 const RettighetPåminnelse = () => {
-  const { rolle } = useAuth()
-  const [delbestillerrolle, setDelbestillerrolle] = useState<Delbestillerrolle | undefined>()
-
   const { pathname } = useLocation()
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await rolle()
-        setDelbestillerrolle(response.delbestillerrolle)
-      } catch (err: any) {
-        console.log(err)
-      }
-    })()
-  }, [])
+  const { data: delbestillerrolleData } = useQuery<DelbestillerrolleResponse>({
+    queryKey: ['delbestillerrolle'],
+    queryFn: () => rest.hentRolle(),
+  })
+
+  const { delbestillerrolle } = delbestillerrolleData ?? {}
 
   if (pathname === '/tilgang') {
     return null
@@ -61,23 +56,53 @@ const RettighetPåminnelse = () => {
     return null
   }
 
-  let advarselTekst: React.ReactNode
+  const harDelbestillerrettighet = delbestillerrolle.delbestillerrettighet.harRettighet
 
-  if (!delbestillerrolle.delbestillerrettighet.harRettighet) {
-    advarselTekst = (
-      <>
-        Det kan se ut som du ikke har fått den nye rettigheten for å bestille deler. Du kan fortsette bestille deler,
-        men om x antall uker må du ha bedt om den nye rettigheten. Trykk <Link href={`${BASE_PATH}tilgang`}>her</Link>{' '}
-        for å gjøre det.
-      </>
+  if (harDelbestillerrettighet) {
+    return null
+  }
+
+  const harAktivForespørsel = delbestillerrolle.delbestillerrettighet.forespørsler.some(
+    (f) => f.rettighet === Rettighet.DELBESTILLING && f.status === Tilgangsforespørselstatus.AVVENTER_BEHANDLING
+  )
+
+  if (harAktivForespørsel) {
+    return (
+      <Content>
+        <Alert variant="info">
+          Du har en aktiv forespørsel for å søke om deler.{' '}
+          <Link
+            href="#"
+            onClick={(e) => {
+              e.preventDefault()
+              navigate(`tilgang`)
+            }}
+          >
+            Trykk her for å se den.
+          </Link>
+        </Alert>
+      </Content>
     )
   }
 
-  if (advarselTekst) {
-    return <Alert variant="warning">{advarselTekst}</Alert>
-  }
-
-  return null
+  return (
+    <Content>
+      <Alert variant="warning">
+        {' '}
+        Det kan se ut som du ikke har fått den nye rettigheten for å bestille deler. Du kan fortsette bestille deler,
+        men om x antall uker må du ha bedt om den nye rettigheten.{' '}
+        <Link
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            navigate(`tilgang`)
+          }}
+        >
+          Trykk her for å be om rettigheten nå.
+        </Link>
+      </Alert>
+    </Content>
+  )
 }
 
 export default Layout
