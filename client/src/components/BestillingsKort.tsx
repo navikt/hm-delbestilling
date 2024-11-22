@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
 import { BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
 
-import { useRolleContext } from '../context/rolle'
 import { formaterNorskDato } from '../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
 import { logPrintAvBestillingÅpnet } from '../utils/amplitude'

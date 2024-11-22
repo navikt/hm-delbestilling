@@ -3,13 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { Alert, Heading, Link } from '@navikt/ds-react'
-import { useQuery } from '@tanstack/react-query'
 
 import { Avstand } from '../components/Avstand'
-import rest from '../services/rest'
+import { useRolle } from '../hooks/useRolle'
 import Content from '../styledcomponents/Content'
 import Header from '../styledcomponents/Header'
-import { DelbestillerrolleResponse } from '../types/HttpTypes'
 import { Rettighet, Tilgangsforespørselstatus } from '../types/Types'
 
 // Delte page-komponenter for hver side
@@ -41,12 +39,7 @@ const Layout = () => {
 const RettighetPåminnelse = () => {
   const navigate = useNavigate()
 
-  const { data: delbestillerrolleData } = useQuery<DelbestillerrolleResponse>({
-    queryKey: ['delbestillerrolle'],
-    queryFn: () => rest.hentRolle(),
-    retry: false,
-  })
-
+  const { data: delbestillerrolleData } = useRolle()
   const { delbestillerrolle } = delbestillerrolleData ?? {}
 
   if (!delbestillerrolle) {

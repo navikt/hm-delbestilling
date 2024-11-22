@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom'
 import { GuidePanel, HStack, Loader } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import useAuth from '../hooks/useAuth'
+import { useRolle } from '../hooks/useRolle'
 import Content from '../styledcomponents/Content'
 import { Delbestillerrolle } from '../types/Types'
 
@@ -23,25 +23,16 @@ const RolleContext = React.createContext<RolleContextType>({
 
 export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation()
-  const [henterRolle, setHenterRolle] = useState(true)
   const [delbestillerrolle, setDelbestillerrolle] = useState<Delbestillerrolle | undefined>()
   const { showBoundary } = useErrorBoundary()
 
-  const { rolle } = useAuth()
+  const { data: delbestillerData, isFetching: henterRolle, error } = useRolle()
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await rolle()
-        setDelbestillerrolle(response.delbestillerrolle)
-      } catch (err: any) {
-        console.log(err)
-        showBoundary(`Kunne ikke hente rolle: ${err.message}`)
-      } finally {
-        setHenterRolle(false)
-      }
-    })()
-  }, [])
+    if (delbestillerData?.delbestillerrolle) {
+      setDelbestillerrolle(delbestillerData.delbestillerrolle)
+    }
+  }, [delbestillerData])
 
   if (henterRolle) {
     return (
@@ -51,6 +42,10 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
         </HStack>
       </Avstand>
     )
+  }
+
+  if (error) {
+    showBoundary(`Kunne ikke hente rolle: ${error}`)
   }
 
   let feilmeldingsTekst = ''

@@ -23,6 +23,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { GlobalStyle } from '../GlobalStyle'
+import { QUERY_KEY_DELBESTILLERROLLE } from '../hooks/useRolle'
 import { Kommuner, ROLLER_PATH } from '../services/rest'
 import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
@@ -134,7 +135,7 @@ const InnsendteTilgangsforespørsler = () => {
     mutationFn: (id: string) => rest.slettTilgangsforespørsel(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
-      queryClient.invalidateQueries({ queryKey: ['delbestillerrolle'] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_DELBESTILLERROLLE] })
     },
     onError: (error) => {
       alert(error)
@@ -265,7 +266,7 @@ const BeOmTilgang = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
-      queryClient.invalidateQueries({ queryKey: ['delbestillerrolle'] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_DELBESTILLERROLLE] })
     },
     onError: (error) => {
       alert(error)
@@ -456,7 +457,7 @@ const Admin = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_TILGANGER] })
-      queryClient.invalidateQueries({ queryKey: ['delbestillerrolle'] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_DELBESTILLERROLLE] })
     },
     onError: (error) => alert(error),
   })

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-import rest, { API_PATH } from '../services/rest'
-import { DelbestillerrolleResponse } from '../types/HttpTypes'
+import rest from '../services/rest'
 
 const useAuth = () => {
   const [sjekkerLogin, setSjekkerLogin] = useState(false)
@@ -19,19 +18,9 @@ const useAuth = () => {
     }
   }
 
-  const rolle = async (): Promise<DelbestillerrolleResponse> => {
-    try {
-      return await rest.hentRolle()
-    } catch (err) {
-      console.log(`Kunne ikke sjekke rolle`, err)
-      throw err
-    }
-  }
-
   return {
     sjekkerLogin,
     sjekkLoginStatus,
-    rolle,
   }
 }
 
