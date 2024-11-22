@@ -17,6 +17,7 @@ import {
   Radio,
   RadioGroup,
   ReadMore,
+  Skeleton,
   Table,
   UNSAFE_Combobox,
 } from '@navikt/ds-react'
@@ -349,10 +350,6 @@ const BeOmTilgang = () => {
               {valgtArbeidsforhold.overordnetOrganisasjon.form !== KOMMUNAL_ORGFORM && (
                 <Avstand marginBottom={4}>
                   <Kommunevalg valgtArbeidsforhold={valgtArbeidsforhold} setValgteKommuner={setValgteKommuner} />
-                  <ReadMore header="Hvorfor må jeg velge dette?">
-                    {valgtArbeidsforhold.overordnetOrganisasjon.navn} er ikke en kommunal organisasjon. Du må derfor
-                    velge hvilke kommuner denne organisasjonen har avtale med.
-                  </ReadMore>
                 </Avstand>
               )}
 
@@ -419,36 +416,42 @@ const Kommunevalg = ({
   })
 
   if (henterKommuner) {
-    // TODO vi trenger egentlig ikke denne, fordi vi har isLoading={henterKommuner} i Combobox
-    return <CenteredLoader />
+    return <Skeleton variant="rectangle" height={80} />
   }
 
   if (kommunerError) {
-    return <div>Klarte ikke hente kommuner.</div>
+    return <Alert variant="error">Klarte ikke hente kommuner. Prøv igjen senere.</Alert>
   }
 
   return (
-    <UNSAFE_Combobox
-      isLoading={henterKommuner}
-      label={`Velg hvilke kommuner ${valgtArbeidsforhold.organisasjon.navn} representerer`}
-      options={Object.values(kommuner).map((kommune) => `${kommune.kommunenavn} - ${kommune.fylkenavn}`)}
-      isMultiSelect
-      maxSelected={{ limit: 5, message: 'Du kan kun velge 5 kommuner om gangen.' }}
-      onToggleSelected={(option, isSelected) => {
-        const [kommunenavn, fylkesnavn] = option.split(' - ')
+    <>
+      <UNSAFE_Combobox
+        label={`Velg hvilke kommuner ${valgtArbeidsforhold.organisasjon.navn} representerer`}
+        options={Object.values(kommuner).map((kommune) => `${kommune.kommunenavn} - ${kommune.fylkenavn}`)}
+        isMultiSelect
+        maxSelected={{ limit: 5, message: 'Du kan kun velge 5 kommuner om gangen.' }}
+        onToggleSelected={(option, isSelected) => {
+          const [kommunenavn, fylkesnavn] = option.split(' - ')
 
-        const kommune = Object.values(kommuner).find((k) => k.kommunenavn === kommunenavn && k.fylkenavn === fylkesnavn)
+          const kommune = Object.values(kommuner).find(
+            (k) => k.kommunenavn === kommunenavn && k.fylkenavn === fylkesnavn
+          )
 
-        if (kommune) {
-          if (isSelected) {
-            setValgteKommuner((prev) => [...prev, kommune])
-          } else {
-            // TODO: fix hackete
-            setValgteKommuner((prev) => prev.filter((k) => `${k.kommunenavn} - ${k.fylkenavn}` !== option))
+          if (kommune) {
+            if (isSelected) {
+              setValgteKommuner((prev) => [...prev, kommune])
+            } else {
+              // TODO: fix hackete
+              setValgteKommuner((prev) => prev.filter((k) => `${k.kommunenavn} - ${k.fylkenavn}` !== option))
+            }
           }
-        }
-      }}
-    />
+        }}
+      />
+      <ReadMore header="Hvorfor må jeg velge dette?">
+        {valgtArbeidsforhold.overordnetOrganisasjon.navn} er ikke en kommunal organisasjon. Du må derfor velge hvilke
+        kommuner denne organisasjonen har avtale med.
+      </ReadMore>
+    </>
   )
 }
 
