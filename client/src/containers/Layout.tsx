@@ -15,6 +15,7 @@ import { Rettighet, Tilgangsforespørselstatus } from '../types/Types'
 // Delte page-komponenter for hver side
 const Layout = () => {
   const { t } = useTranslation()
+  const { pathname } = useLocation()
   const visTestMiljoBanner = window.appSettings.USE_MSW === true && window.location.hostname !== 'localhost'
 
   return (
@@ -31,14 +32,13 @@ const Layout = () => {
           </Heading>
         </Content>
       </Header>
-      <RettighetPåminnelse />
+      {pathname !== '/tilgang' && <RettighetPåminnelse />}
       <Outlet />
     </>
   )
 }
 
 const RettighetPåminnelse = () => {
-  const { pathname } = useLocation()
   const navigate = useNavigate()
 
   const { data: delbestillerrolleData } = useQuery<DelbestillerrolleResponse>({
@@ -48,10 +48,6 @@ const RettighetPåminnelse = () => {
   })
 
   const { delbestillerrolle } = delbestillerrolleData ?? {}
-
-  if (pathname === '/tilgang') {
-    return null
-  }
 
   if (!delbestillerrolle) {
     return null
