@@ -13,7 +13,7 @@ import { Rettighet, Tilgangsforespørselstatus } from '../types/Types'
 // Delte page-komponenter for hver side
 const Layout = () => {
   const { t } = useTranslation()
-  const { pathname } = useLocation()
+
   const visTestMiljoBanner = window.appSettings.USE_MSW === true && window.location.hostname !== 'localhost'
 
   return (
@@ -30,7 +30,7 @@ const Layout = () => {
           </Heading>
         </Content>
       </Header>
-      {pathname !== '/tilgang' && <RettighetPåminnelse />}
+      <RettighetPåminnelse />
       <Outlet />
     </>
   )
@@ -38,9 +38,14 @@ const Layout = () => {
 
 const RettighetPåminnelse = () => {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const { data: delbestillerrolleData } = useRolle()
   const { delbestillerrolle } = delbestillerrolleData ?? {}
+
+  if (pathname === '/tilgang') {
+    return null
+  }
 
   if (!delbestillerrolle) {
     return null
