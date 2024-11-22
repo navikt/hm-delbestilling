@@ -55,10 +55,10 @@ const Tilgangsoversikt = () => {
           href="#"
           onClick={(e) => {
             e.preventDefault()
-            navigate('/')
+            navigate(-1)
           }}
         >
-          Til forsiden
+          Tilbake
         </Link>
         <Avstand marginTop={4}>
           <Avstand marginBottom={4}>
