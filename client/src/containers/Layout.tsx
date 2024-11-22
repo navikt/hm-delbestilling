@@ -44,6 +44,7 @@ const RettighetPåminnelse = () => {
   const { data: delbestillerrolleData } = useQuery<DelbestillerrolleResponse>({
     queryKey: ['delbestillerrolle'],
     queryFn: () => rest.hentRolle(),
+    retry: false,
   })
 
   const { delbestillerrolle } = delbestillerrolleData ?? {}
