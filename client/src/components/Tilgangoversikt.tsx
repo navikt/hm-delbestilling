@@ -128,8 +128,11 @@ const Tilganger = () => {
 const InnsendteTilgangsforespørsler = () => {
   const queryClient = useQueryClient()
 
-  const { data: innsendteTilgangsforespørsler, isFetching: henterInnsendteTilgangsforespørsler } =
-    useInnsendteTilgangsforespørsler()
+  const {
+    data: innsendteTilgangsforespørsler,
+    isFetching: henterInnsendteTilgangsforespørsler,
+    error: innsendteTilgangsforespørslerError,
+  } = useInnsendteTilgangsforespørsler()
 
   const { mutate: slettTilgangsforespørsel, isPending: sletterTilgangsforespørsel } = useMutation({
     mutationFn: (id: string) => rest.slettTilgangsforespørsel(id),
@@ -144,6 +147,17 @@ const InnsendteTilgangsforespørsler = () => {
 
   if (henterInnsendteTilgangsforespørsler) {
     return <CenteredLoader />
+  }
+
+  if (innsendteTilgangsforespørslerError) {
+    return (
+      <>
+        <Avstand marginBottom={4}>
+          <Alert variant="error">Klarte ikke å hente innsendte tilgangsforespørsler. Prøv igjen senere.</Alert>
+        </Avstand>
+        <BeOmTilgang />
+      </>
+    )
   }
 
   if (!innsendteTilgangsforespørsler) {
