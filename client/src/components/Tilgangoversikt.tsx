@@ -139,6 +139,7 @@ const InnsendteTilgangsforespørsler = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_DELBESTILLERROLLE] })
+      window.scrollTo(0, 0)
     },
     onError: (error) => {
       alert(error)
@@ -281,6 +282,7 @@ const BeOmTilgang = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_DELBESTILLERROLLE] })
+      window.scrollTo(0, 0)
     },
     onError: (error) => {
       alert(error)
@@ -473,6 +475,7 @@ const Admin = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_INNSENDTE_TILGANGSFORESPØRSLER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_TILGANGER] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_DELBESTILLERROLLE] })
+      window.scrollTo(0, 0)
     },
     onError: (error) => alert(error),
   })
