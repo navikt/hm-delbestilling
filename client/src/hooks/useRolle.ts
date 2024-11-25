@@ -10,6 +10,5 @@ export const useRolle = () => {
     queryKey: [QUERY_KEY_DELBESTILLERROLLE],
     queryFn: () => rest.hentRolle(),
     retry: false,
-    refetchOnWindowFocus: false,
   })
 }

@@ -12,7 +12,13 @@ import Routes from './Routes'
 export const BASE_PATH = '/hjelpemidler/delbestilling/'
 
 const App = () => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
 
   return (
     <BrowserRouter basename={BASE_PATH}>
