@@ -51,7 +51,7 @@
     "typescript": "^5.1.6",
     "vite": "^5.2.8",
     "vite-plugin-svgr": "^4.2.0",
-    "vitest": "^1.4.0"
+    "vitest": "^1.6.1"
   },
   "scripts": {
     "clean": "rimraf ./dist",
