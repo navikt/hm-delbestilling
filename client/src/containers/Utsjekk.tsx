@@ -89,7 +89,7 @@ const Utsjekk = () => {
 
   useEffect(() => {
     ;(async () => {
-      if (handlekurv) {
+      if (handlekurv && harXKLager === undefined) {
         try {
           const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr)
           setHarXKLager(response.xkLager)
@@ -98,7 +98,7 @@ const Utsjekk = () => {
         }
       }
     })()
-  }, [handlekurv])
+  }, [handlekurv, harXKLager])
 
   useEffect(() => {
     // Re-valider når felter oppdateres etter innsending har blitt forsøkt
