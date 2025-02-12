@@ -8,7 +8,6 @@ const rollerHandlers = [
     return HttpResponse.json({
       delbestillerrolle: {
         kanBestilleDeler: true,
-        harXKLager: true,
         erKommunaltAnsatt: true,
         kommunaleOrgs: [
           {
@@ -28,7 +27,6 @@ const rollerHandlers = [
     return HttpResponse.json({
       delbestillerrolle: {
         kanBestilleDeler: true,
-        harXKLager: true,
         erKommunaltAnsatt: false,
         kommunaleOrgs: [],
         godkjenteIkkeKommunaleOrgs: [

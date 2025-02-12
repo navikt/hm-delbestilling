@@ -19,6 +19,10 @@ export interface DellisteResponse {
   deler: DellisteDel[]
 }
 
+export interface XKLagerResponse {
+  xkLager: boolean
+}
+
 export interface DellisteDel {
   hmsnr: string
   navn: string

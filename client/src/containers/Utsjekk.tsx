@@ -11,6 +11,7 @@ import {
   ConfirmationPanel,
   GuidePanel,
   Heading,
+  Loader,
   Radio,
   RadioGroup,
   Select,
@@ -60,7 +61,6 @@ export interface Valideringsfeil {
 }
 
 const Utsjekk = () => {
-  const { delbestillerrolle } = useRolleContext()
   const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(() => {
     try {
       return JSON.parse(window.sessionStorage.getItem(SESSIONSTORAGE_HANDLEKURV_KEY) || '')
@@ -73,6 +73,7 @@ const Utsjekk = () => {
   const [submitAttempt, setSubmitAttempt] = useState(false)
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
+  const [harXKLager, setHarXKLager] = useState<boolean | undefined>(undefined)
   const { t } = useTranslation()
 
   const navigate = useNavigate()
@@ -81,10 +82,23 @@ const Utsjekk = () => {
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
-    if (delbestillerrolle.harXKLager === false) {
+    if (harXKLager === false) {
       setLevering(Levering.TIL_SERVICE_OPPDRAG)
     }
-  }, [delbestillerrolle])
+  }, [harXKLager])
+
+  useEffect(() => {
+    ;(async () => {
+      if (handlekurv) {
+        try {
+          const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr)
+          setHarXKLager(response.xkLager)
+        } catch {
+          setHarXKLager(false)
+        }
+      }
+    })()
+  }, [handlekurv])
 
   useEffect(() => {
     // Re-valider når felter oppdateres etter innsending har blitt forsøkt
@@ -358,10 +372,9 @@ const Utsjekk = () => {
                   {t('levering.Levering')}
                 </Heading>
 
-                {!delbestillerrolle.harXKLager && (
-                  <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>
-                )}
-                {delbestillerrolle.harXKLager && (
+                {harXKLager === undefined && <Loader />}
+                {harXKLager === false && <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>}
+                {harXKLager === true && (
                   <>
                     <RadioGroup
                       id="levering"
@@ -401,7 +414,9 @@ const Utsjekk = () => {
           )}
         </>
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && <Rolleswitcher />}
+      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
+        <Rolleswitcher harXKLager={harXKLager} setHarXKLager={setHarXKLager} />
+      )}
     </main>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { SetStateAction, useState } from 'react'
 import styled from 'styled-components'
 
 import { Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react'
@@ -16,27 +16,26 @@ const Wrapper = styled.div`
   min-width: 220px;
 `
 
-const Rolleswitcher = () => {
-  const { delbestillerrolle, setDelbestillerrolle } = useRolleContext()
+interface Props {
+  harXKLager: boolean | undefined
+  setHarXKLager: React.Dispatch<SetStateAction<boolean | undefined>>
+}
+
+const Rolleswitcher = ({ harXKLager, setHarXKLager }: Props) => {
   const [erSkjult, setErSkjult] = useState(false)
 
   const handleChange = (values: string[]) => {
-    setDelbestillerrolle((prev) => {
-      if (!prev) return undefined
-      return {
-        ...prev,
-        harXKLager: values.includes('harXKLager'),
-      }
-    })
+    setHarXKLager(values.includes('harXKLager'))
   }
 
   const handleSkjul = (skjult: boolean) => {
     setErSkjult(skjult)
   }
 
-  const checkedValues = Object.entries(delbestillerrolle).map(([key, value]) => {
-    if (!!value) return key
-  })
+  const checkedValues: string[] = []
+  if (harXKLager) {
+    checkedValues.push('harXKLager')
+  }
 
   if (erSkjult) {
     return (

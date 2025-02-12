@@ -7,7 +7,6 @@ import { ArrowLeftIcon } from '@navikt/aksel-icons'
 import { Button, Heading } from '@navikt/ds-react'
 
 import BestillingsListe from '../components/BestillingsListe'
-import Rolleswitcher from '../components/Rolleswitcher'
 import Content from '../styledcomponents/Content'
 
 const BannerContainer = styled.div`
@@ -40,7 +39,6 @@ const Bestillinger = () => {
 
         <BestillingsListe text={t('bestillinger.saker')} />
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && <Rolleswitcher />}
     </main>
   )
 }
