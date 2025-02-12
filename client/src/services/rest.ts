@@ -111,9 +111,9 @@ const hentRolle = async (): Promise<DelbestillerrolleResponse> => {
   return await response.json()
 }
 
-const sjekkXKLager = async (artnr: string, serienr: string): Promise<XKLagerResponse> => {
+const sjekkXKLager = async (hmsnr: string, serienr: string): Promise<XKLagerResponse> => {
   const response = await fetchPost(`${API_PATH}/xk-lager`, {
-    body: JSON.stringify({ artnr, serienr }),
+    body: JSON.stringify({ hmsnr, serienr }),
     headers: {
       'Content-Type': 'application/json',
     },
