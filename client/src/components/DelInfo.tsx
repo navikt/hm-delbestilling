@@ -6,13 +6,14 @@ import { BodyShort, Heading, Tag } from '@navikt/ds-react'
 
 import { size } from '../styledcomponents/rules'
 import { Avstand } from './Avstand'
+import { Lagerstatus } from '../types/Types'
 
 interface Props {
   navn: string
   hmsnr: string
   levArtNr: string | null
   img: string | null
-  erLagervare?: boolean
+  lagerstatus?: Lagerstatus
 }
 
 const SubtleBodyShort = styled(BodyShort)`
@@ -55,7 +56,7 @@ const Beskrivelser = styled.div`
   }
 `
 
-const DelInfo = ({ navn, hmsnr, levArtNr, img, erLagervare }: Props) => {
+const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus }: Props) => {
   return (
     <>
       <ImgWrap aria-hidden>{img ? <img src={img} alt={navn} /> : <PlaceholderIcon />}</ImgWrap>
@@ -69,7 +70,9 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img, erLagervare }: Props) => {
           {levArtNr && <span>Lev.art.nr. {levArtNr}</span>}
         </SubtleBodyShort>
         <Avstand marginTop={2}>
-          {erLagervare === false && <Tag variant="error">Er ikke lagervare på Oslo HMS</Tag>}
+          {lagerstatus && lagerstatus.minmax === false && (
+            <Tag variant="error">Er ikke lagervare på {lagerstatus.organisasjons_navn}</Tag>
+          )}
         </Avstand>
       </Beskrivelser>
     </>

@@ -46,7 +46,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       {hjelpemiddel.deler
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => {
-          const erLagervare = Number(del.levArtNr) % 2 === 0
+          const erLagervare = del.lagerstatus.minmax
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
@@ -57,7 +57,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                       hmsnr={del.hmsnr}
                       levArtNr={del.levArtNr}
                       img={del.img}
-                      erLagervare={erLagervare}
+                      lagerstatus={del.lagerstatus}
                     />
                   </FlexedStack>
 

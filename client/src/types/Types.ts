@@ -13,6 +13,13 @@ export interface Del {
   maksAntall: number
   defaultAntall: number
   datoLagtTil?: string
+  lagerstatus: Lagerstatus
+}
+
+export interface Lagerstatus {
+  organisasjons_id: number
+  organisasjons_navn: string
+  minmax: boolean
 }
 
 export interface Handlekurv {

@@ -11,7 +11,12 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "278247",
@@ -20,7 +25,12 @@
         "kategori": "Slange",
         "maksAntall": 2,
         "img": null,
-        "defaultAntall": 1
+        "defaultAntall": 1,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": false
+        }
       },
       {
         "hmsnr": "223382",
@@ -29,7 +39,12 @@
         "kategori": "Svinghjul",
         "maksAntall": 2,
         "img": null,
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "178498",
@@ -38,7 +53,12 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/178498.jpg",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "184589",
@@ -47,7 +67,12 @@
         "kategori": "Svinghjul",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/184589.jpg",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": false
+        }
       },
       {
         "hmsnr": "234334",
@@ -56,7 +81,12 @@
         "kategori": "Svinghjul",
         "maksAntall": 2,
         "img": null,
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "196602",
@@ -65,7 +95,12 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196602.jpg",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "202326",
@@ -74,7 +109,12 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/202326.jpg",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "211449",
@@ -83,7 +123,12 @@
         "kategori": "Slange",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg",
-        "defaultAntall": 1
+        "defaultAntall": 1,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "232810",
@@ -92,7 +137,12 @@
         "kategori": "Svinghjul",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "278033",
@@ -101,7 +151,12 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "196027",
@@ -110,7 +165,12 @@
         "kategori": "Batteri",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "HMS Oslo",
+          "minmax": true
+        }
       }
     ]
   }
