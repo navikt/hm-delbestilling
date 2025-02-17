@@ -46,17 +46,26 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       {hjelpemiddel.deler
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => {
+          const erLagervare = Number(del.levArtNr) % 2 === 0
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
                 <DelInnhold>
                   <FlexedStack>
-                    <DelInfo navn={del.navn} hmsnr={del.hmsnr} levArtNr={del.levArtNr} img={del.img} />
+                    <DelInfo
+                      navn={del.navn}
+                      hmsnr={del.hmsnr}
+                      levArtNr={del.levArtNr}
+                      img={del.img}
+                      erLagervare={erLagervare}
+                    />
                   </FlexedStack>
 
-                  <Button variant="secondary" onClick={() => onLeggTil(del)}>
-                    {knappeTekst}
-                  </Button>
+                  {erLagervare && (
+                    <Button variant="secondary" onClick={() => onLeggTil(del)}>
+                      {knappeTekst}
+                    </Button>
+                  )}
                 </DelInnhold>
               </CustomPanel>
             </Avstand>
