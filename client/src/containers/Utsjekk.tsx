@@ -103,6 +103,7 @@ const Utsjekk = () => {
     })
 
     setVisFlereDeler(false)
+    window.scrollTo(0, 0)
   }
 
   const setAntall = (del: Del, antall: number) => {
