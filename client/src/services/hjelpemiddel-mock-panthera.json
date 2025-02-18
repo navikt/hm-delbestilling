@@ -14,7 +14,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -28,7 +28,7 @@
         "defaultAntall": 1,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": false
         }
       },
@@ -42,7 +42,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -56,7 +56,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -70,7 +70,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": false
         }
       },
@@ -84,7 +84,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -98,7 +98,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -112,7 +112,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -126,7 +126,7 @@
         "defaultAntall": 1,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -140,7 +140,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -154,7 +154,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       },
@@ -168,7 +168,7 @@
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
-          "organisasjons_navn": "HMS Oslo",
+          "organisasjons_navn": "*03 Oslo",
           "minmax": true
         }
       }
