@@ -71,13 +71,37 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus }: Props) => {
         </SubtleBodyShort>
         {lagerstatus && lagerstatus.minmax === false && (
           <Avstand marginTop={5}>
-            <Tag variant="warning">Er ikke lagervare på HMS {lagerstatus.organisasjons_navn.split(' ')[1]}</Tag>
+            <Tag variant="warning">
+              Er ikke fast lagervare på HMS{' '}
+              {lagerNavnMap[lagerstatus.organisasjons_navn.slice(1, 3)] ?? lagerstatus.organisasjons_navn}
+            </Tag>
             <ReadMore header="Jeg trenger denne delen">Du må ta kontakt med din hjelpemiddelsentral.</ReadMore>
           </Avstand>
         )}
       </Beskrivelser>
     </>
   )
+}
+
+const lagerNavnMap: { [key: string]: string } = {
+  '01': 'Østfold',
+  '03': 'Oslo',
+  '04': 'Hedmark',
+  '05': 'Oppland',
+  '06': 'Buskerud',
+  '07': 'Vestfold',
+  '08': 'Telemark',
+  '09': 'Aust-Agder',
+  '10': 'Vest-Agder',
+  '11': 'Rogaland',
+  '12': 'Hordaland',
+  '14': 'Sogn og Fjordane',
+  '15': 'Møre og Romsdal',
+  '16': 'Sør-Trøndelag',
+  '17': 'Nord-Trøndelag',
+  '18': 'Nordland',
+  '19': 'Troms og Finnmark',
+  '20': 'Finnmark',
 }
 
 export default DelInfo
