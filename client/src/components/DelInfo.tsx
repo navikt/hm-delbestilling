@@ -84,24 +84,24 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus }: Props) => {
 }
 
 const lagerNavnMap: { [key: string]: string } = {
-  '01': 'Østfold',
+  '01': 'Øst-Viken',
   '03': 'Oslo',
-  '04': 'Hedmark',
-  '05': 'Oppland',
-  '06': 'Buskerud',
-  '07': 'Vestfold',
-  '08': 'Telemark',
-  '09': 'Aust-Agder',
-  '10': 'Vest-Agder',
+  '04': 'Elverum',
+  '05': 'Gjøvik',
+  '06': 'Vest-Viken',
+  '07': 'Vestfold og Telemark',
+  '08': 'Vestfold og Telemark',
+  '09': 'Agder',
+  '10': 'Agder',
   '11': 'Rogaland',
-  '12': 'Hordaland',
-  '14': 'Sogn og Fjordane',
+  '12': 'Vestland-Bergen',
+  '14': 'Vestland-Førde',
   '15': 'Møre og Romsdal',
-  '16': 'Sør-Trøndelag',
-  '17': 'Nord-Trøndelag',
+  '16': 'Trøndelag',
+  '17': 'Trøndelag',
   '18': 'Nordland',
   '19': 'Troms og Finnmark',
-  '20': 'Finnmark',
+  '20': 'Troms og Finnmark',
 }
 
 export default DelInfo
