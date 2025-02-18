@@ -231,7 +231,6 @@ const Utsjekk = () => {
     logBestillingSlettet()
     window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
     navigate('/')
-    window.scrollTo(0, 0)
   }
 
   if (!handlekurv) {

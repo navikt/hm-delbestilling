@@ -34,8 +34,6 @@ const Kvittering = () => {
         window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
       }, 200)
     }
-
-    window.scrollTo(0, 0)
   }, [])
 
   const handleNyBestillingClick = () => {
