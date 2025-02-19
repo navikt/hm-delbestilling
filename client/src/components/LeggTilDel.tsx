@@ -46,7 +46,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       {hjelpemiddel.deler
         .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
         .map((del) => {
-          const erLagervare = del.lagerstatus.minmax
+          const erFastLagervare = del.lagerstatus.minmax
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
@@ -61,7 +61,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                     />
                   </FlexedStack>
 
-                  {erLagervare && (
+                  {erFastLagervare && (
                     <Button variant="secondary" onClick={() => onLeggTil(del)}>
                       {knappeTekst}
                     </Button>
