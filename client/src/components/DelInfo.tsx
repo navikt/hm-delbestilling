@@ -7,6 +7,7 @@ import { BodyShort, Heading, ReadMore, Tag } from '@navikt/ds-react'
 import { size } from '../styledcomponents/rules'
 import { Avstand } from './Avstand'
 import { Lagerstatus } from '../types/Types'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   navn: string
@@ -57,6 +58,7 @@ const Beskrivelser = styled.div`
 `
 
 const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus }: Props) => {
+  const { t } = useTranslation()
   return (
     <>
       <ImgWrap aria-hidden>{img ? <img src={img} alt={navn} /> : <PlaceholderIcon />}</ImgWrap>
@@ -72,10 +74,11 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus }: Props) => {
         {lagerstatus && lagerstatus.minmax === false && (
           <Avstand marginTop={5}>
             <Tag variant="warning">
-              Er ikke fast lagervare på HMS{' '}
-              {lagerNavnMap[lagerstatus.organisasjons_navn.slice(1, 3)] ?? lagerstatus.organisasjons_navn}
+              {t('del.lagerstatus.ikkeFastLagervare', {
+                hmsNavn: lagerNavnMap[lagerstatus.organisasjons_navn.slice(1, 3)] ?? lagerstatus.organisasjons_navn,
+              })}
             </Tag>
-            <ReadMore header="Jeg trenger denne delen">Du må ta kontakt med din hjelpemiddelsentral.</ReadMore>
+            <ReadMore header={t('del.lagerstatus.trengerDenneDelen')}>{t('del.lagerstatus.taKontaktMedHms')}</ReadMore>
           </Avstand>
         )}
       </Beskrivelser>

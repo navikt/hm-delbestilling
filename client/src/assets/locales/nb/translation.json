@@ -95,6 +95,10 @@
   "oppslag.visDeler": "Vis deler",
   "oppslag.startPåNytt": "Start på nytt",
 
+  "del.lagerstatus.ikkeFastLagervare": "Er ikke fast lagervare på HMS {{hmsNavn}}",
+  "del.lagerstatus.trengerDenneDelen": "Jeg trenger denne delen",
+  "del.lagerstatus.taKontaktMedHms": "Du må ta kontakt med din hjelpemiddelsentral.",
+
   "oversikt.søkEtterHjelpemiddel": "Søk etter hjelpemiddel",
   "oversikt.velgHjelpemiddel": "Velg hjelpemiddel",
   "oversikt.ingenTreff": "Ingen treff",
