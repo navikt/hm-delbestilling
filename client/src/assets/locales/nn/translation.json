@@ -79,6 +79,10 @@
   "feilside.noeGikkGalt": "Noko gjekk gale og sida kan ikkje visast",
   "feilside.prøvPåNytt": "Prøv på nytt",
 
+  "del.lagerstatus.ikkeFastLagervare": "Er ikkje fast lagervare på HMS {{hmsNavn}}",
+  "del.lagerstatus.trengerDenneDelen": "Eg treng denne delen",
+  "del.lagerstatus.taKontaktMedHms": "Du må ta kontakt med hjelpemiddelsentralen din.",
+
   "felles.overskrift": "Bestilling av delar til hjelpemiddel",
   "felles.Bekreft": "Stadfest",
   "felles.forsiden": "framsida",

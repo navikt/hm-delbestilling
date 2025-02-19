@@ -11,7 +11,12 @@
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/249612.jpg?cachebust=1",
         "kategori": "Lader",
         "maksAntall": 2,
-        "defaultAntall": 1
+        "defaultAntall": 1,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "*03 Oslo",
+          "minmax": true
+        }
       },
       {
         "hmsnr": "238403",
@@ -20,7 +25,12 @@
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/238403.png",
         "kategori": "Hjul",
         "maksAntall": 2,
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "*03 Oslo",
+          "minmax": false
+        }
       },
       {
         "hmsnr": "196027",
@@ -29,7 +39,12 @@
         "kategori": "Batteri",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
-        "defaultAntall": 2
+        "defaultAntall": 2,
+        "lagerstatus": {
+          "organisasjons_id": 1,
+          "organisasjons_navn": "*03 Oslo",
+          "minmax": true
+        }
       }
     ]
   }
