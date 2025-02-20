@@ -39,7 +39,6 @@ const Kvittering = () => {
   const handleNyBestillingClick = () => {
     logStartNyBestilling()
     navigate('/')
-    window.scrollTo(0, 0)
   }
 
   const delbestillingSak = state?.delbestillingSak

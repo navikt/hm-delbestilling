@@ -117,6 +117,7 @@ const Utsjekk = () => {
     })
 
     setVisFlereDeler(false)
+    window.scrollTo(0, 0)
   }
 
   const setAntall = (del: Del, antall: number) => {
@@ -245,7 +246,6 @@ const Utsjekk = () => {
     logBestillingSlettet()
     window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
     navigate('/')
-    window.scrollTo(0, 0)
   }
 
   if (!handlekurv) {

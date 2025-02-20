@@ -79,6 +79,10 @@
   "feilside.noeGikkGalt": "Noko gjekk gale og sida kan ikkje visast",
   "feilside.prøvPåNytt": "Prøv på nytt",
 
+  "del.lagerstatus.ikkeFastLagervare": "Er ikkje fast lagervare på HMS {{hmsNavn}}",
+  "del.lagerstatus.trengerDenneDelen": "Eg treng denne delen",
+  "del.lagerstatus.taKontaktMedHms": "Du må ta kontakt med hjelpemiddelsentralen din.",
+
   "felles.overskrift": "Bestilling av delar til hjelpemiddel",
   "felles.Bekreft": "Stadfest",
   "felles.forsiden": "framsida",
@@ -87,7 +91,7 @@
   "felles.skrivUt": "Skriv ut",
 
   "nyhet.nyeDelerHeading": "Nye delar",
-  "nyhet.nyeDelerLagtTil": "Me har no lagt inn delar til MC1124, MC1144, F3, F5, M3, og M5.",
+  "nyhet.nyeDelerLagtTil": "Me har no lagt inn delar til Cross 5XL/6, Netti 3/V og Extreme X8.",
 
   "oppslag.hvilketHjelpemiddel": "Kva hjelpemiddel treng del?",
   "oppslag.artnr": "Art.nr (6 siffer)",

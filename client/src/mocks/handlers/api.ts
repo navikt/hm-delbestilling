@@ -160,7 +160,7 @@ const apiHandlers = [
     await delay(250)
     return HttpResponse.json(tidligereBestillingerKommune)
   }),
-  http.get<{}, {}, AlleHjelpemidlerMedDelerResponse>(`${API_PATH}/hjelpemidler`, async () => {
+  http.get<{}, {}, {}>(`${API_PATH}/hjelpemidler`, async () => {
     await delay(250)
     return HttpResponse.json(hjelpemidlerMock)
   }),

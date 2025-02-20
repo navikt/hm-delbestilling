@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { ErrorFallback } from './containers/ErrorFallback'
 import { GlobalStyle } from './GlobalStyle'
 import Routes from './Routes'
+import ScrollToTop from './components/ScrollToTop'
 
 export const BASE_PATH = '/hjelpemidler/delbestilling/'
 
@@ -13,7 +14,9 @@ const App = () => {
     <BrowserRouter basename={BASE_PATH}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <GlobalStyle />
-        <Routes />
+        <ScrollToTop>
+          <Routes />
+        </ScrollToTop>
       </ErrorBoundary>
     </BrowserRouter>
   )

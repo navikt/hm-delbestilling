@@ -2,15 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { ImageIcon } from '@navikt/aksel-icons'
-import { BodyShort, Heading } from '@navikt/ds-react'
+import { BodyShort, Heading, ReadMore, Tag } from '@navikt/ds-react'
 
 import { size } from '../styledcomponents/rules'
+import { Avstand } from './Avstand'
+import { Lagerstatus } from '../types/Types'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   navn: string
   hmsnr: string
   levArtNr: string | null
   img: string | null
+  lagerstatus?: Lagerstatus
 }
 
 const SubtleBodyShort = styled(BodyShort)`
@@ -53,7 +57,8 @@ const Beskrivelser = styled.div`
   }
 `
 
-const DelInfo = ({ navn, hmsnr, levArtNr, img }: Props) => {
+const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus }: Props) => {
+  const { t } = useTranslation()
   return (
     <>
       <ImgWrap aria-hidden>{img ? <img src={img} alt={navn} /> : <PlaceholderIcon />}</ImgWrap>
@@ -66,9 +71,40 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img }: Props) => {
           <span>HMS-nr. {hmsnr}</span>
           {levArtNr && <span>Lev.art.nr. {levArtNr}</span>}
         </SubtleBodyShort>
+        {lagerstatus && lagerstatus.minmax === false && (
+          <Avstand marginTop={5}>
+            <Tag variant="warning">
+              {t('del.lagerstatus.ikkeFastLagervare', {
+                hmsNavn: lagerNavnMap[lagerstatus.organisasjons_navn.slice(1, 3)] ?? lagerstatus.organisasjons_navn,
+              })}
+            </Tag>
+            <ReadMore header={t('del.lagerstatus.trengerDenneDelen')}>{t('del.lagerstatus.taKontaktMedHms')}</ReadMore>
+          </Avstand>
+        )}
       </Beskrivelser>
     </>
   )
+}
+
+const lagerNavnMap: { [key: string]: string } = {
+  '01': 'Øst-Viken',
+  '03': 'Oslo',
+  '04': 'Elverum',
+  '05': 'Gjøvik',
+  '06': 'Vest-Viken',
+  '07': 'Vestfold og Telemark',
+  '08': 'Vestfold og Telemark',
+  '09': 'Agder',
+  '10': 'Agder',
+  '11': 'Rogaland',
+  '12': 'Vestland-Bergen',
+  '14': 'Vestland-Førde',
+  '15': 'Møre og Romsdal',
+  '16': 'Trøndelag',
+  '17': 'Trøndelag',
+  '18': 'Nordland',
+  '19': 'Troms og Finnmark',
+  '20': 'Troms og Finnmark',
 }
 
 export default DelInfo
