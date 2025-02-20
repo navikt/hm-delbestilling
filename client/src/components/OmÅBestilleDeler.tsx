@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 
-import { BodyLong, Heading, Panel, Skeleton } from '@navikt/ds-react'
+import { Heading, Panel, Skeleton } from '@navikt/ds-react'
 
 import { useHjelpemidler } from '../hooks/useHjelpemidler'
 
@@ -13,13 +12,21 @@ const OmÅBestilleDeler = () => {
 
   // Lag en liste over de hjelpemidlene vi har i sortimentet vårt som også vi har deler til.
   useEffect(() => {
-    const hjelpemidlerMedDeler = hjelpemidler.reduce((acc, curr) => {
+    // For å fjerne detaljer fra navnet. E.g. "Cross 6 sb38 K Led" => "Cross 6"
+    const hjmNavnRegex = /^(.*?)\s(sb\d+|K|L|Led|HD|sd\d+|voksen).*$/
+
+    const hjelpemiddelnavn = hjelpemidler.reduce((acc, curr) => {
       if (!acc.includes(curr.navn) && curr.deler && curr.deler.length > 0) {
-        acc.push(curr.navn)
+        const match = curr.navn.match(hjmNavnRegex)
+        const navn = match ? match[1] : curr.navn
+        if (!acc.includes(navn)) {
+          acc.push(navn)
+        }
       }
       return acc
     }, [] as string[])
-    setNavn(hjelpemidlerMedDeler)
+
+    setNavn(hjelpemiddelnavn)
   }, [hjelpemidler])
 
   return (
