@@ -88,6 +88,7 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus }: Props) => {
 
 const lagerNavnMap: { [key: string]: string } = {
   '01': 'Øst-Viken',
+  '02': 'Oslo',
   '03': 'Oslo',
   '04': 'Elverum',
   '05': 'Gjøvik',
