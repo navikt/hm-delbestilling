@@ -16,6 +16,7 @@ import {
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
+  XKLagerResponse,
 } from '../../types/HttpTypes'
 import { DelbestillingSak, Ordrestatus } from '../../types/Types'
 
@@ -143,6 +144,11 @@ const apiHandlers = [
       },
       { status: StatusCodes.CREATED }
     )
+  }),
+
+  http.post<{}, {}, XKLagerResponse>(`${API_PATH}/xk-lager`, async () => {
+    await delay(250)
+    return HttpResponse.json({ xkLager: true })
   }),
 
   http.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, async () => {

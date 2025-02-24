@@ -1,11 +1,12 @@
 import { StatusCodes } from 'http-status-codes'
 
 import {
-  DellisteResponse,
   AlleHjelpemidlerMedDelerResponse,
   DelbestillerrolleResponse,
   DelbestillingResponse,
+  DellisteResponse,
   OppslagResponse,
+  XKLagerResponse,
 } from '../types/HttpTypes'
 import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
 
@@ -110,6 +111,17 @@ const hentRolle = async (): Promise<DelbestillerrolleResponse> => {
   return await response.json()
 }
 
+const sjekkXKLager = async (hmsnr: string, serienr: string): Promise<XKLagerResponse> => {
+  const response = await fetchPost(`${API_PATH}/xk-lager`, {
+    body: JSON.stringify({ hmsnr, serienr }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  await handleResponse(response.clone())
+  return await response.json()
+}
+
 const sjekkLoginStatus = async (): Promise<boolean> => {
   const response = await fetch(`${REST_BASE_PATH}/auth/status`)
 
@@ -134,4 +146,5 @@ export default {
   hentBestillingerForKommune,
   hentRolle,
   sjekkLoginStatus,
+  sjekkXKLager,
 }

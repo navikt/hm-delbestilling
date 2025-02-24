@@ -8,7 +8,6 @@ const rollerHandlers = [
     return HttpResponse.json({
       delbestillerrolle: {
         kanBestilleDeler: true,
-        harXKLager: true,
         erKommunaltAnsatt: true,
         kommunaleOrgs: [
           {
@@ -20,6 +19,27 @@ const rollerHandlers = [
             kommunenummer: '0301',
           },
         ],
+        godkjenteIkkeKommunaleOrgs: [],
+        erAnsattIGodkjentIkkeKommunaleOrgs: false,
+      },
+    })
+
+    return HttpResponse.json({
+      delbestillerrolle: {
+        kanBestilleDeler: true,
+        erKommunaltAnsatt: false,
+        kommunaleOrgs: [],
+        godkjenteIkkeKommunaleOrgs: [
+          {
+            orgnr: '1234',
+            navn: 'Privat Teknikerselskap AS',
+            orgform: 'AS',
+            overordnetOrgnr: undefined,
+            næringskoder: [],
+            kommunenummer: '0301',
+          },
+        ],
+        erAnsattIGodkjentIkkeKommunaleOrgs: true,
       },
     })
   }),
