@@ -43,7 +43,7 @@
   "error.informasjonForUtviklere": "Informasjon for utviklarar",
   "error.klarteIkkeSjekkeLoginStatus": "Me klarte ikkje å sjekka loginstatus akkurat no. Prøv igjen seinare.",
   "error.ULIK_GEOGRAFISK_TILKNYTNING": "Du kan ikkje bestilla delar til brukar som ikkje tilhøyrer den kommunen du jobbar i.",
-  "error.INGET_UTLÅN": "Det finst ikkje noko utlån for denne brukaren på dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.",
+  "error.INGET_UTLÅN": "Det finst ikkje noko utlån for dette artikkel- og serienummeret. Ta kontakt med hjelpemiddelsentralen.",
   "error.KAN_IKKE_BESTILLE": "Du kan ikkje bestilla delar til dette hjelpemiddelet digitalt. Ta kontakt med hjelpemiddelsentralen.",
   "error.BRUKER_IKKE_FUNNET": "Me klarte ikkje å finna nokon bruker knytt til dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.",
   "error.BESTILLE_TIL_SEG_SELV": "Du har ikkje lov til å bestilla delar til produkt du sjølv har utlån på.",
