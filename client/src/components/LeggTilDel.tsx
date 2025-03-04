@@ -60,7 +60,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       </Avstand>
 
       {hjelpemiddel.deler
-        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk) || del.hmsnr.includes(søk) : del))
+        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : del))
         .filter((del) => (visKunFastLagervarer ? del.lagerstatus.minmax === true : del))
         .filter((del) => (kategoriFilter ? del.navn.startsWith(kategoriFilter) : del))
         .map((del) => {
