@@ -7,13 +7,14 @@ const useDelKategorier = (deler: Del[] | undefined) => {
   const delKategorier = useMemo(() => {
     if (deler) {
       return deler.reduce((acc, del) => {
-        if (!acc.includes(del.kategori)) {
-          acc.push(del.kategori)
+        const førsteOrd = del.navn.split(' ')[0]
+        if (!acc.includes(førsteOrd)) {
+          acc.push(førsteOrd)
         }
         return acc
       }, [] as string[])
     }
-  }, [deler])
+  }, [deler])?.sort()
   useEffect(() => setKategoriFilter(undefined), [deler])
   return { kategoriFilter, setKategoriFilter, delKategorier }
 }
