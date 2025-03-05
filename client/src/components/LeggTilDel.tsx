@@ -12,6 +12,7 @@ import { Avstand } from './Avstand'
 import DelInfo from './DelInfo'
 import DelInnhold from './DelInhold'
 import DelKategoriVelger from './DelKategoriVelger'
+import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -23,7 +24,9 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
   const { t } = useTranslation()
 
   const handleClickManglerDel = () => {
-    window.hj('event', 'digihot_delbestilling_mangler_del_feedback')
+    if (isConsentingToSurveys()) {
+      window.hj('event', 'digihot_delbestilling_mangler_del_feedback')
+    }
   }
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
@@ -71,14 +74,16 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
             </Avstand>
           )
         })}
-      <DottedPanel>
-        <Avstand centered>
-          <BodyShort spacing>
-            <strong>Finner du ikke delen du er ute etter?</strong>
-          </BodyShort>
-          <Button onClick={handleClickManglerDel}>Fortell oss om det</Button>
-        </Avstand>
-      </DottedPanel>
+      {isConsentingToSurveys() && (
+        <DottedPanel>
+          <Avstand centered>
+            <BodyShort spacing>
+              <strong>Finner du ikke delen du er ute etter?</strong>
+            </BodyShort>
+            <Button onClick={handleClickManglerDel}>Fortell oss om det</Button>
+          </Avstand>
+        </DottedPanel>
+      )}
     </>
   )
 }
