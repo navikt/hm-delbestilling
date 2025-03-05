@@ -1,4 +1,5 @@
 import * as amplitude from '@amplitude/analytics-browser'
+import { isConsentingToAnalytics } from './nav-cookie-consent'
 
 export enum amplitude_taxonomy {
   SKJEMA_START = 'skjema startet',
@@ -25,6 +26,9 @@ export enum digihot_customevents {
 const SKJEMANAVN = 'hm-delbestilling'
 
 export const initAmplitude = () => {
+  if (!isConsentingToAnalytics()) {
+    return
+  }
   if (amplitude) {
     amplitude.init('default', '', {
       useBatch: false,
@@ -38,6 +42,9 @@ export const initAmplitude = () => {
 }
 
 export function logAmplitudeEvent(eventName: string, data?: any) {
+  if (!isConsentingToAnalytics()) {
+    return
+  }
   setTimeout(() => {
     data = {
       app: 'hm-delbestilling',

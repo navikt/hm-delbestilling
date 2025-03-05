@@ -13,6 +13,7 @@ import { logStartNyBestilling } from '../utils/amplitude'
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
+import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 
 type LocationState = {
   delbestillingSak: DelbestillingSak
@@ -30,9 +31,11 @@ const Kvittering = () => {
       // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
       window.history.replaceState({}, document.title)
 
-      setTimeout(() => {
-        window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
-      }, 200)
+      if (isConsentingToSurveys()) {
+        setTimeout(() => {
+          window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
+        }, 200)
+      }
     }
   }, [])
 
