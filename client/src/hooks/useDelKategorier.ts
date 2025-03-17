@@ -7,9 +7,8 @@ const useDelKategorier = (deler: Del[] | undefined) => {
   const delKategorier = useMemo(() => {
     if (deler) {
       return deler.reduce((acc, del) => {
-        const førsteOrd = del.navn.split(' ')[0]
-        if (!acc.includes(førsteOrd)) {
-          acc.push(førsteOrd)
+        if (!acc.includes(del.kategori)) {
+          acc.push(del.kategori)
         }
         return acc
       }, [] as string[])

@@ -65,7 +65,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       {hjelpemiddel.deler
         .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : del))
         .filter((del) => (visKunFastLagervarer ? del.lagerstatus.minmax === true : del))
-        .filter((del) => (kategoriFilter ? del.navn.startsWith(kategoriFilter) : del))
+        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : del))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
           return (
