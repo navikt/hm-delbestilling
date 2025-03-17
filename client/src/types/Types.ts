@@ -14,6 +14,7 @@ export interface Del {
   defaultAntall: number
   datoLagtTil?: string
   lagerstatus: Lagerstatus
+  kilde: string
 }
 
 export interface Lagerstatus {

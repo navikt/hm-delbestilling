@@ -16,7 +16,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "278247",
@@ -30,7 +31,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": false
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "223382",
@@ -44,7 +46,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "178498",
@@ -58,7 +61,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "184589",
@@ -72,7 +76,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": false
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "234334",
@@ -86,7 +91,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "196602",
@@ -100,7 +106,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "202326",
@@ -114,7 +121,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "211449",
@@ -128,7 +136,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "232810",
@@ -142,7 +151,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "278033",
@@ -156,7 +166,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       },
       {
         "hmsnr": "196027",
@@ -170,7 +181,8 @@
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
           "minmax": true
-        }
+        },
+        "kilde": "MANUELL_LISTE"
       }
     ]
   }
