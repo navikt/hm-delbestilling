@@ -173,6 +173,38 @@ const apiHandlers = [
     await delay(250)
     return HttpResponse.json(dellisteMock)
   }),
+  http.get<{}, {}, {}>(`${API_PATH}/hjelpemiddel-titler`, async () => {
+    await delay(250)
+    return HttpResponse.json({
+      titler: [
+        'Azalea',
+        'C500',
+        'Comet',
+        'Eloflex',
+        'F3',
+        'F5',
+        'M3',
+        'M5',
+        'MC 1124',
+        'MC 1144',
+        'Minicrosser 125T',
+        'Minicrosser M',
+        'Minicrosser X',
+        'Molift Smart 150',
+        'Molift Mover 180',
+        'Seng Opus',
+        'Orion',
+        'Panthera',
+        'X850',
+        'X850S',
+        'Cross 6',
+        'Cross 5XL',
+        'Netti 3',
+        'Netti V',
+        'Extreme X8',
+      ],
+    })
+  }),
 ]
 
 export default apiHandlers

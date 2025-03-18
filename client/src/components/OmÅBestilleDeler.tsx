@@ -3,31 +3,27 @@ import { useTranslation } from 'react-i18next'
 
 import { Heading, Panel, Skeleton } from '@navikt/ds-react'
 
-import { useHjelpemidler } from '../hooks/useHjelpemidler'
+import rest from '../services/rest'
 
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
-  const { hjelpemidler, henterHjelpemidler } = useHjelpemidler()
-  const [navn, setNavn] = useState<string[]>([])
+  const [henterHjelpemidler, setHenterHjelpemidler] = useState(false)
+  const [titler, setTitler] = useState<string[]>([])
 
   // Lag en liste over de hjelpemidlene vi har i sortimentet vårt som også vi har deler til.
   useEffect(() => {
-    // For å fjerne detaljer fra navnet. E.g. "Cross 6 sb38 K Led" => "Cross 6"
-    const hjmNavnRegex = /^(.*?)\s(sb\d+|K|L|Led|HD|sd\d+|voksen).*$/
-
-    const hjelpemiddelnavn = hjelpemidler.reduce((acc, curr) => {
-      if (!acc.includes(curr.navn) && curr.deler && curr.deler.length > 0) {
-        const match = curr.navn.match(hjmNavnRegex)
-        const navn = match ? match[1] : curr.navn
-        if (!acc.includes(navn)) {
-          acc.push(navn)
+    setHenterHjelpemidler(true)
+    rest
+      .hentHjelpemiddelTitler()
+      .then((resp) => {
+        if (resp && resp.titler) {
+          setTitler(resp.titler)
         }
-      }
-      return acc
-    }, [] as string[])
-
-    setNavn(hjelpemiddelnavn)
-  }, [hjelpemidler])
+      })
+      .finally(() => {
+        setHenterHjelpemidler(false)
+      })
+  }, [])
 
   return (
     <Panel>
@@ -43,9 +39,9 @@ const OmÅBestilleDeler = () => {
       ) : (
         <ul>
           <li>{t('info.kunForTeknikere')}</li>
-          {navn.length > 0 && (
+          {titler.length > 0 && (
             <li>
-              {t('info.kanBestilleDelerTil')} {navn.join(', ')}.
+              {t('info.kanBestilleDelerTil')} {titler.join(', ')}.
             </li>
           )}
         </ul>
