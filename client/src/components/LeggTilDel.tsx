@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Button, Heading } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Heading, HStack, Switch, TextField } from '@navikt/ds-react'
 
 import useDelKategorier from '../hooks/useDelKategorier'
 import { CustomPanel, DottedPanel } from '../styledcomponents/CustomPanel'
@@ -22,6 +22,8 @@ interface Props {
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
   const { t } = useTranslation()
+  const [visKunFastLagervarer, setVisKunFastLagervarer] = useState(false)
+  const [søk, setSøk] = useState('')
 
   const handleClickManglerDel = () => {
     if (isConsentingToSurveys()) {
@@ -38,16 +40,32 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       <Heading size="medium" level="3" spacing>
         Deler til {hjelpemiddel.navn}
       </Heading>
-      <Avstand marginBottom={4}>
+      <Avstand marginBottom={2}>
         <DelKategoriVelger
           setKategoriFilter={setKategoriFilter}
           delKategorier={delKategorier}
           kategoriFilter={kategoriFilter}
         />
+
+        <Avstand marginBottom={4} />
+
+        <HStack align="end" gap="4">
+          <TextField label="Søk" onChange={(e) => setSøk(e.target.value)} />
+          <Switch
+            checked={visKunFastLagervarer}
+            onChange={(e) => {
+              setVisKunFastLagervarer(e.target.checked)
+            }}
+          >
+            Vis kun faste lagervarer
+          </Switch>
+        </HStack>
       </Avstand>
 
       {hjelpemiddel.deler
-        .filter((del) => (kategoriFilter ? kategoriFilter === del.kategori : del))
+        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : del))
+        .filter((del) => (visKunFastLagervarer ? del.lagerstatus.minmax === true : del))
+        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : del))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
           return (
