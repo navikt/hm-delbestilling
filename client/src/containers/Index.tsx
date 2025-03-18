@@ -62,15 +62,6 @@ const Index = () => {
       <Content>
         {!hjelpemiddel && (
           <>
-            <Avstand marginBottom={10}>
-              <Alert variant="info" style={{ marginBottom: '1rem' }}>
-                <Heading level="2" size="small">
-                  {t('nyhet.nyeDelerHeading')}
-                </Heading>
-                {t('nyhet.nyeDelerLagtTil')}
-              </Alert>
-            </Avstand>
-
             <HjelpemiddelLookup
               hmsnr={hmsnr}
               setHmsnr={setHmsnr}
