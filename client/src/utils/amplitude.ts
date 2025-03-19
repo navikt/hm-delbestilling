@@ -21,6 +21,7 @@ export enum digihot_customevents {
   INNSENDING_FEIL = 'feil ved innsending',
   START_NY_BESTILING = 'start ny bestilling',
   PRINT_AV_BESTILLING_ÅPNET = 'print av bestilling åpnet',
+  KLIKK_PÅ_VIS_KUN_FAST_LAGERVARE = 'klikk på vis kun fast lagervare',
 }
 
 const SKJEMANAVN = 'hm-delbestilling'
@@ -76,6 +77,12 @@ export const logOppslagFeil = (oppslagFeil: string, hmsnr: string, statuskode?: 
 
 export const logKategoriFiltreringGjort = (filter: string) => {
   logAmplitudeEvent(digihot_customevents.KATEGORI_FILTRERING, { filter })
+}
+
+export const logKlikkVisKunFastLagervare = (checked: boolean) => {
+  logAmplitudeEvent(digihot_customevents.KLIKK_PÅ_VIS_KUN_FAST_LAGERVARE, {
+    checked,
+  })
 }
 
 export const logSkjemavalideringFeilet = (feil: string[] | undefined) => {

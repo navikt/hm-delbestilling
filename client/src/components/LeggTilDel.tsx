@@ -13,6 +13,7 @@ import DelInfo from './DelInfo'
 import DelInnhold from './DelInhold'
 import DelKategoriVelger from './DelKategoriVelger'
 import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
+import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -55,6 +56,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
             checked={visKunFastLagervarer}
             onChange={(e) => {
               setVisKunFastLagervarer(e.target.checked)
+              logKlikkVisKunFastLagervare(e.target.checked)
             }}
           >
             Vis kun faste lagervarer
