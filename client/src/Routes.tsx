@@ -6,10 +6,11 @@ import Bestillinger from './containers/Bestillinger'
 import Index from './containers/Index'
 import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
-import Oversikt from './containers/Oversikt'
 import Utsjekk from './containers/Utsjekk'
 import { RolleContextLayout } from './context/rolle'
-import Delliste from './containers/Delliste'
+import { BodyShort, Box, Link } from '@navikt/ds-react'
+import Content from './styledcomponents/Content'
+import { Trans, useTranslation } from 'react-i18next'
 
 const Routes = () => {
   return (
@@ -20,8 +21,10 @@ const Routes = () => {
       <Switch>
         <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
-          <Route path="/oversikt" element={<Oversikt />} />
-          <Route path="/delliste" element={<Delliste />} />
+          {/* TODO: slett meg etter 01.05.25 */}
+          <Route path="/oversikt" element={<BrukFinnhjelpemiddel />} />
+          {/* TODO: slett meg etter 01.05.25 */}
+          <Route path="/delliste" element={<BrukFinnhjelpemiddel />} />
           {/* Dette er routes som krever at innlogget bruker har en delbestillerrolle */}
           <Route element={<RolleContextLayout />}>
             <Route path="/utsjekk" element={<Utsjekk />} />
@@ -31,6 +34,25 @@ const Routes = () => {
         </Route>
       </Switch>
     </>
+  )
+}
+
+const BrukFinnhjelpemiddel = () => {
+  const { t } = useTranslation()
+  return (
+    <Content>
+      <Box padding="6">
+        <BodyShort>
+          <Trans
+            i18nKey="brukFinnHjelpemiddel"
+            components={{
+              //@ts-ignore
+              finnHjelpemiddelLink: <Link href="https://finnhjelpemiddel.nav.no/" target="_blank" />,
+            }}
+          />
+        </BodyShort>
+      </Box>
+    </Content>
   )
 }
 

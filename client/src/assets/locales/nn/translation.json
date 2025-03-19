@@ -96,12 +96,7 @@
   "oppslag.visDeler": "Vis delar",
   "oppslag.startPåNytt": "Start på nytt",
 
-  "oversikt.søkEtterHjelpemiddel": "Søk etter hjelpemiddel",
-  "oversikt.velgHjelpemiddel": "Vel hjelpemiddel",
-  "oversikt.ingenTreff": "Ingen treff",
-  "oversikt.ingenDeler": "Ingen delar funnet",
-  "oversikt.antallDeler": "Mengd delar",
-  "oversikt.nyBestilling": "Ny bestilling",
+  "testbanner": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje speglar røyndommen.",
 
-  "testbanner": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje speglar røyndommen."
+  "brukFinnHjelpemiddel": "Denne sida er fjerna. Du bør heller bruka <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finna informasjon om delar. Du finn delar til hjelpemiddel under \"Passer saman med\" på ei produktside."
 }

@@ -96,12 +96,7 @@
   "del.lagerstatus.trengerDenneDelen": "Jeg trenger denne delen",
   "del.lagerstatus.taKontaktMedHms": "Du må ta kontakt med din hjelpemiddelsentral.",
 
-  "oversikt.søkEtterHjelpemiddel": "Søk etter hjelpemiddel",
-  "oversikt.velgHjelpemiddel": "Velg hjelpemiddel",
-  "oversikt.ingenTreff": "Ingen treff",
-  "oversikt.ingenDeler": "Ingen deler funnet",
-  "oversikt.antallDeler": "Antall deler",
-  "oversikt.nyBestilling": "Ny bestilling",
+  "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke gjenspeiler virkeligheten.",
 
-  "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke gjenspeiler virkeligheten."
+  "brukFinnHjelpemiddel": "Denne siden er fjernet. Du bør heller bruke <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finne informasjon om deler. Du finner deler til hjelpemidler under \"Passer sammen med\" på en produktside."
 }
