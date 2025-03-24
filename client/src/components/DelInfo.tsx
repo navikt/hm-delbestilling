@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { ImageIcon } from '@navikt/aksel-icons'
-import { BodyShort, Heading, ReadMore, Tag } from '@navikt/ds-react'
+import { BodyShort, Detail, Heading } from '@navikt/ds-react'
 
 import { size } from '../styledcomponents/rules'
 import { Avstand } from './Avstand'
@@ -73,12 +73,11 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus }: Props) => {
         </SubtleBodyShort>
         {lagerstatus && lagerstatus.minmax === false && (
           <Avstand marginTop={5}>
-            <Tag variant="warning">
+            <Detail textColor="subtle">
               {t('del.lagerstatus.ikkeFastLagervare', {
                 hmsNavn: lagerNavnMap[lagerstatus.organisasjons_navn.slice(1, 3)] ?? lagerstatus.organisasjons_navn,
               })}
-            </Tag>
-            <ReadMore header={t('del.lagerstatus.trengerDenneDelen')}>{t('del.lagerstatus.taKontaktMedHms')}</ReadMore>
+            </Detail>
           </Avstand>
         )}
       </Beskrivelser>

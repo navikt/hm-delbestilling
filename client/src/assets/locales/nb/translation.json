@@ -92,9 +92,7 @@
   "oppslag.visDeler": "Vis deler",
   "oppslag.startPåNytt": "Start på nytt",
 
-  "del.lagerstatus.ikkeFastLagervare": "Er ikke fast lagervare på HMS {{hmsNavn}}",
-  "del.lagerstatus.trengerDenneDelen": "Jeg trenger denne delen",
-  "del.lagerstatus.taKontaktMedHms": "Du må ta kontakt med din hjelpemiddelsentral.",
+  "del.lagerstatus.ikkeFastLagervare": "Delen kan ikke bestilles digitalt. Ta kontakt med HMS {{hmsNavn}} for å bestille.",
 
   "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke gjenspeiler virkeligheten.",
 
