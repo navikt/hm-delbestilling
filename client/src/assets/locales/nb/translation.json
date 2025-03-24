@@ -96,5 +96,6 @@
 
   "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke gjenspeiler virkeligheten.",
 
-  "brukFinnHjelpemiddel": "Denne siden er fjernet. Du bør heller bruke <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finne informasjon om deler. Du finner deler til hjelpemidler under \"Passer sammen med\" på en produktside."
+  "brukFinnHjelpemiddel": "Denne siden er fjernet. Du bør heller bruke <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finne informasjon om deler. Du finner deler til hjelpemidler under \"Passer sammen med\" på en produktside.",
+  "oversikt.nyBestilling": "Ny bestilling"
 }
