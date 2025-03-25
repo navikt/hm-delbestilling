@@ -60,6 +60,8 @@
   "hjelpemidler.sok.deler_one": "1 del",
   "hjelpemidler.sok.deler_other": "{{count}} delar",
 
+  "filtrering.visKunDelerSomKanBestillesDigitalt": "Vis berre deler som kan bestillast digitalt",
+
   "info.omÅBestilleDeler": "Om å bestilla delar",
   "info.kunForTeknikere": "Denne tenesta er berre for teknikarar i kommunen.",
   "info.kanBestilleDelerTil": "Som teknikar kan du bestilla delar til",

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Button, Heading, HStack, Switch, TextField } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Heading, HStack, Search, Switch, TextField } from '@navikt/ds-react'
 
 import useDelKategorier from '../hooks/useDelKategorier'
 import { CustomPanel, DottedPanel } from '../styledcomponents/CustomPanel'
@@ -23,7 +23,7 @@ interface Props {
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
   const { t } = useTranslation()
-  const [visKunFastLagervarer, setVisKunFastLagervarer] = useState(false)
+  const [visKunDigitaleDeler, setVisKunDigitaleDeler] = useState(false)
   const [søk, setSøk] = useState('')
 
   const handleClickManglerDel = () => {
@@ -50,24 +50,26 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
 
         <Avstand marginBottom={4} />
 
-        <HStack align="end" gap="4">
-          <TextField label="Søk" onChange={(e) => setSøk(e.target.value)} />
+        <HStack justify="start" align="end" gap="4">
+          <div>
+            <Search label="Søk" variant="simple" hideLabel onChange={(val) => setSøk(val)} />
+          </div>
           <Switch
-            checked={visKunFastLagervarer}
+            checked={visKunDigitaleDeler}
             onChange={(e) => {
-              setVisKunFastLagervarer(e.target.checked)
+              setVisKunDigitaleDeler(e.target.checked)
               logKlikkVisKunFastLagervare(e.target.checked)
             }}
           >
-            Vis kun faste lagervarer
+            {t('filtrering.visKunDelerSomKanBestillesDigitalt')}
           </Switch>
         </HStack>
       </Avstand>
 
       {hjelpemiddel.deler
-        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : del))
-        .filter((del) => (visKunFastLagervarer ? del.lagerstatus.minmax === true : del))
-        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : del))
+        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
+        .filter((del) => (visKunDigitaleDeler ? del.lagerstatus.minmax === true : true))
+        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
           return (

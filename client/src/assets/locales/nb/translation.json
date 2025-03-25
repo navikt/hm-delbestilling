@@ -60,6 +60,8 @@
   "hjelpemidler.sok.deler_one": "1 del",
   "hjelpemidler.sok.deler_other": "{{count}} deler",
 
+  "filtrering.visKunDelerSomKanBestillesDigitalt": "Vis kun deler som kan bestilles digitalt",
+
   "info.omÅBestilleDeler": "Om å bestille deler",
   "info.kunForTeknikere": "Denne tjenesten er kun for teknikere i kommunen.",
   "info.kanBestilleDelerTil": "Som tekniker kan du bestille deler til",
