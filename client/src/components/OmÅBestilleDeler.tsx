@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Heading, Panel, Skeleton } from '@navikt/ds-react'
+import { BodyShort, Heading, HStack, List, Panel, Skeleton } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 
@@ -25,6 +25,15 @@ const OmÅBestilleDeler = () => {
       })
   }, [])
 
+  var kolonne1: string[] = []
+  var kolonne2: string[] = []
+  if (titler.length) {
+    const lengde = titler.length
+    const splitAt = Math.round(lengde / 2)
+    kolonne1.push(...titler.slice(0, splitAt))
+    kolonne2.push(...titler.slice(splitAt, lengde))
+  }
+
   return (
     <Panel>
       <Heading level="2" size="medium" spacing>
@@ -37,14 +46,23 @@ const OmÅBestilleDeler = () => {
           <Skeleton variant="text" height="60px" style={{ transform: 'scale(1, 0.8' }}></Skeleton>
         </>
       ) : (
-        <ul>
-          <li>{t('info.kunForTeknikere')}</li>
-          {titler.length > 0 && (
-            <li>
-              {t('info.kanBestilleDelerTil')} {titler.join(', ')}.
-            </li>
+        <BodyShort>
+          {t('info.kunForTeknikere')} {t('info.kanBestilleDelerTil')}:
+          {kolonne1.length > 0 && kolonne2.length > 0 && (
+            <HStack gap="4">
+              <List>
+                {kolonne1.map((navn, i) => (
+                  <List.Item key={i}>{navn}</List.Item>
+                ))}
+              </List>
+              <List>
+                {kolonne2.map((navn, i) => (
+                  <List.Item key={i}>{navn}</List.Item>
+                ))}
+              </List>
+            </HStack>
           )}
-        </ul>
+        </BodyShort>
       )}
     </Panel>
   )
