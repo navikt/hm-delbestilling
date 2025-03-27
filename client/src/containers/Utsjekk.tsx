@@ -445,7 +445,7 @@ const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv })
         console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
       }
     })()
-  }, [handlekurv])
+  }, [])
 
   if (antallDagerSiden === undefined) {
     return null
