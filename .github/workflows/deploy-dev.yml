@@ -46,7 +46,7 @@ jobs:
       - name: Deploy to dev-gcp (intern)
         uses: nais/deploy/actions/deploy@v1
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          #APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .hotnais/dev-intern.yaml
           PRINT_PAYLOAD: true
