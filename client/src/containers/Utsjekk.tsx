@@ -38,6 +38,7 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
+  logvisningAvBatteriVarsel,
 } from '../utils/amplitude'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
@@ -440,6 +441,7 @@ const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv })
         )
         if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < MAKS_GRENSE_ANTALL_DAGER) {
           setAntallDagerSiden(sisteBatteribestilling.antallDagerSiden)
+          logvisningAvBatteriVarsel(sisteBatteribestilling.antallDagerSiden)
         }
       } catch {
         console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
