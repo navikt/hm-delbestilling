@@ -104,7 +104,7 @@ const hentBestillingerForKommune = async (): Promise<DelbestillingSak[]> => {
 const hentSisteBatteribestilling = async (
   hmsnr: string,
   serienr: string
-): Promise<SisteBatteribestillingResponse | null> => {
+): Promise<SisteBatteribestillingResponse | undefined> => {
   const response = await fetch(API_PATH + `/siste-batteribestilling/${hmsnr}/${serienr}`)
   await handleResponse(response.clone())
   return await response.json()
