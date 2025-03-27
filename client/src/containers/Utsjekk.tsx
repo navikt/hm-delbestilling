@@ -427,9 +427,9 @@ const Utsjekk = () => {
   )
 }
 
+const GRENSE_ANTALL_DAGER = 30 * 4 // 4 måneder
 const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv }) => {
   const { t } = useTranslation()
-  const MAKS_GRENSE_ANTALL_DAGER = 30 * 4 // 4 måneder
 
   const [antallDagerSiden, setAntallDagerSiden] = useState<number | undefined>(undefined)
 
@@ -440,7 +440,7 @@ const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv })
           handlekurv.hjelpemiddel.hmsnr,
           handlekurv.serienr
         )
-        if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < MAKS_GRENSE_ANTALL_DAGER) {
+        if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER) {
           setAntallDagerSiden(sisteBatteribestilling.antallDagerSiden)
           logvisningAvBatteriVarsel(sisteBatteribestilling.antallDagerSiden)
         }
@@ -448,7 +448,7 @@ const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv })
         console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
       }
     })()
-  }, [])
+  }, [GRENSE_ANTALL_DAGER])
 
   if (antallDagerSiden === undefined) {
     return null
