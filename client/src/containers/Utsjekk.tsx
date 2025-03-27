@@ -428,6 +428,7 @@ const Utsjekk = () => {
 }
 
 const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv }) => {
+  const { t } = useTranslation()
   const MAKS_GRENSE_ANTALL_DAGER = 30 * 4 // 4 måneder
 
   const [antallDagerSiden, setAntallDagerSiden] = useState<number | undefined>(undefined)
@@ -456,8 +457,10 @@ const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv })
   return (
     <Avstand marginBottom={4}>
       <Alert variant="info">
-        Det er bestilt batteri til {handlekurv.hjelpemiddel.navn} for {antallDagerSiden} dager siden. Hvis det likevel
-        er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.
+        {t('bestillinger.batteriSistBestiltVarsel', {
+          hjelpemiddelNavn: handlekurv.hjelpemiddel.navn,
+          count: antallDagerSiden,
+        })}
       </Alert>
     </Avstand>
   )
