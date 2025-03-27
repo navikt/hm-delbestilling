@@ -458,7 +458,6 @@ const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv })
     <Avstand marginBottom={4}>
       <Alert variant="info">
         {t('bestillinger.batteriSistBestiltVarsel', {
-          hjelpemiddelNavn: handlekurv.hjelpemiddel.navn,
           count: antallDagerSiden,
         })}
       </Alert>

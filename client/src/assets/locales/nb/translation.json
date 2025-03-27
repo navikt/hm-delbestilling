@@ -33,8 +33,8 @@
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventet levering {{dato}}",
   "bestillinger.gjenvinningAvBatterier": "Husk at gamle batterier må leveres på en forsvarlig måte til gjenvinning.",
-  "bestillinger.batteriSistBestiltVarsel_zero": "Det er bestilt samme batteri til {{hjelpemiddelNavn}} i dag. Hvis det likevel er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.",
-  "bestillinger.batteriSistBestiltVarsel_other": "Det er bestilt samme batteri til {{hjelpemiddelNavn}} for {{count}} dager siden. Hvis det likevel er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.",
+  "bestillinger.batteriSistBestiltVarsel_zero": "Det er bestilt samme batteri til dette hjelpemiddelet i dag. Hvis det likevel er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.",
+  "bestillinger.batteriSistBestiltVarsel_other": "Det er bestilt samme batteri til dette hjelpemiddelet for {{count}} dager siden. Hvis det likevel er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.",
 
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må inneholde 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.",
