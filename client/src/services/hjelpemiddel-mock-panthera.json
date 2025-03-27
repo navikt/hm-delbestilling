@@ -11,6 +11,7 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/150817.jpg",
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -26,6 +27,7 @@
         "kategori": "Slange",
         "maksAntall": 2,
         "img": null,
+        "imgs": [],
         "defaultAntall": 1,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -41,6 +43,7 @@
         "kategori": "Svinghjul",
         "maksAntall": 2,
         "img": null,
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -56,6 +59,7 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/178498.jpg",
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -71,6 +75,7 @@
         "kategori": "Svinghjul",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/184589.jpg",
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -86,6 +91,7 @@
         "kategori": "Svinghjul",
         "maksAntall": 2,
         "img": null,
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -101,6 +107,7 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196602.jpg",
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -116,6 +123,7 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/202326.jpg",
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -131,6 +139,7 @@
         "kategori": "Slange",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/211449.jpg",
+        "imgs": [],
         "defaultAntall": 1,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -146,6 +155,7 @@
         "kategori": "Svinghjul",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/232810.jpg",
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -161,6 +171,7 @@
         "kategori": "Dekk",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/278033.png",
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,
@@ -176,6 +187,7 @@
         "kategori": "Batteri",
         "maksAntall": 2,
         "img": "https://storage.googleapis.com/hm_delbestilling_bilder/196027.png",
+        "imgs": [],
         "defaultAntall": 2,
         "lagerstatus": {
           "organisasjons_id": 1,

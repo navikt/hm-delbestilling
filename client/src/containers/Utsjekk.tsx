@@ -313,7 +313,7 @@ const Utsjekk = () => {
                           navn={delLinje.del.navn}
                           hmsnr={delLinje.del.hmsnr}
                           levArtNr={delLinje.del.levArtNr}
-                          img={delLinje.del.img}
+                          imgs={delLinje.del.imgs}
                         />
                       </FlexedStack>
                       <Toolbar>

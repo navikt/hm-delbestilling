@@ -81,7 +81,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                       navn={del.navn}
                       hmsnr={del.hmsnr}
                       levArtNr={del.levArtNr}
-                      img={del.img}
+                      imgs={del.imgs}
                       lagerstatus={del.lagerstatus}
                     />
                   </FlexedStack>
