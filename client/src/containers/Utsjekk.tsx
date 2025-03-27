@@ -442,7 +442,7 @@ const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv })
         )
         if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER) {
           setAntallDagerSiden(sisteBatteribestilling.antallDagerSiden)
-          logvisningAvBatteriVarsel(sisteBatteribestilling.antallDagerSiden)
+          logvisningAvBatteriVarsel(handlekurv.id, sisteBatteribestilling.antallDagerSiden)
         }
       } catch {
         console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')

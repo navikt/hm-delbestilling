@@ -114,8 +114,9 @@ export const logPrintAvBestillingÅpnet = (pathname: string) => {
   })
 }
 
-export const logvisningAvBatteriVarsel = (antallDager: number) => {
+export const logvisningAvBatteriVarsel = (bestillingId: string, antallDager: number) => {
   logAmplitudeEvent(digihot_customevents.VISNING_AV_VARSEL_OM_SISTE_BATTERIBESTILLING, {
+    bestillingId,
     antallDager,
   })
 }
