@@ -9,7 +9,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - mer-filtrering
+      - sjekk-siste-batteribestilling
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
