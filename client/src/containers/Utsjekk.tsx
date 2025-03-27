@@ -343,28 +343,33 @@ const Utsjekk = () => {
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <Avstand marginBottom={8}>
+                <>
                   <Avstand marginBottom={4}>
-                    <ConfirmationPanel
-                      id={'opplæring-batteri'}
-                      checked={!!handlekurv.harOpplæringPåBatteri}
-                      label={t('bestillinger.harFåttOpplæringBatteri')}
-                      onChange={(e) =>
-                        setHandlekurv((prev) => {
-                          if (!prev) return undefined
-                          return {
-                            ...prev,
-                            harOpplæringPåBatteri: e.target.checked,
-                          }
-                        })
-                      }
-                      error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
-                    >
-                      {t('felles.Bekreft')}
-                    </ConfirmationPanel>
+                    <SisteBatteribestillingSjekk handlekurv={handlekurv} />
                   </Avstand>
-                  <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
-                </Avstand>
+                  <Avstand marginBottom={8}>
+                    <Avstand marginBottom={4}>
+                      <ConfirmationPanel
+                        id={'opplæring-batteri'}
+                        checked={!!handlekurv.harOpplæringPåBatteri}
+                        label={t('bestillinger.harFåttOpplæringBatteri')}
+                        onChange={(e) =>
+                          setHandlekurv((prev) => {
+                            if (!prev) return undefined
+                            return {
+                              ...prev,
+                              harOpplæringPåBatteri: e.target.checked,
+                            }
+                          })
+                        }
+                        error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
+                      >
+                        {t('felles.Bekreft')}
+                      </ConfirmationPanel>
+                    </Avstand>
+                    <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
+                  </Avstand>
+                </>
               )}
 
               <Avstand marginBottom={12}>
@@ -418,6 +423,41 @@ const Utsjekk = () => {
         <Rolleswitcher harXKLager={harXKLager} setHarXKLager={setHarXKLager} />
       )}
     </main>
+  )
+}
+
+const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv }) => {
+  const MAKS_GRENSE_ANTALL_DAGER = 30 * 4 // 4 måneder
+
+  const [antallDagerSiden, setAntallDagerSiden] = useState<number | undefined>(undefined)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const sisteBatteribestilling = await rest.hentSisteBatteribestilling(
+          handlekurv.hjelpemiddel.hmsnr,
+          handlekurv.serienr
+        )
+        if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < MAKS_GRENSE_ANTALL_DAGER) {
+          setAntallDagerSiden(sisteBatteribestilling.antallDagerSiden)
+        }
+      } catch {
+        console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
+      }
+    })()
+  }, [])
+
+  if (antallDagerSiden === undefined) {
+    return null
+  }
+
+  return (
+    <Avstand marginBottom={4}>
+      <Alert variant="info">
+        Det er bestilt batteri til {handlekurv.hjelpemiddel.navn} for {antallDagerSiden} dager siden. Hvis det likevel
+        er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.
+      </Alert>
+    </Avstand>
   )
 }
 
