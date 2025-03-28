@@ -27,6 +27,10 @@ export interface XKLagerResponse {
   xkLager: boolean
 }
 
+export interface SisteBatteribestillingResponse {
+  antallDagerSiden: number
+}
+
 export interface DellisteDel {
   hmsnr: string
   navn: string
