@@ -16,6 +16,7 @@ import {
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
+  SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
 import { DelbestillingSak, Ordrestatus } from '../../types/Types'
@@ -254,6 +255,12 @@ const apiHandlers = [
         'e-fix e35/36 (2020)',
       ],
     })
+  }),
+
+  http.get<{}, {}, SisteBatteribestillingResponse>(`${API_PATH}/siste-batteribestilling/:hmsnr/:serienr`, async () => {
+    await delay(250)
+    return HttpResponse.json({ antallDagerSiden: 10 })
+    // return new HttpResponse(undefined, { status: 204 })
   }),
 ]
 

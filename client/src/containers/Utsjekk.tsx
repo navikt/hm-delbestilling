@@ -38,6 +38,7 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
+  logvisningAvBatteriVarsel,
 } from '../utils/amplitude'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
@@ -343,28 +344,33 @@ const Utsjekk = () => {
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <Avstand marginBottom={8}>
+                <>
                   <Avstand marginBottom={4}>
-                    <ConfirmationPanel
-                      id={'opplæring-batteri'}
-                      checked={!!handlekurv.harOpplæringPåBatteri}
-                      label={t('bestillinger.harFåttOpplæringBatteri')}
-                      onChange={(e) =>
-                        setHandlekurv((prev) => {
-                          if (!prev) return undefined
-                          return {
-                            ...prev,
-                            harOpplæringPåBatteri: e.target.checked,
-                          }
-                        })
-                      }
-                      error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
-                    >
-                      {t('felles.Bekreft')}
-                    </ConfirmationPanel>
+                    <SisteBatteribestillingSjekk handlekurv={handlekurv} />
                   </Avstand>
-                  <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
-                </Avstand>
+                  <Avstand marginBottom={8}>
+                    <Avstand marginBottom={4}>
+                      <ConfirmationPanel
+                        id={'opplæring-batteri'}
+                        checked={!!handlekurv.harOpplæringPåBatteri}
+                        label={t('bestillinger.harFåttOpplæringBatteri')}
+                        onChange={(e) =>
+                          setHandlekurv((prev) => {
+                            if (!prev) return undefined
+                            return {
+                              ...prev,
+                              harOpplæringPåBatteri: e.target.checked,
+                            }
+                          })
+                        }
+                        error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
+                      >
+                        {t('felles.Bekreft')}
+                      </ConfirmationPanel>
+                    </Avstand>
+                    <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
+                  </Avstand>
+                </>
               )}
 
               <Avstand marginBottom={12}>
@@ -418,6 +424,44 @@ const Utsjekk = () => {
         <Rolleswitcher harXKLager={harXKLager} setHarXKLager={setHarXKLager} />
       )}
     </main>
+  )
+}
+
+const GRENSE_ANTALL_DAGER = 30 * 4 // 4 måneder
+const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv }) => {
+  const { t } = useTranslation()
+
+  const [antallDagerSiden, setAntallDagerSiden] = useState<number | undefined>(undefined)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const sisteBatteribestilling = await rest.hentSisteBatteribestilling(
+          handlekurv.hjelpemiddel.hmsnr,
+          handlekurv.serienr
+        )
+        if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER) {
+          setAntallDagerSiden(sisteBatteribestilling.antallDagerSiden)
+          logvisningAvBatteriVarsel(handlekurv.id, sisteBatteribestilling.antallDagerSiden)
+        }
+      } catch {
+        console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
+      }
+    })()
+  }, [GRENSE_ANTALL_DAGER])
+
+  if (antallDagerSiden === undefined) {
+    return null
+  }
+
+  return (
+    <Avstand marginBottom={4}>
+      <Alert variant="info">
+        {t('bestillinger.batteriSistBestiltVarsel', {
+          count: antallDagerSiden,
+        })}
+      </Alert>
+    </Avstand>
   )
 }
 
