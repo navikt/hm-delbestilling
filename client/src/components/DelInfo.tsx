@@ -8,6 +8,7 @@ import { size } from '../styledcomponents/rules'
 import { Avstand } from './Avstand'
 import { Lagerstatus } from '../types/Types'
 import { useTranslation } from 'react-i18next'
+import { logÅpningAvBildekarusell } from '../utils/amplitude'
 
 interface Props {
   navn: string
@@ -124,7 +125,12 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
 
   return (
     <>
-      <ThumbnailButton onClick={() => setValgtIndex(0)}>
+      <ThumbnailButton
+        onClick={() => {
+          setValgtIndex(0)
+          logÅpningAvBildekarusell()
+        }}
+      >
         <ImgWrap aria-hidden>
           <img src={imgs[0]} alt={navn} />
         </ImgWrap>
