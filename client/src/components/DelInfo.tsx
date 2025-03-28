@@ -145,7 +145,6 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
             </HStack>
           </Modal.Body>
 
-          {/* <Modal.Footer style={{ justifyContent: 'center' }}> */}
           <Box padding="4">
             <HStack justify="space-evenly">
               <Button
@@ -155,7 +154,7 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
                 variant="tertiary"
               />
               <div style={{ width: '70%' }}>
-                <HGrid columns={{ xs: 4, sm: 4, md: 4 }} gap="4" align="center" style={{ textAlign: 'center' }}>
+                <HGrid columns={{ xs: 4, sm: 4, md: 4 }} gap="4" align="center">
                   {imgs.map((url, i) => (
                     <ThumbnailButton key={i} onClick={() => setValgtIndex(i)}>
                       <Box
@@ -178,7 +177,6 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
               />
             </HStack>
           </Box>
-          {/* </Modal.Footer> */}
         </Modal>
       )}
     </>
