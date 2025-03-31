@@ -8,7 +8,7 @@ export interface OppslagRequest {
 export interface OppslagResponse {
   hjelpemiddel: Hjelpemiddel | undefined
   feil: OppslagFeil | undefined
-  piloter?: Pilot[]
+  piloter?: Pilot[] // TODO: denne trenger egentlig ikke være nullable
 }
 
 export enum Pilot {

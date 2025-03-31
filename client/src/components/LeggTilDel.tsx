@@ -100,7 +100,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                 {window.appSettings.MILJO === 'dev-gcp' && !erFastLagervare && (
                   <HStack justify={'end'}>
                     <Avstand marginTop={2}>
-                      <Detail>[DEBUG]: ikke fast lagervare (min/max)</Detail>
+                      <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
                     </Avstand>
                   </HStack>
                 )}
