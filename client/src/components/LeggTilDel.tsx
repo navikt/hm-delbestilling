@@ -76,6 +76,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
           const erPilotForBestilleIkkeFasteLagervarer = piloter?.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
           const erFastLagervare = del.lagerstatus.minmax
           const kanBestilles = erPilotForBestilleIkkeFasteLagervarer || erFastLagervare
+          console.log('kanBestilles:', kanBestilles)
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
@@ -87,7 +88,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                       levArtNr={del.levArtNr}
                       img={del.img}
                       lagerstatus={del.lagerstatus}
-                      visVarselOmIkkeFastLagervare={!erPilotForBestilleIkkeFasteLagervarer}
+                      visVarselOmIkkeFastLagervare={!erPilotForBestilleIkkeFasteLagervarer && !kanBestilles}
                     />
                   </FlexedStack>
 
