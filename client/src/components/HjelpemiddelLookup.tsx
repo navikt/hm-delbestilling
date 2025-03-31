@@ -6,7 +6,7 @@ import { Button, Heading, TextField } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
-import { OppslagFeil } from '../types/HttpTypes'
+import { OppslagFeil, Pilot } from '../types/HttpTypes'
 import { Hjelpemiddel } from '../types/Types'
 import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
 
@@ -44,9 +44,10 @@ interface Props {
   serienr: string
   setSerienr: React.Dispatch<SetStateAction<string>>
   setHjelpemiddel: React.Dispatch<SetStateAction<Hjelpemiddel | undefined>>
+  setPiloter: React.Dispatch<SetStateAction<Pilot[] | undefined>>
 }
 
-const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemiddel }: Props) => {
+const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemiddel, setPiloter }: Props) => {
   const { t } = useTranslation()
   const [gjørOppslag, setGjørOppslag] = useState(false)
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
@@ -86,6 +87,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemid
         logOppslagFeil(oppslag.feil, hmsnr)
       } else {
         setHjelpemiddel(oppslag.hjelpemiddel)
+        setPiloter(oppslag.piloter)
       }
     } catch (err: any) {
       console.log(`Kunne ikke hente hjelpemiddel`, err)

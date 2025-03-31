@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Button, Heading, HStack, Search, Switch, TextField } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch, TextField } from '@navikt/ds-react'
 
 import useDelKategorier from '../hooks/useDelKategorier'
 import { CustomPanel, DottedPanel } from '../styledcomponents/CustomPanel'
@@ -14,13 +14,15 @@ import DelInnhold from './DelInhold'
 import DelKategoriVelger from './DelKategoriVelger'
 import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
+import { Pilot } from '../types/HttpTypes'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
   knappeTekst?: string
+  piloter: Pilot[] | undefined
 }
-const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
+const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', piloter }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
   const { t } = useTranslation()
   const [visKunDigitaleDeler, setVisKunDigitaleDeler] = useState(false)
@@ -71,7 +73,9 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
         .filter((del) => (visKunDigitaleDeler ? del.lagerstatus.minmax === true : true))
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
+          const erPilotForBestilleIkkeLagervare = piloter?.includes(Pilot.BESTILLE_IKKE_LAGERVARER)
           const erFastLagervare = del.lagerstatus.minmax
+          const kanBestilles = erPilotForBestilleIkkeLagervare || erFastLagervare
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
@@ -83,15 +87,23 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                       levArtNr={del.levArtNr}
                       img={del.img}
                       lagerstatus={del.lagerstatus}
+                      visVarselOmIkkeLagervare={!erPilotForBestilleIkkeLagervare}
                     />
                   </FlexedStack>
 
-                  {erFastLagervare && (
+                  {kanBestilles && (
                     <Button variant="secondary" onClick={() => onLeggTil(del)}>
                       {knappeTekst}
                     </Button>
                   )}
                 </DelInnhold>
+                {window.appSettings.MILJO === 'dev-gcp' && !erFastLagervare && (
+                  <HStack justify={'end'}>
+                    <Avstand marginTop={2}>
+                      <Detail>[DEBUG]: ikke fast lagervare (min/max)</Detail>
+                    </Avstand>
+                  </HStack>
+                )}
               </CustomPanel>
             </Avstand>
           )

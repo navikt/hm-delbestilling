@@ -1,3 +1,5 @@
+import { Pilot } from './HttpTypes'
+
 export interface Hjelpemiddel {
   navn: string
   hmsnr: string
@@ -30,6 +32,7 @@ export interface Handlekurv {
   deler: Dellinje[]
   levering: Levering | undefined
   harOpplæringPåBatteri: boolean | undefined
+  piloter: Pilot[] | undefined
 }
 
 export interface Dellinje {

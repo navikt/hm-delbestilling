@@ -298,6 +298,7 @@ const Utsjekk = () => {
                 ),
               }}
               onLeggTil={(del) => leggTilDel(del)}
+              piloter={handlekurv.piloter}
             />
           ) : (
             <>

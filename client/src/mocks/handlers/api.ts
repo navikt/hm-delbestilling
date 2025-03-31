@@ -16,6 +16,7 @@ import {
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
+  Pilot,
   SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
@@ -55,7 +56,11 @@ const apiHandlers = [
           ? hjelpemiddelMockComet.hjelpemiddel
           : hjelpemiddelMockPanthera.hjelpemiddel
 
-    return HttpResponse.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined })
+    return HttpResponse.json({
+      hjelpemiddel: { ...hjelpemiddel, hmsnr },
+      feil: undefined,
+      piloter: [Pilot.BESTILLE_IKKE_LAGERVARER],
+    })
   }),
 
   http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {
