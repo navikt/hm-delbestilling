@@ -12,7 +12,7 @@ export interface OppslagResponse {
 }
 
 export enum Pilot {
-  BESTILLE_IKKE_LAGERVARER = 'BESTILLE_IKKE_LAGERVARER',
+  BESTILLE_IKKE_FASTE_LAGERVARER = 'BESTILLE_IKKE_FASTE_LAGERVARER',
 }
 
 export interface AlleHjelpemidlerMedDelerResponse {

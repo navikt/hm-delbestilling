@@ -55,10 +55,10 @@ interface Props {
   levArtNr: string | null
   img: string | null
   lagerstatus?: Lagerstatus
-  visVarselOmIkkeLagervare?: boolean
+  visVarselOmIkkeFastLagervare?: boolean
 }
 
-const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus, visVarselOmIkkeLagervare }: Props) => {
+const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus, visVarselOmIkkeFastLagervare }: Props) => {
   const { t } = useTranslation()
   return (
     <>
@@ -72,7 +72,7 @@ const DelInfo = ({ navn, hmsnr, levArtNr, img, lagerstatus, visVarselOmIkkeLager
           <span>HMS-nr. {hmsnr}</span>
           {levArtNr && <span>Lev.art.nr. {levArtNr}</span>}
         </SubtleBodyShort>
-        {lagerstatus && visVarselOmIkkeLagervare && (
+        {lagerstatus && visVarselOmIkkeFastLagervare && (
           <Avstand marginTop={5}>
             <Detail textColor="subtle">
               {t('del.lagerstatus.ikkeFastLagervare', {

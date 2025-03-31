@@ -73,9 +73,9 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         .filter((del) => (visKunDigitaleDeler ? del.lagerstatus.minmax === true : true))
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
-          const erPilotForBestilleIkkeLagervare = piloter?.includes(Pilot.BESTILLE_IKKE_LAGERVARER)
+          const erPilotForBestilleIkkeFasteLagervarer = piloter?.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
           const erFastLagervare = del.lagerstatus.minmax
-          const kanBestilles = erPilotForBestilleIkkeLagervare || erFastLagervare
+          const kanBestilles = erPilotForBestilleIkkeFasteLagervarer || erFastLagervare
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
@@ -87,7 +87,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                       levArtNr={del.levArtNr}
                       img={del.img}
                       lagerstatus={del.lagerstatus}
-                      visVarselOmIkkeLagervare={!erPilotForBestilleIkkeLagervare}
+                      visVarselOmIkkeFastLagervare={!erPilotForBestilleIkkeFasteLagervarer}
                     />
                   </FlexedStack>
 

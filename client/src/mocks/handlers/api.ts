@@ -59,7 +59,7 @@ const apiHandlers = [
     return HttpResponse.json({
       hjelpemiddel: { ...hjelpemiddel, hmsnr },
       feil: undefined,
-      piloter: [Pilot.BESTILLE_IKKE_LAGERVARER],
+      piloter: [Pilot.BESTILLE_IKKE_FASTE_LAGERVARER],
     })
   }),
 
