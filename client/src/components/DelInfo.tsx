@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { ChevronLeftIcon, ChevronRightIcon, ImageIcon } from '@navikt/aksel-icons'
+import { ChevronLeftIcon, ChevronRightIcon, ImageIcon, MagnifyingGlassIcon } from '@navikt/aksel-icons'
 import { BodyShort, Box, Button, Detail, Heading, HGrid, HStack, Modal } from '@navikt/ds-react'
 
 import { size } from '../styledcomponents/rules'
@@ -119,6 +119,14 @@ const Bilde = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
   return <Karusell imgs={imgs} navn={navn} />
 }
 
+const Magnifyer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.5);
+`
+
 const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
   const [valgtIndex, setValgtIndex] = useState<number>(-1)
   console.log('valgtIndex:', valgtIndex)
@@ -131,8 +139,11 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
           logÅpningAvBildekarusell()
         }}
       >
-        <ImgWrap aria-hidden>
+        <ImgWrap aria-hidden style={{ position: 'relative' }}>
           <img src={imgs[0]} alt={navn} />
+          <Magnifyer>
+            <MagnifyingGlassIcon style={{ color: 'white' }} />
+          </Magnifyer>
         </ImgWrap>
       </ThumbnailButton>
       {valgtIndex > -1 && (
