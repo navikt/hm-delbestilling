@@ -44,7 +44,7 @@ interface Props {
   serienr: string
   setSerienr: React.Dispatch<SetStateAction<string>>
   setHjelpemiddel: React.Dispatch<SetStateAction<Hjelpemiddel | undefined>>
-  setPiloter: React.Dispatch<SetStateAction<Pilot[] | undefined>>
+  setPiloter: React.Dispatch<SetStateAction<Pilot[]>>
 }
 
 const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, setHjelpemiddel, setPiloter }: Props) => {

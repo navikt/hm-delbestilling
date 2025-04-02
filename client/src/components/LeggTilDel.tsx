@@ -20,13 +20,15 @@ interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
   knappeTekst?: string
-  piloter: Pilot[] | undefined
+  piloter: Pilot[]
 }
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', piloter }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
   const { t } = useTranslation()
   const [visKunDigitaleDeler, setVisKunDigitaleDeler] = useState(false)
   const [søk, setSøk] = useState('')
+
+  const erPilotForBestilleIkkeFasteLagervarer = piloter.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
 
   const handleClickManglerDel = () => {
     if (isConsentingToSurveys()) {
@@ -73,7 +75,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         .filter((del) => (visKunDigitaleDeler ? del.lagerstatus.minmax === true : true))
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
-          const erPilotForBestilleIkkeFasteLagervarer = piloter?.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
           const erFastLagervare = del.lagerstatus.minmax
           const kanBestilles = erPilotForBestilleIkkeFasteLagervarer || erFastLagervare
           console.log('kanBestilles:', kanBestilles)

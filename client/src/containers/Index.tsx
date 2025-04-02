@@ -23,7 +23,7 @@ const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
-  const [piloter, setPiloter] = useState<Pilot[] | undefined>()
+  const [piloter, setPiloter] = useState<Pilot[]>([])
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
   const { sjekkerLogin, sjekkLoginStatus } = useAuth()

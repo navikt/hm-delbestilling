@@ -33,14 +33,14 @@ const apiHandlers = [
 
     if (hmsnr === '333333') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN },
+        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }
 
     if (hmsnr === '000000') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL },
+        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }

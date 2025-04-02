@@ -32,7 +32,7 @@ export interface Handlekurv {
   deler: Dellinje[]
   levering: Levering | undefined
   harOpplæringPåBatteri: boolean | undefined
-  piloter: Pilot[] | undefined
+  piloter: Pilot[]
 }
 
 export interface Dellinje {
