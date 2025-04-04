@@ -71,8 +71,10 @@ const Index = () => {
               setHmsnr={setHmsnr}
               serienr={serienr}
               setSerienr={setSerienr}
-              setHjelpemiddel={setHjelpemiddel}
-              setPiloter={setPiloter}
+              onOppslagSuksess={(hjelpemiddel, piloter) => {
+                setHjelpemiddel(hjelpemiddel)
+                setPiloter(piloter)
+              }}
             />
 
             <Avstand marginTop={10}>
