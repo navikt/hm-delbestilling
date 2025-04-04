@@ -31,7 +31,8 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
     if (setHarXKLager !== undefined) {
       setHarXKLager(values.includes('harXKLager'))
     }
-    if (setPiloter) {
+
+    if (setPiloter !== undefined) {
       if (values.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)) {
         setPiloter([Pilot.BESTILLE_IKKE_FASTE_LAGERVARER])
       } else {
