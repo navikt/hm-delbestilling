@@ -58,15 +58,17 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
           <div>
             <Search label="Søk" variant="simple" hideLabel onChange={(val) => setSøk(val)} />
           </div>
-          <Switch
-            checked={visKunDigitaleDeler}
-            onChange={(e) => {
-              setVisKunDigitaleDeler(e.target.checked)
-              logKlikkVisKunFastLagervare(e.target.checked)
-            }}
-          >
-            {t('filtrering.visKunDelerSomKanBestillesDigitalt')}
-          </Switch>
+          {!erPilotForBestilleIkkeFasteLagervarer && (
+            <Switch
+              checked={visKunDigitaleDeler}
+              onChange={(e) => {
+                setVisKunDigitaleDeler(e.target.checked)
+                logKlikkVisKunFastLagervare(e.target.checked)
+              }}
+            >
+              {t('filtrering.visKunDelerSomKanBestillesDigitalt')}
+            </Switch>
+          )}
         </HStack>
       </Avstand>
 
@@ -99,13 +101,15 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                     </Button>
                   )}
                 </DelInnhold>
-                {window.appSettings.MILJO === 'dev-gcp' && !erFastLagervare && (
-                  <HStack justify={'end'}>
-                    <Avstand marginTop={2}>
-                      <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
-                    </Avstand>
-                  </HStack>
-                )}
+                {window.appSettings.MILJO === 'dev-gcp' &&
+                  erPilotForBestilleIkkeFasteLagervarer &&
+                  !erFastLagervare && (
+                    <HStack justify={'end'}>
+                      <Avstand marginTop={2}>
+                        <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
+                      </Avstand>
+                    </HStack>
+                  )}
               </CustomPanel>
             </Avstand>
           )

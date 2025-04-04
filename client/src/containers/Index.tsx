@@ -16,6 +16,7 @@ import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
 import { Pilot } from '../types/HttpTypes'
+import Rolleswitcher from '../components/Rolleswitcher'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -155,6 +156,9 @@ const Index = () => {
           </>
         )}
       </Content>
+      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
+        <Rolleswitcher valg={['piloter']} piloter={piloter} setPiloter={setPiloter} />
+      )}
     </main>
   )
 }

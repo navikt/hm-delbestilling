@@ -31,7 +31,7 @@ import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import FlexedStack from '../styledcomponents/FlexedStack'
-import { DelbestillingFeil } from '../types/HttpTypes'
+import { DelbestillingFeil, Pilot } from '../types/HttpTypes'
 import { Del, Delbestilling, Handlekurv, Levering } from '../types/Types'
 import {
   logBestillingSlettet,
@@ -75,6 +75,7 @@ const Utsjekk = () => {
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
   const [harXKLager, setHarXKLager] = useState<boolean | undefined>(undefined)
+  const [piloter, setPiloter] = useState<Pilot[]>(handlekurv?.piloter ?? [])
   const { t } = useTranslation()
 
   const navigate = useNavigate()
@@ -298,7 +299,7 @@ const Utsjekk = () => {
                 ),
               }}
               onLeggTil={(del) => leggTilDel(del)}
-              piloter={handlekurv.piloter}
+              piloter={piloter}
             />
           ) : (
             <>
@@ -422,7 +423,13 @@ const Utsjekk = () => {
         </>
       </Content>
       {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
-        <Rolleswitcher harXKLager={harXKLager} setHarXKLager={setHarXKLager} />
+        <Rolleswitcher
+          valg={['piloter', 'xkLager']}
+          harXKLager={harXKLager}
+          setHarXKLager={setHarXKLager}
+          piloter={piloter}
+          setPiloter={setPiloter}
+        />
       )}
     </main>
   )
