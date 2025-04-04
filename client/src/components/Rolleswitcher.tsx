@@ -18,14 +18,13 @@ const Wrapper = styled.div`
 `
 
 interface Props {
-  valg: ('xkLager' | 'piloter')[]
   harXKLager?: boolean | undefined
   setHarXKLager?: React.Dispatch<SetStateAction<boolean | undefined>>
   piloter?: Pilot[]
   setPiloter?: React.Dispatch<SetStateAction<Pilot[]>>
 }
 
-const Rolleswitcher = ({ valg, harXKLager, setHarXKLager, piloter, setPiloter }: Props) => {
+const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props) => {
   const [erSkjult, setErSkjult] = useState(false)
 
   const handleChange = (values: string[]) => {
@@ -85,8 +84,8 @@ const Rolleswitcher = ({ valg, harXKLager, setHarXKLager, piloter, setPiloter }:
       </Button>
       <Heading size="xsmall">[DEBUG]</Heading>
       <CheckboxGroup size="small" legend="Roller" hideLegend onChange={handleChange} value={checkedValues}>
-        {valg.includes('xkLager') && <Checkbox value="harXKLager">Har XK-lager</Checkbox>}
-        {valg.includes('piloter') && (
+        {!!setHarXKLager && <Checkbox value="harXKLager">Har XK-lager</Checkbox>}
+        {!!setPiloter && (
           <Checkbox value={Pilot.BESTILLE_IKKE_FASTE_LAGERVARER}>Pilot for bestille ikke-fast lagervare</Checkbox>
         )}
       </CheckboxGroup>

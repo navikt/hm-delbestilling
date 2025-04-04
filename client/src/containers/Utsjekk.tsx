@@ -424,7 +424,6 @@ const Utsjekk = () => {
       </Content>
       {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
         <Rolleswitcher
-          valg={['piloter', 'xkLager']}
           harXKLager={harXKLager}
           setHarXKLager={setHarXKLager}
           piloter={piloter}

@@ -159,7 +159,7 @@ const Index = () => {
         )}
       </Content>
       {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
-        <Rolleswitcher valg={['piloter']} piloter={piloter} setPiloter={setPiloter} />
+        <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />
       )}
     </main>
   )
