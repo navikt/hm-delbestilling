@@ -79,7 +79,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
           const kanBestilles = erPilotForBestilleIkkeFasteLagervarer || erFastLagervare
-          console.log('kanBestilles:', kanBestilles)
+
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>

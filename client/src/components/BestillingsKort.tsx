@@ -8,7 +8,7 @@ import { Alert, BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-rea
 
 import { useRolleContext } from '../context/rolle'
 import { formaterNorskDato } from '../helpers/utils'
-import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
+import { DelbestillingSak, LagerstatusPåBestillingstidspunkt, Levering, Ordrestatus } from '../types/Types'
 import { logPrintAvBestillingÅpnet } from '../utils/amplitude'
 
 import { Avstand } from './Avstand'
@@ -39,10 +39,9 @@ const SkjulForPrint = styled.div`
 
 interface Props {
   sak: DelbestillingSak
-  hmsnrUtenDekning?: string[]
 }
 
-const BestillingsKort = ({ sak, hmsnrUtenDekning }: Props) => {
+const BestillingsKort = ({ sak }: Props) => {
   const { t } = useTranslation()
 
   const printRef = useRef<HTMLDivElement>(null)
@@ -75,11 +74,12 @@ const BestillingsKort = ({ sak, hmsnrUtenDekning }: Props) => {
               <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
             </DelRekke>
             <SkjulForPrint>
-              {!!hmsnrUtenDekning?.includes(dellinje.del.hmsnr) && (
-                <Alert variant="info" inline>
-                  Delen var ikke tilgjengelig på lager ved bestillingstidspunkt og kan ha lenger leveringstid.
-                </Alert>
-              )}
+              {dellinje.lagerstatusPåBestillingstidspunkt === LagerstatusPåBestillingstidspunkt.DELVIS_PÅ_LAGER ||
+                (dellinje.lagerstatusPåBestillingstidspunkt === LagerstatusPåBestillingstidspunkt.IKKE_PÅ_LAGER && (
+                  <Alert variant="info" inline>
+                    Delen var ikke tilgjengelig på lager ved bestillingstidspunkt og kan ha lenger leveringstid.
+                  </Alert>
+                ))}
             </SkjulForPrint>
             <SkjulForPrint>{!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}</SkjulForPrint>
           </Dellinje>

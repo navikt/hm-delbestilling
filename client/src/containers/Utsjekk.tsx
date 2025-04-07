@@ -217,7 +217,7 @@ const Utsjekk = () => {
         })
       } else {
         navigate('/kvittering', {
-          state: { delbestillingSak: response.delbestillingSak, hmsnrUtenDekning: response.hmsnrUtenDekning },
+          state: { delbestillingSak: response.delbestillingSak },
         })
       }
     } catch (err: any) {

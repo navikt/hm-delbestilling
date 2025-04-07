@@ -41,6 +41,13 @@ export interface Dellinje {
   status?: Dellinjestatus
   datoSkipningsbekreftet?: string
   forventetLeveringsdato?: string
+  lagerstatusPåBestillingstidspunkt?: LagerstatusPåBestillingstidspunkt
+}
+
+export enum LagerstatusPåBestillingstidspunkt {
+  'PÅ_LAGER' = 'PÅ_LAGER',
+  'DELVIS_PÅ_LAGER' = 'DELVIS_PÅ_LAGER',
+  'IKKE_PÅ_LAGER' = 'IKKE_PÅ_LAGER',
 }
 
 export interface Delbestilling {

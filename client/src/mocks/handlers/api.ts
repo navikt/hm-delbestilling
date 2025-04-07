@@ -20,7 +20,7 @@ import {
   SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
-import { DelbestillingSak, Ordrestatus } from '../../types/Types'
+import { DelbestillingSak, LagerstatusPåBestillingstidspunkt, Ordrestatus } from '../../types/Types'
 
 let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
@@ -75,7 +75,6 @@ const apiHandlers = [
       !delbestilling.serienr ||
       !delbestilling.levering
     ) {
-      // @ts-ignore
       throw new HttpResponse('Bad Request', { status: StatusCodes.BAD_REQUEST })
     }
 
@@ -88,7 +87,6 @@ const apiHandlers = [
           feil: DelbestillingFeil.BRUKER_IKKE_FUNNET,
           saksnummer: null,
           delbestillingSak: null,
-          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.NOT_FOUND }
       )
@@ -101,7 +99,6 @@ const apiHandlers = [
           feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV,
           saksnummer: null,
           delbestillingSak: null,
-          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.FORBIDDEN }
       )
@@ -114,7 +111,6 @@ const apiHandlers = [
           feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
           saksnummer: null,
           delbestillingSak: null,
-          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.FORBIDDEN }
       )
@@ -127,7 +123,6 @@ const apiHandlers = [
           feil: DelbestillingFeil.KAN_IKKE_BESTILLE,
           saksnummer: null,
           delbestillingSak: null,
-          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.NOT_FOUND }
       )
@@ -140,7 +135,6 @@ const apiHandlers = [
           feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
           saksnummer: null,
           delbestillingSak: null,
-          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.FORBIDDEN }
       )
@@ -155,6 +149,15 @@ const apiHandlers = [
       oebsOrdrenummer: null,
     }
 
+    // for mocking: anta at alle deler som ikke er minmax heller ikke er tilgjengelige på lager
+    nyDelbestilling.delbestilling.deler = nyDelbestilling.delbestilling.deler.map((delLinje) => {
+      if (delLinje.del.lagerstatus.minmax === false) {
+        delLinje.lagerstatusPåBestillingstidspunkt = LagerstatusPåBestillingstidspunkt.IKKE_PÅ_LAGER
+      }
+
+      return delLinje
+    })
+
     tidligereBestillinger.push(nyDelbestilling)
 
     return HttpResponse.json(
@@ -163,7 +166,6 @@ const apiHandlers = [
         feil: null,
         saksnummer: nyDelbestilling.saksnummer,
         delbestillingSak: nyDelbestilling,
-        hmsnrUtenDekning: [nyDelbestilling.delbestilling.deler[0].del.hmsnr],
       },
       { status: StatusCodes.CREATED }
     )
