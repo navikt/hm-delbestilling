@@ -17,6 +17,7 @@ import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 
 type LocationState = {
   delbestillingSak: DelbestillingSak
+  hmsnrUtenDekning: string[]
 }
 
 const Kvittering = () => {
@@ -45,6 +46,7 @@ const Kvittering = () => {
   }
 
   const delbestillingSak = state?.delbestillingSak
+  const hmsnrUtenDekning = state?.hmsnrUtenDekning ?? []
 
   return (
     <main>
@@ -57,7 +59,7 @@ const Kvittering = () => {
             <Heading level="2" size="large" spacing>
               Kvittering
             </Heading>
-            <BestillingsKort sak={delbestillingSak} />
+            <BestillingsKort sak={delbestillingSak} hmsnrUtenDekning={hmsnrUtenDekning} />
           </>
         )}
         {!delbestillingSak && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}

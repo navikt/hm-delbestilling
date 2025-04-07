@@ -4,7 +4,7 @@ import { useReactToPrint } from 'react-to-print'
 import styled from 'styled-components'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
-import { BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
 
 import { useRolleContext } from '../context/rolle'
 import { formaterNorskDato } from '../helpers/utils'
@@ -39,9 +39,10 @@ const SkjulForPrint = styled.div`
 
 interface Props {
   sak: DelbestillingSak
+  hmsnrUtenDekning?: string[]
 }
 
-const BestillingsKort = ({ sak }: Props) => {
+const BestillingsKort = ({ sak, hmsnrUtenDekning }: Props) => {
   const { t } = useTranslation()
 
   const printRef = useRef<HTMLDivElement>(null)
@@ -73,6 +74,13 @@ const BestillingsKort = ({ sak }: Props) => {
               <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
               <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
             </DelRekke>
+            <SkjulForPrint>
+              {!!hmsnrUtenDekning?.includes(dellinje.del.hmsnr) && (
+                <Alert variant="info" inline>
+                  Delen var ikke tilgjengelig på lager ved bestillingstidspunkt og kan ha lenger leveringstid.
+                </Alert>
+              )}
+            </SkjulForPrint>
             <SkjulForPrint>{!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}</SkjulForPrint>
           </Dellinje>
         ))}

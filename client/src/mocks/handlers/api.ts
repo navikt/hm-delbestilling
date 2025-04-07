@@ -75,6 +75,7 @@ const apiHandlers = [
       !delbestilling.serienr ||
       !delbestilling.levering
     ) {
+      // @ts-ignore
       throw new HttpResponse('Bad Request', { status: StatusCodes.BAD_REQUEST })
     }
 
@@ -82,7 +83,13 @@ const apiHandlers = [
 
     if (delbestilling.serienr === '000000') {
       return HttpResponse.json(
-        { id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null },
+        {
+          id,
+          feil: DelbestillingFeil.BRUKER_IKKE_FUNNET,
+          saksnummer: null,
+          delbestillingSak: null,
+          hmsnrUtenDekning: [],
+        },
         { status: StatusCodes.NOT_FOUND }
       )
     }
@@ -94,6 +101,7 @@ const apiHandlers = [
           feil: DelbestillingFeil.BESTILLE_TIL_SEG_SELV,
           saksnummer: null,
           delbestillingSak: null,
+          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.FORBIDDEN }
       )
@@ -106,6 +114,7 @@ const apiHandlers = [
           feil: DelbestillingFeil.ULIK_GEOGRAFISK_TILKNYTNING,
           saksnummer: null,
           delbestillingSak: null,
+          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.FORBIDDEN }
       )
@@ -118,6 +127,7 @@ const apiHandlers = [
           feil: DelbestillingFeil.KAN_IKKE_BESTILLE,
           saksnummer: null,
           delbestillingSak: null,
+          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.NOT_FOUND }
       )
@@ -130,6 +140,7 @@ const apiHandlers = [
           feil: DelbestillingFeil.FOR_MANGE_BESTILLINGER_SISTE_24_TIMER,
           saksnummer: null,
           delbestillingSak: null,
+          hmsnrUtenDekning: [],
         },
         { status: StatusCodes.FORBIDDEN }
       )
@@ -152,6 +163,7 @@ const apiHandlers = [
         feil: null,
         saksnummer: nyDelbestilling.saksnummer,
         delbestillingSak: nyDelbestilling,
+        hmsnrUtenDekning: [nyDelbestilling.delbestilling.deler[0].del.hmsnr],
       },
       { status: StatusCodes.CREATED }
     )

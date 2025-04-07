@@ -57,6 +57,7 @@ export interface DelbestillingResponse {
   feil: DelbestillingFeil | null
   saksnummer: number | null
   delbestillingSak: DelbestillingSak | null
+  hmsnrUtenDekning: string[]
 }
 
 export enum DelbestillingFeil {
