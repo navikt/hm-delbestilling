@@ -15,7 +15,10 @@
         "lagerstatus": {
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
-          "minmax": true
+          "minmax": true,
+          "artikkelnummer": "249612",
+          "tilgjengelig": 7,
+          "antallDelerPåLager": 7
         },
         "kilde": "MANUELL_LISTE"
       },
@@ -30,7 +33,10 @@
         "lagerstatus": {
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
-          "minmax": false
+          "minmax": false,
+          "artikkelnummer": "238403",
+          "tilgjengelig": 7,
+          "antallDelerPåLager": 7
         },
         "kilde": "MANUELL_LISTE"
       },
@@ -45,7 +51,10 @@
         "lagerstatus": {
           "organisasjons_id": 1,
           "organisasjons_navn": "*03 Oslo",
-          "minmax": true
+          "minmax": true,
+          "artikkelnummer": "196027",
+          "tilgjengelig": 7,
+          "antallDelerPåLager": 7
         },
         "kilde": "MANUELL_LISTE"
       }

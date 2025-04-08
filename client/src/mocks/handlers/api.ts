@@ -20,7 +20,7 @@ import {
   SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
-import { DelbestillingSak, LagerstatusPåBestillingstidspunkt, Ordrestatus } from '../../types/Types'
+import { DelbestillingSak, Ordrestatus } from '../../types/Types'
 
 let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
@@ -151,8 +151,13 @@ const apiHandlers = [
 
     // for mocking: anta at alle deler som ikke er minmax heller ikke er tilgjengelige på lager
     nyDelbestilling.delbestilling.deler = nyDelbestilling.delbestilling.deler.map((delLinje) => {
-      if (delLinje.del.lagerstatus.minmax === false) {
-        delLinje.lagerstatusPåBestillingstidspunkt = LagerstatusPåBestillingstidspunkt.IKKE_PÅ_LAGER
+      delLinje.lagerstatusPåBestillingstidspunkt = {
+        artikkelnummer: delLinje.del.hmsnr,
+        minmax: delLinje.del.lagerstatus.minmax,
+        antallDelerPåLager: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
+        organisasjons_id: 263,
+        organisasjons_navn: '*05 Oppland',
+        tilgjengelig: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
       }
 
       return delLinje

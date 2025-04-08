@@ -22,7 +22,10 @@ export interface Del {
 export interface Lagerstatus {
   organisasjons_id: number
   organisasjons_navn: string
+  artikkelnummer: string
   minmax: boolean
+  tilgjengelig: number
+  antallDelerPåLager: number
 }
 
 export interface Handlekurv {
@@ -41,13 +44,7 @@ export interface Dellinje {
   status?: Dellinjestatus
   datoSkipningsbekreftet?: string
   forventetLeveringsdato?: string
-  lagerstatusPåBestillingstidspunkt?: LagerstatusPåBestillingstidspunkt
-}
-
-export enum LagerstatusPåBestillingstidspunkt {
-  'PÅ_LAGER' = 'PÅ_LAGER',
-  'DELVIS_PÅ_LAGER' = 'DELVIS_PÅ_LAGER',
-  'IKKE_PÅ_LAGER' = 'IKKE_PÅ_LAGER',
+  lagerstatusPåBestillingstidspunkt?: Lagerstatus
 }
 
 export interface Delbestilling {
