@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { delay, http, HttpResponse } from 'msw'
+import { delay, http, HttpResponse, passthrough } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
 import dellisteMock from '../../services/delliste-mock.json'
@@ -61,6 +61,32 @@ const apiHandlers = [
       feil: undefined,
       piloter: [Pilot.BESTILLE_IKKE_FASTE_LAGERVARER],
     })
+  }),
+
+  http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag-ekstern-dev`, async ({ request }) => {
+    const { hmsnr } = await request.json()
+
+    await delay(250)
+
+    if (hmsnr === '333333') {
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
+        { status: StatusCodes.NOT_FOUND }
+      )
+    }
+
+    if (hmsnr === '000000') {
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
+        { status: StatusCodes.NOT_FOUND }
+      )
+    }
+
+    if (hmsnr === '444444') {
+      throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
+    }
+
+    return passthrough()
   }),
 
   http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {

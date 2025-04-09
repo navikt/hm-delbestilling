@@ -49,7 +49,11 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
 }
 
 const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<OppslagResponse> => {
-  const response = await fetchPost(API_PATH + '/oppslag', {
+  const brukEksternDevOppslag = window.appSettings.USE_MSW === true && window.location.hostname !== 'localhost'
+
+  const path = brukEksternDevOppslag ? '/oppslag-ekstern-dev' : '/oppslag'
+
+  const response = await fetchPost(API_PATH + path, {
     body: JSON.stringify({ hmsnr, serienr }),
     headers: {
       'Content-Type': 'application/json',
