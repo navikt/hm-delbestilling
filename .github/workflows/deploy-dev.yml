@@ -43,14 +43,14 @@ jobs:
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           tag: ${{ env.VERSION_TAG }}
 
-      # - name: Deploy to dev-gcp (intern)
-      #   uses: nais/deploy/actions/deploy@v2
-      #   env:
-      #     CLUSTER: dev-gcp
-      #     RESOURCE: .hotnais/dev-intern.yaml
-      #     PRINT_PAYLOAD: true
-      #     VAR: commit=${{ github.sha }}
-      #     IMAGE: ${{steps.docker-build-push.outputs.image}}
+      - name: Deploy to dev-gcp (intern)
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-gcp
+          RESOURCE: .hotnais/dev-intern.yaml
+          PRINT_PAYLOAD: true
+          VAR: commit=${{ github.sha }}
+          IMAGE: ${{steps.docker-build-push.outputs.image}}
 
       - name: Deploy to dev-gcp (ekstern)
         uses: nais/deploy/actions/deploy@v2

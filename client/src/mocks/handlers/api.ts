@@ -1,11 +1,8 @@
 import { StatusCodes } from 'http-status-codes'
-import { delay, http, HttpResponse, passthrough } from 'msw'
+import { delay, http, HttpResponse } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
 import dellisteMock from '../../services/delliste-mock.json'
-import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
-import hjelpemiddelGemino20 from '../../services/hjelpemiddel-mock-gemino20.json'
-import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import { API_PATH } from '../../services/rest'
 import {
