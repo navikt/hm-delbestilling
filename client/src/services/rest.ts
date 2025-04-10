@@ -49,13 +49,7 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
 }
 
 const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<OppslagResponse> => {
-  const brukEksternDevOppslag = window.appSettings.USE_MSW === true
-
-  const path = brukEksternDevOppslag
-    ? 'https://hm-delbestilling-api.ekstern.dev.nav.no/api/oppslag-ekstern-dev'
-    : API_PATH + '/oppslag'
-
-  const response = await fetchPost(path, {
+  const response = await fetchPost(API_PATH + '/oppslag', {
     body: JSON.stringify({ hmsnr, serienr }),
     headers: {
       'Content-Type': 'application/json',
