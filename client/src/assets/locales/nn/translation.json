@@ -99,7 +99,7 @@
   "oppslag.visDeler": "Vis delar",
   "oppslag.startPåNytt": "Start på nytt",
 
-  "testbanner": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
+  "testbanner": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
 
   "brukFinnHjelpemiddel": "Denne sida er fjerna. Du bør heller bruka <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finna informasjon om delar. Du finn delar til hjelpemiddel under \"Passer saman med\" på ei produktside.",
   "oversikt.nyBestilling": "Ny bestilling"
