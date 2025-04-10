@@ -3,9 +3,6 @@ import { delay, http, HttpResponse } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
 import dellisteMock from '../../services/delliste-mock.json'
-import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
-import hjelpemiddelGemino20 from '../../services/hjelpemiddel-mock-gemino20.json'
-import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import { API_PATH } from '../../services/rest'
 import {
@@ -27,7 +24,7 @@ let tidligereBestillingerKommune = delBestillingMock as unknown as Delbestilling
 
 const apiHandlers = [
   http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag`, async ({ request }) => {
-    const { hmsnr } = await request.json()
+    const { hmsnr, serienr } = await request.json()
 
     await delay(250)
 
@@ -49,18 +46,15 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const hjelpemiddel =
-      hmsnr === '177946'
-        ? hjelpemiddelGemino20.hjelpemiddel // grunndata-eksempel
-        : hmsnr === '167624'
-          ? hjelpemiddelMockComet.hjelpemiddel
-          : hjelpemiddelMockPanthera.hjelpemiddel
-
-    return HttpResponse.json({
-      hjelpemiddel: { ...hjelpemiddel, hmsnr },
-      feil: undefined,
-      piloter: [Pilot.BESTILLE_IKKE_FASTE_LAGERVARER],
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev`, {
+      method: 'POST',
+      body: JSON.stringify({ hmsnr, serienr }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
+
+    return HttpResponse.json(await response.json())
   }),
 
   http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {

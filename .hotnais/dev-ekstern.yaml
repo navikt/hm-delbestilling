@@ -30,9 +30,14 @@ spec:
       external:
         - host: www.nav.no
       rules:
+        - application: hm-delbestilling-api
         - application: nav-dekoratoren
           namespace: personbruker
   env:
+    - name: API_URL
+      value: http://hm-delbestilling-api.teamdigihot.svc.cluster.local
+    - name: DELBESTILLING_API_AUDIENCE
+      value: dev-gcp:teamdigihot:hm-delbestilling-api
     - name: USE_MSW
       value: 'true'
     - name: GIT_COMMIT
