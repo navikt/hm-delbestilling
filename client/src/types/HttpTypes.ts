@@ -8,6 +8,11 @@ export interface OppslagRequest {
 export interface OppslagResponse {
   hjelpemiddel: Hjelpemiddel | undefined
   feil: OppslagFeil | undefined
+  piloter: Pilot[]
+}
+
+export enum Pilot {
+  BESTILLE_IKKE_FASTE_LAGERVARER = 'BESTILLE_IKKE_FASTE_LAGERVARER',
 }
 
 export interface AlleHjelpemidlerMedDelerResponse {

@@ -16,6 +16,7 @@ import {
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
+  Pilot,
   SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
@@ -32,14 +33,14 @@ const apiHandlers = [
 
     if (hmsnr === '333333') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN },
+        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }
 
     if (hmsnr === '000000') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL },
+        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }
@@ -55,7 +56,11 @@ const apiHandlers = [
           ? hjelpemiddelMockComet.hjelpemiddel
           : hjelpemiddelMockPanthera.hjelpemiddel
 
-    return HttpResponse.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined })
+    return HttpResponse.json({
+      hjelpemiddel: { ...hjelpemiddel, hmsnr },
+      feil: undefined,
+      piloter: [Pilot.BESTILLE_IKKE_FASTE_LAGERVARER],
+    })
   }),
 
   http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {
@@ -77,7 +82,12 @@ const apiHandlers = [
 
     if (delbestilling.serienr === '000000') {
       return HttpResponse.json(
-        { id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null },
+        {
+          id,
+          feil: DelbestillingFeil.BRUKER_IKKE_FUNNET,
+          saksnummer: null,
+          delbestillingSak: null,
+        },
         { status: StatusCodes.NOT_FOUND }
       )
     }
@@ -138,6 +148,20 @@ const apiHandlers = [
       status: Ordrestatus.INNSENDT,
       oebsOrdrenummer: null,
     }
+
+    // for mocking: anta at alle deler som ikke er minmax heller ikke er tilgjengelige på lager
+    nyDelbestilling.delbestilling.deler = nyDelbestilling.delbestilling.deler.map((delLinje) => {
+      delLinje.lagerstatusPåBestillingstidspunkt = {
+        artikkelnummer: delLinje.del.hmsnr,
+        minmax: delLinje.del.lagerstatus.minmax,
+        antallDelerPåLager: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
+        organisasjons_id: 263,
+        organisasjons_navn: '*05 Oppland',
+        tilgjengelig: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
+      }
+
+      return delLinje
+    })
 
     tidligereBestillinger.push(nyDelbestilling)
 

@@ -15,6 +15,8 @@ import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
+import { Pilot } from '../types/HttpTypes'
+import Rolleswitcher from '../components/Rolleswitcher'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -22,6 +24,7 @@ const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
+  const [piloter, setPiloter] = useState<Pilot[]>([])
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
   const { sjekkerLogin, sjekkLoginStatus } = useAuth()
@@ -40,6 +43,7 @@ const Index = () => {
       deler: [{ del, antall: del.defaultAntall }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
+      piloter,
     }
 
     window.sessionStorage.setItem(SESSIONSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
@@ -67,7 +71,10 @@ const Index = () => {
               setHmsnr={setHmsnr}
               serienr={serienr}
               setSerienr={setSerienr}
-              setHjelpemiddel={setHjelpemiddel}
+              onOppslagSuksess={(hjelpemiddel, piloter) => {
+                setHjelpemiddel(hjelpemiddel)
+                setPiloter(piloter)
+              }}
             />
 
             <Avstand marginTop={10}>
@@ -146,10 +153,14 @@ const Index = () => {
               hjelpemiddel={hjelpemiddel}
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
               knappeTekst={t('bestillinger.bestill')}
+              piloter={piloter}
             />
           </>
         )}
       </Content>
+      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
+        <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />
+      )}
     </main>
   )
 }
