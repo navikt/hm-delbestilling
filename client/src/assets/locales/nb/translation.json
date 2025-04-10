@@ -100,7 +100,7 @@
 
   "del.lagerstatus.ikkeFastLagervare": "Delen kan ikke bestilles digitalt. Ta kontakt med HMS {{hmsNavn}} for å bestille.",
 
-  "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke gjenspeiler virkeligheten.",
+  "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke gjenspeiler virkeligheten. Når du legger inn art.nr. og serienr, så må art.nr. være et gyldig hjelpemiddel (f.eks. 301996), men for serienr kan du fylle inn en vilkårlig verdi.",
 
   "brukFinnHjelpemiddel": "Denne siden er fjernet. Du bør heller bruke <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finne informasjon om deler. Du finner deler til hjelpemidler under \"Passer sammen med\" på en produktside.",
   "oversikt.nyBestilling": "Ny bestilling"

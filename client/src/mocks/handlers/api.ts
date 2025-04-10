@@ -49,18 +49,13 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const response = await fetch('https://hm-delbestilling-api.ekstern.dev.nav.no/api/oppslag-ekstern-dev', {
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev`, {
       method: 'POST',
       body: JSON.stringify({ hmsnr, serienr }),
       headers: {
         'Content-Type': 'application/json',
       },
     })
-
-    console.log('response', response)
-
-    const foo = await response.json()
-    console.log('foo', foo)
 
     return HttpResponse.json(await response.json())
   }),

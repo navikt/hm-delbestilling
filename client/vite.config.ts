@@ -59,6 +59,13 @@ export default defineConfig((env) => ({
   },
   server: {
     port: 3000,
+    proxy: {
+      '/hjelpemidler/delbestilling/api/oppslag-ekstern-dev': {
+        target: 'https://hjelpemidler.ekstern.dev.nav.no',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/hjelpemidler\/delbestilling/, ''),
+      },
+    },
   },
   test: {
     globals: true,
