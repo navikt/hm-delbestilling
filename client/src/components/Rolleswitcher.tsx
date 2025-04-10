@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react'
 
 import { useRolleContext } from '../context/rolle'
+import { Pilot } from '../types/HttpTypes'
 
 const Wrapper = styled.div`
   position: fixed;
@@ -17,15 +18,27 @@ const Wrapper = styled.div`
 `
 
 interface Props {
-  harXKLager: boolean | undefined
-  setHarXKLager: React.Dispatch<SetStateAction<boolean | undefined>>
+  harXKLager?: boolean | undefined
+  setHarXKLager?: React.Dispatch<SetStateAction<boolean | undefined>>
+  piloter?: Pilot[]
+  setPiloter?: React.Dispatch<SetStateAction<Pilot[]>>
 }
 
-const Rolleswitcher = ({ harXKLager, setHarXKLager }: Props) => {
+const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props) => {
   const [erSkjult, setErSkjult] = useState(false)
 
   const handleChange = (values: string[]) => {
-    setHarXKLager(values.includes('harXKLager'))
+    if (setHarXKLager !== undefined) {
+      setHarXKLager(values.includes('harXKLager'))
+    }
+
+    if (setPiloter !== undefined) {
+      if (values.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)) {
+        setPiloter([Pilot.BESTILLE_IKKE_FASTE_LAGERVARER])
+      } else {
+        setPiloter([])
+      }
+    }
   }
 
   const handleSkjul = (skjult: boolean) => {
@@ -35,6 +48,9 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager }: Props) => {
   const checkedValues: string[] = []
   if (harXKLager) {
     checkedValues.push('harXKLager')
+  }
+  if (piloter?.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)) {
+    checkedValues.push(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
   }
 
   if (erSkjult) {
@@ -69,7 +85,10 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager }: Props) => {
       </Button>
       <Heading size="xsmall">[DEBUG]</Heading>
       <CheckboxGroup size="small" legend="Roller" hideLegend onChange={handleChange} value={checkedValues}>
-        <Checkbox value="harXKLager">Har XK-lager</Checkbox>
+        {!!setHarXKLager && <Checkbox value="harXKLager">Har XK-lager</Checkbox>}
+        {!!setPiloter && (
+          <Checkbox value={Pilot.BESTILLE_IKKE_FASTE_LAGERVARER}>Pilot for bestille ikke-fast lagervare</Checkbox>
+        )}
       </CheckboxGroup>
     </Wrapper>
   )

@@ -10,14 +10,6 @@ import { Lagerstatus } from '../types/Types'
 import { useTranslation } from 'react-i18next'
 import { logÅpningAvBildekarusell } from '../utils/amplitude'
 
-interface Props {
-  navn: string
-  hmsnr: string
-  levArtNr: string | null
-  imgs: string[]
-  lagerstatus?: Lagerstatus
-}
-
 const SubtleBodyShort = styled(BodyShort)`
   color: var(--a-text-subtle);
   display: flex;
@@ -58,7 +50,16 @@ const Beskrivelser = styled.div`
   }
 `
 
-const DelInfo = ({ navn, hmsnr, levArtNr, imgs, lagerstatus }: Props) => {
+interface Props {
+  navn: string
+  hmsnr: string
+  levArtNr: string | null
+  imgs: string[]
+  lagerstatus?: Lagerstatus
+  visVarselOmIkkeFastLagervare?: boolean
+}
+
+const DelInfo = ({ navn, hmsnr, levArtNr, imgs, lagerstatus, visVarselOmIkkeFastLagervare }: Props) => {
   const { t } = useTranslation()
   return (
     <>
@@ -71,7 +72,7 @@ const DelInfo = ({ navn, hmsnr, levArtNr, imgs, lagerstatus }: Props) => {
           <span>HMS-nr. {hmsnr}</span>
           {levArtNr && <span>Lev.art.nr. {levArtNr}</span>}
         </SubtleBodyShort>
-        {lagerstatus && lagerstatus.minmax === false && (
+        {lagerstatus && visVarselOmIkkeFastLagervare && (
           <Avstand marginTop={5}>
             <Detail textColor="subtle">
               {t('del.lagerstatus.ikkeFastLagervare', {

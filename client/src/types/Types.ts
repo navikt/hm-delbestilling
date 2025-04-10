@@ -1,3 +1,5 @@
+import { Pilot } from './HttpTypes'
+
 export interface Hjelpemiddel {
   navn: string
   hmsnr: string
@@ -21,7 +23,10 @@ export interface Del {
 export interface Lagerstatus {
   organisasjons_id: number
   organisasjons_navn: string
+  artikkelnummer: string
   minmax: boolean
+  tilgjengelig: number
+  antallDelerPåLager: number
 }
 
 export interface Handlekurv {
@@ -31,6 +36,7 @@ export interface Handlekurv {
   deler: Dellinje[]
   levering: Levering | undefined
   harOpplæringPåBatteri: boolean | undefined
+  piloter: Pilot[]
 }
 
 export interface Dellinje {
@@ -39,6 +45,7 @@ export interface Dellinje {
   status?: Dellinjestatus
   datoSkipningsbekreftet?: string
   forventetLeveringsdato?: string
+  lagerstatusPåBestillingstidspunkt?: Lagerstatus
 }
 
 export interface Delbestilling {

@@ -3,9 +3,6 @@ import { delay, http, HttpResponse } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
 import dellisteMock from '../../services/delliste-mock.json'
-import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
-import hjelpemiddelGemino20 from '../../services/hjelpemiddel-mock-gemino20.json'
-import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import { API_PATH } from '../../services/rest'
 import {
@@ -16,6 +13,7 @@ import {
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
+  Pilot,
   SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
@@ -26,20 +24,20 @@ let tidligereBestillingerKommune = delBestillingMock as unknown as Delbestilling
 
 const apiHandlers = [
   http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag`, async ({ request }) => {
-    const { hmsnr } = await request.json()
+    const { hmsnr, serienr } = await request.json()
 
     await delay(250)
 
     if (hmsnr === '333333') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN },
+        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }
 
     if (hmsnr === '000000') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL },
+        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }
@@ -48,14 +46,15 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const hjelpemiddel =
-      hmsnr === '177946'
-        ? hjelpemiddelGemino20.hjelpemiddel // grunndata-eksempel
-        : hmsnr === '167624'
-          ? hjelpemiddelMockComet.hjelpemiddel
-          : hjelpemiddelMockPanthera.hjelpemiddel
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev`, {
+      method: 'POST',
+      body: JSON.stringify({ hmsnr, serienr }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
-    return HttpResponse.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined })
+    return HttpResponse.json(await response.json())
   }),
 
   http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {
@@ -77,7 +76,12 @@ const apiHandlers = [
 
     if (delbestilling.serienr === '000000') {
       return HttpResponse.json(
-        { id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null },
+        {
+          id,
+          feil: DelbestillingFeil.BRUKER_IKKE_FUNNET,
+          saksnummer: null,
+          delbestillingSak: null,
+        },
         { status: StatusCodes.NOT_FOUND }
       )
     }
@@ -138,6 +142,20 @@ const apiHandlers = [
       status: Ordrestatus.INNSENDT,
       oebsOrdrenummer: null,
     }
+
+    // for mocking: anta at alle deler som ikke er minmax heller ikke er tilgjengelige på lager
+    nyDelbestilling.delbestilling.deler = nyDelbestilling.delbestilling.deler.map((delLinje) => {
+      delLinje.lagerstatusPåBestillingstidspunkt = {
+        artikkelnummer: delLinje.del.hmsnr,
+        minmax: delLinje.del.lagerstatus.minmax,
+        antallDelerPåLager: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
+        organisasjons_id: 263,
+        organisasjons_navn: '*05 Oppland',
+        tilgjengelig: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
+      }
+
+      return delLinje
+    })
 
     tidligereBestillinger.push(nyDelbestilling)
 
