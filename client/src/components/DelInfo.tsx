@@ -153,7 +153,7 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
 
           <Modal.Body>
             <HStack justify="center">
-              <img src={imgs[valgtIndex].replace('400d', '1600d')} alt={navn} />
+              <img src={imgs[valgtIndex].replace('400d', '1600d')} alt={navn} style={{ width: '100%' }} />
             </HStack>
           </Modal.Body>
 
