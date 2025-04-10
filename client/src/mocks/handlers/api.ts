@@ -26,68 +26,34 @@ let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
 
 const apiHandlers = [
-  http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag`, async ({ request }) => {
-    const { hmsnr } = await request.json()
+  http.post<{}, OppslagRequest, OppslagResponse>(
+    `https://hm-delbestilling-api.ekstern.dev.nav.no/api/oppslag-ekstern-dev`,
+    async ({ request }) => {
+      const { hmsnr } = await request.json()
 
-    await delay(250)
+      await delay(250)
 
-    if (hmsnr === '333333') {
-      return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
-        { status: StatusCodes.NOT_FOUND }
-      )
+      if (hmsnr === '333333') {
+        return HttpResponse.json(
+          { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
+          { status: StatusCodes.NOT_FOUND }
+        )
+      }
+
+      if (hmsnr === '000000') {
+        return HttpResponse.json(
+          { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
+          { status: StatusCodes.NOT_FOUND }
+        )
+      }
+
+      if (hmsnr === '444444') {
+        throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
+      }
+
+      return passthrough()
     }
-
-    if (hmsnr === '000000') {
-      return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
-        { status: StatusCodes.NOT_FOUND }
-      )
-    }
-
-    if (hmsnr === '444444') {
-      throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
-    }
-
-    const hjelpemiddel =
-      hmsnr === '177946'
-        ? hjelpemiddelGemino20.hjelpemiddel // grunndata-eksempel
-        : hmsnr === '167624'
-          ? hjelpemiddelMockComet.hjelpemiddel
-          : hjelpemiddelMockPanthera.hjelpemiddel
-
-    return HttpResponse.json({
-      hjelpemiddel: { ...hjelpemiddel, hmsnr },
-      feil: undefined,
-      piloter: [Pilot.BESTILLE_IKKE_FASTE_LAGERVARER],
-    })
-  }),
-
-  http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag-ekstern-dev`, async ({ request }) => {
-    const { hmsnr } = await request.json()
-
-    await delay(250)
-
-    if (hmsnr === '333333') {
-      return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
-        { status: StatusCodes.NOT_FOUND }
-      )
-    }
-
-    if (hmsnr === '000000') {
-      return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
-        { status: StatusCodes.NOT_FOUND }
-      )
-    }
-
-    if (hmsnr === '444444') {
-      throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
-    }
-
-    return passthrough()
-  }),
+  ),
 
   http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {
     const { delbestilling } = await request.json()
