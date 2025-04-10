@@ -13,6 +13,7 @@
   "bestillinger.loggInnForÅSeBestillinger": "Logg inn for å se dine innsendte bestillinger.",
   "bestillinger.bestillingTil": "Bestilling til {{navn}}",
   "bestillinger.bestill": "Bestill",
+  "bestillinger.del.ikkePåLager": "Delen var ikke på lager og kan ha lenger leveringstid.",
   "bestillinger.tilbakeTilBestillingen": "Tilbake til bestillingen",
   "bestillinger.bestillDelerTil": "Bestill deler til {{navn}}",
   "bestillinger.delerLagtTil": "Deler lagt til i bestillingen",

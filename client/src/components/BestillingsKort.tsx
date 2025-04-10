@@ -77,7 +77,7 @@ const BestillingsKort = ({ sak }: Props) => {
               {dellinje.lagerstatusPåBestillingstidspunkt &&
                 dellinje.antall > dellinje.lagerstatusPåBestillingstidspunkt.antallDelerPåLager && (
                   <Alert variant="info" inline>
-                    Delen var ikke på lager og kan ha lenger leveringstid.
+                    {t('bestillinger.del.ikkePåLager')}
                   </Alert>
                 )}
             </SkjulForPrint>
