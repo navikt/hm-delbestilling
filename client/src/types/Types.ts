@@ -11,6 +11,7 @@ export interface Del {
   hmsnr: string
   levArtNr: string | null
   img: string | null
+  imgs: string[]
   kategori: string
   maksAntall: number
   defaultAntall: number
