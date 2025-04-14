@@ -32,6 +32,8 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
 
   const handleClickManglerDel = () => {
     if (isConsentingToSurveys()) {
+      window.hj('tagRecording', [`hjm_hmsnr_${hjelpemiddel.hmsnr}`])
+      window.hj('tagRecording', [`hjm_navn_${hjelpemiddel.navn}`])
       window.hj('event', 'digihot_delbestilling_mangler_del_feedback')
     }
   }
