@@ -42,6 +42,13 @@ const apiHandlers = [
       )
     }
 
+    if (hmsnr === '666666') {
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, piloter: [] },
+        { status: StatusCodes.NOT_FOUND }
+      )
+    }
+
     if (hmsnr === '444444') {
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }

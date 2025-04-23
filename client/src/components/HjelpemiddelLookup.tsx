@@ -51,17 +51,6 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
   const [gjørOppslag, setGjørOppslag] = useState(false)
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
 
-  const hentOppslagFeil = (oppslagfeil: OppslagFeil): string => {
-    switch (oppslagfeil) {
-      case OppslagFeil.INGET_UTLÅN:
-        return t('error.finnerIkkeUtlån')
-      case OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL:
-        return t('error.tilbyrIkkeHjelpemiddel')
-      default:
-        return oppslagfeil
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -80,8 +69,8 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
 
       if (oppslag.feil) {
         setFeilmelding({
-          feilmelding: hentOppslagFeil(oppslag.feil),
-          variant: oppslag.feil === OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL ? 'warning' : 'error',
+          feilmelding: t(`oppslagfeil.${oppslag.feil}`),
+          variant: oppslag.feil === OppslagFeil.INGET_UTLÅN ? 'error' : 'warning',
         })
         logOppslagFeil(oppslag.feil, hmsnr)
       } else {

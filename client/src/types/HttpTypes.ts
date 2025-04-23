@@ -46,6 +46,7 @@ export interface DellisteDel {
 export enum OppslagFeil {
   'TILBYR_IKKE_HJELPEMIDDEL' = 'TILBYR_IKKE_HJELPEMIDDEL',
   'INGET_UTLÅN' = 'INGET_UTLÅN',
+  'IKKE_HOVEDHJELPEMIDDEL' = 'IKKE_HOVEDHJELPEMIDDEL',
 }
 
 export interface DelbestillingRequest {
