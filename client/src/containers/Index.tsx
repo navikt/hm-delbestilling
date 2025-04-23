@@ -15,6 +15,7 @@ import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
+import { BestilteDeler } from '../components/BestilteDeler'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -129,6 +130,7 @@ const Index = () => {
                     <span>Art.nr. {hmsnr}</span>
                     <span>Serienr. {serienr}</span>
                   </BodyShort>
+                  <BestilteDeler artnr={hjelpemiddel.hmsnr} serienr={serienr} />
                 </div>
                 <Button
                   icon={<PencilIcon />}

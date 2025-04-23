@@ -9,7 +9,7 @@ import {
   OppslagResponse,
   XKLagerResponse,
 } from '../types/HttpTypes'
-import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
+import { Delbestilling, DelbestillingSak, Dellinje, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
@@ -100,6 +100,12 @@ const hentBestillingerForKommune = async (): Promise<DelbestillingSak[]> => {
   return await response.json()
 }
 
+const hentTidligereBestilteDeler = async (artnr: string, serienr: string): Promise<Dellinje[]> => {
+  const response = await fetch(API_PATH + `/delbestilling/bestilte-deler/${artnr}/${serienr}`)
+  await handleResponse(response.clone())
+  return await response.json()
+}
+
 const sendInnBestilling = async (delbestilling: Delbestilling): Promise<DelbestillingResponse> => {
   const response = await fetchPost(`${API_PATH}/delbestilling`, {
     body: JSON.stringify({ delbestilling }),
@@ -152,6 +158,7 @@ export default {
   hentBestillinger,
   hentBestillingerForBruker,
   hentBestillingerForKommune,
+  hentTidligereBestilteDeler,
   hentRolle,
   sjekkLoginStatus,
   sjekkXKLager,
