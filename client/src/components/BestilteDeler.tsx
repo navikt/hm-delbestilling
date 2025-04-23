@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Heading, HStack, Table } from '@navikt/ds-react'
+import React, { useState } from 'react'
+import { BodyShort, ExpansionCard, HStack, Loader, Table } from '@navikt/ds-react'
+import { formaterNorskDato } from '../helpers/utils'
 import rest from '../services/rest'
-import { Dellinje, Hjelpemiddel } from '../types/Types'
+import { DelbestillingSak, Hjelpemiddel } from '../types/Types'
 import { Avstand } from './Avstand'
 
 interface Props {
@@ -10,66 +11,82 @@ interface Props {
 }
 
 export const BestilteDeler = ({ hjelpemiddel, serienr }: Props) => {
-  const [visBestilteDeler, setVisBestilteDeler] = useState(false)
-  const [bestilteDeler, setBestilteDeler] = useState<Dellinje[] | undefined>(undefined)
+  const [tidligereSaker, setTidligereSaker] = useState<DelbestillingSak[] | undefined>(undefined)
 
-  useEffect(() => {
-    ;(async () => {
-      if (visBestilteDeler) {
-        try {
-          const response = await rest.hentTidligereBestilteDeler(hjelpemiddel.hmsnr, serienr)
-          setBestilteDeler(response.dellinjer)
-        } catch {
-          alert('Klarte ikke hente tidligere bestilte deler')
-        }
-      }
-    })()
-  }, [visBestilteDeler])
-
-  if (!visBestilteDeler) {
-    return (
-      <Button variant="secondary" onClick={() => setVisBestilteDeler(true)}>
-        Vis tidligere digitale delbestillinger
-      </Button>
-    )
-  }
-
-  if (!bestilteDeler) {
-    return null
-  }
-
-  if (bestilteDeler.length === 0) {
-    return <div>Dette produktet har ingen tidligere digitale delbestillinger.</div>
+  const hentTidligereBestilteDeler = async () => {
+    setTidligereSaker(undefined)
+    try {
+      const response = await rest.hentTidligereBestilteDeler(hjelpemiddel.hmsnr, serienr)
+      setTidligereSaker(response.saker)
+    } catch {
+      alert('Klarte ikke hente tidligere bestilte deler')
+      setTidligereSaker(undefined)
+    }
   }
 
   return (
     <Avstand marginTop={5}>
-      <Heading size="small">Tidligere digitale delbestillinger til {hjelpemiddel.navn}</Heading>
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell scope="col">Hmsnr</Table.HeaderCell>
-            <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
-            <Table.HeaderCell scope="col">Status</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {bestilteDeler.map((delLinje, i) => {
-            return (
-              <Table.Row key={i}>
-                <Table.DataCell>{delLinje.del.hmsnr}</Table.DataCell>
-                <Table.DataCell>{delLinje.del.navn}</Table.DataCell>
-                <Table.DataCell>{delLinje.status}</Table.DataCell>
-              </Table.Row>
-            )
-          })}
-        </Table.Body>
-      </Table>
-      <HStack justify="end">
-        <Button variant="tertiary" onClick={() => setVisBestilteDeler(false)}>
-          Lukk
-        </Button>
-      </HStack>
+      <ExpansionCard
+        aria-label="Tidligere bestilte deler"
+        size="small"
+        onToggle={(open) => {
+          if (open) {
+            hentTidligereBestilteDeler()
+          }
+        }}
+      >
+        <ExpansionCard.Header>
+          <ExpansionCard.Title>Tidligere bestilte deler</ExpansionCard.Title>
+        </ExpansionCard.Header>
+        <ExpansionCard.Content>
+          <BodyShort spacing>
+            Vi kan kun vise digitale delbestillinger, og ikke deler som er bestilt på andre måter.
+          </BodyShort>
+
+          {!tidligereSaker && (
+            <HStack justify="center">
+              <Loader />
+            </HStack>
+          )}
+
+          {tidligereSaker && tidligereSaker.length === 0 && (
+            <div>Dette produktet har ingen tidligere digitale delbestillinger.</div>
+          )}
+
+          {tidligereSaker && tidligereSaker.length > 0 && (
+            <Table>
+              {/* <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell scope="col">Hmsnr</Table.HeaderCell>
+                  <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
+                  <Table.HeaderCell scope="col">Status</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header> */}
+              <Table.Body>
+                {tidligereSaker.map((sak, i) => {
+                  const { deler } = sak.delbestilling
+                  return (
+                    <>
+                      <Table.Row>
+                        <strong>Bestilt {formaterNorskDato(sak.opprettet)}</strong>
+                      </Table.Row>
+                      {deler.map((dellinje) => {
+                        return (
+                          <Table.Row key={i}>
+                            <Table.DataCell>{dellinje.del.hmsnr}</Table.DataCell>
+                            <Table.DataCell>{dellinje.antall} stk.</Table.DataCell>
+                            <Table.DataCell>{dellinje.del.navn}</Table.DataCell>
+                          </Table.Row>
+                        )
+                      })}
+                    </>
+                  )
+                })}
+              </Table.Body>
+            </Table>
+          )}
+        </ExpansionCard.Content>
+      </ExpansionCard>
     </Avstand>
   )
 }

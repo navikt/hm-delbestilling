@@ -11,7 +11,7 @@ import Header from '../styledcomponents/Header'
 // Delte page-komponenter for hver side
 const Layout = () => {
   const { t } = useTranslation()
-  const visTestMiljoBanner = window.appSettings.USE_MSW === true && window.location.hostname !== 'localhost'
+  const visTestMiljoBanner = window.appSettings.USE_MSW === true
   return (
     <>
       <Header>

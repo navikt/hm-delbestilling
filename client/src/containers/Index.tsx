@@ -4,20 +4,20 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { Alert, BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Panel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, HStack, LinkPanel, Panel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
+import { BestilteDeler } from '../components/BestilteDeler'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
+import Rolleswitcher from '../components/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
-import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
-import { BestilteDeler } from '../components/BestilteDeler'
 import { Pilot } from '../types/HttpTypes'
-import Rolleswitcher from '../components/Rolleswitcher'
+import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -148,11 +148,11 @@ const Index = () => {
                   {t('felles.Endre')}
                 </Button>
               </HStack>
-              <Avstand marginTop={4}>
-                <BestilteDeler hjelpemiddel={hjelpemiddel} serienr={serienr} />
-              </Avstand>
             </CustomPanel>
-            <Avstand marginBottom={12} />
+            <Avstand marginTop={6} marginBottom={12}>
+              <BestilteDeler hjelpemiddel={hjelpemiddel} serienr={serienr} />
+            </Avstand>
+
             <LeggTilDel
               hjelpemiddel={hjelpemiddel}
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}

@@ -75,5 +75,5 @@ export interface DelbestillerrolleResponse {
 }
 
 export interface BestilteDelerResponse {
-  dellinjer: Dellinje[]
+  saker: DelbestillingSak[]
 }
