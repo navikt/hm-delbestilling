@@ -4,6 +4,7 @@ import { Del } from '../types/Types'
 
 const useDelKategorier = (deler: Del[] | undefined) => {
   const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
+
   const delKategorier = useMemo(() => {
     if (!deler) {
       return []
@@ -15,10 +16,9 @@ const useDelKategorier = (deler: Del[] | undefined) => {
       }
       return acc
     }, [] as string[])
-
-    // return []
   }, [deler]).sort()
   useEffect(() => setKategoriFilter(undefined), [deler])
+
   return { kategoriFilter, setKategoriFilter, delKategorier }
 }
 

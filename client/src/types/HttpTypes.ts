@@ -8,6 +8,11 @@ export interface OppslagRequest {
 export interface OppslagResponse {
   hjelpemiddel: Hjelpemiddel | undefined
   feil: OppslagFeil | undefined
+  piloter: Pilot[]
+}
+
+export enum Pilot {
+  BESTILLE_IKKE_FASTE_LAGERVARER = 'BESTILLE_IKKE_FASTE_LAGERVARER',
 }
 
 export interface AlleHjelpemidlerMedDelerResponse {
@@ -27,6 +32,10 @@ export interface XKLagerResponse {
   xkLager: boolean
 }
 
+export interface SisteBatteribestillingResponse {
+  antallDagerSiden: number
+}
+
 export interface DellisteDel {
   hmsnr: string
   navn: string
@@ -37,6 +46,7 @@ export interface DellisteDel {
 export enum OppslagFeil {
   'TILBYR_IKKE_HJELPEMIDDEL' = 'TILBYR_IKKE_HJELPEMIDDEL',
   'INGET_UTLÅN' = 'INGET_UTLÅN',
+  'IKKE_HOVEDHJELPEMIDDEL' = 'IKKE_HOVEDHJELPEMIDDEL',
 }
 
 export interface DelbestillingRequest {

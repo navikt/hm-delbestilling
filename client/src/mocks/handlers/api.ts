@@ -3,9 +3,6 @@ import { delay, http, HttpResponse } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
 import dellisteMock from '../../services/delliste-mock.json'
-import hjelpemiddelMockComet from '../../services/hjelpemiddel-mock-comet.json'
-import hjelpemiddelGemino20 from '../../services/hjelpemiddel-mock-gemino20.json'
-import hjelpemiddelMockPanthera from '../../services/hjelpemiddel-mock-panthera.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import { API_PATH } from '../../services/rest'
 import {
@@ -16,6 +13,8 @@ import {
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
+  Pilot,
+  SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
 import { DelbestillingSak, Ordrestatus } from '../../types/Types'
@@ -25,20 +24,27 @@ let tidligereBestillingerKommune = delBestillingMock as unknown as Delbestilling
 
 const apiHandlers = [
   http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag`, async ({ request }) => {
-    const { hmsnr } = await request.json()
+    const { hmsnr, serienr } = await request.json()
 
     await delay(250)
 
     if (hmsnr === '333333') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN },
+        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }
 
     if (hmsnr === '000000') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL },
+        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
+        { status: StatusCodes.NOT_FOUND }
+      )
+    }
+
+    if (hmsnr === '666666') {
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }
@@ -47,14 +53,15 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const hjelpemiddel =
-      hmsnr === '177946'
-        ? hjelpemiddelGemino20.hjelpemiddel // grunndata-eksempel
-        : hmsnr === '167624'
-          ? hjelpemiddelMockComet.hjelpemiddel
-          : hjelpemiddelMockPanthera.hjelpemiddel
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev`, {
+      method: 'POST',
+      body: JSON.stringify({ hmsnr, serienr }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
 
-    return HttpResponse.json({ hjelpemiddel: { ...hjelpemiddel, hmsnr }, feil: undefined })
+    return HttpResponse.json(await response.json())
   }),
 
   http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {
@@ -76,7 +83,12 @@ const apiHandlers = [
 
     if (delbestilling.serienr === '000000') {
       return HttpResponse.json(
-        { id, feil: DelbestillingFeil.BRUKER_IKKE_FUNNET, saksnummer: null, delbestillingSak: null },
+        {
+          id,
+          feil: DelbestillingFeil.BRUKER_IKKE_FUNNET,
+          saksnummer: null,
+          delbestillingSak: null,
+        },
         { status: StatusCodes.NOT_FOUND }
       )
     }
@@ -138,6 +150,20 @@ const apiHandlers = [
       oebsOrdrenummer: null,
     }
 
+    // for mocking: anta at alle deler som ikke er minmax heller ikke er tilgjengelige på lager
+    nyDelbestilling.delbestilling.deler = nyDelbestilling.delbestilling.deler.map((delLinje) => {
+      delLinje.lagerstatusPåBestillingstidspunkt = {
+        artikkelnummer: delLinje.del.hmsnr,
+        minmax: delLinje.del.lagerstatus.minmax,
+        antallDelerPåLager: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
+        organisasjons_id: 263,
+        organisasjons_navn: '*05 Oppland',
+        tilgjengelig: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
+      }
+
+      return delLinje
+    })
+
     tidligereBestillinger.push(nyDelbestilling)
 
     return HttpResponse.json(
@@ -177,12 +203,41 @@ const apiHandlers = [
     await delay(250)
     return HttpResponse.json({
       titler: [
+        'Aurora Standard',
+        'Aurora Standard XXL',
+        'Aurora Synkron',
+        'Aurora Tilt',
+        'Aurora Tilt XXL',
         'Azalea',
         'C500',
+        'Catalyst 5',
+        'Cirrus G5',
+        'Cirrus G5 (2020)',
         'Comet',
+        'Comet Alpine',
+        'Comet Alpine Plus',
+        'Comet Ultra',
+        'Compact Attract',
+        'Cross 5XL',
+        'Cross 5XL (2020)',
+        'Cross 6',
+        'Cross 6 (2020)',
+        'Cross 6 (ledsagerbrems)',
+        'Cross 6 (ledsagerbrems) (2020)',
         'Eloflex',
+        'Emineo',
+        'Etac Cross 5 XL kort',
+        'Etac Cross 5 XL lang',
+        'Etac Cross 5 kort',
+        'Etac Cross 5 lang',
+        'Exigo 30',
+        'Exigo 30 (ledsagerbrems)',
+        'Extreme X8',
         'F3',
         'F5',
+        'Hepro S19V',
+        'K-series G3',
+        'Küschall Compact SA',
         'M3',
         'M5',
         'MC 1124',
@@ -190,20 +245,47 @@ const apiHandlers = [
         'Minicrosser 125T',
         'Minicrosser M',
         'Minicrosser X',
-        'Molift Smart 150',
         'Molift Mover 180',
-        'Seng Opus',
+        'Molift Smart 150',
+        'Netti 3',
+        'Netti III',
+        'Netti III (2020)',
+        'Netti III 2016',
+        'Netti III Comfort',
+        'Netti III HD',
+        'Netti III HD (2020)',
+        'Netti III HD 2016',
+        'Netti V',
+        'Opus Hjertebrett',
+        'Opus Sengebunn S',
+        'Opus seng',
+        'Opus seng kort',
         'Orion',
+        'Orion Pro 4W',
         'Panthera',
+        'Pleieseng Opus 85 c',
+        'QS5 X',
+        'Seng OPUS 120EW',
+        'Seng OPUS 90EW',
+        'Seng Opus',
+        'Seng Opus 90EW HS',
+        'Seng Opus K85EW',
+        'Sengebunn Opus SDW',
+        'ViaGo V24',
+        'Viamobil V25',
         'X850',
         'X850S',
-        'Cross 6',
-        'Cross 5XL',
-        'Netti 3',
-        'Netti V',
-        'Extreme X8',
+        'Xact',
+        'e-fix e35/36',
+        'e-fix e35/36 (2020)',
       ],
     })
+  }),
+
+  http.get<{}, {}, SisteBatteribestillingResponse>(`${API_PATH}/siste-batteribestilling/:hmsnr/:serienr`, async () => {
+    await delay(250)
+    return HttpResponse.json({ antallDagerSiden: 10 })
+    // return new HttpResponse(undefined, { status: 204 })
   }),
 ]
 

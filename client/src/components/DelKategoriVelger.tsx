@@ -13,9 +13,11 @@ interface Props {
 
 const DelKategoriVelger = ({ delKategorier, kategoriFilter, setKategoriFilter, logKategoriValg = true }: Props) => {
   if (delKategorier) {
+    const visCheckmark = delKategorier.length <= 2
     return (
       <Chips>
         <Chips.Toggle
+          checkmark={visCheckmark}
           key="alle-deler"
           selected={kategoriFilter === undefined}
           onClick={() => {
@@ -29,6 +31,7 @@ const DelKategoriVelger = ({ delKategorier, kategoriFilter, setKategoriFilter, l
         </Chips.Toggle>
         {delKategorier.map((kategori) => (
           <Chips.Toggle
+            checkmark={visCheckmark}
             key={kategori}
             selected={kategoriFilter === kategori}
             onClick={() => {

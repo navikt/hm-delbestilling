@@ -13,6 +13,7 @@
   "bestillinger.loggInnForÅSeBestillinger": "Logg inn for å sjå dine innsende bestillingar.",
   "bestillinger.bestillingTil": "Bestilling til {{navn}}",
   "bestillinger.bestill": "Bestill",
+  "bestillinger.del.ikkePåLager": "Delen var ikkje på lager og kan ha lengre leveringstid.",
   "bestillinger.tilbakeTilBestillingen": "Tilbake til bestillinga",
   "bestillinger.bestillDelerTil": "Bestill delar til {{navn}}",
   "bestillinger.delerLagtTil": "Delar lagt til i bestillinga",
@@ -33,17 +34,20 @@
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventa levering {{dato}}",
   "bestillinger.gjenvinningAvBatterier": "Hugs at gamle batteri må leverast på ein forsvarleg måte til gjenvinning.",
+  "bestillinger.batteriSistBestiltVarsel_zero": "Det er bestilt same batteri til dette hjelpemiddelet i dag. Viss det likevel er nødvendig med nytt batteri kan du senda inn bestillinga. Ta elles kontakt med Hjelpemiddelsentralen.",
+  "bestillinger.batteriSistBestiltVarsel_other": "Det er bestilt same batteri til dette hjelpemiddelet for {{count}} dagar sidan. Viss det likevel er nødvendig med nytt batteri kan du senda inn bestillinga. Ta elles kontakt med Hjelpemiddelsentralen.",
+
+  "oppslagfeil.INGET_UTLÅN": "Me finn dessverre ikkje eit utlån på dette art.nr og serienr.",
+  "oppslagfeil.TILBYR_IKKE_HJELPEMIDDEL": "Du kan ikkje bestilla delar til dette hjelpemiddelet digitalt. Ta kontakt med hjelpemiddelsentralen din for å bestilla. Nav jobbar med å leggja inn delar til fleire hjelpemiddel fortløpande",
+  "oppslagfeil.IKKE_HOVEDHJELPEMIDDEL": "Du må leggja inn art.nr på eit hjelpemiddel, og ikkje på ein del eller eit tilbehøyr.",
 
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må innehalda 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Ver vennleg og vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noko gjekk feil med oppslag, prøv igjen seinare",
-  "error.finnerIkkeUtlån": "Me finn dessverre ikkje eit utlån på dette art.nr og serienr.",
-  "error.tilbyrIkkeHjelpemiddel": "Du kan ikkje bestilla del til dette hjelpemiddelet då det ikkje er registrert hos oss. Ta kontakt med hjelpemiddelsentralen din for hjelp.",
   "error.klarteIkkeViseBestillinger": "Me klarte ikkje å gå til bestillingar akkurat no. Prøv igjen seinare.",
   "error.informasjonForUtviklere": "Informasjon for utviklarar",
   "error.klarteIkkeSjekkeLoginStatus": "Me klarte ikkje å sjekka loginstatus akkurat no. Prøv igjen seinare.",
   "error.ULIK_GEOGRAFISK_TILKNYTNING": "Du kan ikkje bestilla delar til brukar som ikkje tilhøyrer den kommunen du jobbar i.",
-  "error.INGET_UTLÅN": "Det finst ikkje noko utlån for dette artikkel- og serienummeret. Ta kontakt med hjelpemiddelsentralen.",
   "error.KAN_IKKE_BESTILLE": "Du kan ikkje bestilla delar til dette hjelpemiddelet digitalt. Ta kontakt med hjelpemiddelsentralen.",
   "error.BRUKER_IKKE_FUNNET": "Me klarte ikkje å finna nokon bruker knytt til dette artikkel- og serienummer. Ta kontakt med hjelpemiddelsentralen.",
   "error.BESTILLE_TIL_SEG_SELV": "Du har ikkje lov til å bestilla delar til produkt du sjølv har utlån på.",
@@ -59,6 +63,8 @@
   "hjelpemidler.sok.deler_zero": "ingen delar",
   "hjelpemidler.sok.deler_one": "1 del",
   "hjelpemidler.sok.deler_other": "{{count}} delar",
+
+  "filtrering.visKunDelerSomKanBestillesDigitalt": "Vis berre deler som kan bestillast digitalt",
 
   "info.omÅBestilleDeler": "Om å bestilla delar",
   "info.kunForTeknikere": "Denne tenesta er berre for teknikarar i kommunen.",
@@ -94,7 +100,7 @@
   "oppslag.visDeler": "Vis delar",
   "oppslag.startPåNytt": "Start på nytt",
 
-  "testbanner": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje speglar røyndommen.",
+  "testbanner": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
 
   "brukFinnHjelpemiddel": "Denne sida er fjerna. Du bør heller bruka <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finna informasjon om delar. Du finn delar til hjelpemiddel under \"Passer saman med\" på ei produktside.",
   "oversikt.nyBestilling": "Ny bestilling"

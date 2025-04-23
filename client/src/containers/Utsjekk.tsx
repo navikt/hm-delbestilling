@@ -31,13 +31,14 @@ import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
 import { CustomPanel } from '../styledcomponents/CustomPanel'
 import FlexedStack from '../styledcomponents/FlexedStack'
-import { DelbestillingFeil } from '../types/HttpTypes'
+import { DelbestillingFeil, Pilot } from '../types/HttpTypes'
 import { Del, Delbestilling, Handlekurv, Levering } from '../types/Types'
 import {
   logBestillingSlettet,
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
+  logvisningAvBatteriVarsel,
 } from '../utils/amplitude'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
@@ -74,6 +75,7 @@ const Utsjekk = () => {
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
   const [harXKLager, setHarXKLager] = useState<boolean | undefined>(undefined)
+  const [piloter, setPiloter] = useState<Pilot[]>(handlekurv?.piloter ?? [])
   const { t } = useTranslation()
 
   const navigate = useNavigate()
@@ -214,7 +216,9 @@ const Utsjekk = () => {
           feilmelding: hentInnsendingFeil(response.feil),
         })
       } else {
-        navigate('/kvittering', { state: { delbestillingSak: response.delbestillingSak } })
+        navigate('/kvittering', {
+          state: { delbestillingSak: response.delbestillingSak },
+        })
       }
     } catch (err: any) {
       logInnsendingFeil('FEIL_FRA_BACKEND')
@@ -297,6 +301,7 @@ const Utsjekk = () => {
                 ),
               }}
               onLeggTil={(del) => leggTilDel(del)}
+              piloter={piloter}
             />
           ) : (
             <>
@@ -313,7 +318,7 @@ const Utsjekk = () => {
                           navn={delLinje.del.navn}
                           hmsnr={delLinje.del.hmsnr}
                           levArtNr={delLinje.del.levArtNr}
-                          img={delLinje.del.img}
+                          imgs={delLinje.del.imgs}
                         />
                       </FlexedStack>
                       <Toolbar>
@@ -343,28 +348,33 @@ const Utsjekk = () => {
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <Avstand marginBottom={8}>
+                <>
                   <Avstand marginBottom={4}>
-                    <ConfirmationPanel
-                      id={'opplæring-batteri'}
-                      checked={!!handlekurv.harOpplæringPåBatteri}
-                      label={t('bestillinger.harFåttOpplæringBatteri')}
-                      onChange={(e) =>
-                        setHandlekurv((prev) => {
-                          if (!prev) return undefined
-                          return {
-                            ...prev,
-                            harOpplæringPåBatteri: e.target.checked,
-                          }
-                        })
-                      }
-                      error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
-                    >
-                      {t('felles.Bekreft')}
-                    </ConfirmationPanel>
+                    <SisteBatteribestillingSjekk handlekurv={handlekurv} />
                   </Avstand>
-                  <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
-                </Avstand>
+                  <Avstand marginBottom={8}>
+                    <Avstand marginBottom={4}>
+                      <ConfirmationPanel
+                        id={'opplæring-batteri'}
+                        checked={!!handlekurv.harOpplæringPåBatteri}
+                        label={t('bestillinger.harFåttOpplæringBatteri')}
+                        onChange={(e) =>
+                          setHandlekurv((prev) => {
+                            if (!prev) return undefined
+                            return {
+                              ...prev,
+                              harOpplæringPåBatteri: e.target.checked,
+                            }
+                          })
+                        }
+                        error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
+                      >
+                        {t('felles.Bekreft')}
+                      </ConfirmationPanel>
+                    </Avstand>
+                    <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
+                  </Avstand>
+                </>
               )}
 
               <Avstand marginBottom={12}>
@@ -415,9 +425,52 @@ const Utsjekk = () => {
         </>
       </Content>
       {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
-        <Rolleswitcher harXKLager={harXKLager} setHarXKLager={setHarXKLager} />
+        <Rolleswitcher
+          harXKLager={harXKLager}
+          setHarXKLager={setHarXKLager}
+          piloter={piloter}
+          setPiloter={setPiloter}
+        />
       )}
     </main>
+  )
+}
+
+const GRENSE_ANTALL_DAGER = 30 * 4 // 4 måneder
+const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv }) => {
+  const { t } = useTranslation()
+
+  const [antallDagerSiden, setAntallDagerSiden] = useState<number | undefined>(undefined)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const sisteBatteribestilling = await rest.hentSisteBatteribestilling(
+          handlekurv.hjelpemiddel.hmsnr,
+          handlekurv.serienr
+        )
+        if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER) {
+          setAntallDagerSiden(sisteBatteribestilling.antallDagerSiden)
+          logvisningAvBatteriVarsel(handlekurv.id, sisteBatteribestilling.antallDagerSiden)
+        }
+      } catch {
+        console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
+      }
+    })()
+  }, [GRENSE_ANTALL_DAGER])
+
+  if (antallDagerSiden === undefined) {
+    return null
+  }
+
+  return (
+    <Avstand marginBottom={4}>
+      <Alert variant="info">
+        {t('bestillinger.batteriSistBestiltVarsel', {
+          count: antallDagerSiden,
+        })}
+      </Alert>
+    </Avstand>
   )
 }
 

@@ -7,6 +7,7 @@ import {
   DellisteResponse,
   HjelpemiddelTitlerResponse,
   OppslagResponse,
+  SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../types/HttpTypes'
 import { Delbestilling, DelbestillingSak, Dellinje, Valg } from '../types/Types'
@@ -106,6 +107,15 @@ const hentTidligereBestilteDeler = async (artnr: string, serienr: string): Promi
   return await response.json()
 }
 
+const hentSisteBatteribestilling = async (
+  hmsnr: string,
+  serienr: string
+): Promise<SisteBatteribestillingResponse | undefined> => {
+  const response = await fetch(API_PATH + `/siste-batteribestilling/${hmsnr}/${serienr}`)
+  await handleResponse(response.clone())
+  return await response.json()
+}
+
 const sendInnBestilling = async (delbestilling: Delbestilling): Promise<DelbestillingResponse> => {
   const response = await fetchPost(`${API_PATH}/delbestilling`, {
     body: JSON.stringify({ delbestilling }),
@@ -162,4 +172,5 @@ export default {
   hentRolle,
   sjekkLoginStatus,
   sjekkXKLager,
+  hentSisteBatteribestilling,
 }

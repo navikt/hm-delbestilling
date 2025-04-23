@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Button, Heading, HStack, Switch, TextField } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch, TextField } from '@navikt/ds-react'
 
 import useDelKategorier from '../hooks/useDelKategorier'
 import { CustomPanel, DottedPanel } from '../styledcomponents/CustomPanel'
@@ -14,17 +14,21 @@ import DelInnhold from './DelInhold'
 import DelKategoriVelger from './DelKategoriVelger'
 import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
+import { Pilot } from '../types/HttpTypes'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
   knappeTekst?: string
+  piloter: Pilot[]
 }
-const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
+const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', piloter }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
   const { t } = useTranslation()
-  const [visKunFastLagervarer, setVisKunFastLagervarer] = useState(false)
+  const [visKunDigitaleDeler, setVisKunDigitaleDeler] = useState(false)
   const [søk, setSøk] = useState('')
+
+  const erPilotForBestilleIkkeFasteLagervarer = piloter.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
 
   const handleClickManglerDel = () => {
     if (isConsentingToSurveys()) {
@@ -50,26 +54,32 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
 
         <Avstand marginBottom={4} />
 
-        <HStack align="end" gap="4">
-          <TextField label="Søk" onChange={(e) => setSøk(e.target.value)} />
-          <Switch
-            checked={visKunFastLagervarer}
-            onChange={(e) => {
-              setVisKunFastLagervarer(e.target.checked)
-              logKlikkVisKunFastLagervare(e.target.checked)
-            }}
-          >
-            Vis kun faste lagervarer
-          </Switch>
+        <HStack justify="start" align="end" gap="4">
+          <div>
+            <Search label="Søk" variant="simple" hideLabel onChange={(val) => setSøk(val)} />
+          </div>
+          {!erPilotForBestilleIkkeFasteLagervarer && (
+            <Switch
+              checked={visKunDigitaleDeler}
+              onChange={(e) => {
+                setVisKunDigitaleDeler(e.target.checked)
+                logKlikkVisKunFastLagervare(e.target.checked)
+              }}
+            >
+              {t('filtrering.visKunDelerSomKanBestillesDigitalt')}
+            </Switch>
+          )}
         </HStack>
       </Avstand>
 
       {hjelpemiddel.deler
-        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : del))
-        .filter((del) => (visKunFastLagervarer ? del.lagerstatus.minmax === true : del))
-        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : del))
+        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
+        .filter((del) => (visKunDigitaleDeler ? del.lagerstatus.minmax === true : true))
+        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
+          const kanBestilles = erPilotForBestilleIkkeFasteLagervarer || erFastLagervare
+
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomPanel border>
@@ -79,17 +89,27 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                       navn={del.navn}
                       hmsnr={del.hmsnr}
                       levArtNr={del.levArtNr}
-                      img={del.img}
+                      imgs={del.imgs}
                       lagerstatus={del.lagerstatus}
+                      visVarselOmIkkeFastLagervare={!erPilotForBestilleIkkeFasteLagervarer && !kanBestilles}
                     />
                   </FlexedStack>
 
-                  {erFastLagervare && (
+                  {kanBestilles && (
                     <Button variant="secondary" onClick={() => onLeggTil(del)}>
                       {knappeTekst}
                     </Button>
                   )}
                 </DelInnhold>
+                {window.appSettings.MILJO === 'dev-gcp' &&
+                  erPilotForBestilleIkkeFasteLagervarer &&
+                  !erFastLagervare && (
+                    <HStack justify={'end'}>
+                      <Avstand marginTop={2}>
+                        <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
+                      </Avstand>
+                    </HStack>
+                  )}
               </CustomPanel>
             </Avstand>
           )

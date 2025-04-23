@@ -4,7 +4,7 @@ import { useReactToPrint } from 'react-to-print'
 import styled from 'styled-components'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
-import { BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
 
 import { useRolleContext } from '../context/rolle'
 import { formaterNorskDato } from '../helpers/utils'
@@ -73,6 +73,14 @@ const BestillingsKort = ({ sak }: Props) => {
               <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
               <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
             </DelRekke>
+            <SkjulForPrint>
+              {dellinje.lagerstatusPåBestillingstidspunkt &&
+                dellinje.antall > dellinje.lagerstatusPåBestillingstidspunkt.antallDelerPåLager && (
+                  <Alert variant="info" inline>
+                    {t('bestillinger.del.ikkePåLager')}
+                  </Alert>
+                )}
+            </SkjulForPrint>
             <SkjulForPrint>{!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}</SkjulForPrint>
           </Dellinje>
         ))}
