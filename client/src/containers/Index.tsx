@@ -137,7 +137,6 @@ const Index = () => {
                     <span>Art.nr. {hmsnr}</span>
                     <span>Serienr. {serienr}</span>
                   </BodyShort>
-                  <BestilteDeler artnr={hjelpemiddel.hmsnr} serienr={serienr} />
                 </div>
                 <Button
                   icon={<PencilIcon />}
@@ -149,6 +148,9 @@ const Index = () => {
                   {t('felles.Endre')}
                 </Button>
               </HStack>
+              <Avstand marginTop={4}>
+                <BestilteDeler hjelpemiddel={hjelpemiddel} serienr={serienr} />
+              </Avstand>
             </CustomPanel>
             <Avstand marginBottom={12} />
             <LeggTilDel

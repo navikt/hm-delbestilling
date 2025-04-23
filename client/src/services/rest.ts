@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes'
 
 import {
   AlleHjelpemidlerMedDelerResponse,
+  BestilteDelerResponse,
   DelbestillerrolleResponse,
   DelbestillingResponse,
   DellisteResponse,
@@ -101,7 +102,7 @@ const hentBestillingerForKommune = async (): Promise<DelbestillingSak[]> => {
   return await response.json()
 }
 
-const hentTidligereBestilteDeler = async (artnr: string, serienr: string): Promise<Dellinje[]> => {
+const hentTidligereBestilteDeler = async (artnr: string, serienr: string): Promise<BestilteDelerResponse> => {
   const response = await fetch(API_PATH + `/delbestilling/bestilte-deler/${artnr}/${serienr}`)
   await handleResponse(response.clone())
   return await response.json()

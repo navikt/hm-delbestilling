@@ -6,6 +6,7 @@ import dellisteMock from '../../services/delliste-mock.json'
 import hjelpemidlerMock from '../../services/hjelpemidler-mock.json'
 import { API_PATH } from '../../services/rest'
 import {
+  BestilteDelerResponse,
   DelbestillingFeil,
   DelbestillingRequest,
   DelbestillingResponse,
@@ -17,7 +18,7 @@ import {
   SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
-import { DelbestillingSak, Ordrestatus } from '../../types/Types'
+import { DelbestillingSak, Dellinjestatus, Ordrestatus } from '../../types/Types'
 
 let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
@@ -199,6 +200,45 @@ const apiHandlers = [
     await delay(250)
     return HttpResponse.json(dellisteMock)
   }),
+
+  http.get<{ artnr: string; serienr: string }, {}, BestilteDelerResponse>(
+    `${API_PATH}/delbestilling/bestilte-deler/:artnr/:serienr`,
+    async (req) => {
+      console.log('hit')
+      const { artnr, serienr } = req.params
+
+      await delay(250)
+
+      return HttpResponse.json({
+        dellinjer: [
+          {
+            antall: 1,
+            del: {
+              defaultAntall: 1,
+              hmsnr: '150817',
+              navn: 'Dekk Schwalbe Marathon Plus punkteringsbeskyttet 24"x1',
+              img: null,
+              imgs: [],
+              kategori: 'Dekk',
+              kilde: 'GRUNNDATA',
+              maksAntall: 2,
+              levArtNr: '1000038',
+              lagerstatus: {
+                organisasjons_id: 0,
+                organisasjons_navn: '',
+                artikkelnummer: '',
+                minmax: true,
+                tilgjengelig: 20,
+                antallDelerPåLager: 20,
+              },
+            },
+            status: Dellinjestatus.SKIPNINGSBEKREFTET,
+          },
+        ],
+      })
+    }
+  ),
+
   http.get<{}, {}, {}>(`${API_PATH}/hjelpemiddel-titler`, async () => {
     await delay(250)
     return HttpResponse.json({
