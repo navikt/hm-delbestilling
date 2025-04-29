@@ -10,7 +10,6 @@ export interface Del {
   navn: string
   hmsnr: string
   levArtNr: string | null
-  img: string | null
   imgs: string[]
   kategori: string
   maksAntall: number
