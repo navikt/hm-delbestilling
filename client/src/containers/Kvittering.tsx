@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -12,8 +12,8 @@ import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
 import { isProd } from '../utils/utils'
 
-import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
+import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
 type LocationState = {
   delbestillingSak: DelbestillingSak

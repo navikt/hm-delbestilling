@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 
 import { ChevronLeftIcon, ChevronRightIcon, ImageIcon, MagnifyingGlassFillIcon } from '@navikt/aksel-icons'
 import { BodyShort, Box, Button, Detail, Heading, HGrid, HStack, Modal } from '@navikt/ds-react'
 
-import { size } from '../styledcomponents/rules'
-import { Avstand } from './Avstand'
-import { Lagerstatus } from '../types/Types'
 import { useTranslation } from 'react-i18next'
+import { size } from '../styledcomponents/rules'
+import { Lagerstatus } from '../types/Types'
 import { logÅpningAvBildekarusell } from '../utils/amplitude'
+import { Avstand } from './Avstand'
 
 const SubtleBodyShort = styled(BodyShort)`
   color: var(--a-text-subtle);

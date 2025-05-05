@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch, TextField } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
 
 import useDelKategorier from '../hooks/useDelKategorier'
 import { CustomPanel, DottedPanel } from '../styledcomponents/CustomPanel'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import { Del, Hjelpemiddel } from '../types/Types'
 
+import { Pilot } from '../types/HttpTypes'
+import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
+import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 import { Avstand } from './Avstand'
 import DelInfo from './DelInfo'
 import DelInnhold from './DelInhold'
 import DelKategoriVelger from './DelKategoriVelger'
-import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
-import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
-import { Pilot } from '../types/HttpTypes'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel

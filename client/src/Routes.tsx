@@ -1,6 +1,8 @@
-import React from 'react'
 import { Helmet } from 'react-helmet'
+import { Trans, useTranslation } from 'react-i18next'
 import { Route, Routes as Switch } from 'react-router-dom'
+
+import { BodyShort, Box, Link } from '@navikt/ds-react'
 
 import Bestillinger from './containers/Bestillinger'
 import Index from './containers/Index'
@@ -8,9 +10,7 @@ import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
 import Utsjekk from './containers/Utsjekk'
 import { RolleContextLayout } from './context/rolle'
-import { BodyShort, Box, Link } from '@navikt/ds-react'
 import Content from './styledcomponents/Content'
-import { Trans, useTranslation } from 'react-i18next'
 
 const Routes = () => {
   return (

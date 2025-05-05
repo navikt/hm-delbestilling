@@ -1,12 +1,9 @@
-import React from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { Modal } from '@navikt/ds-react'
-
+import App from './App'
 import { initDecorator } from './decorator/decorator'
 import { initAmplitude } from './utils/amplitude'
 import { initMSW } from './utils/msw'
-import App from './App'
 
 import '@navikt/ds-css'
 import './i18n'

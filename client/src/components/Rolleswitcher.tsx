@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react'
 
-import { useRolleContext } from '../context/rolle'
 import { Pilot } from '../types/HttpTypes'
 
 const Wrapper = styled.div`

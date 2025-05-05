@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useReactToPrint } from 'react-to-print'
 import styled from 'styled-components'
@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
 import { Alert, BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
 
-import { useRolleContext } from '../context/rolle'
 import { formaterNorskDato } from '../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
 import { logPrintAvBestillingÅpnet } from '../utils/amplitude'
