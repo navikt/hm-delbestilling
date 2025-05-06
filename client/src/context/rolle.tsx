@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
@@ -84,13 +84,4 @@ export const RolleContextLayout = () => {
       <Outlet />
     </RolleProvider>
   )
-}
-
-export const useRolleContext = () => {
-  const context = useContext(RolleContext)
-  if (context === undefined) {
-    throw new Error('useRolleContext må ligge inni RolleProvider')
-  }
-
-  return context
 }
