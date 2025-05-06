@@ -29,24 +29,22 @@ export function Avstand(props: AvstandProps) {
 
 type MarginProps = Omit<AvstandProps, 'children'>
 
-const Box = styled('div')
-  .withConfig({
-    shouldForwardProp: (prop) =>
-      ![
-        'margin',
-        'marginTop',
-        'marginRight',
-        'marginBottom',
-        'marginLeft',
-        'padding',
-        'paddingTop',
-        'paddingRight',
-        'paddingBottom',
-        'paddingLeft',
-        'centered',
-      ].includes(prop),
-  })
-  .attrs({ className: 'foo' })`
+const Box = styled('div').withConfig({
+  shouldForwardProp: (prop) =>
+    ![
+      'margin',
+      'marginTop',
+      'marginRight',
+      'marginBottom',
+      'marginLeft',
+      'padding',
+      'paddingTop',
+      'paddingRight',
+      'paddingBottom',
+      'paddingLeft',
+      'centered',
+    ].includes(prop),
+})`
   ${spacer}
   ${(props: MarginProps) => ({ textAlign: props.centered ? 'center' : 'unset' })}
 `
