@@ -19,24 +19,39 @@ export interface AvstandProps {
 }
 
 export function Avstand(props: AvstandProps) {
-  const { children, centered, ...rest } = props
+  const { children, ...rest } = props
   return (
-    <Box aria-hidden={!children} $centered={centered} {...rest}>
+    <Box aria-hidden={!children} {...rest}>
       {children}
     </Box>
   )
 }
 
-type MarginPadding = Omit<AvstandProps, 'centered' | 'children'> & {
-  $centered?: boolean
-}
+type MarginProps = Omit<AvstandProps, 'children'>
 
-const Box = styled.div<MarginPadding>`
+const Box = styled('div')
+  .withConfig({
+    shouldForwardProp: (prop) =>
+      ![
+        'margin',
+        'marginTop',
+        'marginRight',
+        'marginBottom',
+        'marginLeft',
+        'padding',
+        'paddingTop',
+        'paddingRight',
+        'paddingBottom',
+        'paddingLeft',
+        'centered',
+      ].includes(prop),
+  })
+  .attrs({ className: 'foo' })`
   ${spacer}
-  ${(props) => ({ textAlign: props.$centered ? 'center' : 'unset' })}
+  ${(props: MarginProps) => ({ textAlign: props.centered ? 'center' : 'unset' })}
 `
 
-function spacer(props: MarginPadding) {
+function spacer(props: MarginProps) {
   return {
     margin: props.margin,
     'margin-top': spacingVar(props.marginTop),
