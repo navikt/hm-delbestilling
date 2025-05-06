@@ -46,8 +46,10 @@ const OmÅBestilleDeler = () => {
           <Skeleton variant="text" height="60px" style={{ transform: 'scale(1, 0.8' }}></Skeleton>
         </>
       ) : (
-        <BodyShort>
-          {t('info.kunForTeknikere')} {t('info.kanBestilleDelerTil')}:
+        <>
+          <BodyShort>
+            {t('info.kunForTeknikere')} {t('info.kanBestilleDelerTil')}:
+          </BodyShort>
           {kolonne1.length > 0 && kolonne2.length > 0 && (
             <HStack gap="4">
               <List>
@@ -62,7 +64,7 @@ const OmÅBestilleDeler = () => {
               </List>
             </HStack>
           )}
-        </BodyShort>
+        </>
       )}
     </Panel>
   )
