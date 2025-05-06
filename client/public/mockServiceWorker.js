@@ -192,7 +192,6 @@ async function getResponse(event, client, requestId) {
   const requestClone = request.clone()
 
   function passthrough() {
-    const headers = Object.fromEntries(requestClone.headers.entries())
     // Cast the request headers to a new Headers instance
     // so the headers can be manipulated with.
     const headers = new Headers(requestClone.headers)
