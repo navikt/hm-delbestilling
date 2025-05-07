@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 
-import { Panel } from '@navikt/ds-react'
+import { Box } from '@navikt/ds-react'
 
-export const CustomPanel = styled(Panel)`
+export const CustomPanel = styled(Box)`
   padding: 24px;
+  background: var(--a-bg-default);
+  border: 1px solid var(--a-grayalpha-600);
 `
 
 export const DottedPanel = styled(CustomPanel)`

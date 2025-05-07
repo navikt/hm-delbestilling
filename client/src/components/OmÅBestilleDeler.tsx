@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { BodyShort, Heading, HStack, List, Panel, Skeleton } from '@navikt/ds-react'
+import { BodyShort, Box, Heading, HStack, List, Skeleton } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 
@@ -35,11 +35,10 @@ const OmÅBestilleDeler = () => {
   }
 
   return (
-    <Panel>
+    <Box padding="4" background="bg-default">
       <Heading level="2" size="medium" spacing>
         {t('info.omÅBestilleDeler')}
       </Heading>
-
       {henterHjelpemidler ? (
         <>
           <Skeleton variant="text" height="60px" style={{ transform: 'scale(1, 0.8' }}></Skeleton>
@@ -66,7 +65,7 @@ const OmÅBestilleDeler = () => {
           )}
         </>
       )}
-    </Panel>
+    </Box>
   )
 }
 
