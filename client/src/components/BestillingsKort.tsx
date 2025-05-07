@@ -4,7 +4,7 @@ import { useReactToPrint } from 'react-to-print'
 import styled from 'styled-components'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
-import { Alert, BodyShort, Button, Detail, Heading, Panel } from '@navikt/ds-react'
+import { Alert, BodyShort, Box, Button, Detail, Heading } from '@navikt/ds-react'
 
 import { formaterNorskDato } from '../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
@@ -57,7 +57,14 @@ const BestillingsKort = ({ sak }: Props) => {
 
   return (
     <Avstand marginBottom={4}>
-      <Panel border style={{ position: 'relative' }} ref={printRef}>
+      <Box
+        padding="4"
+        background="bg-default"
+        borderColor="border-default"
+        borderWidth="1"
+        style={{ position: 'relative' }}
+        ref={printRef}
+      >
         <Heading size="small" level="3">
           {sak.delbestilling.navn ? <>Bestilling til {sak.delbestilling.navn}</> : <>Bestilling</>}
         </Heading>
@@ -109,7 +116,7 @@ const BestillingsKort = ({ sak }: Props) => {
             </Button>
           </div>
         </SkjulForPrint>
-      </Panel>
+      </Box>
     </Avstand>
   )
 }

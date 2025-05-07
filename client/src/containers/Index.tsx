@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Button, Heading, HStack, LinkPanel, Panel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Box, Button, Heading, HStack, LinkPanel } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -101,7 +101,7 @@ const Index = () => {
             </Avstand>
 
             <Avstand marginTop={10}>
-              <Panel>
+              <Box padding="4" background="bg-default">
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
                 </Heading>
@@ -120,7 +120,7 @@ const Index = () => {
                     }}
                   />
                 </BodyLong>
-              </Panel>
+              </Box>
             </Avstand>
           </>
         )}
