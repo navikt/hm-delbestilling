@@ -371,7 +371,6 @@ const Utsjekk = () => {
                         {t('felles.Bekreft')}
                       </ConfirmationPanel>
                     </Avstand>
-                    <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
                   </Avstand>
                 </>
               )}

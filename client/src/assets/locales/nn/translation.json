@@ -33,7 +33,6 @@
   "bestillinger.dellinjestatus.SKIPNINGSBEKREFTET": "Plukka på lager",
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventa levering {{dato}}",
-  "bestillinger.gjenvinningAvBatterier": "Hugs at gamle batteri må leverast på ein forsvarleg måte til gjenvinning.",
   "bestillinger.batteriSistBestiltVarsel_zero": "Det er bestilt same batteri til dette hjelpemiddelet i dag. Viss det likevel er nødvendig med nytt batteri kan du senda inn bestillinga. Ta elles kontakt med Hjelpemiddelsentralen.",
   "bestillinger.batteriSistBestiltVarsel_other": "Det er bestilt same batteri til dette hjelpemiddelet for {{count}} dagar sidan. Viss det likevel er nødvendig med nytt batteri kan du senda inn bestillinga. Ta elles kontakt med Hjelpemiddelsentralen.",
 
