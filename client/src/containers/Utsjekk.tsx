@@ -81,11 +81,11 @@ const Utsjekk = () => {
 
   const navigate = useNavigate()
 
-  const handlekurvInneholderBatteri = handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
+  const handlekurvInneholderBatteri = !!handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
   const skalSpørreOmBatteriBekreftelse =
     handlekurvInneholderBatteri &&
-    antallDagerSidenForrigeBatteribestilling !== undefined &&
-    antallDagerSidenForrigeBatteribestilling > GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING
+    (antallDagerSidenForrigeBatteribestilling === undefined ||
+      antallDagerSidenForrigeBatteribestilling > GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING)
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
@@ -367,15 +367,13 @@ const Utsjekk = () => {
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <>
-                  <Avstand marginBottom={4}>
-                    <SisteBatteribestillingSjekk
-                      handlekurv={handlekurv}
-                      antallDagerSidenForrigeBatteribestilling={antallDagerSidenForrigeBatteribestilling}
-                      setAntallDagerSidenForrigeBatteribestilling={setAntallDagerSidenForrigeBatteribestilling}
-                    />
-                  </Avstand>
-                </>
+                <Avstand marginBottom={6}>
+                  <SisteBatteribestillingSjekk
+                    handlekurv={handlekurv}
+                    antallDagerSidenForrigeBatteribestilling={antallDagerSidenForrigeBatteribestilling}
+                    setAntallDagerSidenForrigeBatteribestilling={setAntallDagerSidenForrigeBatteribestilling}
+                  />
+                </Avstand>
               )}
               {skalSpørreOmBatteriBekreftelse && (
                 <Avstand marginBottom={8}>

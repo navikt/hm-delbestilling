@@ -283,6 +283,7 @@ const apiHandlers = [
 
   http.get<{}, {}, SisteBatteribestillingResponse>(`${API_PATH}/siste-batteribestilling/:hmsnr/:serienr`, async () => {
     await delay(250)
+    // throw new HttpResponse('Internal server error', { status: StatusCodes.INTERNAL_SERVER_ERROR })
     return HttpResponse.json({ antallDagerSiden: 10 })
     // return new HttpResponse(undefined, { status: 204 })
   }),
