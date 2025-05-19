@@ -22,7 +22,7 @@ export enum digihot_customevents {
   START_NY_BESTILING = 'start ny bestilling',
   PRINT_AV_BESTILLING_ÅPNET = 'print av bestilling åpnet',
   KLIKK_PÅ_VIS_KUN_FAST_LAGERVARE = 'klikk på vis kun fast lagervare',
-  VISNING_AV_VARSEL_OM_SISTE_BATTERIBESTILLING = 'visning av varsel om siste batteribestilling',
+  VISNING_AV_VARSEL_OM_IKKE_MULIG_Å_SENDE_INN_BATTERIBESTILLING = 'visning av varsel om ikke mulig å sende inn bestilling med batteri',
   KLIKK_ÅPNING_AV_BILDEKARUSELL = 'åpning av bildekarusell',
 }
 
@@ -115,8 +115,8 @@ export const logPrintAvBestillingÅpnet = (pathname: string) => {
   })
 }
 
-export const logvisningAvBatteriVarsel = (bestillingId: string, antallDager: number) => {
-  logAmplitudeEvent(digihot_customevents.VISNING_AV_VARSEL_OM_SISTE_BATTERIBESTILLING, {
+export const logvisningAvIkkeMuligÅSendeInnBestillingMedBatteri = (bestillingId: string, antallDager: number) => {
+  logAmplitudeEvent(digihot_customevents.VISNING_AV_VARSEL_OM_IKKE_MULIG_Å_SENDE_INN_BATTERIBESTILLING, {
     bestillingId,
     antallDager,
   })

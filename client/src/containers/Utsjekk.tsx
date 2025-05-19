@@ -36,7 +36,7 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
-  logvisningAvBatteriVarsel,
+  logvisningAvIkkeMuligÅSendeInnBestillingMedBatteri,
 } from '../utils/amplitude'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
@@ -481,7 +481,7 @@ const SisteBatteribestillingSjekk = ({
           sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING
         ) {
           setAntallDagerSidenForrigeBatteribestilling(sisteBatteribestilling.antallDagerSiden)
-          logvisningAvBatteriVarsel(handlekurv.id, sisteBatteribestilling.antallDagerSiden)
+          logvisningAvIkkeMuligÅSendeInnBestillingMedBatteri(handlekurv.id, sisteBatteribestilling.antallDagerSiden)
         }
       } catch {
         console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
