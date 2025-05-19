@@ -5,9 +5,9 @@ import styled from 'styled-components'
 import { Button, Heading, TextField } from '@navikt/ds-react'
 
 import rest from '../services/rest'
-import { CustomPanel } from '../styledcomponents/CustomPanel'
-import { OppslagFeil, Pilot } from '../types/HttpTypes'
-import { Hjelpemiddel } from '../types/Types'
+import { CustomBox } from '../styledcomponents/CustomBox'
+import { OppslagFeil } from '../types/HttpTypes'
+import { Hjelpemiddel, Pilot } from '../types/Types'
 import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
 
 import { Avstand } from './Avstand'
@@ -100,7 +100,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
   }
 
   return (
-    <CustomPanel border>
+    <CustomBox>
       <Heading size="xsmall" level="2">
         {t('oppslag.hvilketHjelpemiddel')}
       </Heading>
@@ -132,7 +132,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
           <Feilmelding feilmelding={feilmelding} />
         </Avstand>
       )}
-    </CustomPanel>
+    </CustomBox>
   )
 }
 

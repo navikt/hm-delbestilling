@@ -1,4 +1,4 @@
-import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel } from './Types'
+import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel, Pilot } from './Types'
 
 export interface OppslagRequest {
   hmsnr: string
@@ -9,10 +9,6 @@ export interface OppslagResponse {
   hjelpemiddel: Hjelpemiddel | undefined
   feil: OppslagFeil | undefined
   piloter: Pilot[]
-}
-
-export enum Pilot {
-  BESTILLE_IKKE_FASTE_LAGERVARER = 'BESTILLE_IKKE_FASTE_LAGERVARER',
 }
 
 export interface AlleHjelpemidlerMedDelerResponse {

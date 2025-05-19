@@ -10,9 +10,9 @@ import { GlobalStyle } from '../GlobalStyle'
 import Content from '../styledcomponents/Content'
 import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
+import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 import { isProd } from '../utils/utils'
 
-import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
 type LocationState = {

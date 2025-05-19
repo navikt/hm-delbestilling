@@ -14,32 +14,36 @@ const rollerHandlers = [
             orgnr: '0001',
             navn: 'Oslo Teknikere',
             orgform: 'KOMM',
-            overordnetOrgnr: undefined,
+            overordnetOrgnr: null,
             næringskoder: [],
             kommunenummer: '0301',
           },
         ],
+        kommunaleAnsettelsesforhold: [
+          {
+            orgnr: '0001',
+            navn: 'Oslo Teknikere',
+            orgform: 'KOMM',
+            overordnetOrgnr: null,
+            næringskoder: [],
+            kommunenummer: '0301',
+          },
+        ],
+        representasjoner: [
+          {
+            orgnr: '0001',
+            navn: 'Oslo Teknikere',
+            orgform: 'KOMM',
+            overordnetOrgnr: null,
+            næringskoder: [],
+            kommunenummer: '0301',
+          },
+        ],
+        erBrukerpassbruker: false,
+        erTekniker: true,
+        privateAnsettelsesforhold: [],
         godkjenteIkkeKommunaleOrgs: [],
         erAnsattIGodkjentIkkeKommunaleOrgs: false,
-      },
-    })
-
-    return HttpResponse.json({
-      delbestillerrolle: {
-        kanBestilleDeler: true,
-        erKommunaltAnsatt: false,
-        kommunaleOrgs: [],
-        godkjenteIkkeKommunaleOrgs: [
-          {
-            orgnr: '1234',
-            navn: 'Privat Teknikerselskap AS',
-            orgform: 'AS',
-            overordnetOrgnr: undefined,
-            næringskoder: [],
-            kommunenummer: '0301',
-          },
-        ],
-        erAnsattIGodkjentIkkeKommunaleOrgs: true,
       },
     })
   }),

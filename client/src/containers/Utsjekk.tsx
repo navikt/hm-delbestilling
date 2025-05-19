@@ -28,10 +28,9 @@ import Rolleswitcher from '../components/Rolleswitcher'
 import { GlobalStyle } from '../GlobalStyle'
 import rest from '../services/rest'
 import Content from '../styledcomponents/Content'
-import { CustomPanel } from '../styledcomponents/CustomPanel'
+import { CustomBox } from '../styledcomponents/CustomBox'
 import FlexedStack from '../styledcomponents/FlexedStack'
-import { DelbestillingFeil, Pilot } from '../types/HttpTypes'
-import { Del, Delbestilling, Handlekurv, Levering } from '../types/Types'
+import { Del, Delbestilling, Handlekurv, Levering, Pilot } from '../types/Types'
 import {
   logBestillingSlettet,
   logInnsendingFeil,
@@ -156,10 +155,6 @@ const Utsjekk = () => {
     })
   }
 
-  const hentInnsendingFeil = (innsendingFeil: DelbestillingFeil): string => {
-    return t(`error.${innsendingFeil}`)
-  }
-
   const validerBestilling = (handlekurv: Handlekurv) => {
     const feil: Valideringsfeil[] = []
 
@@ -212,7 +207,7 @@ const Utsjekk = () => {
       if (response.feil) {
         logInnsendingFeil(response.feil)
         setFeilmelding({
-          feilmelding: hentInnsendingFeil(response.feil),
+          feilmelding: t(`error.${response.feil}`),
         })
       } else {
         navigate('/kvittering', {
@@ -280,7 +275,7 @@ const Utsjekk = () => {
               </Button>
             </Avstand>
           )}
-          <CustomPanel border>
+          <CustomBox>
             <Heading level="2" size="small" spacing>
               {t('bestillinger.bestillDelerTil', { navn: handlekurv.hjelpemiddel.navn })}
             </Heading>
@@ -288,7 +283,7 @@ const Utsjekk = () => {
               <span>Art.nr. {handlekurv.hjelpemiddel.hmsnr}</span>
               <span>Serienr. {handlekurv.serienr}</span>
             </BodyShort>
-          </CustomPanel>
+          </CustomBox>
           <Avstand marginBottom={12} />
           {visFlereDeler ? (
             <LeggTilDel
@@ -311,7 +306,7 @@ const Utsjekk = () => {
                 {handlekurv.deler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
                   <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
-                    <CustomPanel border>
+                    <CustomBox>
                       <FlexedStack>
                         <DelInfo
                           navn={delLinje.del.navn}
@@ -337,7 +332,7 @@ const Utsjekk = () => {
                           ))}
                         </Select>
                       </Toolbar>
-                    </CustomPanel>
+                    </CustomBox>
                   </Avstand>
                 ))}
                 <Avstand marginBottom={4} />
