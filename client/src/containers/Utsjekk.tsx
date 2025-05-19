@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -55,8 +55,8 @@ const Toolbar = styled.div`
 `
 
 export interface Valideringsfeil {
-  id: 'levering' | 'deler' | 'opplæring-batteri'
-  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring'
+  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
+  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år'
   melding: string
 }
 
@@ -74,6 +74,9 @@ const Utsjekk = () => {
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
   const [harXKLager, setHarXKLager] = useState<boolean | undefined>(undefined)
+  const [antallDagerSidenForrigeBatteribestilling, setAntallDagerSidenForrigeBatteribestilling] = useState<
+    number | undefined
+  >(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>(handlekurv?.piloter ?? [])
   const { t } = useTranslation()
 
@@ -179,6 +182,21 @@ const Utsjekk = () => {
       })
     }
 
+    if (
+      handlekurvInneholderBatteri &&
+      antallDagerSidenForrigeBatteribestilling !== undefined &&
+      antallDagerSidenForrigeBatteribestilling < GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING
+    ) {
+      let feilmelding = `Du har bestilt batteri ${antallDagerSidenForrigeBatteribestilling} dager siden. Ta kontakt med hjelpemiddelsentralen.`
+      if (handlekurv.deler.length > 1 && handlekurv.deler.find((del) => del.del.kategori !== 'Batteri') !== undefined) {
+        feilmelding += ` Du kan sende inn bestillingen hvis du fjerner batteriet.`
+      }
+      feil.push({
+        id: 'batteri-bestilt-innen-ett-år',
+        type: 'batteri-bestilt-innen-ett-år',
+        melding: feilmelding,
+      })
+    }
     setValideringsFeil(feil)
     return feil
   }
@@ -349,7 +367,11 @@ const Utsjekk = () => {
               {handlekurvInneholderBatteri && (
                 <>
                   <Avstand marginBottom={4}>
-                    <SisteBatteribestillingSjekk handlekurv={handlekurv} />
+                    <SisteBatteribestillingSjekk
+                      handlekurv={handlekurv}
+                      antallDagerSidenForrigeBatteribestilling={antallDagerSidenForrigeBatteribestilling}
+                      setAntallDagerSidenForrigeBatteribestilling={setAntallDagerSidenForrigeBatteribestilling}
+                    />
                   </Avstand>
                   <Avstand marginBottom={8}>
                     <Avstand marginBottom={4}>
@@ -435,11 +457,18 @@ const Utsjekk = () => {
   )
 }
 
-const GRENSE_ANTALL_DAGER = 30 * 4 // 4 måneder
-const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv }) => {
+interface SisteBatteribestilling {
+  antallDagerSidenForrigeBatteribestilling: number | undefined
+  setAntallDagerSidenForrigeBatteribestilling: React.Dispatch<SetStateAction<number | undefined>>
+  handlekurv: Handlekurv
+}
+const GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING = 365
+const SisteBatteribestillingSjekk = ({
+  antallDagerSidenForrigeBatteribestilling,
+  setAntallDagerSidenForrigeBatteribestilling,
+  handlekurv,
+}: SisteBatteribestilling) => {
   const { t } = useTranslation()
-
-  const [antallDagerSiden, setAntallDagerSiden] = useState<number | undefined>(undefined)
 
   useEffect(() => {
     ;(async () => {
@@ -448,27 +477,26 @@ const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv })
           handlekurv.hjelpemiddel.hmsnr,
           handlekurv.serienr
         )
-        if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER) {
-          setAntallDagerSiden(sisteBatteribestilling.antallDagerSiden)
+        if (
+          sisteBatteribestilling &&
+          sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING
+        ) {
+          setAntallDagerSidenForrigeBatteribestilling(sisteBatteribestilling.antallDagerSiden)
           logvisningAvBatteriVarsel(handlekurv.id, sisteBatteribestilling.antallDagerSiden)
         }
       } catch {
         console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
       }
     })()
-  }, [GRENSE_ANTALL_DAGER])
+  }, [GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING])
 
-  if (antallDagerSiden === undefined) {
+  if (antallDagerSidenForrigeBatteribestilling === undefined) {
     return null
   }
 
   return (
     <Avstand marginBottom={4}>
-      <Alert variant="info">
-        {t('bestillinger.batteriSistBestiltVarsel', {
-          count: antallDagerSiden,
-        })}
-      </Alert>
+      <Alert variant="info">{t('bestillinger.batteriSistBestiltVarsel')}</Alert>
     </Avstand>
   )
 }

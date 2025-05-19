@@ -34,8 +34,7 @@
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventa levering {{dato}}",
   "bestillinger.gjenvinningAvBatterier": "Hugs at gamle batteri må leverast på ein forsvarleg måte til gjenvinning.",
-  "bestillinger.batteriSistBestiltVarsel_zero": "Det er bestilt same batteri til dette hjelpemiddelet i dag. Viss det likevel er nødvendig med nytt batteri kan du senda inn bestillinga. Ta elles kontakt med Hjelpemiddelsentralen.",
-  "bestillinger.batteriSistBestiltVarsel_other": "Det er bestilt same batteri til dette hjelpemiddelet for {{count}} dagar sidan. Viss det likevel er nødvendig med nytt batteri kan du senda inn bestillinga. Ta elles kontakt med Hjelpemiddelsentralen.",
+  "bestillinger.batteriSistBestiltVarsel": "Det er ikkje mogleg å bestilla nye batteri til dette hjelpemiddelet. Det er mindre enn eitt år sidan førre bestilling. Ta kontakt med hjelpemiddelsentralen.",
 
   "oppslagfeil.INGET_UTLÅN": "Me finn dessverre ikkje eit utlån på dette art.nr og serienr.",
   "oppslagfeil.TILBYR_IKKE_HJELPEMIDDEL": "Du kan ikkje bestilla delar til dette hjelpemiddelet digitalt. Ta kontakt med hjelpemiddelsentralen din for å bestilla. Nav jobbar med å leggja inn delar til fleire hjelpemiddel fortløpande",
