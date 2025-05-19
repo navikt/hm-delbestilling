@@ -58,8 +58,6 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   if (!delbestillerrolle) {
     return <div>{t('error.ingenRolle')}</div>
   } else if (delbestillerrolle.kanBestilleDeler === false) {
-    // feilmeldingsTekst = 'error.kanIkkeBestilleDeler'
-    // TODO: greit at vi viser generell tekst her?
     feilmeldingsTekst =
       'Du kan ikke bestiller deler, da du ikke er kommunalt ansatt eller jobber i en godkjent organisasjon.'
   }

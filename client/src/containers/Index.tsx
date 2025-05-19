@@ -14,9 +14,8 @@ import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
 import Content from '../styledcomponents/Content'
-import { CustomPanel } from '../styledcomponents/CustomPanel'
-import { Pilot } from '../types/HttpTypes'
-import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
+import { CustomBox } from '../styledcomponents/CustomBox'
+import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -126,7 +125,7 @@ const Index = () => {
         )}
         {hjelpemiddel && (
           <>
-            <CustomPanel border>
+            <CustomBox>
               <HStack align="end" justify="space-between">
                 <div>
                   <Heading size="xsmall" level="2" spacing>
@@ -147,7 +146,7 @@ const Index = () => {
                   {t('felles.Endre')}
                 </Button>
               </HStack>
-            </CustomPanel>
+            </CustomBox>
             <Avstand marginBottom={12} />
             <LeggTilDel
               hjelpemiddel={hjelpemiddel}

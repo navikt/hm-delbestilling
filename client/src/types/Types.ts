@@ -1,5 +1,3 @@
-import { Pilot } from './HttpTypes'
-
 export interface Hjelpemiddel {
   navn: string
   hmsnr: string
@@ -86,10 +84,15 @@ export enum Levering {
 }
 
 export interface Delbestillerrolle {
+  erBrukerpassbruker: boolean
+  erTekniker: boolean
   kanBestilleDeler: boolean
   kommunaleOrgs: Organisasjon[]
   erKommunaltAnsatt: boolean
   godkjenteIkkeKommunaleOrgs: Organisasjon[]
+  kommunaleAnsettelsesforhold: Organisasjon[]
+  privateAnsettelsesforhold: Organisasjon[]
+  representasjoner: Organisasjon[]
   erAnsattIGodkjentIkkeKommunaleOrgs: boolean
 }
 
@@ -97,14 +100,18 @@ export interface Organisasjon {
   orgnr: string
   navn: string
   orgform: string
-  overordnetOrgnr: string | undefined
+  overordnetOrgnr: string | null
   næringskoder: Næringskode[]
-  kommunenummer: string | undefined
+  kommunenummer: string | null
 }
 
 export interface Næringskode {
   kode: string
   beskrivelse: string
+}
+
+export enum Pilot {
+  BESTILLE_IKKE_FASTE_LAGERVARER = 'BESTILLE_IKKE_FASTE_LAGERVARER',
 }
 
 export type Valg = 'mine' | 'kommunens'

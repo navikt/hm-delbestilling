@@ -13,7 +13,6 @@ import {
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
-  Pilot,
   SisteBatteribestillingResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'

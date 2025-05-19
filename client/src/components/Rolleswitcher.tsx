@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react'
 
-import { Pilot } from '../types/HttpTypes'
+import { Pilot } from '../types/Types'
 
 const Wrapper = styled.div`
   position: fixed;
