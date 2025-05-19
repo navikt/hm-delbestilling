@@ -182,10 +182,13 @@ const Utsjekk = () => {
       antallDagerSidenForrigeBatteribestilling !== undefined &&
       antallDagerSidenForrigeBatteribestilling < GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING
     ) {
-      let feilmelding = `Du har bestilt batteri ${antallDagerSidenForrigeBatteribestilling} dager siden. Ta kontakt med hjelpemiddelsentralen.`
+      let feilmelding = ``
       if (handlekurv.deler.length > 1 && handlekurv.deler.find((del) => del.del.kategori !== 'Batteri') !== undefined) {
         feilmelding += ` Du kan sende inn bestillingen hvis du fjerner batteriet.`
+      } else {
+        feilmelding += `Du kan ikke sende inn bestilling fordi det er bestilt batteri for ${antallDagerSidenForrigeBatteribestilling} dager siden.`
       }
+      feilmelding += ` Ta kontakt med hjelpemiddelsentralen.`
       feil.push({
         id: 'batteri-bestilt-innen-ett-år',
         type: 'batteri-bestilt-innen-ett-år',
@@ -488,9 +491,13 @@ const SisteBatteribestillingSjekk = ({
     return null
   }
 
+  let melding = t('bestillinger.batteriSistBestiltVarsel')
+  if (handlekurv.deler.length > 1 && handlekurv.deler.find((del) => del.del.kategori !== 'Batteri') !== undefined) {
+    melding += ` Du kan sende inn bestillingen hvis du fjerner batteriet.`
+  }
   return (
     <Avstand marginBottom={4}>
-      <Alert variant="info">{t('bestillinger.batteriSistBestiltVarsel')}</Alert>
+      <Alert variant="warning">{melding}</Alert>
     </Avstand>
   )
 }
