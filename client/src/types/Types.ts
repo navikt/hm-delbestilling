@@ -2,6 +2,7 @@ export interface Hjelpemiddel {
   navn: string
   hmsnr: string
   deler: Del[] | undefined
+  antallDagerSidenSistBatteribestilling: number | null
 }
 
 export interface Del {

@@ -1,13 +1,14 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { ChevronLeftIcon, ChevronRightIcon, ImageIcon, MagnifyingGlassFillIcon } from '@navikt/aksel-icons'
 import { BodyShort, Box, Button, Detail, Heading, HGrid, HStack, Modal } from '@navikt/ds-react'
 
-import { useTranslation } from 'react-i18next'
 import { size } from '../styledcomponents/rules'
 import { Lagerstatus } from '../types/Types'
 import { logÅpningAvBildekarusell } from '../utils/amplitude'
+
 import { Avstand } from './Avstand'
 
 const SubtleBodyShort = styled(BodyShort)`
@@ -57,9 +58,18 @@ interface Props {
   imgs: string[]
   lagerstatus?: Lagerstatus
   visVarselOmIkkeFastLagervare?: boolean
+  visVarselOmNyligBestiltBatteri?: boolean
 }
 
-const DelInfo = ({ navn, hmsnr, levArtNr, imgs, lagerstatus, visVarselOmIkkeFastLagervare }: Props) => {
+const DelInfo = ({
+  navn,
+  hmsnr,
+  levArtNr,
+  imgs,
+  lagerstatus,
+  visVarselOmIkkeFastLagervare,
+  visVarselOmNyligBestiltBatteri,
+}: Props) => {
   const { t } = useTranslation()
   return (
     <>
@@ -78,6 +88,15 @@ const DelInfo = ({ navn, hmsnr, levArtNr, imgs, lagerstatus, visVarselOmIkkeFast
               {t('del.lagerstatus.ikkeFastLagervare', {
                 hmsNavn: lagerNavnMap[lagerstatus.organisasjons_navn.slice(1, 3)] ?? lagerstatus.organisasjons_navn,
               })}
+            </Detail>
+          </Avstand>
+        )}
+
+        {visVarselOmNyligBestiltBatteri && (
+          <Avstand marginTop={5}>
+            <Detail textColor="subtle">
+              Det er bestilt batteri for 10 dager siden. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov
+              for nytt batteri.
             </Detail>
           </Avstand>
         )}

@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -73,19 +73,12 @@ const Utsjekk = () => {
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
   const [harXKLager, setHarXKLager] = useState<boolean | undefined>(undefined)
-  const [antallDagerSidenForrigeBatteribestilling, setAntallDagerSidenForrigeBatteribestilling] = useState<
-    number | undefined
-  >(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>(handlekurv?.piloter ?? [])
   const { t } = useTranslation()
 
   const navigate = useNavigate()
 
   const handlekurvInneholderBatteri = !!handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
-  const skalSpørreOmBatteriBekreftelse =
-    handlekurvInneholderBatteri &&
-    (antallDagerSidenForrigeBatteribestilling === undefined ||
-      antallDagerSidenForrigeBatteribestilling > GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING)
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
@@ -173,7 +166,7 @@ const Utsjekk = () => {
       feil.push({ id: 'levering', type: 'mangler levering', melding: 'Du må velge levering.' })
     }
 
-    if (skalSpørreOmBatteriBekreftelse && !handlekurv.harOpplæringPåBatteri) {
+    if (handlekurvInneholderBatteri && !handlekurv.harOpplæringPåBatteri) {
       feil.push({
         id: 'opplæring-batteri',
         type: 'mangler opplæring',
@@ -181,24 +174,6 @@ const Utsjekk = () => {
       })
     }
 
-    if (
-      handlekurvInneholderBatteri &&
-      antallDagerSidenForrigeBatteribestilling !== undefined &&
-      antallDagerSidenForrigeBatteribestilling < GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING
-    ) {
-      let feilmelding = ``
-      if (handlekurv.deler.length > 1 && handlekurv.deler.find((del) => del.del.kategori !== 'Batteri') !== undefined) {
-        feilmelding += ` Du kan sende inn bestillingen hvis du fjerner batteriet.`
-      } else {
-        feilmelding += `Du kan ikke sende inn bestilling fordi det er bestilt batteri for ${antallDagerSidenForrigeBatteribestilling} dager siden.`
-      }
-      feilmelding += ` Ta kontakt med hjelpemiddelsentralen.`
-      feil.push({
-        id: 'batteri-bestilt-innen-ett-år',
-        type: 'batteri-bestilt-innen-ett-år',
-        melding: feilmelding,
-      })
-    }
     setValideringsFeil(feil)
     return feil
   }
@@ -367,15 +342,6 @@ const Utsjekk = () => {
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <Avstand marginBottom={6}>
-                  <SisteBatteribestillingSjekk
-                    handlekurv={handlekurv}
-                    antallDagerSidenForrigeBatteribestilling={antallDagerSidenForrigeBatteribestilling}
-                    setAntallDagerSidenForrigeBatteribestilling={setAntallDagerSidenForrigeBatteribestilling}
-                  />
-                </Avstand>
-              )}
-              {skalSpørreOmBatteriBekreftelse && (
                 <Avstand marginBottom={8}>
                   <ConfirmationPanel
                     id={'opplæring-batteri'}
@@ -453,54 +419,6 @@ const Utsjekk = () => {
         />
       )}
     </main>
-  )
-}
-
-interface SisteBatteribestilling {
-  antallDagerSidenForrigeBatteribestilling: number | undefined
-  setAntallDagerSidenForrigeBatteribestilling: React.Dispatch<SetStateAction<number | undefined>>
-  handlekurv: Handlekurv
-}
-const GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING = 365
-const SisteBatteribestillingSjekk = ({
-  antallDagerSidenForrigeBatteribestilling,
-  setAntallDagerSidenForrigeBatteribestilling,
-  handlekurv,
-}: SisteBatteribestilling) => {
-  const { t } = useTranslation()
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const sisteBatteribestilling = await rest.hentSisteBatteribestilling(
-          handlekurv.hjelpemiddel.hmsnr,
-          handlekurv.serienr
-        )
-        if (
-          sisteBatteribestilling &&
-          sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING
-        ) {
-          setAntallDagerSidenForrigeBatteribestilling(sisteBatteribestilling.antallDagerSiden)
-          logvisningAvIkkeMuligÅSendeInnBestillingMedBatteri(handlekurv.id, sisteBatteribestilling.antallDagerSiden)
-        }
-      } catch {
-        console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
-      }
-    })()
-  }, [GRENSE_ANTALL_DAGER_FOR_BATTERIBESTILLING])
-
-  if (antallDagerSidenForrigeBatteribestilling === undefined) {
-    return null
-  }
-
-  let melding = t('bestillinger.batteriSistBestiltVarsel')
-  if (handlekurv.deler.length > 1 && handlekurv.deler.find((del) => del.del.kategori !== 'Batteri') !== undefined) {
-    melding += ` Du kan sende inn bestillingen hvis du fjerner batteriet.`
-  }
-  return (
-    <Avstand marginBottom={4}>
-      <Alert variant="warning">{melding}</Alert>
-    </Avstand>
   )
 }
 

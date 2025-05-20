@@ -77,7 +77,15 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
-          const kanBestilles = erPilotForBestilleIkkeFasteLagervarer || erFastLagervare
+          const harNyligBlittBestiltBatteri =
+            del.kategori === 'Batteri' &&
+            hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
+            hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
+
+          const kanBestilles =
+            !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
+
+          console.log('harNyligBlittBestiltBatteri:', harNyligBlittBestiltBatteri)
 
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
@@ -91,6 +99,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                       imgs={del.imgs}
                       lagerstatus={del.lagerstatus}
                       visVarselOmIkkeFastLagervare={!erPilotForBestilleIkkeFasteLagervarer && !kanBestilles}
+                      visVarselOmNyligBestiltBatteri={harNyligBlittBestiltBatteri}
                     />
                   </FlexedStack>
 
