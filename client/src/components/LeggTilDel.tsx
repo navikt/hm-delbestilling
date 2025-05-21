@@ -86,8 +86,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
           const kanBestilles =
             !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
 
-          console.log('harNyligBlittBestiltBatteri:', harNyligBlittBestiltBatteri)
-
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomBox>

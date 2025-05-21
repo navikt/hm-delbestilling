@@ -33,7 +33,6 @@
   "bestillinger.dellinjestatus.SKIPNINGSBEKREFTET": "Plukka på lager",
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventa levering {{dato}}",
-  "bestillinger.batteriSistBestiltVarsel": "Det er ikkje mogleg å bestilla nye batteri til dette hjelpemiddelet. Det er mindre enn eitt år sidan førre bestilling. Ta kontakt med hjelpemiddelsentralen.",
 
   "oppslagfeil.INGET_UTLÅN": "Me finn dessverre ikkje eit utlån på dette art.nr og serienr.",
   "oppslagfeil.TILBYR_IKKE_HJELPEMIDDEL": "Du kan ikkje bestilla delar til dette hjelpemiddelet digitalt. Ta kontakt med hjelpemiddelsentralen din for å bestilla. Nav jobbar med å leggja inn delar til fleire hjelpemiddel fortløpande",
