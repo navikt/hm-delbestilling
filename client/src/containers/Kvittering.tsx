@@ -10,6 +10,7 @@ import { GlobalStyle } from '../GlobalStyle'
 import Content from '../styledcomponents/Content'
 import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
+import { triggerHotjarEvent } from '../utils/hotjar'
 import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 import { isProd } from '../utils/utils'
 
@@ -33,7 +34,7 @@ const Kvittering = () => {
 
       if (isConsentingToSurveys()) {
         setTimeout(() => {
-          window.hj('event', 'digihot_delbestilling_sendt_inn_feedback')
+          triggerHotjarEvent('digihot_delbestilling_sendt_inn_feedback')
         }, 200)
       }
     }

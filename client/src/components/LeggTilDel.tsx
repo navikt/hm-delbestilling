@@ -8,6 +8,7 @@ import { CustomBox } from '../styledcomponents/CustomBox'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import { Del, Hjelpemiddel, Pilot } from '../types/Types'
 import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
+import { triggerHotjarEvent } from '../utils/hotjar'
 import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 
 import { Avstand } from './Avstand'
@@ -32,7 +33,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
 
   const handleClickManglerDel = () => {
     if (isConsentingToSurveys()) {
-      window.hj('event', 'digihot_delbestilling_mangler_del_feedback')
+      triggerHotjarEvent('digihot_delbestilling_mangler_del_feedback')
     }
   }
 
