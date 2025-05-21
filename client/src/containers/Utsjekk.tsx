@@ -11,6 +11,7 @@ import {
   ConfirmationPanel,
   GuidePanel,
   Heading,
+  HStack,
   Loader,
   Radio,
   RadioGroup,
@@ -19,7 +20,8 @@ import {
 } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import DelInfo from '../components/DelInfo'
+import { Beskrivelser } from '../components/Beskrivelser'
+import { Bilde } from '../components/Bilde'
 import Errors from '../components/Errors'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import LeggTilDel from '../components/LeggTilDel'
@@ -36,7 +38,6 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
-  logvisningAvIkkeMuligÅSendeInnBestillingMedBatteri,
 } from '../utils/amplitude'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
@@ -308,12 +309,18 @@ const Utsjekk = () => {
                   <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
                     <CustomBox>
                       <FlexedStack>
-                        <DelInfo
-                          navn={delLinje.del.navn}
-                          hmsnr={delLinje.del.hmsnr}
-                          levArtNr={delLinje.del.levArtNr}
-                          imgs={delLinje.del.imgs}
-                        />
+                        <Bilde imgs={delLinje.del.imgs} navn={delLinje.del.navn} />
+                        <Beskrivelser>
+                          <Heading size="small" level="4" spacing>
+                            {delLinje.del.navn}
+                          </Heading>
+                          <BodyShort textColor="subtle">
+                            <HStack gap="5">
+                              <span>HMS-nr. {delLinje.del.hmsnr}</span>
+                              {delLinje.del.levArtNr && <span>Lev.art.nr. {delLinje.del.levArtNr}</span>}
+                            </HStack>
+                          </BodyShort>
+                        </Beskrivelser>
                       </FlexedStack>
                       <Toolbar>
                         <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
