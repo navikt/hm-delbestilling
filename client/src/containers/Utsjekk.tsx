@@ -11,6 +11,7 @@ import {
   ConfirmationPanel,
   GuidePanel,
   Heading,
+  HStack,
   Loader,
   Radio,
   RadioGroup,
@@ -19,7 +20,8 @@ import {
 } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import DelInfo from '../components/DelInfo'
+import { Beskrivelser } from '../components/Beskrivelser'
+import { Bilde } from '../components/Bilde'
 import Errors from '../components/Errors'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import LeggTilDel from '../components/LeggTilDel'
@@ -36,7 +38,6 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
-  logvisningAvBatteriVarsel,
 } from '../utils/amplitude'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
@@ -54,8 +55,8 @@ const Toolbar = styled.div`
 `
 
 export interface Valideringsfeil {
-  id: 'levering' | 'deler' | 'opplæring-batteri'
-  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring'
+  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
+  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år'
   melding: string
 }
 
@@ -78,7 +79,7 @@ const Utsjekk = () => {
 
   const navigate = useNavigate()
 
-  const handlekurvInneholderBatteri = handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
+  const handlekurvInneholderBatteri = !!handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
@@ -308,12 +309,18 @@ const Utsjekk = () => {
                   <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
                     <CustomBox>
                       <FlexedStack>
-                        <DelInfo
-                          navn={delLinje.del.navn}
-                          hmsnr={delLinje.del.hmsnr}
-                          levArtNr={delLinje.del.levArtNr}
-                          imgs={delLinje.del.imgs}
-                        />
+                        <Bilde imgs={delLinje.del.imgs} navn={delLinje.del.navn} />
+                        <Beskrivelser>
+                          <Heading size="small" level="4" spacing>
+                            {delLinje.del.navn}
+                          </Heading>
+                          <BodyShort textColor="subtle">
+                            <HStack gap="5">
+                              <span>HMS-nr. {delLinje.del.hmsnr}</span>
+                              {delLinje.del.levArtNr && <span>Lev.art.nr. {delLinje.del.levArtNr}</span>}
+                            </HStack>
+                          </BodyShort>
+                        </Beskrivelser>
                       </FlexedStack>
                       <Toolbar>
                         <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
@@ -342,32 +349,25 @@ const Utsjekk = () => {
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <>
-                  <Avstand marginBottom={4}>
-                    <SisteBatteribestillingSjekk handlekurv={handlekurv} />
-                  </Avstand>
-                  <Avstand marginBottom={8}>
-                    <Avstand marginBottom={4}>
-                      <ConfirmationPanel
-                        id={'opplæring-batteri'}
-                        checked={!!handlekurv.harOpplæringPåBatteri}
-                        label={t('bestillinger.harFåttOpplæringBatteri')}
-                        onChange={(e) =>
-                          setHandlekurv((prev) => {
-                            if (!prev) return undefined
-                            return {
-                              ...prev,
-                              harOpplæringPåBatteri: e.target.checked,
-                            }
-                          })
+                <Avstand marginBottom={8}>
+                  <ConfirmationPanel
+                    id={'opplæring-batteri'}
+                    checked={!!handlekurv.harOpplæringPåBatteri}
+                    label={t('bestillinger.harFåttOpplæringBatteri')}
+                    onChange={(e) =>
+                      setHandlekurv((prev) => {
+                        if (!prev) return undefined
+                        return {
+                          ...prev,
+                          harOpplæringPåBatteri: e.target.checked,
                         }
-                        error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
-                      >
-                        {t('felles.Bekreft')}
-                      </ConfirmationPanel>
-                    </Avstand>
-                  </Avstand>
-                </>
+                      })
+                    }
+                    error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
+                  >
+                    {t('felles.Bekreft')}
+                  </ConfirmationPanel>
+                </Avstand>
               )}
 
               <Avstand marginBottom={12}>
@@ -426,44 +426,6 @@ const Utsjekk = () => {
         />
       )}
     </main>
-  )
-}
-
-const GRENSE_ANTALL_DAGER = 30 * 4 // 4 måneder
-const SisteBatteribestillingSjekk = ({ handlekurv }: { handlekurv: Handlekurv }) => {
-  const { t } = useTranslation()
-
-  const [antallDagerSiden, setAntallDagerSiden] = useState<number | undefined>(undefined)
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const sisteBatteribestilling = await rest.hentSisteBatteribestilling(
-          handlekurv.hjelpemiddel.hmsnr,
-          handlekurv.serienr
-        )
-        if (sisteBatteribestilling && sisteBatteribestilling.antallDagerSiden < GRENSE_ANTALL_DAGER) {
-          setAntallDagerSiden(sisteBatteribestilling.antallDagerSiden)
-          logvisningAvBatteriVarsel(handlekurv.id, sisteBatteribestilling.antallDagerSiden)
-        }
-      } catch {
-        console.log('Klarte ikke sjekke om batteri er bestilt for kort tid siden')
-      }
-    })()
-  }, [GRENSE_ANTALL_DAGER])
-
-  if (antallDagerSiden === undefined) {
-    return null
-  }
-
-  return (
-    <Avstand marginBottom={4}>
-      <Alert variant="info">
-        {t('bestillinger.batteriSistBestiltVarsel', {
-          count: antallDagerSiden,
-        })}
-      </Alert>
-    </Avstand>
   )
 }
 

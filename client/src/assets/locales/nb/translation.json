@@ -33,9 +33,6 @@
   "bestillinger.dellinjestatus.SKIPNINGSBEKREFTET": "Plukket på lager",
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventet levering {{dato}}",
-  "bestillinger.batteriSistBestiltVarsel_zero": "Det er bestilt samme batteri til dette hjelpemiddelet i dag. Hvis det likevel er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.",
-  "bestillinger.batteriSistBestiltVarsel_one": "Det er bestilt samme batteri til dette hjelpemiddelet i går. Hvis det likevel er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.",
-  "bestillinger.batteriSistBestiltVarsel_other": "Det er bestilt samme batteri til dette hjelpemiddelet for {{count}} dager siden. Hvis det likevel er nødvendig med nytt batteri kan du sende inn bestillingen. Ta ellers kontakt med Hjelpemiddelsentralen.",
 
   "oppslagfeil.TILBYR_IKKE_HJELPEMIDDEL": "Du kan ikke bestille deler til dette hjelpemiddelet digitalt. Ta kontakt med din hjelpemiddelsentral for å bestille. Nav jobber med å legge inn deler til flere hjelpemidler fortløpende",
   "oppslagfeil.INGET_UTLÅN": "Vi finner dessverre ikke et utlån på dette art.nr og serienr.",
@@ -99,6 +96,8 @@
   "oppslag.startPåNytt": "Start på nytt",
 
   "del.lagerstatus.ikkeFastLagervare": "Delen kan ikke bestilles digitalt. Ta kontakt med HMS {{hmsNavn}} for å bestille.",
+  "del.antallDagerSidenSistBatteribestilling_zero": "Det er allerede bestilt batteri i dag. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.",
+  "del.antallDagerSidenSistBatteribestilling_other": "Det er bestilt batteri for {{count}} dager siden. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.",
 
   "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke nødvendigvis gjenspeiler virkeligheten. Når du legger inn art.nr. og serienr, så må art.nr. være et gyldig hjelpemiddel (f.eks. 301996), men for serienr kan du fylle inn en vilkårlig verdi.",
 

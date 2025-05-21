@@ -11,7 +11,8 @@ import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
 import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 
 import { Avstand } from './Avstand'
-import DelInfo from './DelInfo'
+import { Beskrivelser } from './Beskrivelser'
+import { Bilde } from './Bilde'
 import DelInnhold from './DelInhold'
 import DelKategoriVelger from './DelKategoriVelger'
 
@@ -77,21 +78,52 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
-          const kanBestilles = erPilotForBestilleIkkeFasteLagervarer || erFastLagervare
+          const harNyligBlittBestiltBatteri =
+            del.kategori === 'Batteri' &&
+            hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
+            hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
+
+          const kanBestilles =
+            !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
 
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomBox>
                 <DelInnhold>
                   <FlexedStack>
-                    <DelInfo
-                      navn={del.navn}
-                      hmsnr={del.hmsnr}
-                      levArtNr={del.levArtNr}
-                      imgs={del.imgs}
-                      lagerstatus={del.lagerstatus}
-                      visVarselOmIkkeFastLagervare={!erPilotForBestilleIkkeFasteLagervarer && !kanBestilles}
-                    />
+                    <Bilde imgs={del.imgs} navn={del.navn} />
+                    <Beskrivelser>
+                      <Heading size="small" level="4" spacing>
+                        {del.navn}
+                      </Heading>
+                      <BodyShort textColor="subtle">
+                        <HStack gap="5">
+                          <span>HMS-nr. {del.hmsnr}</span>
+                          {del.levArtNr && <span>Lev.art.nr. {del.levArtNr}</span>}
+                        </HStack>
+                      </BodyShort>
+                      {del.lagerstatus && !erPilotForBestilleIkkeFasteLagervarer && !kanBestilles && (
+                        <Avstand marginTop={5}>
+                          <Detail textColor="subtle">
+                            {t('del.lagerstatus.ikkeFastLagervare', {
+                              hmsNavn:
+                                lagerNavnMap[del.lagerstatus.organisasjons_navn.slice(1, 3)] ??
+                                del.lagerstatus.organisasjons_navn,
+                            })}
+                          </Detail>
+                        </Avstand>
+                      )}
+
+                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null && (
+                        <Avstand marginTop={5}>
+                          <Detail textColor="subtle">
+                            {t('del.antallDagerSidenSistBatteribestilling', {
+                              count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
+                            })}
+                          </Detail>
+                        </Avstand>
+                      )}
+                    </Beskrivelser>
                   </FlexedStack>
 
                   {kanBestilles && (
@@ -125,6 +157,28 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
       )}
     </>
   )
+}
+
+const lagerNavnMap: { [key: string]: string } = {
+  '01': 'Øst-Viken',
+  '02': 'Oslo',
+  '03': 'Oslo',
+  '04': 'Elverum',
+  '05': 'Gjøvik',
+  '06': 'Vest-Viken',
+  '07': 'Vestfold og Telemark',
+  '08': 'Vestfold og Telemark',
+  '09': 'Agder',
+  '10': 'Agder',
+  '11': 'Rogaland',
+  '12': 'Vestland-Bergen',
+  '14': 'Vestland-Førde',
+  '15': 'Møre og Romsdal',
+  '16': 'Trøndelag',
+  '17': 'Trøndelag',
+  '18': 'Nordland',
+  '19': 'Troms og Finnmark',
+  '20': 'Troms og Finnmark',
 }
 
 export default LeggTilDel
