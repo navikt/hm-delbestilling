@@ -59,6 +59,7 @@ interface Props {
   lagerstatus?: Lagerstatus
   visVarselOmIkkeFastLagervare?: boolean
   visVarselOmNyligBestiltBatteri?: boolean
+  antallDagerSidenSistBatteribestilling?: number | null
 }
 
 const DelInfo = ({
@@ -69,6 +70,7 @@ const DelInfo = ({
   lagerstatus,
   visVarselOmIkkeFastLagervare,
   visVarselOmNyligBestiltBatteri,
+  antallDagerSidenSistBatteribestilling,
 }: Props) => {
   const { t } = useTranslation()
   return (
@@ -95,8 +97,9 @@ const DelInfo = ({
         {visVarselOmNyligBestiltBatteri && (
           <Avstand marginTop={5}>
             <Detail textColor="subtle">
-              Det er bestilt batteri for 10 dager siden. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov
-              for nytt batteri.
+              {antallDagerSidenSistBatteribestilling !== null
+                ? `Det er bestilt batteri for ${antallDagerSidenSistBatteribestilling} dager siden. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.`
+                : `Det er nylig bestilt batteri. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.`}
             </Detail>
           </Avstand>
         )}

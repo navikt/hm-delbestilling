@@ -100,6 +100,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                       lagerstatus={del.lagerstatus}
                       visVarselOmIkkeFastLagervare={!erPilotForBestilleIkkeFasteLagervarer && !kanBestilles}
                       visVarselOmNyligBestiltBatteri={harNyligBlittBestiltBatteri}
+                      antallDagerSidenSistBatteribestilling={hjelpemiddel.antallDagerSidenSistBatteribestilling}
                     />
                   </FlexedStack>
 
