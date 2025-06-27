@@ -146,7 +146,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
             </Avstand>
           )
         })}
-      {isConsentingToSurveys() && (
+      {/* {isConsentingToSurveys() && (
         <Box borderColor="border-default" padding="8" borderWidth="2" style={{ borderStyle: 'dashed' }}>
           <Avstand centered>
             <BodyShort spacing>
@@ -155,7 +155,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
             <Button onClick={handleClickManglerDel}>Fortell oss om det</Button>
           </Avstand>
         </Box>
-      )}
+      )} */}
     </>
   )
 }
