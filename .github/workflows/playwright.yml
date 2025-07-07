@@ -19,17 +19,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+
       - name: Tilgjengeliggjør READER_TOKEN for npm
         run: |
           echo '//npm.pkg.github.com/:_authToken='${{ secrets.READER_TOKEN }} >> .npmrc
-      - name: Change to client directory
-        run: cd client
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Change to client directory
+        run: cd client
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+
       - name: Run Playwright tests
         run: npx playwright test
+
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
