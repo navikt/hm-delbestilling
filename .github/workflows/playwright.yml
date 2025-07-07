@@ -13,8 +13,7 @@ on:
 jobs:
   test:
     permissions:
-      contents: write
-      id-token: write
+      contents: read
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
