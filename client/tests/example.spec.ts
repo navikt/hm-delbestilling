@@ -1,18 +1,14 @@
 import { test, expect } from '@playwright/test'
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/')
+test('happy path', async ({ page }) => {
+  await page.goto('/')
+  await expect(page).toHaveTitle(/Delbestilling/)
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/)
-})
+  await page.locator('[data-name="consent-banner-all"]').click()
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/')
+  await page.getByTestId('input-artnr').fill('301996')
+  await page.getByTestId('input-serienr').fill('123456')
+  await page.getByTestId('button-oppslag-submit').click()
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click()
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible()
+  await expect(page.getByTestId('hjelpemiddel-navn')).toHaveText('Bestilling til Minicrosser X2 4W 15 km/t')
 })
