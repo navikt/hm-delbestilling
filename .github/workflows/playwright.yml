@@ -25,13 +25,13 @@ jobs:
 
       - name: Tilgjengeliggjør READER_TOKEN for npm
         run: |
-          echo '//npm.pkg.github.com/:_authToken='${{ secrets.READER_TOKEN }} >> .npmrc
-
-      - name: Install dependencies
-        run: npm ci
+          echo '//npm.pkg.github.com/:_authToken='${{ secrets.READER_TOKEN }} >> client/.npmrc
 
       - name: Change to client directory
         run: cd client
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
