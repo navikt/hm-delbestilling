@@ -34,14 +34,6 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: client
 
-      - name: Start development server
-        run: npm run dev &
-        working-directory: client
-
-      - name: Wait for server to be ready
-        run: npx wait-on http://localhost:3000
-        working-directory: client
-
       - name: Run Playwright tests
         run: npx playwright test
         working-directory: client
