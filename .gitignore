@@ -12,3 +12,6 @@ yarn-error.log
 .dccache
 **/.dccache
 .iac-data
+
+# Playwright
+/test-results/
