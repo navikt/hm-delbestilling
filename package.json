@@ -9,6 +9,8 @@
   },
   "scripts": {
     "dev": "npm run --prefix client dev",
+    "playwright": "npm run --prefix client playwright",
+    "playwright:ui": "npm run --prefix client playwright:ui",
     "build": "concurrently --kill-others-on-fail \"npm run --prefix client build\" \"npm run --prefix server build\""
   }
 }

@@ -9,6 +9,9 @@ Frontend-applikasjon for bestilling av deler fra teknikere
 2. Start applikasjonen med `npm run dev`. Da brukes [Mock Service Worker](https://mswjs.io/) for å mocke API-endepunkter, slik at man ikke trenger å starte noen backend.
 3. Gå til `localhost:3000`
 
+## Test med Playwright lokalt
+Kjør `npm run playwright` eller `npm run playwright:ui`.
+
 ## Testguide
 
 | artnr  | serienr | resultat ved oppslag                          | resultat ved innsending                                |

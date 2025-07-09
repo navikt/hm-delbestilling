@@ -62,7 +62,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --ext ts,tsx .",
-    "lint:fix": "eslint --ext ts,tsx --fix ."
+    "lint:fix": "eslint --ext ts,tsx --fix .",
+    "playwright": "playwright test",
+    "playwright:ui": "playwright test --ui"
   },
   "msw": {
     "workerDirectory": "public"
