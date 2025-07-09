@@ -128,7 +128,7 @@ const Index = () => {
             <CustomBox>
               <HStack align="end" justify="space-between">
                 <div>
-                  <Heading size="xsmall" level="2" spacing>
+                  <Heading size="xsmall" level="2" spacing data-testid="hjelpemiddel-navn">
                     {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                   </Heading>
                   <BodyShort style={{ display: 'flex', gap: '20px' }}>

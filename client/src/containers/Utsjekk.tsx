@@ -378,18 +378,20 @@ const Utsjekk = () => {
                 {harXKLager === undefined && <Loader />}
                 {harXKLager === false && <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>}
                 {harXKLager === true && (
-                  <>
-                    <RadioGroup
-                      id="levering"
-                      legend={t('levering.title')}
-                      value={handlekurv.levering ?? ''}
-                      onChange={(levering: Levering) => setLevering(levering)}
-                      error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
-                    >
-                      <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
-                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
-                    </RadioGroup>
-                  </>
+                  <RadioGroup
+                    id="levering"
+                    legend={t('levering.title')}
+                    value={handlekurv.levering ?? ''}
+                    onChange={(levering: Levering) => setLevering(levering)}
+                    error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
+                  >
+                    <Radio value={Levering.TIL_XK_LAGER} data-testid="levering-xk-lager">
+                      {t('levering.xkLager')}
+                    </Radio>
+                    <Radio value={Levering.TIL_SERVICE_OPPDRAG} data-testid="levering-serviceOppdrag">
+                      {t('levering.serviceOppdrag')}
+                    </Radio>
+                  </RadioGroup>
                 )}
 
                 {valideringsFeil.length > 0 && (
