@@ -13,6 +13,7 @@ test('batteri', async ({ page }) => {
   await page.getByTestId('button-oppslag-submit').click()
 
   // Sorter på 'Batteri' kategorien og se at det ikke kan legges til
+  await expect(page.getByRole('button', { name: 'Batteri' })).toBeVisible()
   await page.getByRole('button', { name: 'Batteri' }).click()
   await expect(page.getByRole('button', { name: 'Legg til del' })).toBeHidden()
   await expect(
