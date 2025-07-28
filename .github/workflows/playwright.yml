@@ -40,7 +40,7 @@ jobs:
           working-directory: client
           args: |
             bash -lc "
-              npm ci &&
+              npm install &&
               npx playwright install &&
               npx playwright test
             "
