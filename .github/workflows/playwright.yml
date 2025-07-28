@@ -8,7 +8,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - installere-playwright-browsers-raskere
+      - playwright
 
 jobs:
   test:
@@ -26,24 +26,17 @@ jobs:
         run: |
           echo '//npm.pkg.github.com/:_authToken='${{ secrets.READER_TOKEN }} >> client/.npmrc
 
-      # - name: Install dependencies
-      #   run: npm ci
-      #   working-directory: client
+      - name: Install dependencies
+        run: npm ci
+        working-directory: client
 
-      # - name: Install Playwright Browsers
-      #   run: npx playwright install --with-deps
-      #   working-directory: client
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+        working-directory: client
 
       - name: Run Playwright tests
-        uses: docker://mcr.microsoft.com/playwright:v1.54.1-jammy
-        with:
-          working-directory: client
-          args: |
-            bash -lc "
-              npm install &&
-              npm install @playwright/test &&
-              npx playwright test
-            "
+        run: npx playwright test
+        working-directory: client
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
