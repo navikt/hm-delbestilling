@@ -41,7 +41,6 @@ jobs:
           args: |
             bash -lc "
               npm install &&
-              npx playwright install --with-deps &&
               npm install @playwright/test &&
               npx playwright test
             "
