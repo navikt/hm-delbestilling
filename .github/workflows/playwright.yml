@@ -8,7 +8,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - installere-playwright-browsers-raskereplaywright
+      - installere-playwright-browsers-raskere
 
 jobs:
   test:
