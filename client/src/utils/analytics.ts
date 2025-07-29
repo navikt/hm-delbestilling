@@ -70,7 +70,6 @@ function logEvent(eventName: NAV_TAXONOMY | DIGIHOT_TAXONOMY, data?: Record<stri
     }
   })
 
-  console.log('[debug] window.umami:', window.umami)
   if (window.umami && typeof window.umami.track === 'function') {
     window.umami.track(eventName, data)
   }
