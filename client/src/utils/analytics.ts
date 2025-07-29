@@ -89,14 +89,19 @@ export const logOppslagGjort = (hmsnr: string) => {
 
 export const logOppslagFeil = (oppslagFeil: string, hmsnr: string, statuskode?: number) => {
   logAmplitudeEvent(digihot_taxonomy.OPPSLAG_FEIL, { oppslagFeil, artnr: hmsnr, statuskode })
+  logUmamiEvent(digihot_taxonomy.OPPSLAG_FEIL, { oppslagFeil, artnr: hmsnr, statuskode })
 }
 
 export const logKategoriFiltreringGjort = (filter: string) => {
   logAmplitudeEvent(digihot_taxonomy.KATEGORI_FILTRERING, { filter })
+  logUmamiEvent(digihot_taxonomy.KATEGORI_FILTRERING, { filter })
 }
 
 export const logKlikkVisKunFastLagervare = (checked: boolean) => {
   logAmplitudeEvent(digihot_taxonomy.KLIKK_PÅ_VIS_KUN_FAST_LAGERVARE, {
+    checked,
+  })
+  logUmamiEvent(digihot_taxonomy.KLIKK_PÅ_VIS_KUN_FAST_LAGERVARE, {
     checked,
   })
 }
@@ -105,30 +110,41 @@ export const logSkjemavalideringFeilet = (feil: string[] | undefined) => {
   logAmplitudeEvent(nav_taxonomy.SKJEMAVALIDERING_FEILET, {
     feil,
   })
+  logUmamiEvent(nav_taxonomy.SKJEMAVALIDERING_FEILET, {
+    feil,
+  })
 }
 
 export const logInnsendingGjort = (id: string) => {
   logAmplitudeEvent(nav_taxonomy.SKJEMA_FULLFØRT, { id })
+  logUmamiEvent(nav_taxonomy.SKJEMA_FULLFØRT, { id })
 }
 
 export const logInnsendingFeil = (feil: string) => {
   logAmplitudeEvent(digihot_taxonomy.INNSENDING_FEIL, { feil })
+  logUmamiEvent(digihot_taxonomy.INNSENDING_FEIL, { feil })
 }
 
 export const logBestillingSlettet = () => {
   logAmplitudeEvent(digihot_taxonomy.SKJEMA_SLETTET)
+  logUmamiEvent(digihot_taxonomy.SKJEMA_SLETTET)
 }
 
 export const logStartNyBestilling = () => {
   logAmplitudeEvent(digihot_taxonomy.START_NY_BESTILING)
+  logUmamiEvent(digihot_taxonomy.START_NY_BESTILING)
 }
 
 export const logPrintAvBestillingÅpnet = (pathname: string) => {
   logAmplitudeEvent(digihot_taxonomy.PRINT_AV_BESTILLING_ÅPNET, {
     pathname,
   })
+  logUmamiEvent(digihot_taxonomy.PRINT_AV_BESTILLING_ÅPNET, {
+    pathname,
+  })
 }
 
 export const logÅpningAvBildekarusell = () => {
   logAmplitudeEvent(digihot_taxonomy.KLIKK_ÅPNING_AV_BILDEKARUSELL)
+  logUmamiEvent(digihot_taxonomy.KLIKK_ÅPNING_AV_BILDEKARUSELL)
 }
