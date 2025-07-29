@@ -1,6 +1,7 @@
 import * as amplitude from '@amplitude/analytics-browser'
 
 import { isConsentingToAnalytics } from './nav-cookie-consent'
+import { isProd } from './utils'
 
 export enum nav_taxonomy {
   SKJEMA_START = 'skjema startet',
@@ -65,10 +66,9 @@ export function logAmplitudeEvent(eventName: string, data?: any) {
   })
 }
 
-export const umamiWebsiteId =
-  window.appSettings.MILJO === 'prod-gcp'
-    ? '35abb2b7-3f97-42ce-931b-cf547d40d967' // Nav.no - prod
-    : '7ea31084-b626-4535-ab44-1b2d43001366' // hm-delbestilling - dev
+export const umamiWebsiteId = isProd()
+  ? '35abb2b7-3f97-42ce-931b-cf547d40d967' // Nav.no - prod
+  : '7ea31084-b626-4535-ab44-1b2d43001366' // hm-delbestilling - dev
 
 const logUmamiEvent = (event: string, data?: Record<string, unknown>) => {
   if (!isConsentingToAnalytics()) {

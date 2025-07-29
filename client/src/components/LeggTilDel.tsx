@@ -16,6 +16,7 @@ import { Beskrivelser } from './Beskrivelser'
 import { Bilde } from './Bilde'
 import DelInnhold from './DelInhold'
 import DelKategoriVelger from './DelKategoriVelger'
+import { isProd } from '../utils/utils'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -133,15 +134,13 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                     </Button>
                   )}
                 </DelInnhold>
-                {window.appSettings.MILJO === 'dev-gcp' &&
-                  erPilotForBestilleIkkeFasteLagervarer &&
-                  !erFastLagervare && (
-                    <HStack justify={'end'}>
-                      <Avstand marginTop={2}>
-                        <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
-                      </Avstand>
-                    </HStack>
-                  )}
+                {!isProd() && erPilotForBestilleIkkeFasteLagervarer && !erFastLagervare && (
+                  <HStack justify={'end'}>
+                    <Avstand marginTop={2}>
+                      <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
+                    </Avstand>
+                  </HStack>
+                )}
               </CustomBox>
             </Avstand>
           )

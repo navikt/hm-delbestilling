@@ -41,6 +41,7 @@ import {
 } from '../utils/analytics'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
+import { isProd } from '../utils/utils'
 
 const Toolbar = styled.div`
   padding: 1rem;
@@ -419,7 +420,7 @@ const Utsjekk = () => {
           )}
         </>
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
+      {!isProd() && (
         <Rolleswitcher
           harXKLager={harXKLager}
           setHarXKLager={setHarXKLager}
