@@ -38,7 +38,7 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
-} from '../utils/amplitude'
+} from '../utils/analytics'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 

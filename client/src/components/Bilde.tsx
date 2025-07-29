@@ -5,7 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon, ImageIcon, MagnifyingGlassFillIcon }
 import { Box, Button, HGrid, HStack, Modal } from '@navikt/ds-react'
 
 import { size } from '../styledcomponents/rules'
-import { logÅpningAvBildekarusell } from '../utils/amplitude'
+import { logÅpningAvBildekarusell } from '../utils/analytics'
 
 const ImgWrap = styled.div`
   width: 100%;

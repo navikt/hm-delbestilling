@@ -8,7 +8,7 @@ import { Alert, BodyShort, Box, Button, Detail, Heading } from '@navikt/ds-react
 
 import { formaterNorskDato } from '../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
-import { logPrintAvBestillingÅpnet } from '../utils/amplitude'
+import { logPrintAvBestillingÅpnet } from '../utils/analytics'
 
 import { Avstand } from './Avstand'
 import DellinjestatusTag from './DellinjestatusTag'

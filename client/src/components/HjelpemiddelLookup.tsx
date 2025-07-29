@@ -8,7 +8,7 @@ import rest from '../services/rest'
 import { CustomBox } from '../styledcomponents/CustomBox'
 import { OppslagFeil } from '../types/HttpTypes'
 import { Hjelpemiddel, Pilot } from '../types/Types'
-import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
+import { logOppslagFeil, logOppslagGjort } from '../utils/analytics'
 
 import { Avstand } from './Avstand'
 import { Feilmelding, FeilmeldingInterface } from './Feilmelding'

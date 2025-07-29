@@ -10,6 +10,7 @@ on:
     branches:
       - main
       - playwright
+      - umami
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
