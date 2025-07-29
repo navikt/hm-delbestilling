@@ -7,13 +7,9 @@ import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
 import Utsjekk from './containers/Utsjekk'
 import { RolleContextLayout } from './context/rolle'
+import { umamiWebsiteId } from './utils/analytics'
 
 const Routes = () => {
-  const umamiWebsiteId =
-    window.appSettings.MILJO === 'prod-gcp'
-      ? '35abb2b7-3f97-42ce-931b-cf547d40d967' // Nav.no - prod
-      : '7ea31084-b626-4535-ab44-1b2d43001366' // hm-delbestilling - dev
-
   return (
     <>
       <Helmet htmlAttributes={{ lang: 'no' }}>
