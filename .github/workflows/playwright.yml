@@ -30,10 +30,9 @@ jobs:
       - name: Get Playwright version
         id: pw-version
         run: |
-          PLAYWRIGHT_VERSION=$(
-            node -p "require('./package-lock.json').packages[''].devDependencies['@playwright/test']"
-          )
-          echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
+          raw=$(node -p "require('./package-lock.json').packages[''].devDependencies['@playwright/test']")
+          ver=${raw#^}
+          echo "PLAYWRIGHT_VERSION=$ver" >> $GITHUB_ENV
         working-directory: client
 
       - name: Cache Playwright browsers
