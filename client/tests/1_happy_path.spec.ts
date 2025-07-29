@@ -13,7 +13,7 @@ test('happy path', async ({ page }) => {
   await page.getByTestId('button-oppslag-submit').click()
 
   // Forvent at hjelpemiddel er funnet og velg del
-  await expect(page.getByTestId('hjelpemiddel-navn')).toHaveText('Feil tekst')
+  await expect(page.getByTestId('hjelpemiddel-navn')).toHaveText('Bestilling til Minicrosser X2 4W 15 km/t')
   await page.locator('button', { hasText: 'Bestill' }).first().click()
 
   // Forvent at delkategorier vises og velg å legge til flere deler
