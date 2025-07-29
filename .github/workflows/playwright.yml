@@ -35,6 +35,30 @@ jobs:
           echo "PLAYWRIGHT_VERSION=$ver" >> $GITHUB_ENV
         working-directory: client
 
+      - name: Prepare APT cache dirs
+        run: |
+          mkdir -p $HOME/apt-lists $HOME/apt-archives
+          # Copy only the list files (skip partial) and the .deb archives
+          sudo cp -r /var/lib/apt/lists/* $HOME/apt-lists/ 2>/dev/null || true
+          sudo cp -r /var/cache/apt/archives/*.deb $HOME/apt-archives/ 2>/dev/null || true
+
+      - name: Cache APT packages
+        uses: actions/cache@v3
+        id: apt-cache
+        with:
+          path: |
+            $HOME/apt-lists
+            $HOME/apt-archives
+          key: ${{ runner.os }}-apt-packages
+          restore-keys: |
+            ${{ runner.os }}-apt-packages
+
+      - name: Restore APT cache (if hit)
+        if: steps.apt-cache.outputs.cache-hit == 'true'
+        run: |
+          sudo cp -r $HOME/apt-lists/* /var/lib/apt/lists/
+          sudo cp -r $HOME/apt-archives/*.deb /var/cache/apt/archives/
+
       - name: Cache Playwright browsers
         uses: actions/cache@v3
         id: playwright-cache
@@ -44,17 +68,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-playwright-
           working-directory: client
-
-      - name: Cache APT packages
-        uses: actions/cache@v3
-        id: apt-cache
-        with:
-          path: |
-            /var/lib/apt/lists
-            /var/cache/apt/archives
-          key: ${{ runner.os }}-playwright-apt-${{ env.PLAYWRIGHT_VERSION }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-apt-
 
       - name: Install dependencies
         run: npm ci
