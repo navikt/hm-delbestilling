@@ -68,7 +68,7 @@ export function logAmplitudeEvent(eventName: string, data?: any) {
 
 export const umamiWebsiteId = isProd()
   ? '35abb2b7-3f97-42ce-931b-cf547d40d967' // Nav.no - prod
-  : '7ea31084-b626-4535-ab44-1b2d43001366' // hm-delbestilling - dev
+  : '7ea31084-b626-4535-ab44-1b2d43001366' // hjelpemidler - dev
 
 const logUmamiEvent = (event: string, data?: Record<string, unknown>) => {
   if (!isConsentingToAnalytics()) {
