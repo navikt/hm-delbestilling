@@ -3,7 +3,7 @@ import * as amplitude from '@amplitude/analytics-browser'
 import { isConsentingToAnalytics } from './nav-cookie-consent'
 import { isProd } from './utils'
 
-export enum nav_taxonomy {
+export enum NAV_TAXONOMY {
   SKJEMA_START = 'skjema startet',
   SKJEMA_ÅPEN = 'skjema åpnet',
   SKJEMASTEG_FULLFØRT = 'skjemasteg fullført',
@@ -14,7 +14,7 @@ export enum nav_taxonomy {
 }
 
 //Events som ikke er i NAV sin taxonomi
-export enum digihot_taxonomy {
+export enum DIGIHOT_TAXONOMY {
   SKJEMA_SLETTET = 'skjema slettet',
   SPRÅK_ENDRET = 'språk endret',
   OPPSLAG_GJORT = 'gjort oppslag på artnr og serienr',
@@ -49,7 +49,7 @@ export const umamiWebsiteId = isProd()
   ? '35abb2b7-3f97-42ce-931b-cf547d40d967' // Nav.no - prod
   : '7ea31084-b626-4535-ab44-1b2d43001366' // hjelpemidler - dev
 
-function logEvent(eventName: string, data?: Record<string, unknown>) {
+function logEvent(eventName: NAV_TAXONOMY | DIGIHOT_TAXONOMY, data?: Record<string, unknown>) {
   if (!isConsentingToAnalytics()) {
     return
   }
@@ -76,55 +76,55 @@ function logEvent(eventName: string, data?: Record<string, unknown>) {
   }
 }
 export const logSpråkEndret = (språk: string) => {
-  logEvent(digihot_taxonomy.SPRÅK_ENDRET, { språk })
+  logEvent(DIGIHOT_TAXONOMY.SPRÅK_ENDRET, { språk })
 }
 
 export const logOppslagGjort = (hmsnr: string) => {
-  logEvent(digihot_taxonomy.OPPSLAG_GJORT, { artnr: hmsnr })
+  logEvent(DIGIHOT_TAXONOMY.OPPSLAG_GJORT, { artnr: hmsnr })
 }
 
 export const logOppslagFeil = (oppslagFeil: string, hmsnr: string, statuskode?: number) => {
-  logEvent(digihot_taxonomy.OPPSLAG_FEIL, { oppslagFeil, artnr: hmsnr, statuskode })
+  logEvent(DIGIHOT_TAXONOMY.OPPSLAG_FEIL, { oppslagFeil, artnr: hmsnr, statuskode })
 }
 
 export const logKategoriFiltreringGjort = (filter: string) => {
-  logEvent(digihot_taxonomy.KATEGORI_FILTRERING, { filter })
+  logEvent(DIGIHOT_TAXONOMY.KATEGORI_FILTRERING, { filter })
 }
 
 export const logKlikkVisKunFastLagervare = (checked: boolean) => {
-  logEvent(digihot_taxonomy.KLIKK_PÅ_VIS_KUN_FAST_LAGERVARE, {
+  logEvent(DIGIHOT_TAXONOMY.KLIKK_PÅ_VIS_KUN_FAST_LAGERVARE, {
     checked,
   })
 }
 
 export const logSkjemavalideringFeilet = (feil: string[] | undefined) => {
-  logEvent(nav_taxonomy.SKJEMAVALIDERING_FEILET, {
+  logEvent(NAV_TAXONOMY.SKJEMAVALIDERING_FEILET, {
     feil,
   })
 }
 
 export const logInnsendingGjort = (id: string) => {
-  logEvent(nav_taxonomy.SKJEMA_FULLFØRT, { id })
+  logEvent(NAV_TAXONOMY.SKJEMA_FULLFØRT, { id })
 }
 
 export const logInnsendingFeil = (feil: string) => {
-  logEvent(digihot_taxonomy.INNSENDING_FEIL, { feil })
+  logEvent(DIGIHOT_TAXONOMY.INNSENDING_FEIL, { feil })
 }
 
 export const logBestillingSlettet = () => {
-  logEvent(digihot_taxonomy.SKJEMA_SLETTET)
+  logEvent(DIGIHOT_TAXONOMY.SKJEMA_SLETTET)
 }
 
 export const logStartNyBestilling = () => {
-  logEvent(digihot_taxonomy.START_NY_BESTILING)
+  logEvent(DIGIHOT_TAXONOMY.START_NY_BESTILING)
 }
 
 export const logPrintAvBestillingÅpnet = (pathname: string) => {
-  logEvent(digihot_taxonomy.PRINT_AV_BESTILLING_ÅPNET, {
+  logEvent(DIGIHOT_TAXONOMY.PRINT_AV_BESTILLING_ÅPNET, {
     pathname,
   })
 }
 
 export const logÅpningAvBildekarusell = () => {
-  logEvent(digihot_taxonomy.KLIKK_ÅPNING_AV_BILDEKARUSELL)
+  logEvent(DIGIHOT_TAXONOMY.KLIKK_ÅPNING_AV_BILDEKARUSELL)
 }
