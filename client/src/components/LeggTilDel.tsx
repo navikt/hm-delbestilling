@@ -10,13 +10,13 @@ import { Del, Hjelpemiddel, Pilot } from '../types/Types'
 import { logKlikkVisKunFastLagervare } from '../utils/analytics'
 import { triggerHotjarEvent } from '../utils/hotjar'
 import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
+import { isProd } from '../utils/utils'
 
 import { Avstand } from './Avstand'
 import { Beskrivelser } from './Beskrivelser'
 import { Bilde } from './Bilde'
 import DelInnhold from './DelInhold'
 import DelKategoriVelger from './DelKategoriVelger'
-import { isProd } from '../utils/utils'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel

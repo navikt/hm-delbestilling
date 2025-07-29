@@ -39,9 +39,9 @@ import {
   logInnsendingGjort,
   logSkjemavalideringFeilet,
 } from '../utils/analytics'
+import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-import { isProd } from '../utils/utils'
 
 const Toolbar = styled.div`
   padding: 1rem;
