@@ -14,7 +14,7 @@ jobs:
   test:
     permissions:
       contents: read
-    timeout-minutes: 1
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.53.2-noble

@@ -13,7 +13,7 @@ test('happy path', async ({ page }) => {
   await page.getByTestId('button-oppslag-submit').click()
 
   // Forvent at hjelpemiddel er funnet og velg del
-  await expect(page.getByTestId('hjelpemiddel-navn')).toHaveText('Bestilling til Minicrosser X2 4W 15 km/t')
+  await expect(page.getByTestId('hjelpemiddel-navn')).toHaveText('Feil tekst')
   await page.locator('button', { hasText: 'Bestill' }).first().click()
 
   // Forvent at delkategorier vises og velg å legge til flere deler
@@ -21,7 +21,7 @@ test('happy path', async ({ page }) => {
   await page.locator('button', { hasText: 'Legg til flere deler' }).click()
 
   // Sorter på 'Lader' kategorien og legg til del
-  await page.getByRole('button', { name: 'laderrrrr' }).click()
+  await page.getByRole('button', { name: 'lader' }).click()
   await page.locator('button', { hasText: 'Legg til del' }).first().click()
 
   // Velg levering og send inn
