@@ -3,6 +3,8 @@ import { isConsentingToAnalytics } from '../nav-cookie-consent'
 import { sendAmplitudeEvent } from './amplitude'
 import { sendUmamiEvent } from './umami'
 
+export const SKJEMANAVN = 'hm-delbestilling'
+
 export enum NAV_TAXONOMY {
   SKJEMA_START = 'skjema startet',
   SKJEMA_ÅPEN = 'skjema åpnet',

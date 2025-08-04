@@ -1,6 +1,6 @@
 import { isProd } from '../utils'
 
-import { DIGIHOT_TAXONOMY, NAV_TAXONOMY } from './analytics'
+import { DIGIHOT_TAXONOMY, NAV_TAXONOMY, SKJEMANAVN } from './analytics'
 
 export const UMAMI_WEBSITE_ID = isProd()
   ? '35abb2b7-3f97-42ce-931b-cf547d40d967' // Nav.no - prod
@@ -8,6 +8,9 @@ export const UMAMI_WEBSITE_ID = isProd()
 
 export const sendUmamiEvent = (eventName: NAV_TAXONOMY | DIGIHOT_TAXONOMY, data?: Record<string, unknown>) => {
   if (window.umami && typeof window.umami.track === 'function') {
-    window.umami.track(eventName, data)
+    window.umami.track(eventName, {
+      appNavn: SKJEMANAVN,
+      ...data,
+    })
   }
 }

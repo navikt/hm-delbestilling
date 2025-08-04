@@ -2,9 +2,7 @@ import * as amplitude from '@amplitude/analytics-browser'
 
 import { isConsentingToAnalytics } from '../nav-cookie-consent'
 
-import { DIGIHOT_TAXONOMY, NAV_TAXONOMY } from './analytics'
-
-const SKJEMANAVN = 'hm-delbestilling'
+import { DIGIHOT_TAXONOMY, NAV_TAXONOMY, SKJEMANAVN } from './analytics'
 
 export const initAmplitude = () => {
   if (!isConsentingToAnalytics()) {
