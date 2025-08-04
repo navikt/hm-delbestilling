@@ -38,7 +38,7 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
-} from '../utils/analytics'
+} from '../utils/analytics/analytics'
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'

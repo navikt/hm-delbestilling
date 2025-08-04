@@ -7,7 +7,7 @@ import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
 import Utsjekk from './containers/Utsjekk'
 import { RolleContextLayout } from './context/rolle'
-import { umamiWebsiteId } from './utils/analytics'
+import { UMAMI_WEBSITE_ID } from './utils/analytics/umami'
 
 const Routes = () => {
   return (
@@ -18,7 +18,7 @@ const Routes = () => {
           defer
           src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
           data-host-url="https://umami.nav.no"
-          data-website-id={umamiWebsiteId}
+          data-website-id={UMAMI_WEBSITE_ID}
         ></script>
       </Helmet>
       <Switch>

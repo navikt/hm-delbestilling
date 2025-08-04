@@ -1,7 +1,7 @@
-import * as amplitude from '@amplitude/analytics-browser'
+import { isConsentingToAnalytics } from '../nav-cookie-consent'
 
-import { isConsentingToAnalytics } from './nav-cookie-consent'
-import { isProd } from './utils'
+import { sendAmplitudeEvent } from './amplitude'
+import { sendUmamiEvent } from './umami'
 
 export enum NAV_TAXONOMY {
   SKJEMA_START = 'skjema startet',
@@ -27,52 +27,14 @@ export enum DIGIHOT_TAXONOMY {
   KLIKK_ÅPNING_AV_BILDEKARUSELL = 'åpning av bildekarusell',
 }
 
-const SKJEMANAVN = 'hm-delbestilling'
-
-export const initAmplitude = () => {
-  if (!isConsentingToAnalytics()) {
-    return
-  }
-  if (amplitude) {
-    amplitude.init('default', '', {
-      useBatch: false,
-      serverUrl: 'https://amplitude.nav.no/collect-auto',
-      defaultTracking: false,
-      ingestionMetadata: {
-        sourceName: window.location.toString(),
-      },
-    })
-  }
-}
-
-export const umamiWebsiteId = isProd()
-  ? '35abb2b7-3f97-42ce-931b-cf547d40d967' // Nav.no - prod
-  : '7ea31084-b626-4535-ab44-1b2d43001366' // hjelpemidler - dev
-
 function logEvent(eventName: NAV_TAXONOMY | DIGIHOT_TAXONOMY, data?: Record<string, unknown>) {
   if (!isConsentingToAnalytics()) {
     return
   }
-  // TODO: fjern sending til Amplitude når Umami funker som det skal
-  setTimeout(() => {
-    data = {
-      app: 'hm-delbestilling',
-      skjemanavn: SKJEMANAVN,
-      team: 'teamdigihot',
-      ...data,
-    }
-    try {
-      if (amplitude) {
-        amplitude.track(eventName, data)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  })
 
-  if (window.umami && typeof window.umami.track === 'function') {
-    window.umami.track(eventName, data)
-  }
+  // TODO: fjern sending til Amplitude når Umami funker som det skal
+  sendAmplitudeEvent(eventName, data)
+  sendUmamiEvent(eventName, data)
 }
 export const logSpråkEndret = (språk: string) => {
   logEvent(DIGIHOT_TAXONOMY.SPRÅK_ENDRET, { språk })

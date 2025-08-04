@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 
 import { initDecorator } from './decorator/decorator'
-import { initAmplitude } from './utils/analytics'
+import { initAmplitude } from './utils/analytics/amplitude'
 import { initMSW } from './utils/msw'
 import App from './App'
 

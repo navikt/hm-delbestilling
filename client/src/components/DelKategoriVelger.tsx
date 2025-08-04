@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react'
 
 import { Chips } from '@navikt/ds-react'
 
-import { logKategoriFiltreringGjort } from '../utils/analytics'
+import { logKategoriFiltreringGjort } from '../utils/analytics/analytics'
 
 interface Props {
   delKategorier: string[] | undefined
