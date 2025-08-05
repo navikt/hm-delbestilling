@@ -81,7 +81,7 @@ const BestillingsKort = ({ sak }: Props) => {
               </BodyShort>
               <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
             </DelRekke>
-            <BodyShort size="medium" style={{ color: 'var(--a-grayalpha-700)' }}>
+            <BodyShort size="medium" textColor="subtle">
               HMS-nr. {dellinje.del.hmsnr}
             </BodyShort>
             <SkjulForPrint>
