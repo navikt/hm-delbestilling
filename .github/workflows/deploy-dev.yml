@@ -9,7 +9,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - playwright
+      - vise-hms-nummer-i-kvittering
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
