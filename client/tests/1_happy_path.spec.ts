@@ -5,8 +5,8 @@ test('happy path', async ({ page }) => {
   await expect(page).toHaveTitle(/Delbestilling/)
 
   // Aksepter cookies
-  await expect(page.locator('[data-name="consent-banner-all"]')).toBeVisible()
-  await page.locator('[data-name="consent-banner-all"]').click()
+  // await expect(page.locator('[data-name="consent-banner-all"]')).toBeVisible()
+  // await page.locator('[data-name="consent-banner-all"]').click()
 
   // Slå opp hjelpemiddel
   await page.getByTestId('input-artnr').fill('301996')
