@@ -4,9 +4,6 @@ test('batteri', async ({ page }) => {
   await page.goto('/')
   await expect(page).toHaveTitle(/Delbestilling/)
 
-  // Aksepter cookies
-  await page.locator('[data-name="consent-banner-all"]').click()
-
   // Slå opp hjelpemiddel
   await page.getByTestId('input-artnr').fill('301996')
   await page.getByTestId('input-serienr').fill('123456')
