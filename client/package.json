@@ -51,11 +51,14 @@
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
     "vite": "^5.2.8",
-    "vite-plugin-svgr": "^4.2.0"
+    "vite-plugin-svgr": "^4.2.0",
+    "vitest": "^1.4.0"
   },
   "scripts": {
     "clean": "rimraf ./dist",
     "dev": "vite --strictPort",
+    "test": "vitest --dir ./src",
+    "test:ci": "vitest --run --dir ./src",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --ext ts,tsx .",
