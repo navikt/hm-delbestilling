@@ -117,11 +117,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
 
                       {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null && (
                         <Avstand marginTop={5}>
-                          <Detail textColor="subtle">
-                            {t('del.antallDagerSidenSistBatteribestilling', {
-                              count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
-                            })}
-                          </Detail>
+                          <Detail textColor="subtle">{t('del.antallDagerSidenSistBatteribestilling')}</Detail>
                         </Avstand>
                       )}
                     </Beskrivelser>

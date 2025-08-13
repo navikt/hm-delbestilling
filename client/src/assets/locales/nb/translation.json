@@ -96,8 +96,7 @@
   "oppslag.startPåNytt": "Start på nytt",
 
   "del.lagerstatus.ikkeFastLagervare": "Delen kan ikke bestilles digitalt. Ta kontakt med HMS {{hmsNavn}} for å bestille.",
-  "del.antallDagerSidenSistBatteribestilling_zero": "Det er allerede bestilt batteri i dag. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.",
-  "del.antallDagerSidenSistBatteribestilling_other": "Det er bestilt batteri for {{count}} dager siden. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.",
+  "del.antallDagerSidenSistBatteribestilling": "Batteriene til dette hjelpemiddelet ble byttet for mindre enn et år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
 
   "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke nødvendigvis gjenspeiler virkeligheten. Når du legger inn art.nr. og serienr, så må art.nr. være et gyldig hjelpemiddel (f.eks. 301996), men for serienr kan du fylle inn en vilkårlig verdi.",
 
