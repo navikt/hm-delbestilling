@@ -8,19 +8,19 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - playwright
+      - cookies-i-playwright
 
 jobs:
   test:
     permissions:
       contents: read
-    timeout-minutes: 60
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.53.2-noble
+      options: --user 1001
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
 
       - name: Tilgjengeliggjør READER_TOKEN for npm
         run: |
@@ -28,10 +28,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: client
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
         working-directory: client
 
       - name: Run Playwright tests

@@ -4,7 +4,7 @@ import { useReactToPrint } from 'react-to-print'
 import styled from 'styled-components'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
-import { Alert, BodyShort, Box, Button, Detail, Heading } from '@navikt/ds-react'
+import { Alert, BodyShort, Box, Button, Detail, Heading, HStack } from '@navikt/ds-react'
 
 import { formaterNorskDato } from '../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
@@ -13,14 +13,6 @@ import { logPrintAvBestillingÅpnet } from '../utils/analytics/analytics'
 import { Avstand } from './Avstand'
 import DellinjestatusTag from './DellinjestatusTag'
 import OrdrestatusTag from './OrdrestatusTag'
-
-const DelRekke = styled.div`
-  display: flex;
-  flex-direction: row;
-  p:first-child {
-    flex: 1;
-  }
-`
 
 const Dellinje = styled.div`
   border-bottom: 1px solid var(--a-gray-300);
@@ -75,10 +67,15 @@ const BestillingsKort = ({ sak }: Props) => {
         <Avstand marginBottom={4} />
         {sak.delbestilling.deler.map((dellinje, index) => (
           <Dellinje key={index}>
-            <DelRekke>
-              <BodyShort size="medium">{dellinje.del.navn}</BodyShort>
+            <HStack justify="space-between">
+              <BodyShort size="medium" style={{ marginBottom: '0' }}>
+                {dellinje.del.navn}
+              </BodyShort>
               <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
-            </DelRekke>
+            </HStack>
+            <BodyShort size="medium" textColor="subtle">
+              HMS-nr. {dellinje.del.hmsnr}
+            </BodyShort>
             <SkjulForPrint>
               {dellinje.lagerstatusPåBestillingstidspunkt &&
                 dellinje.antall > dellinje.lagerstatusPåBestillingstidspunkt.antallDelerPåLager && (

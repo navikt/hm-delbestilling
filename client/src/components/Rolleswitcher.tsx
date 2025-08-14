@@ -1,7 +1,7 @@
 import React, { SetStateAction, useState } from 'react'
 import styled from 'styled-components'
 
-import { Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react'
+import { Button, Checkbox, CheckboxGroup, Detail, Heading } from '@navikt/ds-react'
 
 import { Pilot } from '../types/Types'
 
@@ -89,6 +89,7 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
           <Checkbox value={Pilot.BESTILLE_IKKE_FASTE_LAGERVARER}>Pilot for bestille ikke-fast lagervare</Checkbox>
         )}
       </CheckboxGroup>
+      <Detail>Git-commit: {window.appSettings.GIT_COMMIT}</Detail>
     </Wrapper>
   )
 }

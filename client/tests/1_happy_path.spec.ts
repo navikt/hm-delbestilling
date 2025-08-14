@@ -1,11 +1,8 @@
-import { test, expect } from '@playwright/test'
+import test, { expect } from '@playwright/test'
 
 test('happy path', async ({ page }) => {
   await page.goto('/')
   await expect(page).toHaveTitle(/Delbestilling/)
-
-  // Aksepter cookies
-  await page.locator('[data-name="consent-banner-all"]').click()
 
   // Slå opp hjelpemiddel
   await page.getByTestId('input-artnr').fill('301996')
@@ -21,7 +18,7 @@ test('happy path', async ({ page }) => {
   await page.locator('button', { hasText: 'Legg til flere deler' }).click()
 
   // Sorter på 'Lader' kategorien og legg til del
-  await page.getByRole('button', { name: 'Lader' }).click()
+  await page.getByRole('button', { name: 'lader' }).click()
   await page.locator('button', { hasText: 'Legg til del' }).first().click()
 
   // Velg levering og send inn
