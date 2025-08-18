@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Box, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
 
 import useDelKategorier from '../hooks/useDelKategorier'
 import { CustomBox } from '../styledcomponents/CustomBox'
@@ -97,12 +97,12 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                       <Heading size="small" level="4" spacing>
                         {del.navn}
                       </Heading>
-                      <BodyShort textColor="subtle">
-                        <HStack gap="5">
-                          <span>HMS-nr. {del.hmsnr}</span>
-                          {del.levArtNr && <span>Lev.art.nr. {del.levArtNr}</span>}
-                        </HStack>
-                      </BodyShort>
+
+                      <HStack gap="5">
+                        <BodyShort textColor="subtle">HMS-nr. {del.hmsnr}</BodyShort>
+                        {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
+                      </HStack>
+
                       {del.lagerstatus && !erPilotForBestilleIkkeFasteLagervarer && !kanBestilles && (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">

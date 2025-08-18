@@ -131,10 +131,10 @@ const Index = () => {
                   <Heading size="xsmall" level="2" spacing data-testid="hjelpemiddel-navn">
                     {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                   </Heading>
-                  <BodyShort style={{ display: 'flex', gap: '20px' }}>
-                    <span>Art.nr. {hmsnr}</span>
-                    <span>Serienr. {serienr}</span>
-                  </BodyShort>
+                  <HStack gap="5">
+                    <BodyShort>Art.nr. {hmsnr}</BodyShort>
+                    <BodyShort>Serienr. {serienr}</BodyShort>
+                  </HStack>
                 </div>
                 <Button
                   icon={<PencilIcon />}
