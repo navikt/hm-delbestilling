@@ -1,10 +1,12 @@
-import { styled } from 'styled-components'
+import React from 'react'
 
-import { size } from '../styledcomponents/rules'
+import styles from './Beskrivelser.module.css'
 
-export const Beskrivelser = styled.div`
-  @media (min-width: ${size.large}) {
-    flex: 0 1 330px;
-    min-width: 0;
-  }
-`
+interface BeskrivelsesProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export const Beskrivelser: React.FC<BeskrivelsesProps> = ({ children, className }) => {
+  return <div className={`${styles.beskrivelser} ${className || ''}`}>{children}</div>
+}

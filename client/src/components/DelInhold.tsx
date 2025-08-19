@@ -1,17 +1,14 @@
-import styled from 'styled-components'
+import React from 'react'
 
-import { size } from '../styledcomponents/rules'
+import styles from './DelInhold.module.css'
 
-const DelInnhold = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+interface DelInnholdProps {
+  children: React.ReactNode
+  className?: string
+}
 
-  @media (min-width: ${size.large}) {
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-direction: row;
-  }
-`
+const DelInnhold: React.FC<DelInnholdProps> = ({ children, className }) => {
+  return <div className={`${styles.delInnhold} ${className || ''}`}>{children}</div>
+}
 
 export default DelInnhold

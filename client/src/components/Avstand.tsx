@@ -1,6 +1,4 @@
 import type { ReactNode } from 'react'
-import React from 'react'
-import styled from 'styled-components'
 
 export interface AvstandProps {
   children?: ReactNode | undefined
@@ -19,48 +17,35 @@ export interface AvstandProps {
 }
 
 export function Avstand(props: AvstandProps) {
-  const { children, ...rest } = props
+  const { children, style, centered, ...spacingProps } = props
+
+  const spacingStyle: React.CSSProperties = {
+    ...getSpacingStyle(spacingProps),
+    textAlign: centered ? 'center' : 'unset',
+    ...style,
+  }
+
   return (
-    <Box aria-hidden={!children} {...rest}>
+    <div aria-hidden={!children} style={spacingStyle}>
       {children}
-    </Box>
+    </div>
   )
 }
 
-type MarginProps = Omit<AvstandProps, 'children'>
+type SpacingProps = Omit<AvstandProps, 'children' | 'centered' | 'style'>
 
-const Box = styled('div').withConfig({
-  shouldForwardProp: (prop) =>
-    ![
-      'margin',
-      'marginTop',
-      'marginRight',
-      'marginBottom',
-      'marginLeft',
-      'padding',
-      'paddingTop',
-      'paddingRight',
-      'paddingBottom',
-      'paddingLeft',
-      'centered',
-    ].includes(prop),
-})`
-  ${spacer}
-  ${(props: MarginProps) => ({ textAlign: props.centered ? 'center' : 'unset' })}
-`
-
-function spacer(props: MarginProps) {
+function getSpacingStyle(props: SpacingProps): React.CSSProperties {
   return {
-    margin: props.margin,
-    'margin-top': spacingVar(props.marginTop),
-    'margin-right': spacingVar(props.marginRight),
-    'margin-bottom': spacingVar(props.marginBottom),
-    'margin-left': spacingVar(props.marginLeft),
-    padding: props.padding,
-    'padding-top': spacingVar(props.paddingTop),
-    'padding-right': spacingVar(props.paddingRight),
-    'padding-bottom': spacingVar(props.paddingBottom),
-    'padding-left': spacingVar(props.paddingLeft),
+    margin: spacingVar(props.margin),
+    marginTop: spacingVar(props.marginTop),
+    marginRight: spacingVar(props.marginRight),
+    marginBottom: spacingVar(props.marginBottom),
+    marginLeft: spacingVar(props.marginLeft),
+    padding: spacingVar(props.padding),
+    paddingTop: spacingVar(props.paddingTop),
+    paddingRight: spacingVar(props.paddingRight),
+    paddingBottom: spacingVar(props.paddingBottom),
+    paddingLeft: spacingVar(props.paddingLeft),
   }
 }
 
