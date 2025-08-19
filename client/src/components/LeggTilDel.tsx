@@ -84,12 +84,12 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
             hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
-          const hjelpemiddelInnenforGaranti = del.kategori === 'Batteri' && hjelpemiddel.erInnenforGaranti
+          const erBatteriOghjelpemiddelInnenforGaranti = del.kategori === 'Batteri' && hjelpemiddel.erInnenforGaranti
 
           const kanBestilles =
             !harNyligBlittBestiltBatteri &&
             (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare) &&
-            !hjelpemiddelInnenforGaranti
+            !erBatteriOghjelpemiddelInnenforGaranti
 
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
@@ -125,7 +125,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                         </Avstand>
                       )}
 
-                      {hjelpemiddelInnenforGaranti && (
+                      {erBatteriOghjelpemiddelInnenforGaranti && (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">{t('del.hjelpemiddelInnenforGaranti')}</Detail>
                         </Avstand>
