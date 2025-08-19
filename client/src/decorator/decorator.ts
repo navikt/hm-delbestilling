@@ -7,7 +7,6 @@ import { BASE_PATH } from '../App'
 // import restService from '../services/rest-service'
 import { logSpråkEndret } from '../utils/amplitude'
 
-
 const DECORATOR_LANGUAGE_COOKIE = 'decorator-language'
 const DEFAULT_PARAMS: DecoratorParams = {
   chatbot: false,
