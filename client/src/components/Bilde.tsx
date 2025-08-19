@@ -10,7 +10,7 @@ import { logÅpningAvBildekarusell } from '../utils/amplitude'
 const ImgWrap = styled.div`
   width: 100%;
   height: 150px;
-  background: var(--a-bg-subtle);
+  background: var(--a-gray-100);
   display: flex;
   justify-content: center;
   align-items: center;

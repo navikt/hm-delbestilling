@@ -44,7 +44,7 @@ import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
 const Toolbar = styled.div`
   padding: 1rem;
-  background: var(--a-bg-subtle);
+  background: var(--a-gray-50);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
