@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { Button, Heading, Stack, TextField } from '@navikt/ds-react'
 
 import rest from '../services/rest'
-import { CustomBox } from '../styledcomponents/CustomBox'
 import { OppslagFeil } from '../types/HttpTypes'
 import { Hjelpemiddel, Pilot } from '../types/Types'
 import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
 
+import { CustomBox } from './ui/CustomBox'
 import { Avstand } from './Avstand'
 import { Feilmelding, FeilmeldingInterface } from './Feilmelding'
 
