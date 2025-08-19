@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
 import {
@@ -27,11 +26,10 @@ import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher'
-import { GlobalStyle } from '../GlobalStyle'
+import Content from '../components/ui/Content'
+import { CustomBox } from '../components/ui/CustomBox'
+import FlexedStack from '../components/ui/FlexedStack'
 import rest from '../services/rest'
-import Content from '../styledcomponents/Content'
-import { CustomBox } from '../styledcomponents/CustomBox'
-import FlexedStack from '../styledcomponents/FlexedStack'
 import { Del, Delbestilling, Handlekurv, Levering, Pilot } from '../types/Types'
 import {
   logBestillingSlettet,
@@ -42,17 +40,7 @@ import {
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
-const Toolbar = styled.div`
-  padding: 1rem;
-  background: #f7f7f7;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: -24px;
-  margin-left: -24px;
-  margin-top: 16px;
-  width: calc(100% + 48px);
-`
+import styles from '../styles/Containers.module.css'
 
 export interface Valideringsfeil {
   id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
@@ -265,8 +253,7 @@ const Utsjekk = () => {
   }
 
   return (
-    <main>
-      <GlobalStyle mainBg="white" />
+    <main style={{ '--main-bg-color': 'white' } as React.CSSProperties}>
       <Content>
         <>
           {visFlereDeler && (
@@ -322,7 +309,7 @@ const Utsjekk = () => {
                           </HStack>
                         </Beskrivelser>
                       </FlexedStack>
-                      <Toolbar>
+                      <div className={styles.toolbar}>
                         <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
                           {t('bestillinger.slettDel')}
                         </Button>
@@ -330,15 +317,15 @@ const Utsjekk = () => {
                           label="Antall"
                           value={delLinje.antall}
                           onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
-                          style={{ width: 80 }}
+                          size="small"
                         >
-                          {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
                         </Select>
-                      </Toolbar>
+                      </div>
                     </CustomBox>
                   </Avstand>
                 ))}

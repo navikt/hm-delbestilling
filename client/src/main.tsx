@@ -5,6 +5,9 @@ import { initAmplitude } from './utils/amplitude'
 import { initMSW } from './utils/msw'
 import App from './App'
 
+import './styles/global.css'
+import './styles/variables.css'
+
 import '@navikt/ds-css'
 import './i18n'
 
