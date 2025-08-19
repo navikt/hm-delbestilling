@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 
 import { Button, Loader } from '@navikt/ds-react'
 
@@ -12,27 +11,7 @@ import { DelbestillingSak, Valg } from '../types/Types'
 import { Avstand } from './Avstand'
 import BestillingsKort from './BestillingsKort'
 
-const SakerBanner = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  align-items: center;
-  h2 {
-    flex: 1;
-  }
-`
-
-const LoaderContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  padding: 20px;
-`
-
-const ButtonContainer = styled(Avstand)`
-  display: flex;
-  justify-content: flex-end;
-`
+import styles from './BestillingsListe.module.css'
 
 interface Props {
   text: string
@@ -122,17 +101,17 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
           ))}
         </>
       ) : henterTidligereBestillinger ? (
-        <LoaderContainer>
+        <div className={styles.loaderContainer}>
           <Loader size="2xlarge" />
-        </LoaderContainer>
+        </div>
       ) : (
         <div>{t('bestillinger.ingenBestillinger')}</div>
       )}
 
       {tidligereBestillinger && tidligereBestillinger.length > 0 && maksBestillinger && (
-        <ButtonContainer marginTop={4}>
+        <div className={styles.buttonContainer} style={{ marginTop: 'var(--a-spacing-4)' }}>
           <Button onClick={handleGåTilBestillinger}>{t('bestillinger.visAlle')}</Button>
-        </ButtonContainer>
+        </div>
       )}
     </>
   )
