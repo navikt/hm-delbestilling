@@ -87,7 +87,9 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
           const hjelpemiddelInnenforGaranti = del.kategori === 'Batteri' && hjelpemiddel.erInnenforGaranti
 
           const kanBestilles =
-            !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
+            !harNyligBlittBestiltBatteri &&
+            (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare) &&
+            !hjelpemiddelInnenforGaranti
 
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
