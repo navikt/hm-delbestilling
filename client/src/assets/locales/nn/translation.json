@@ -85,7 +85,7 @@
   "del.lagerstatus.ikkeFastLagervare": "Delen kan ikkje bestillast digitalt. Ta kontakt med HMS {{hmsNavn}} for å bestilla.",
   
   "del.antallDagerSidenSistBatteribestilling": "Batteria til dette hjelpemiddelet vart bytte for mindre enn eit år sidan, og er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien.",
-  "del.hjelpemiddelInnenforGaranti": "Hjelpemiddelet er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien",
+  "del.hjelpemiddelInnenforGaranti": "Hjelpemiddelet er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien.",
 
   "felles.overskrift": "Bestilling av delar til hjelpemiddel",
   "felles.Bekreft": "Stadfest",
