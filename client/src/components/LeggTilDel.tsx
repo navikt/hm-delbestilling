@@ -84,6 +84,8 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
             hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
+          const hjelpemiddelInnenforGaranti = del.kategori === 'Batteri' && hjelpemiddel.erInnenforGaranti
+
           const kanBestilles =
             !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
 
@@ -118,6 +120,12 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                       {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null && (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">{t('del.antallDagerSidenSistBatteribestilling')}</Detail>
+                        </Avstand>
+                      )}
+
+                      {hjelpemiddelInnenforGaranti && (
+                        <Avstand marginTop={5}>
+                          <Detail textColor="subtle">{t('del.hjelpemiddelInnenforGaranti')}</Detail>
                         </Avstand>
                       )}
                     </Beskrivelser>
