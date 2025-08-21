@@ -13,7 +13,7 @@ import { CustomBox } from '../components/Layout/CustomBox'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
-import Rolleswitcher from '../components/Rolleswitcher'
+import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
 import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
 

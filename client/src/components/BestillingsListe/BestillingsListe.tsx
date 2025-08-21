@@ -4,12 +4,11 @@ import { useNavigate } from 'react-router-dom'
 
 import { Button, Loader } from '@navikt/ds-react'
 
-import useAuth from '../hooks/useAuth'
-import rest from '../services/rest'
-import { DelbestillingSak, Valg } from '../types/Types'
-
-import { Avstand } from './Avstand'
-import BestillingsKort from './BestillingsKort'
+import useAuth from '../../hooks/useAuth'
+import rest from '../../services/rest'
+import { DelbestillingSak, Valg } from '../../types/Types'
+import { Avstand } from '../Avstand'
+import BestillingsKort from '../BestillingsKort/BestillingsKort'
 
 import styles from './BestillingsListe.module.css'
 

@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import BestillingsKort from '../components/BestillingsKort'
+import BestillingsKort from '../components/BestillingsKort/BestillingsKort'
 import Content from '../components/Layout/Content'
 import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'

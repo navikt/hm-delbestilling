@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeftIcon } from '@navikt/aksel-icons'
 import { Button, Heading } from '@navikt/ds-react'
 
-import BestillingsListe from '../components/BestillingsListe'
+import BestillingsListe from '../components/BestillingsListe/BestillingsListe'
 import Content from '../components/Layout/Content'
 
 import styles from '../styles/Containers.module.css'

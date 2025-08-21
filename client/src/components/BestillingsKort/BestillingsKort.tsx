@@ -5,13 +5,12 @@ import { useReactToPrint } from 'react-to-print'
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
 import { Alert, BodyShort, Box, Button, Detail, Heading, HStack } from '@navikt/ds-react'
 
-import { formaterNorskDato } from '../helpers/utils'
-import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
-import { logPrintAvBestillingÅpnet } from '../utils/amplitude'
-
-import { Avstand } from './Avstand'
-import DellinjestatusTag from './DellinjestatusTag'
-import OrdrestatusTag from './OrdrestatusTag'
+import { formaterNorskDato } from '../../helpers/utils'
+import { DelbestillingSak, Levering, Ordrestatus } from '../../types/Types'
+import { logPrintAvBestillingÅpnet } from '../../utils/amplitude'
+import { Avstand } from '../Avstand'
+import DellinjestatusTag from '../DellinjestatusTag'
+import OrdrestatusTag from '../OrdrestatusTag'
 
 import styles from './BestillingsKort.module.css'
 

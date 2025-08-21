@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon, ImageIcon, MagnifyingGlassFillIcon } from '@navikt/aksel-icons'
 import { Box, Button, HGrid, HStack, Modal } from '@navikt/ds-react'
 
-import { logÅpningAvBildekarusell } from '../utils/amplitude'
+import { logÅpningAvBildekarusell } from '../../utils/amplitude'
 
 import styles from './Bilde.module.css'
 

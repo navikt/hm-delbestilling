@@ -2,7 +2,7 @@ import React, { SetStateAction, useState } from 'react'
 
 import { Button, Checkbox, CheckboxGroup, Detail, Heading } from '@navikt/ds-react'
 
-import { Pilot } from '../types/Types'
+import { Pilot } from '../../types/Types'
 
 import styles from './Rolleswitcher.module.css'
 
