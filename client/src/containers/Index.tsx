@@ -8,12 +8,12 @@ import { BodyLong, BodyShort, Box, Button, Heading, HStack, LinkPanel } from '@n
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
+import Content from '../components/Layout/Content'
+import { CustomBox } from '../components/Layout/CustomBox'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher'
-import Content from '../components/ui/Content'
-import { CustomBox } from '../components/ui/CustomBox'
 import useAuth from '../hooks/useAuth'
 import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
 

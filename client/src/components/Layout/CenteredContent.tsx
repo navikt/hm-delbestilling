@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from '../../styles/CenteredContent.module.css'
+import styles from './CenteredContent.module.css'
 
 interface CenteredContentProps {
   children: React.ReactNode

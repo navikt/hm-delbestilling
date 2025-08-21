@@ -6,7 +6,7 @@ import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import BestillingsKort from '../components/BestillingsKort'
-import Content from '../components/ui/Content'
+import Content from '../components/Layout/Content'
 import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
 import { triggerHotjarEvent } from '../utils/hotjar'

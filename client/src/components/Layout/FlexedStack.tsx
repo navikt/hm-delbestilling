@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from '../../styles/FlexedStack.module.css'
+import styles from './FlexedStack.module.css'
 
 interface FlexedStackProps {
   children: React.ReactNode

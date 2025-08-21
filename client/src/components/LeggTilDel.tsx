@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 
 import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
 
-import FlexedStack from '../components/ui/FlexedStack'
+import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel, Pilot } from '../types/Types'
 import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
 
-import { CustomBox } from './ui/CustomBox'
+import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
 import { Beskrivelser } from './Beskrivelser'
 import { Bilde } from './Bilde'

@@ -8,7 +8,7 @@ import { OppslagFeil } from '../types/HttpTypes'
 import { Hjelpemiddel, Pilot } from '../types/Types'
 import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
 
-import { CustomBox } from './ui/CustomBox'
+import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
 import { Feilmelding, FeilmeldingInterface } from './Feilmelding'
 

@@ -5,7 +5,7 @@ import { ArrowLeftIcon } from '@navikt/aksel-icons'
 import { Button, Heading } from '@navikt/ds-react'
 
 import BestillingsListe from '../components/BestillingsListe'
-import Content from '../components/ui/Content'
+import Content from '../components/Layout/Content'
 
 import styles from '../styles/Containers.module.css'
 

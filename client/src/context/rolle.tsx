@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom'
 import { GuidePanel, HStack, Loader } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import Content from '../components/ui/Content'
+import Content from '../components/Layout/Content'
 import useAuth from '../hooks/useAuth'
 import { Delbestillerrolle } from '../types/Types'
 
