@@ -15,7 +15,7 @@ import DellinjestatusTag from './DellinjestatusTag'
 import OrdrestatusTag from './OrdrestatusTag'
 
 const Dellinje = styled.div`
-  border-bottom: 1px solid var(--a-gray-300);
+  border-bottom: 1px solid var(--a-border-subtle);
   :not(:last-child) {
     margin-bottom: 0.5rem;
   }

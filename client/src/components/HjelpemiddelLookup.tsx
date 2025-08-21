@@ -1,8 +1,7 @@
 import React, { SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 
-import { Button, Heading, TextField } from '@navikt/ds-react'
+import { Button, Heading, Stack, TextField } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 import { CustomBox } from '../styledcomponents/CustomBox'
@@ -22,21 +21,6 @@ const innenforMaksLengde = (input: string, maksLengde: number): boolean => {
 }
 
 const erGyldig = (input: string, maksLengde: number = 6) => innenforMaksLengde(input, maksLengde) && erBareTall(input)
-
-const StyledForm = styled.form`
-  display: flex;
-  gap: 12px;
-  align-items: end;
-
-  @media only screen and (max-width: 750px) {
-    flex-direction: column;
-    align-items: baseline;
-  }
-`
-
-const StyledTextField = styled(TextField)`
-  width: 130px;
-`
 
 interface Props {
   hmsnr: string
@@ -106,26 +90,30 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
       </Heading>
       <Avstand marginBottom={8} />
 
-      <StyledForm onSubmit={handleSubmit}>
-        <StyledTextField
-          label={t('oppslag.artnr')}
-          value={hmsnr}
-          onChange={(e) => erGyldig(e.target.value) && setHmsnr(e.target.value)}
-          data-testid="input-artnr"
-        />
-        <StyledTextField
-          label={t('oppslag.serienr')}
-          value={serienr}
-          onChange={(e) => erGyldig(e.target.value) && setSerienr(e.target.value)}
-          data-testid="input-serienr"
-        />
-        <Button loading={gjørOppslag} onClick={handleSubmit} data-testid="button-oppslag-submit">
-          {t('oppslag.visDeler')}
-        </Button>
-        <Button type="button" onClick={reset} variant="tertiary" data-testid="button-oppslag-reset">
-          {t('oppslag.startPåNytt')}
-        </Button>
-      </StyledForm>
+      <form onSubmit={handleSubmit}>
+        <Stack gap="3" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
+          <TextField
+            style={{ width: '120px' }}
+            label={t('oppslag.artnr')}
+            value={hmsnr}
+            onChange={(e) => erGyldig(e.target.value) && setHmsnr(e.target.value)}
+            data-testid="input-artnr"
+          />
+          <TextField
+            style={{ width: '120px' }}
+            label={t('oppslag.serienr')}
+            value={serienr}
+            onChange={(e) => erGyldig(e.target.value) && setSerienr(e.target.value)}
+            data-testid="input-serienr"
+          />
+          <Button loading={gjørOppslag} onClick={handleSubmit} data-testid="button-oppslag-submit">
+            {t('oppslag.visDeler')}
+          </Button>
+          <Button type="button" onClick={reset} variant="tertiary" data-testid="button-oppslag-reset">
+            {t('oppslag.startPåNytt')}
+          </Button>
+        </Stack>
+      </form>
 
       {feilmelding && !gjørOppslag && (
         <Avstand marginTop={4}>

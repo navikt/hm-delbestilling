@@ -1,22 +1,19 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Box, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
 
-import useDelKategorier from '../hooks/useDelKategorier'
 import { CustomBox } from '../styledcomponents/CustomBox'
 import FlexedStack from '../styledcomponents/FlexedStack'
 import { Del, Hjelpemiddel, Pilot } from '../types/Types'
 import { logKlikkVisKunFastLagervare } from '../utils/analytics/analytics'
-import { triggerHotjarEvent } from '../utils/hotjar'
-import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 import { isProd } from '../utils/utils'
 
 import { Avstand } from './Avstand'
 import { Beskrivelser } from './Beskrivelser'
 import { Bilde } from './Bilde'
 import DelInnhold from './DelInhold'
-import DelKategoriVelger from './DelKategoriVelger'
+import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -26,17 +23,12 @@ interface Props {
 }
 const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', piloter }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
+
   const { t } = useTranslation()
   const [visKunDigitaleDeler, setVisKunDigitaleDeler] = useState(false)
   const [søk, setSøk] = useState('')
 
   const erPilotForBestilleIkkeFasteLagervarer = piloter.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
-
-  const handleClickManglerDel = () => {
-    if (isConsentingToSurveys()) {
-      triggerHotjarEvent('digihot_delbestilling_mangler_del_feedback')
-    }
-  }
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return <Alert variant="info">{t('leggTilDel.ingenDeler')}</Alert>
@@ -47,6 +39,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
       <Heading size="medium" level="3" spacing>
         Deler til {hjelpemiddel.navn}
       </Heading>
+
       <Avstand marginBottom={2}>
         <DelKategoriVelger
           setKategoriFilter={setKategoriFilter}
@@ -98,12 +91,12 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                       <Heading size="small" level="4" spacing>
                         {del.navn}
                       </Heading>
-                      <BodyShort textColor="subtle">
-                        <HStack gap="5">
-                          <span>HMS-nr. {del.hmsnr}</span>
-                          {del.levArtNr && <span>Lev.art.nr. {del.levArtNr}</span>}
-                        </HStack>
-                      </BodyShort>
+
+                      <HStack gap="5">
+                        <BodyShort textColor="subtle">HMS-nr. {del.hmsnr}</BodyShort>
+                        {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
+                      </HStack>
+
                       {del.lagerstatus && !erPilotForBestilleIkkeFasteLagervarer && !kanBestilles && (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">
@@ -145,16 +138,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
             </Avstand>
           )
         })}
-      {/* {isConsentingToSurveys() && (
-        <Box borderColor="border-default" padding="8" borderWidth="2" style={{ borderStyle: 'dashed' }}>
-          <Avstand centered>
-            <BodyShort spacing>
-              <strong>Finner du ikke delen du er ute etter?</strong>
-            </BodyShort>
-            <Button onClick={handleClickManglerDel}>Fortell oss om det</Button>
-          </Avstand>
-        </Box>
-      )} */}
     </>
   )
 }

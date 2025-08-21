@@ -45,7 +45,7 @@ import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
 const Toolbar = styled.div`
   padding: 1rem;
-  background: #f7f7f7;
+  background: var(--a-gray-50);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -315,12 +315,12 @@ const Utsjekk = () => {
                           <Heading size="small" level="4" spacing>
                             {delLinje.del.navn}
                           </Heading>
-                          <BodyShort textColor="subtle">
-                            <HStack gap="5">
-                              <span>HMS-nr. {delLinje.del.hmsnr}</span>
-                              {delLinje.del.levArtNr && <span>Lev.art.nr. {delLinje.del.levArtNr}</span>}
-                            </HStack>
-                          </BodyShort>
+                          <HStack gap="5">
+                            <BodyShort textColor="subtle">HMS-nr. {delLinje.del.hmsnr}</BodyShort>
+                            {delLinje.del.levArtNr && (
+                              <BodyShort textColor="subtle">Lev.art.nr. {delLinje.del.levArtNr}</BodyShort>
+                            )}
+                          </HStack>
                         </Beskrivelser>
                       </FlexedStack>
                       <Toolbar>
