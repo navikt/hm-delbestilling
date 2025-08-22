@@ -85,14 +85,6 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
 
   return (
     <>
-      {/* <SakerBanner>
-        {henterTidligereBestillinger && tidligereBestillinger && <Loader size="small" />}
-        <ToggleGroup defaultValue="mine" size="small" onChange={(val) => setValg(val as Valg)}>
-          <ToggleGroup.Item value="mine">Mine</ToggleGroup.Item>
-          <ToggleGroup.Item value="kommunens">Kommunens</ToggleGroup.Item>
-        </ToggleGroup>
-      </SakerBanner> */}
-
       {tidligereBestillinger && tidligereBestillinger.length > 0 ? (
         <>
           {tidligereBestillinger.map((sak) => (

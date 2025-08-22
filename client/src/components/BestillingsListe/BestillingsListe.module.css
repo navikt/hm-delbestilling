@@ -1,15 +1,4 @@
 /* BestillingsListe component styles */
-.sakerBanner {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  align-items: center;
-}
-
-.sakerBanner h2 {
-  flex: 1;
-}
-
 .loaderContainer {
   display: flex;
   flex: 1;
