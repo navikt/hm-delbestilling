@@ -319,11 +319,11 @@ const Utsjekk = () => {
                           onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
                           size="small"
                         >
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
+                          {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
                         </Select>
                       </div>
                     </CustomBox>
