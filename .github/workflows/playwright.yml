@@ -8,7 +8,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - cookies-i-playwright
+      - forbedrer-lesbarhet-i-tester
 
 jobs:
   test:
