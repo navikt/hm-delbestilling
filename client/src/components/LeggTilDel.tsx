@@ -101,7 +101,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                           <Detail textColor="subtle">
                             {t('del.lagerstatus.ikkeFastLagervare', {
                               hmsNavn:
-                                lagerNavnMap[del.lagerstatus.organisasjons_navn.slice(1, 3)] ??
+                                lagerTilEnhetnavnMap[del.lagerstatus.organisasjons_navn.slice(1, 3)] ??
                                 del.lagerstatus.organisasjons_navn,
                             })}
                           </Detail>
@@ -143,7 +143,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
   )
 }
 
-const lagerNavnMap: { [key: string]: string } = {
+const lagerTilEnhetnavnMap: { [key: string]: string } = {
   '01': 'Øst-Viken',
   '02': 'Oslo',
   '03': 'Oslo',
