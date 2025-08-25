@@ -15,7 +15,7 @@ test('batteri', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Legg til del' })).toBeHidden()
   await expect(
     page.getByText(
-      'Det er bestilt batteri for 123 dager siden. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.'
+      'Batteriene til dette hjelpemiddelet ble byttet for mindre enn et år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.'
     )
   ).toBeVisible()
 
