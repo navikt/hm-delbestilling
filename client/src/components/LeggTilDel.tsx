@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next'
 
 import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
 
-import { CustomBox } from '../styledcomponents/CustomBox'
-import FlexedStack from '../styledcomponents/FlexedStack'
+import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel, Pilot } from '../types/Types'
 import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
 
+import { Beskrivelser } from './Beskrivelser/Beskrivelser'
+import { Bilde } from './Bilde/Bilde'
+import DelInnhold from './DelInhold/DelInhold'
+import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
-import { Beskrivelser } from './Beskrivelser'
-import { Bilde } from './Bilde'
-import DelInnhold from './DelInhold'
 import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
 
 interface Props {

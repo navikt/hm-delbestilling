@@ -5,9 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import BestillingsKort from '../components/BestillingsKort'
-import { GlobalStyle } from '../GlobalStyle'
-import Content from '../styledcomponents/Content'
+import BestillingsKort from '../components/BestillingsKort/BestillingsKort'
+import Content from '../components/Layout/Content'
 import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/amplitude'
 import { triggerHotjarEvent } from '../utils/hotjar'
@@ -48,8 +47,7 @@ const Kvittering = () => {
   const delbestillingSak = state?.delbestillingSak
 
   return (
-    <main>
-      <GlobalStyle mainBg="white" />
+    <main style={{ '--main-bg-color': 'white' } as React.CSSProperties}>
       <Content>
         {delbestillingSak && (
           <>

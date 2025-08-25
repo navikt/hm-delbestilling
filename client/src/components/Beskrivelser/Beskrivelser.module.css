@@ -1,0 +1,7 @@
+/* Beskrivelser component styles */
+.beskrivelser {
+  @media (min-width: 800px) {
+    flex: 0 1 330px;
+    min-width: 0;
+  }
+}

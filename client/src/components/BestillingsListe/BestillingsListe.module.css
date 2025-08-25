@@ -1,0 +1,12 @@
+/* BestillingsListe component styles */
+.loaderContainer {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding: 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}

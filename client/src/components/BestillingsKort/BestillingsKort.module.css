@@ -1,0 +1,15 @@
+/* BestillingsKort component styles */
+.dellinje {
+  border-bottom: 1px solid var(--a-border-subtle);
+  padding: 8px 0;
+}
+
+.dellinje:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.skjulForPrint {
+  @media print {
+    display: none;
+  }
+}

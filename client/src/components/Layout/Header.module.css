@@ -1,0 +1,6 @@
+/* Header component styles */
+.header {
+  padding: 2rem 0;
+  border-bottom: 3px solid #99c4dd;
+  text-align: center;
+}
