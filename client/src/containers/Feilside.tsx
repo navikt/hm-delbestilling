@@ -5,7 +5,7 @@ import { Button } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import { Feilmelding } from '../components/Feilmelding'
-import Content from '../styledcomponents/Content'
+import Content from '../components/Layout/Content'
 
 interface Props {
   error: any

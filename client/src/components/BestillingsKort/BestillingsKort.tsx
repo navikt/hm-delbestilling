@@ -1,32 +1,18 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useReactToPrint } from 'react-to-print'
-import styled from 'styled-components'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
 import { Alert, BodyShort, Box, Button, Detail, Heading, HStack } from '@navikt/ds-react'
 
-import { formaterNorskDato } from '../helpers/utils'
-import { DelbestillingSak, Levering, Ordrestatus } from '../types/Types'
-import { logPrintAvBestillingÅpnet } from '../utils/amplitude'
+import { formaterNorskDato } from '../../helpers/utils'
+import { DelbestillingSak, Levering, Ordrestatus } from '../../types/Types'
+import { logPrintAvBestillingÅpnet } from '../../utils/amplitude'
+import { Avstand } from '../Avstand'
+import DellinjestatusTag from '../DellinjestatusTag'
+import OrdrestatusTag from '../OrdrestatusTag'
 
-import { Avstand } from './Avstand'
-import DellinjestatusTag from './DellinjestatusTag'
-import OrdrestatusTag from './OrdrestatusTag'
-
-const Dellinje = styled.div`
-  border-bottom: 1px solid var(--a-border-subtle);
-  :not(:last-child) {
-    margin-bottom: 0.5rem;
-  }
-  padding: 8px 0;
-`
-
-const SkjulForPrint = styled.div`
-  @media print {
-    display: none;
-  }
-`
+import styles from './BestillingsKort.module.css'
 
 interface Props {
   sak: DelbestillingSak
@@ -66,7 +52,7 @@ const BestillingsKort = ({ sak }: Props) => {
         </Detail>
         <Avstand marginBottom={4} />
         {sak.delbestilling.deler.map((dellinje, index) => (
-          <Dellinje key={index}>
+          <div key={index} className={styles.dellinje}>
             <HStack justify="space-between">
               <BodyShort size="medium" style={{ marginBottom: '0' }}>
                 {dellinje.del.navn}
@@ -76,16 +62,18 @@ const BestillingsKort = ({ sak }: Props) => {
             <BodyShort size="medium" textColor="subtle">
               HMS-nr. {dellinje.del.hmsnr}
             </BodyShort>
-            <SkjulForPrint>
+            <div className={styles.skjulForPrint}>
               {dellinje.lagerstatusPåBestillingstidspunkt &&
                 dellinje.antall > dellinje.lagerstatusPåBestillingstidspunkt.antallDelerPåLager && (
                   <Alert variant="info" inline>
                     {t('bestillinger.del.ikkePåLager')}
                   </Alert>
                 )}
-            </SkjulForPrint>
-            <SkjulForPrint>{!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}</SkjulForPrint>
-          </Dellinje>
+            </div>
+            <div className={styles.skjulForPrint}>
+              {!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}
+            </div>
+          </div>
         ))}
         <Avstand marginBottom={4} />
 
@@ -105,14 +93,14 @@ const BestillingsKort = ({ sak }: Props) => {
           {t('felles.saksnummer')}: {sak.saksnummer}
         </BodyShort>
 
-        <SkjulForPrint>
+        <div className={styles.skjulForPrint}>
           {visOrdrestatusTag && <OrdrestatusTag sak={sak} />}
           <div style={{ position: 'absolute', right: 10, bottom: 10 }}>
             <Button variant="tertiary" onClick={handlePrint} icon={<PrinterSmallIcon />}>
               {t('felles.skrivUt')}
             </Button>
           </div>
-        </SkjulForPrint>
+        </div>
       </Box>
     </Avstand>
   )

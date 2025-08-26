@@ -1,20 +1,10 @@
 import React, { SetStateAction, useState } from 'react'
-import styled from 'styled-components'
 
 import { Button, Checkbox, CheckboxGroup, Detail, Heading } from '@navikt/ds-react'
 
-import { Pilot } from '../types/Types'
+import { Pilot } from '../../types/Types'
 
-const Wrapper = styled.div`
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  z-index: 999999;
-  padding: 20px;
-  background: var(--a-gray-100);
-  border: 2px dashed black;
-  min-width: 220px;
-`
+import styles from './Rolleswitcher.module.css'
 
 interface Props {
   harXKLager?: boolean | undefined
@@ -54,7 +44,7 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
 
   if (erSkjult) {
     return (
-      <Wrapper>
+      <div className={styles.wrapper}>
         <Button
           size="small"
           variant="secondary"
@@ -65,12 +55,12 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
         >
           Vis Rolleswitcher
         </Button>
-      </Wrapper>
+      </div>
     )
   }
 
   return (
-    <Wrapper>
+    <div className={styles.wrapper}>
       <Button
         style={{ position: 'absolute', top: '7px', right: '7px' }}
         size="small"
@@ -90,7 +80,7 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
         )}
       </CheckboxGroup>
       <Detail>Git-commit: {window.appSettings.GIT_COMMIT}</Detail>
-    </Wrapper>
+    </div>
   )
 }
 

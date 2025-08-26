@@ -8,13 +8,13 @@ import { BodyLong, BodyShort, Box, Button, Heading, HStack, LinkPanel } from '@n
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
+import Content from '../components/Layout/Content'
+import { CustomBox } from '../components/Layout/CustomBox'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
-import Rolleswitcher from '../components/Rolleswitcher'
+import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import Content from '../styledcomponents/Content'
-import { CustomBox } from '../styledcomponents/CustomBox'
 import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
