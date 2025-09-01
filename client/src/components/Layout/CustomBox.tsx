@@ -4,8 +4,8 @@ import { Box } from '@navikt/ds-react'
 
 export const CustomBox = ({ children }: PropsWithChildren) => {
   return (
-    <Box padding="6" background="bg-default" borderWidth="1" borderColor="border-default">
+    <Box.New padding="6" background="default" borderWidth="1">
       {children}
-    </Box>
+    </Box.New>
   )
 }

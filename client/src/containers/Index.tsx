@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Box, Button, Heading, HStack, LinkPanel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Box, Button, Heading, HStack, Link, LinkCard } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -77,8 +77,9 @@ const Index = () => {
             />
 
             <Avstand marginTop={10}>
-              <LinkPanel
+              <Link
                 href="#"
+                style={{ display: 'block', width: '100%'}}
                 onClick={(e) => {
                   e.preventDefault()
                   if (erLoggetInn) {
@@ -88,11 +89,13 @@ const Index = () => {
                   }
                 }}
               >
-                <LinkPanel.Title>{t('bestillinger.dineSiste')}</LinkPanel.Title>
-                {!sjekkerLogin && !erLoggetInn && (
-                  <LinkPanel.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkPanel.Description>
-                )}
-              </LinkPanel>
+                <LinkCard style={{ border: '1px solid'}}>
+                  <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
+                  {!sjekkerLogin && !erLoggetInn && (
+                    <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
+                  )}
+                </LinkCard>
+              </Link>
             </Avstand>
 
             <Avstand marginTop={10}>
@@ -100,7 +103,7 @@ const Index = () => {
             </Avstand>
 
             <Avstand marginTop={10}>
-              <Box padding="4" background="bg-default">
+              <Box.New padding="4" background="default">
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
                 </Heading>
@@ -119,7 +122,7 @@ const Index = () => {
                     }}
                   />
                 </BodyLong>
-              </Box>
+              </Box.New>
             </Avstand>
           </>
         )}

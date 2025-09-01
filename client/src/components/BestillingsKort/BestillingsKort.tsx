@@ -35,10 +35,9 @@ const BestillingsKort = ({ sak }: Props) => {
 
   return (
     <Avstand marginBottom={4}>
-      <Box
+      <Box.New
         padding="4"
-        background="bg-default"
-        borderColor="border-default"
+        background="default"
         borderWidth="1"
         style={{ position: 'relative' }}
         ref={printRef}
@@ -101,7 +100,7 @@ const BestillingsKort = ({ sak }: Props) => {
             </Button>
           </div>
         </div>
-      </Box>
+      </Box.New>
     </Avstand>
   )
 }

@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import ScrollToTop from './components/ScrollToTop'
 import { ErrorFallback } from './containers/ErrorFallback'
 import Routes from './Routes'
+import { Theme } from '@navikt/ds-react'
 
 import './index.css'
 
@@ -21,7 +22,9 @@ const App = () => {
     <BrowserRouter basename={BASE_PATH}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <ScrollToTop>
+          <Theme theme='light'>
           <Routes />
+          </Theme>
         </ScrollToTop>
       </ErrorBoundary>
     </BrowserRouter>
