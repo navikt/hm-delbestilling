@@ -103,7 +103,7 @@ const Index = () => {
             </Avstand>
 
             <Avstand marginTop={10}>
-              <Box.New padding="4" background="default">
+              <Box.New padding="4" background="default" borderRadius="12">
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
                 </Heading>

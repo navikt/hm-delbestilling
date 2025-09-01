@@ -35,7 +35,6 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
   }, [valg])
 
   const hentBestillinger = async (valg: Valg) => {
-    console.log(`Henter bestillinger for ${valg}`)
 
     try {
       const erLoggetInn = await sjekkLoginStatus()
