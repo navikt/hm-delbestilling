@@ -48,7 +48,7 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
             </HStack>
           </Modal.Body>
 
-          <Box padding="4">
+          <Box.New padding="4">
             <HStack justify="space-evenly">
               <Button
                 disabled={valgtIndex === 0}
@@ -60,13 +60,15 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
                 <HGrid columns={{ xs: 4, sm: 4, md: 4 }} gap="4" align="center">
                   {imgs.map((url, i) => (
                     <button key={i} className={styles.thumbnailButton} onClick={() => setValgtIndex(i)}>
-                      <Box
-                        borderColor={valgtIndex === i ? 'border-strong' : 'border-subtle'}
+                      <Box.New
                         borderWidth="2"
-                        style={{ display: 'flex' }}
+                        style={{
+                          display: 'flex',
+                          borderColor: `var(${valgtIndex === i ? '--ax-border-neutral-strong' : '--ax-border-neutral-subtle'})`
+                      }}
                       >
                         <img src={url} alt={navn} style={{ width: '100%' }} />
-                      </Box>
+                      </Box.New>
                     </button>
                   ))}
                 </HGrid>
@@ -79,7 +81,7 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
                 variant="tertiary"
               />
             </HStack>
-          </Box>
+          </Box.New>
         </Modal>
       )}
     </>

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useReactToPrint } from 'react-to-print'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
-import { Alert, BodyShort, Box, Button, Detail, Heading, HStack } from '@navikt/ds-react'
+import { Alert, BodyShort, Box, Button, Detail, Heading, HStack, VStack } from '@navikt/ds-react'
 
 import { formaterNorskDato } from '../../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../../types/Types'
@@ -35,13 +35,13 @@ const BestillingsKort = ({ sak }: Props) => {
 
   return (
     <Avstand marginBottom={4}>
-      <Box
+      <Box.New
         padding="4"
-        background="bg-default"
-        borderColor="border-default"
+        background="default"
         borderWidth="1"
         style={{ position: 'relative' }}
         ref={printRef}
+        borderRadius="12"
       >
         <Heading size="small" level="3">
           {sak.delbestilling.navn ? <>Bestilling til {sak.delbestilling.navn}</> : <>Bestilling</>}
@@ -53,26 +53,28 @@ const BestillingsKort = ({ sak }: Props) => {
         <Avstand marginBottom={4} />
         {sak.delbestilling.deler.map((dellinje, index) => (
           <div key={index} className={styles.dellinje}>
-            <HStack justify="space-between">
-              <BodyShort size="medium" style={{ marginBottom: '0' }}>
-                {dellinje.del.navn}
+            <VStack gap="1">
+              <HStack justify="space-between">
+                <BodyShort size="medium" style={{ marginBottom: '0' }}>
+                  {dellinje.del.navn}
+                </BodyShort>
+                <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
+              </HStack>
+              <BodyShort size="medium" textColor="subtle">
+                HMS-nr. {dellinje.del.hmsnr}
               </BodyShort>
-              <BodyShort size="medium">{dellinje.antall} stk</BodyShort>
-            </HStack>
-            <BodyShort size="medium" textColor="subtle">
-              HMS-nr. {dellinje.del.hmsnr}
-            </BodyShort>
-            <div className={styles.skjulForPrint}>
-              {dellinje.lagerstatusPåBestillingstidspunkt &&
-                dellinje.antall > dellinje.lagerstatusPåBestillingstidspunkt.antallDelerPåLager && (
-                  <Alert variant="info" inline>
-                    {t('bestillinger.del.ikkePåLager')}
-                  </Alert>
-                )}
-            </div>
-            <div className={styles.skjulForPrint}>
-              {!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}
-            </div>
+              <div className={styles.skjulForPrint}>
+                {dellinje.lagerstatusPåBestillingstidspunkt &&
+                  dellinje.antall > dellinje.lagerstatusPåBestillingstidspunkt.antallDelerPåLager && (
+                    <Alert variant="info" inline>
+                      {t('bestillinger.del.ikkePåLager')}
+                    </Alert>
+                  )}
+              </div>
+              <div className={styles.skjulForPrint}>
+                {!visOrdrestatusTag && <DellinjestatusTag dellinje={dellinje} />}
+              </div>
+            </VStack>
           </div>
         ))}
         <Avstand marginBottom={4} />
@@ -101,7 +103,7 @@ const BestillingsKort = ({ sak }: Props) => {
             </Button>
           </div>
         </div>
-      </Box>
+      </Box.New>
     </Avstand>
   )
 }

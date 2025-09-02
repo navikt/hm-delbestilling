@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { BodyShort, Box, Heading, HStack, List, Skeleton } from '@navikt/ds-react'
 
 import rest from '../services/rest'
+import { Avstand } from './Avstand'
 
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
@@ -35,7 +36,7 @@ const OmÅBestilleDeler = () => {
   }
 
   return (
-    <Box padding="4" background="bg-default">
+    <Box.New padding="4" background="default" borderRadius="12">
       <Heading level="2" size="medium" spacing>
         {t('info.omÅBestilleDeler')}
       </Heading>
@@ -49,6 +50,7 @@ const OmÅBestilleDeler = () => {
           <BodyShort>
             {t('info.kunForTeknikere')} {t('info.kanBestilleDelerTil')}:
           </BodyShort>
+          <Avstand marginBottom={4}></Avstand>
           {kolonne1.length > 0 && kolonne2.length > 0 && (
             <HStack gap="4">
               <List>
@@ -65,7 +67,7 @@ const OmÅBestilleDeler = () => {
           )}
         </>
       )}
-    </Box>
+    </Box.New>
   )
 }
 
