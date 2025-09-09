@@ -78,7 +78,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
             hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
-          // Sjekk for batterier skal kun gjelde for tilfeller der hovedmiddel er utenfor garanti
+          // Sjekk for batterier skal kun gjelde for tilfeller der hovedmiddel er innenfor garanti
           let kanIkkeBestillesPgaGarantitid = false
           if (erBatteri && hjelpemiddel.erInnenforGaranti === true) {
             kanIkkeBestillesPgaGarantitid = true
