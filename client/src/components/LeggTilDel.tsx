@@ -72,13 +72,20 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
+          const erBatteri = del.kategori.toLowerCase() === 'batteri'
           const harNyligBlittBestiltBatteri =
-            del.kategori === 'Batteri' &&
+            erBatteri &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
+          const erInnenforGaranti = !erBatteri && hjelpemiddel.erInnenforGaranti
+
+          console.log(`${del.navn} - erInnenforGaranti: ${erInnenforGaranti}`)
+
           const kanBestilles =
-            !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
+            !harNyligBlittBestiltBatteri &&
+            (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare) &&
+            erInnenforGaranti
 
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
