@@ -79,15 +79,15 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
             hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
           // Sjekk for batterier skal kun gjelde for tilfeller der hovedmiddel er utenfor garanti
-          let garantiSjekk = true
-          if (erBatteri && hjelpemiddel.erInnenforGaranti === false) {
-            garantiSjekk = false
+          let kanIkkeBestillesPgaGarantitid = false
+          if (erBatteri && hjelpemiddel.erInnenforGaranti === true) {
+            kanIkkeBestillesPgaGarantitid = true
           }
 
-          console.log(`${del.navn} - garantiSjekk: ${garantiSjekk}`)
-
           const kanBestilles =
-            !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare) && garantiSjekk
+            !harNyligBlittBestiltBatteri &&
+            !kanIkkeBestillesPgaGarantitid &&
+            (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
 
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
@@ -125,7 +125,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                             })}
                           </Detail>
                         </Avstand>
-                      ) : !garantiSjekk ? (
+                      ) : kanIkkeBestillesPgaGarantitid ? (
                         <Avstand marginTop={5}>
                           <Detail>{t('del.utenforGaranti')}</Detail>
                         </Avstand>
