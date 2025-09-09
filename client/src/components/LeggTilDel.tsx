@@ -78,7 +78,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
             hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
-          // const erInnenforGaranti = erBatteri && hjelpemiddel.erInnenforGaranti
+          // Sjekk for batterier skal kun gjelde for tilfeller der hovedmiddel er utenfor garanti
           let garantiSjekk = true
           if (erBatteri && hjelpemiddel.erInnenforGaranti === false) {
             garantiSjekk = false
@@ -117,7 +117,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                         </Avstand>
                       )}
 
-                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null && (
+                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">
                             {t('del.antallDagerSidenSistBatteribestilling', {
@@ -125,19 +125,11 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                             })}
                           </Detail>
                         </Avstand>
-                      )}
-
-                      {!garantiSjekk && (
+                      ) : !garantiSjekk ? (
                         <Avstand marginTop={5}>
-                          <Alert variant="warning">
-                            <BodyShort>
-                              {t('del.utenforGaranti', {
-                                navn: hjelpemiddel.navn,
-                              })}
-                            </BodyShort>
-                          </Alert>
+                          <Detail>{t('del.utenforGaranti')}</Detail>
                         </Avstand>
-                      )}
+                      ) : null}
                     </Beskrivelser>
                   </FlexedStack>
 
