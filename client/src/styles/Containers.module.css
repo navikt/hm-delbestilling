@@ -12,7 +12,7 @@
 
 .toolbar {
   padding: 1rem;
-  background: var(--a-gray-50);
+  background: default;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
