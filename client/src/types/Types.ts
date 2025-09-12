@@ -3,7 +3,8 @@ export interface Hjelpemiddel {
   hmsnr: string
   deler: Del[] | undefined
   antallDagerSidenSistBatteribestilling: number | null
-  erInnenforGaranti: boolean
+  erInnenforGaranti: boolean | null
+  antallÅrGaranti: boolean | null
 }
 
 export interface Del {
