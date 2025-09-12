@@ -82,6 +82,7 @@
   "feilside.noeGikkGalt": "Noko gjekk gale og sida kan ikkje visast",
   "feilside.prøvPåNytt": "Prøv på nytt",
 
+  "del.lagerstatus.ikkeFastLagervare": "Delen kan ikkje bestillast digitalt. Ta kontakt med HMS {{hmsNavn}} for å bestilla.",
   "del.antallDagerSidenSistBatteribestilling_zero": "Det er allereie bestilt batteri i dag og er innanfor garantitid. Ta kontakt med Hjelpemiddelsentralen om det likevel er behov for nytt batteri.",
   "del.antallDagerSidenSistBatteribestilling_other": "Batteria til dette hjelpemiddelet vart bytte for mindre enn eitt år sidan, og er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien",
   "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien",
