@@ -127,7 +127,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                         </Avstand>
                       ) : kanIkkeBestillesPgaGarantitid ? (
                         <Avstand marginTop={5}>
-                          <Detail>{t('del.utenforGaranti')}</Detail>
+                          <Detail>{t('del.hjelpemiddelErInnenforGarantitid')}</Detail>
                         </Avstand>
                       ) : null}
                     </Beskrivelser>

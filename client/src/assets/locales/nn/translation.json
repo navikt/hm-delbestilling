@@ -84,7 +84,7 @@
 
   "del.antallDagerSidenSistBatteribestilling_zero": "Det er allereie bestilt batteri i dag og er innanfor garantitid. Ta kontakt med Hjelpemiddelsentralen om det likevel er behov for nytt batteri.",
   "del.antallDagerSidenSistBatteribestilling_other": "Batteria til dette hjelpemiddelet vart bytte for mindre enn eitt år sidan, og er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien",
-  "del.utenforGaranti": "Hjelpemiddelet er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien",
+  "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien",
 
   "felles.overskrift": "Bestilling av delar til hjelpemiddel",
   "felles.Bekreft": "Stadfest",
