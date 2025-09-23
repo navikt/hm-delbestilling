@@ -4,8 +4,6 @@ const ALLOWED_DOMAINS = ['*.nav.no', '*.adeo.no', '*.hjelpemiddeldatabasen.no', 
 const GOOGLE_TAG_MANAGER_DOMAIN = '*.googletagmanager.com'
 const ACCOUNT_PSPLUGIN_DOMAIN = 'account.psplugin.com'
 const NAV_PSPLUGIN_DOMAIN = 'nav.psplugin.com'
-const HOTJAR_DOMAINS = ['*.hotjar.com', '*.hotjar.io']
-const VARS_HOTJAR_DOMAIN = 'vars.hotjar.com'
 const TASKANALYTICS_DOMAINS = ['*.taskanalytics.com', 'ta-survey-v2.herokuapp.com']
 const SENTRY_DOMAINS = ['sentry.gc.nav.no', '*.sentry.io', 'browser.sentry-cdn.com', 'js.sentry-cdn.com']
 
@@ -26,7 +24,6 @@ export function helmetConfig() {
         ALLOWED_DOMAINS,
         GOOGLE_TAG_MANAGER_DOMAIN,
         NAV_PSPLUGIN_DOMAIN,
-        HOTJAR_DOMAINS,
         SENTRY_DOMAINS,
         TASKANALYTICS_DOMAINS
       ),
@@ -34,7 +31,6 @@ export function helmetConfig() {
       blockAllMixedContent: [],
       fontSrc: ["'self'", 'https:', 'data:'].concat(ALLOWED_DOMAINS),
       frameAncestors: ["'self'"],
-      frameSrc: [VARS_HOTJAR_DOMAIN],
       objectSrc: ["'self'"].concat(ALLOWED_DOMAINS),
       manifestSrc: ["'self'"].concat(ALLOWED_DOMAINS),
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"].concat(
@@ -42,7 +38,6 @@ export function helmetConfig() {
         ALLOWED_DOMAINS,
         GOOGLE_TAG_MANAGER_DOMAIN,
         ACCOUNT_PSPLUGIN_DOMAIN,
-        HOTJAR_DOMAINS,
         TASKANALYTICS_DOMAINS,
         SENTRY_DOMAINS
       ),
@@ -52,11 +47,7 @@ export function helmetConfig() {
         TASKANALYTICS_DOMAINS,
         ACCOUNT_PSPLUGIN_DOMAIN
       ), // TODO: unsafe-inline bad
-      imgSrc: ["'self'", 'data:'].concat(
-        ALLOWED_DOMAINS,
-        GOOGLE_TAG_MANAGER_DOMAIN,
-        HOTJAR_DOMAINS
-      ), // analytics sends information by loading images with query params
+      imgSrc: ["'self'", 'data:'].concat(ALLOWED_DOMAINS, GOOGLE_TAG_MANAGER_DOMAIN), // analytics sends information by loading images with query params
       workerSrc: ["'self'", 'blob:'].concat(ALLOWED_DOMAINS), // TODO: blob bad?
       childSrc: ["'self'", 'blob:'].concat(ALLOWED_DOMAINS), // TODO: blob bad?
       upgradeInsecureRequests: [],
