@@ -1,9 +1,13 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 
-import { Chips } from '@navikt/ds-react'
+import { Chips, ReadMore } from '@navikt/ds-react'
 
 import { Del } from '../types/Types'
 import { logKategoriFiltreringGjort } from '../utils/amplitude'
+
+import { Avstand } from './Avstand'
+
+const ANTALL_SYNLIGE_KATEGORIER = 15
 
 interface Props {
   delKategorier: string[]
@@ -15,37 +19,65 @@ interface Props {
 const DelKategoriVelger = ({ delKategorier, kategoriFilter, setKategoriFilter, logKategoriValg = true }: Props) => {
   const visCheckmark = delKategorier.length <= 2
 
+  const synligeKategorier = delKategorier.slice(0, ANTALL_SYNLIGE_KATEGORIER)
+  const restKategorier = delKategorier.slice(ANTALL_SYNLIGE_KATEGORIER)
+
   return (
-    <Chips>
-      <Chips.Toggle
-        checkmark={visCheckmark}
-        key="alle-deler"
-        selected={kategoriFilter === undefined}
-        onClick={() => {
-          if (logKategoriValg) {
-            logKategoriFiltreringGjort('alle deler')
-          }
-          setKategoriFilter(undefined)
-        }}
-      >
-        Alle deler
-      </Chips.Toggle>
-      {delKategorier.map((kategori) => (
+    <>
+      <Chips>
         <Chips.Toggle
           checkmark={visCheckmark}
-          key={kategori}
-          selected={kategoriFilter === kategori}
+          key="alle-deler"
+          selected={kategoriFilter === undefined}
           onClick={() => {
             if (logKategoriValg) {
-              logKategoriFiltreringGjort(kategori)
+              logKategoriFiltreringGjort('alle deler')
             }
-            setKategoriFilter(kategori)
+            setKategoriFilter(undefined)
           }}
         >
-          {kategori}
+          Alle deler
         </Chips.Toggle>
-      ))}
-    </Chips>
+        {synligeKategorier.map((kategori) => (
+          <Chips.Toggle
+            checkmark={visCheckmark}
+            key={kategori}
+            selected={kategoriFilter === kategori}
+            onClick={() => {
+              if (logKategoriValg) {
+                logKategoriFiltreringGjort(kategori)
+              }
+              setKategoriFilter(kategori)
+            }}
+          >
+            {kategori}
+          </Chips.Toggle>
+        ))}
+      </Chips>
+      <Avstand marginTop={4} marginBottom={6}>
+        {restKategorier.length > 0 && (
+          <ReadMore header="Vis alle">
+            <Chips>
+              {restKategorier.map((kategori) => (
+                <Chips.Toggle
+                  checkmark={visCheckmark}
+                  key={kategori}
+                  selected={kategoriFilter === kategori}
+                  onClick={() => {
+                    if (logKategoriValg) {
+                      logKategoriFiltreringGjort(kategori)
+                    }
+                    setKategoriFilter(kategori)
+                  }}
+                >
+                  {kategori}
+                </Chips.Toggle>
+              ))}
+            </Chips>
+          </ReadMore>
+        )}
+      </Avstand>
+    </>
   )
 }
 
@@ -57,13 +89,15 @@ export const useDelKategorier = (deler: Del[] | undefined) => {
       return []
     }
 
-    return deler.reduce((acc, del) => {
-      if (!acc.includes(del.kategori)) {
-        acc.push(del.kategori)
-      }
-      return acc
-    }, [] as string[])
-  }, [deler]).sort()
+    return deler
+      .reduce((acc, del) => {
+        if (!acc.includes(del.kategori)) {
+          acc.push(del.kategori)
+        }
+        return acc
+      }, [] as string[])
+      .sort()
+  }, [deler])
 
   useEffect(() => setKategoriFilter(undefined), [deler])
 
