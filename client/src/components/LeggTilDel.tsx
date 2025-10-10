@@ -72,13 +72,23 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
+          const erBatteri = del.kategori.toLowerCase() === 'batteri'
+
+          // Batteri er i seg selv dekket av garanti i 1 år
           const harNyligBlittBestiltBatteri =
-            del.kategori === 'Batteri' &&
+            erBatteri &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
-          const kanBestilles =
-            !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
+          // Dersom hjelpemiddelet er innenfor garantitiden, så kan batteriet være dekket av garantien
+          const dekketAvHjelpemiddeletsGaranti = erBatteri && hjelpemiddel.erInnenforGaranti === true
+
+          const erDekketAvGaranti = harNyligBlittBestiltBatteri || dekketAvHjelpemiddeletsGaranti
+
+          // Må være på minmax eller lager må støtte anmodninger
+          const lagerstatusErOkForBestilling = erFastLagervare || erPilotForBestilleIkkeFasteLagervarer
+
+          const kanBestilles = !erDekketAvGaranti && lagerstatusErOkForBestilling
 
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
@@ -96,7 +106,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                         {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
                       </HStack>
 
-                      {del.lagerstatus && !erPilotForBestilleIkkeFasteLagervarer && !kanBestilles && (
+                      {del.lagerstatus && !lagerstatusErOkForBestilling && (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">
                             {t('del.lagerstatus.ikkeFastLagervare', {
@@ -108,7 +118,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                         </Avstand>
                       )}
 
-                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null && (
+                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">
                             {t('del.antallDagerSidenSistBatteribestilling', {
@@ -116,7 +126,11 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                             })}
                           </Detail>
                         </Avstand>
-                      )}
+                      ) : dekketAvHjelpemiddeletsGaranti ? (
+                        <Avstand marginTop={5}>
+                          <Detail>{t('del.hjelpemiddelErInnenforGarantitid')}</Detail>
+                        </Avstand>
+                      ) : null}
                     </Beskrivelser>
                   </FlexedStack>
 
