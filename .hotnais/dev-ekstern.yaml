@@ -17,10 +17,10 @@ spec:
   ingresses:
     - https://hjelpemidler.ekstern.dev.nav.no/hjelpemidler/delbestilling
   liveness:
-    path: /isAlive
+    path: /isalive
     initialDelay: 5
   readiness:
-    path: /isReady
+    path: /isready
     initialDelay: 5
   prometheus:
     enabled: false
