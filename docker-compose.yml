@@ -1,16 +1,15 @@
-version: '3'
 services:
   hm-delbestilling:
     build: .
     image: 'hm-delbestilling'
     ports:
-      - '5000:5000'
+      - '9000:5000'
     environment:
-      DEBUG: 'hm-delbestilling'
-      IDPORTEN_WELL_KNOWN_URL: 'http://host.docker.internal:8080/default/.well-known/openid-configuration'
-      TOKEN_X_WELL_KNOWN_URL: 'http://host.docker.internal:8080/default/.well-known/openid-configuration'
-      API_URL: 'http://host.docker.internal:9090'
-      FORSLAGSMOTOR_TILBEHOER_URL: 'http://host.docker.internal:9090'
+      NAIS_CLUSTER_NAME: 'dev-gcp'
+      BIND_ADDRESS: ':5000'
+      API_URL: 'http://localhost:4040'
+      ROLLER_URL: 'http://localhost:4040'
+      FORSLAGSMOTOR_TILBEHOER_URL: 'http://localhost:4040'
       USE_MSW: 'true'
 
   hm-delbestilling-prod:
