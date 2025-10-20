@@ -10,8 +10,9 @@ import (
 )
 
 var (
-	useMSW = os.Getenv("USE_MSW") == "true"
-	idp    = texas.IDPorten
+	useMSW             = os.Getenv("USE_MSW") == "true"
+	idp                = texas.IDPorten
+	logoutWarning bool = true
 )
 
 func init() {
@@ -25,7 +26,8 @@ func main() {
 		BasePath: "/hjelpemidler/delbestilling/",
 		RootDir:  "dist",
 		DecoratorOpts: &decorator.Options{
-			Context: "samarbeidspartner",
+			Context:       "samarbeidspartner",
+			LogoutWarning: &logoutWarning,
 		},
 		Proxy: proxy.Map{
 			"/api/": &proxy.Options{
