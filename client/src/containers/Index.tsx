@@ -79,7 +79,7 @@ const Index = () => {
             <Avstand marginTop={10}>
               <Link
                 href="#"
-                style={{ display: 'block', width: '100%'}}
+                style={{ display: 'block', width: '100%' }}
                 onClick={(e) => {
                   e.preventDefault()
                   if (erLoggetInn) {
@@ -89,7 +89,7 @@ const Index = () => {
                   }
                 }}
               >
-                <LinkCard style={{ border: '1px solid'}}>
+                <LinkCard style={{ border: '1px solid' }}>
                   <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
                   {!sjekkerLogin && !erLoggetInn && (
                     <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
@@ -160,7 +160,7 @@ const Index = () => {
           </>
         )}
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
+      {(window.appSettings.USE_MSW || window.appSettings.NAIS_CLUSTER_NAME === 'dev-gcp') && (
         <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />
       )}
     </main>

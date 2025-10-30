@@ -77,7 +77,7 @@ const Utsjekk = () => {
   }, [harXKLager])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (handlekurv && harXKLager === undefined) {
         try {
           const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr)
@@ -406,7 +406,7 @@ const Utsjekk = () => {
           )}
         </>
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
+      {(window.appSettings.USE_MSW || window.appSettings.NAIS_CLUSTER_NAME === 'dev-gcp') && (
         <Rolleswitcher
           harXKLager={harXKLager}
           setHarXKLager={setHarXKLager}
