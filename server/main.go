@@ -38,7 +38,7 @@ func main() {
 			},
 			"/roller-api/": &proxy.Options{
 				Target:      os.Getenv("ROLLER_URL"),
-				StripPrefix: false,
+				StripPrefix: true,
 				IDP:         texas.TokenX,
 				IDPTarget:   os.Getenv("ROLLER_AUDIENCE"),
 			},

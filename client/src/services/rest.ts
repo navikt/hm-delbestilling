@@ -14,7 +14,7 @@ import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
-export const ROLLER_PATH = REST_BASE_PATH + '/roller'
+export const ROLLER_PATH = REST_BASE_PATH + '/roller-api/api/roller'
 
 export class ApiError extends Error {
   statusCode: number | undefined
@@ -36,7 +36,7 @@ export class ApiError extends Error {
 const handleResponse = async (response: Response) => {
   // Catcher statuskoder utenfor 200-299
   if (!response.ok) {
-    const json = await response.json().catch((err: unknown) => {})
+    const json = await response.json().catch((err: unknown) => { })
     // Responsebody inneholder ikke en feil som klienten skal håndtere, så kast ApiError
     if (json?.feil === undefined) {
       throw new ApiError(response.statusText, response.status)
