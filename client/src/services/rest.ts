@@ -14,7 +14,7 @@ import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
-export const ROLLER_PATH = REST_BASE_PATH + '/roller-api/api/roller'
+export const ROLLER_PATH = REST_BASE_PATH + '/roller-api/api'
 
 export class ApiError extends Error {
   statusCode: number | undefined
