@@ -17,14 +17,14 @@ spec:
   ingresses:
     - 'https://hjelpemidler-prod-mirror.ekstern.dev.nav.no/hjelpemidler/delbestilling'
   liveness:
-    path: /hjelpemidler/delbestilling/internal/isAlive
+    path: /isalive
     initialDelay: 5
   readiness:
-    path: /hjelpemidler/delbestilling/internal/isReady
+    path: /isready
     initialDelay: 5
   prometheus:
-    enabled: true
-    path: /hjelpemidler/delbestilling/internal/metrics
+    enabled: false
+    path: /metrics
   accessPolicy:
     outbound:
       external:

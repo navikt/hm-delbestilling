@@ -17,7 +17,7 @@ declare global {
     hj: any
     appSettings: {
       GIT_COMMIT?: string
-      MILJO?: 'dev-gcp' | 'prod-gcp'
+      NAIS_CLUSTER_NAME?: 'dev-gcp' | 'prod-gcp'
       USE_MSW?: boolean
     }
   }

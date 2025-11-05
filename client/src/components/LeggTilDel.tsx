@@ -140,7 +140,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                     </Button>
                   )}
                 </DelInnhold>
-                {window.appSettings.MILJO === 'dev-gcp' &&
+                {window.appSettings.NAIS_CLUSTER_NAME === 'dev-gcp' &&
                   erPilotForBestilleIkkeFasteLagervarer &&
                   !erFastLagervare && (
                     <HStack justify={'end'}>

@@ -3,7 +3,7 @@ import { delay, http, HttpResponse } from 'msw'
 import { DelbestillerrolleResponse } from '../../types/HttpTypes'
 
 const rollerHandlers = [
-  http.get<{}, {}, DelbestillerrolleResponse>('/hjelpemidler/delbestilling/roller/delbestiller', async () => {
+  http.get<{}, {}, DelbestillerrolleResponse>('/hjelpemidler/delbestilling/roller-api/api/delbestiller', async () => {
     await delay(250)
     return HttpResponse.json({
       delbestillerrolle: {
