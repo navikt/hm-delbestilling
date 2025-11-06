@@ -95,11 +95,13 @@ const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) =>
     return <Skeleton variant="text" height="40px" style={{ transform: 'scale(1, 0.8' }}></Skeleton>
   }
 
+  console.log('data:', data)
+
   if (error) {
     return <BodyShort>Feil ved henting av deler. Prøv igjen senere.</BodyShort>
   }
 
-  if (!data) {
+  if (!data || Object.keys(data || {}).length === 0) {
     return <BodyShort>Ingen deler funnet.</BodyShort>
   }
 
