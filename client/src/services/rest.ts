@@ -5,7 +5,7 @@ import {
   DelbestillerrolleResponse,
   DelbestillingResponse,
   DellisteResponse,
-  HjelpemiddelTitlerResponse,
+  TilgjengeligeHjelpemidlerResponse,
   OppslagResponse,
   SisteBatteribestillingResponse,
   XKLagerResponse,
@@ -61,14 +61,8 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
   return await response.json()
 }
 
-const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerResponse> => {
+const hentTilgjengeligeHjelpemidler = async (): Promise<TilgjengeligeHjelpemidlerResponse> => {
   const response = await fetch(API_PATH + '/hjelpemidler')
-  await handleResponse(response.clone())
-  return await response.json()
-}
-
-const hentHjelpemiddelTitler = async (): Promise<HjelpemiddelTitlerResponse> => {
-  const response = await fetch(API_PATH + '/hjelpemiddel-titler')
   await handleResponse(response.clone())
   return await response.json()
 }
@@ -155,8 +149,7 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
 
 export default {
   hjelpemiddelOppslag,
-  hentAlleHjelpemidlerMedDeler,
-  hentHjelpemiddelTitler,
+  hentTilgjengeligeHjelpemidler,
   hentAlleDeler,
   sendInnBestilling,
   hentBestillinger,
