@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Accordion, BodyShort, Box, Heading, List, Skeleton } from '@navikt/ds-react'
+import { Accordion, BodyShort, Box, Heading, HStack, List, Loader, Skeleton } from '@navikt/ds-react'
 import useSWRImmutable from 'swr/immutable'
 
 import rest, { API_PATH } from '../services/rest'
-import { Avstand } from './Avstand'
 import { TilgjengeligeHjelpemidlerResponse } from '../types/HttpTypes'
+import { Avstand } from './Avstand'
 
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
@@ -92,7 +92,11 @@ const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) =>
   })
 
   if (isLoading) {
-    return <Skeleton variant="text" height="40px" style={{ transform: 'scale(1, 0.8' }}></Skeleton>
+    return (
+      <HStack align="center" justify="center">
+        <Loader />
+      </HStack>
+    )
   }
 
   console.log('data:', data)
