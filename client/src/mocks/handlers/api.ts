@@ -195,7 +195,7 @@ const apiHandlers = [
     return HttpResponse.json(dellisteMock)
   }),
 
-  http.get<{}, {}, TilgjengeligeHjelpemidlerResponse>(`${API_PATH}/hjelpemidler`, async () => {
+  http.get<{}, {}, TilgjengeligeHjelpemidlerResponse>(`${API_PATH}/tilgjengelige-hjelpemidler`, async () => {
     await delay(250)
     return HttpResponse.json({
       'Aurora Standard': ['296142', '296146', '296143', '296147', '296140', '296141', '296144', '296145'],
