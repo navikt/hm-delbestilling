@@ -99,8 +99,6 @@ const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) =>
     )
   }
 
-  console.log('data:', data)
-
   if (error) {
     return <BodyShort>Feil ved henting av deler. Prøv igjen senere.</BodyShort>
   }
