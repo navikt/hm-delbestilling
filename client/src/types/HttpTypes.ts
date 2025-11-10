@@ -16,7 +16,7 @@ export interface AlleHjelpemidlerMedDelerResponse {
 }
 
 export interface TilgjengeligeHjelpemidlerResponse {
-  [key: string]: string[]
+  [hmTittel: string]: string[]
 }
 
 export interface DellisteResponse {

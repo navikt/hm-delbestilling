@@ -29,8 +29,6 @@ const OmÅBestilleDeler = () => {
       })
   }, [])
 
-  console.log('åpneHjelpemidler:', åpneHjelpemidler)
-
   return (
     <Box.New padding="4" background="default" borderRadius="12">
       <Heading level="2" size="medium" spacing>
