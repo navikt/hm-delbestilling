@@ -22,8 +22,8 @@ const App = () => {
     <BrowserRouter basename={BASE_PATH}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <ScrollToTop>
-          <Theme theme='light'>
-          <Routes />
+          <Theme theme="light">
+            <Routes />
           </Theme>
         </ScrollToTop>
       </ErrorBoundary>
