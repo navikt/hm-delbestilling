@@ -6,7 +6,6 @@ import useSWRImmutable from 'swr/immutable'
 
 import rest, { API_PATH } from '../services/rest'
 import { TilgjengeligeHjelpemidlerResponse } from '../types/HttpTypes'
-import { Avstand } from './Avstand'
 
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
@@ -41,13 +40,12 @@ const OmÅBestilleDeler = () => {
         </>
       ) : (
         <>
-          <BodyShort>
+          <BodyShort spacing>
             {t('info.kunForTeknikere')} {t('info.kanBestilleDelerTil')}:
           </BodyShort>
-          <Avstand marginBottom={4}></Avstand>
-          <Accordion>
-            {tilgjengeligeHjelpemidler &&
-              Object.entries(tilgjengeligeHjelpemidler).map(([tittel, hmsnrs], i) => (
+          {tilgjengeligeHjelpemidler && Object.keys(tilgjengeligeHjelpemidler).length > 1 && (
+            <Accordion>
+              {Object.entries(tilgjengeligeHjelpemidler).map(([tittel, hmsnrs], i) => (
                 <Accordion.Item
                   key={tittel}
                   onOpenChange={(open) => {
@@ -65,7 +63,8 @@ const OmÅBestilleDeler = () => {
                   </Accordion.Content>
                 </Accordion.Item>
               ))}
-          </Accordion>
+            </Accordion>
+          )}
         </>
       )}
     </Box.New>
@@ -73,7 +72,11 @@ const OmÅBestilleDeler = () => {
 }
 
 const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) => {
-  const { data, error, isLoading } = useSWRImmutable<string[]>(tittel, async () => {
+  const {
+    data: delerNavn,
+    error,
+    isLoading,
+  } = useSWRImmutable<string[]>(tittel, async () => {
     const response = await fetch(`${API_PATH}/deler-til-hmsnrs`, {
       method: 'POST',
       headers: {
@@ -101,13 +104,13 @@ const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) =>
     return <BodyShort>Feil ved henting av deler. Prøv igjen senere.</BodyShort>
   }
 
-  if (!data || Object.keys(data || {}).length === 0) {
+  if (!delerNavn || Object.keys(delerNavn || {}).length === 0) {
     return <BodyShort>Ingen deler funnet.</BodyShort>
   }
 
   return (
     <List>
-      {data.map((del) => (
+      {delerNavn.map((del) => (
         <List.Item key={del}>{del}</List.Item>
       ))}
     </List>
