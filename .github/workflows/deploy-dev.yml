@@ -9,7 +9,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - erInnenforGaranti
+      - deler-til-hmsnrs
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
