@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useSWRImmutable from 'swr/immutable'
 
 import { Accordion, BodyShort, Box, Heading, HStack, List, Loader, Skeleton } from '@navikt/ds-react'
-import useSWRImmutable from 'swr/immutable'
 
 import rest, { API_PATH } from '../services/rest'
 import { TilgjengeligeHjelpemidlerResponse } from '../types/HttpTypes'
@@ -15,14 +15,11 @@ const OmÅBestilleDeler = () => {
   >(undefined)
   const [åpneHjelpemidler, setÅpneHjelpemidler] = useState<string[]>([])
 
-  // Lag en liste over de hjelpemidlene vi har i sortimentet vårt som også vi har deler til.
   useEffect(() => {
     setHenterHjelpemidler(true)
     rest
       .hentTilgjengeligeHjelpemidler()
-      .then((resp) => {
-        setTilgjengeligeHjelpemidler(resp)
-      })
+      .then(setTilgjengeligeHjelpemidler)
       .finally(() => {
         setHenterHjelpemidler(false)
       })
@@ -72,6 +69,7 @@ const OmÅBestilleDeler = () => {
 }
 
 const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) => {
+  const { t } = useTranslation()
   const {
     data: delerNavn,
     error,
@@ -101,11 +99,11 @@ const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) =>
   }
 
   if (error) {
-    return <BodyShort>Feil ved henting av deler. Prøv igjen senere.</BodyShort>
+    return <BodyShort>{t('info.feilVedHentingAvDeler')}</BodyShort>
   }
 
   if (!delerNavn || Object.keys(delerNavn || {}).length === 0) {
-    return <BodyShort>Ingen deler funnet.</BodyShort>
+    return <BodyShort>{t('info.ingenDelerFunnet')}</BodyShort>
   }
 
   return (
