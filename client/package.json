@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.53.2",
-    "@types/amplitude-js": "^8.0.1",
     "@types/debug": "^4.1.7",
     "@types/node": "^20.19.4",
     "@types/react": "^18.0.26",
@@ -65,8 +64,5 @@
   },
   "msw": {
     "workerDirectory": "public"
-  },
-  "resolutions": {
-    "parse5": "6.0.1"
   }
 }
