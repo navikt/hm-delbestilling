@@ -7,19 +7,12 @@ import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
 import Utsjekk from './containers/Utsjekk'
 import { RolleContextLayout } from './context/rolle'
-import { UMAMI_WEBSITE_ID } from './utils/analytics/umami'
 
 const Routes = () => {
   return (
     <>
       <Helmet htmlAttributes={{ lang: 'no' }}>
         <title>Delbestilling</title>
-        <script
-          defer
-          src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
-          data-host-url="https://umami.nav.no"
-          data-website-id={UMAMI_WEBSITE_ID}
-        ></script>
       </Helmet>
       <Switch>
         <Route element={<Layout />}>

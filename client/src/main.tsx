@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client'
 
 import { initDecorator } from './decorator/decorator'
-import { initAmplitude } from './utils/analytics/amplitude'
 import { initMSW } from './utils/msw'
 import App from './App'
 
@@ -32,7 +31,6 @@ declare global {
 
 const init = async () => {
   await initMSW()
-  initAmplitude()
   initDecorator()
   const rootElement = document.getElementById('root')!!
   createRoot(rootElement).render(<App />)

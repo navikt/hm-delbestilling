@@ -1,7 +1,6 @@
-import { isConsentingToAnalytics } from '../nav-cookie-consent'
+import { getAnalyticsInstance } from '@navikt/nav-dekoratoren-moduler'
 
-import { sendAmplitudeEvent } from './amplitude'
-import { sendUmamiEvent } from './umami'
+import { isConsentingToAnalytics } from '../nav-cookie-consent'
 
 export const SKJEMANAVN = 'hm-delbestilling'
 
@@ -29,14 +28,16 @@ export enum DIGIHOT_TAXONOMY {
   KLIKK_ÅPNING_AV_BILDEKARUSELL = 'åpning av bildekarusell',
 }
 
+const APP_NAVN = 'hm-delbestilling'
+
 function logEvent(eventName: NAV_TAXONOMY | DIGIHOT_TAXONOMY, data?: Record<string, unknown>) {
   if (!isConsentingToAnalytics()) {
     return
   }
 
-  // TODO: fjern sending til Amplitude når Umami funker som det skal
-  sendAmplitudeEvent(eventName, data)
-  sendUmamiEvent(eventName, data)
+  // sendUmamiEvent(eventName, data)
+  const logger = getAnalyticsInstance(APP_NAVN)
+  logger(eventName, data)
 }
 export const logSpråkEndret = (språk: string) => {
   logEvent(DIGIHOT_TAXONOMY.SPRÅK_ENDRET, { språk })
