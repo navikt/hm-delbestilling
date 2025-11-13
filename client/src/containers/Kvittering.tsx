@@ -5,13 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import BestillingsKort from '../components/BestillingsKort'
-import { GlobalStyle } from '../GlobalStyle'
-import Content from '../styledcomponents/Content'
+import BestillingsKort from '../components/BestillingsKort/BestillingsKort'
+import Content from '../components/Layout/Content'
 import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/analytics/analytics'
-import { triggerHotjarEvent } from '../utils/hotjar'
-import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
@@ -31,12 +28,6 @@ const Kvittering = () => {
       window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
       // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
       window.history.replaceState({}, document.title)
-
-      if (isConsentingToSurveys()) {
-        setTimeout(() => {
-          triggerHotjarEvent('digihot_delbestilling_sendt_inn_feedback')
-        }, 200)
-      }
     }
   }, [])
 
@@ -48,8 +39,7 @@ const Kvittering = () => {
   const delbestillingSak = state?.delbestillingSak
 
   return (
-    <main>
-      <GlobalStyle mainBg="white" />
+    <main style={{ '--main-bg-color': 'white' } as React.CSSProperties}>
       <Content>
         {delbestillingSak && (
           <>

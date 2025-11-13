@@ -1,0 +1,19 @@
+/* Container component styles */
+.bannerContainer {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  padding-top: 1.5rem;
+}
+
+.toolbar {
+  padding: 1rem;
+  background: default;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}

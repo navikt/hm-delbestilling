@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Box, Button, Heading, HStack, LinkPanel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Box, Button, Heading, HStack, Link, LinkCard } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
+import Content from '../components/Layout/Content'
+import { CustomBox } from '../components/Layout/CustomBox'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
-import Rolleswitcher from '../components/Rolleswitcher'
+import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import Content from '../styledcomponents/Content'
-import { CustomBox } from '../styledcomponents/CustomBox'
 import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
 import { isProd } from '../utils/utils'
 
@@ -78,8 +78,9 @@ const Index = () => {
             />
 
             <Avstand marginTop={10}>
-              <LinkPanel
+              <Link
                 href="#"
+                style={{ display: 'block', width: '100%'}}
                 onClick={(e) => {
                   e.preventDefault()
                   if (erLoggetInn) {
@@ -89,11 +90,13 @@ const Index = () => {
                   }
                 }}
               >
-                <LinkPanel.Title>{t('bestillinger.dineSiste')}</LinkPanel.Title>
-                {!sjekkerLogin && !erLoggetInn && (
-                  <LinkPanel.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkPanel.Description>
-                )}
-              </LinkPanel>
+                <LinkCard style={{ border: '1px solid'}}>
+                  <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
+                  {!sjekkerLogin && !erLoggetInn && (
+                    <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
+                  )}
+                </LinkCard>
+              </Link>
             </Avstand>
 
             <Avstand marginTop={10}>
@@ -101,7 +104,7 @@ const Index = () => {
             </Avstand>
 
             <Avstand marginTop={10}>
-              <Box padding="4" background="bg-default">
+              <Box.New padding="4" background="default" borderRadius="12">
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
                 </Heading>
@@ -120,7 +123,7 @@ const Index = () => {
                     }}
                   />
                 </BodyLong>
-              </Box>
+              </Box.New>
             </Avstand>
           </>
         )}

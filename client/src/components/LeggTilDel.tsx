@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next'
 
 import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
 
-import { CustomBox } from '../styledcomponents/CustomBox'
-import FlexedStack from '../styledcomponents/FlexedStack'
+import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel, Pilot } from '../types/Types'
 import { logKlikkVisKunFastLagervare } from '../utils/analytics/analytics'
 import { isProd } from '../utils/utils'
 
+import { Beskrivelser } from './Beskrivelser/Beskrivelser'
+import { Bilde } from './Bilde/Bilde'
+import DelInnhold from './DelInhold/DelInhold'
+import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
-import { Beskrivelser } from './Beskrivelser'
-import { Bilde } from './Bilde'
-import DelInnhold from './DelInhold'
 import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
 
 interface Props {
@@ -73,13 +73,23 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
+          const erBatteri = del.kategori.toLowerCase() === 'batteri'
+
+          // Batteri er i seg selv dekket av garanti i 1 år
           const harNyligBlittBestiltBatteri =
-            del.kategori === 'Batteri' &&
+            erBatteri &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
             hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
-          const kanBestilles =
-            !harNyligBlittBestiltBatteri && (erPilotForBestilleIkkeFasteLagervarer || erFastLagervare)
+          // Dersom hjelpemiddelet er innenfor garantitiden, så kan batteriet være dekket av garantien
+          const dekketAvHjelpemiddeletsGaranti = erBatteri && hjelpemiddel.erInnenforGaranti === true
+
+          const erDekketAvGaranti = harNyligBlittBestiltBatteri || dekketAvHjelpemiddeletsGaranti
+
+          // Må være på minmax eller lager må støtte anmodninger
+          const lagerstatusErOkForBestilling = erFastLagervare || erPilotForBestilleIkkeFasteLagervarer
+
+          const kanBestilles = !erDekketAvGaranti && lagerstatusErOkForBestilling
 
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
@@ -97,19 +107,19 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                         {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
                       </HStack>
 
-                      {del.lagerstatus && !erPilotForBestilleIkkeFasteLagervarer && !kanBestilles && (
+                      {del.lagerstatus && !lagerstatusErOkForBestilling && (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">
                             {t('del.lagerstatus.ikkeFastLagervare', {
                               hmsNavn:
-                                lagerNavnMap[del.lagerstatus.organisasjons_navn.slice(1, 3)] ??
+                                lagerTilEnhetnavnMap[del.lagerstatus.organisasjons_navn.slice(1, 3)] ??
                                 del.lagerstatus.organisasjons_navn,
                             })}
                           </Detail>
                         </Avstand>
                       )}
 
-                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null && (
+                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
                         <Avstand marginTop={5}>
                           <Detail textColor="subtle">
                             {t('del.antallDagerSidenSistBatteribestilling', {
@@ -117,7 +127,11 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                             })}
                           </Detail>
                         </Avstand>
-                      )}
+                      ) : dekketAvHjelpemiddeletsGaranti ? (
+                        <Avstand marginTop={5}>
+                          <Detail>{t('del.hjelpemiddelErInnenforGarantitid')}</Detail>
+                        </Avstand>
+                      ) : null}
                     </Beskrivelser>
                   </FlexedStack>
 
@@ -142,7 +156,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
   )
 }
 
-const lagerNavnMap: { [key: string]: string } = {
+const lagerTilEnhetnavnMap: { [key: string]: string } = {
   '01': 'Øst-Viken',
   '02': 'Oslo',
   '03': 'Oslo',

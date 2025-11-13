@@ -1,0 +1,12 @@
+/* FlexedStack component styles */
+.flexedStack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 800px) {
+  .flexedStack {
+    flex-direction: row;
+  }
+}

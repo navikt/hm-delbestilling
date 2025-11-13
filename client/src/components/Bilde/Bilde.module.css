@@ -1,0 +1,53 @@
+/* Bilde component styles */
+.imgWrap {
+  width: 100%;
+  height: 150px;
+  background: var(--a-gray-100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 800px) {
+  .imgWrap {
+    width: 150px;
+  }
+}
+
+.imgWrap img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+@media (min-width: 800px) {
+  .imgWrap img {
+    width: 150px;
+  }
+}
+
+.placeholderIcon {
+  width: 75px;
+  height: 75px;
+  color: var(--a-gray-500);
+}
+
+.magnifyer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 0 0 0 50%;
+}
+
+.thumbnailButton {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}

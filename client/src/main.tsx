@@ -5,7 +5,10 @@ import { initAmplitude } from './utils/analytics/amplitude'
 import { initMSW } from './utils/msw'
 import App from './App'
 
-import '@navikt/ds-css'
+import './styles/global.css'
+import './styles/variables.css'
+
+import '@navikt/ds-css/darkside'
 import './i18n'
 
 interface Umami {
