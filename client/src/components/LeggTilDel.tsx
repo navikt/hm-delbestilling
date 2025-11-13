@@ -5,7 +5,8 @@ import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch } fro
 
 import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel, Pilot } from '../types/Types'
-import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
+import { logKlikkVisKunFastLagervare } from '../utils/analytics/analytics'
+import { isProd } from '../utils/utils'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
 import { Bilde } from './Bilde/Bilde'
@@ -140,15 +141,13 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
                     </Button>
                   )}
                 </DelInnhold>
-                {window.appSettings.NAIS_CLUSTER_NAME === 'dev-gcp' &&
-                  erPilotForBestilleIkkeFasteLagervarer &&
-                  !erFastLagervare && (
-                    <HStack justify={'end'}>
-                      <Avstand marginTop={2}>
-                        <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
-                      </Avstand>
-                    </HStack>
-                  )}
+                {!isProd() && erPilotForBestilleIkkeFasteLagervarer && !erFastLagervare && (
+                  <HStack justify={'end'}>
+                    <Avstand marginTop={2}>
+                      <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
+                    </Avstand>
+                  </HStack>
+                )}
               </CustomBox>
             </Avstand>
           )

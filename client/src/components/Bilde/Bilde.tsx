@@ -3,9 +3,8 @@ import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon, ImageIcon, MagnifyingGlassFillIcon } from '@navikt/aksel-icons'
 import { Box, Button, HGrid, HStack, Modal } from '@navikt/ds-react'
 
-import { logÅpningAvBildekarusell } from '../../utils/amplitude'
-
 import styles from './Bilde.module.css'
+import { logÅpningAvBildekarusell } from '../../utils/analytics/analytics'
 
 export const Bilde = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
   if (imgs.length === 0) {
@@ -64,8 +63,8 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
                         borderWidth="2"
                         style={{
                           display: 'flex',
-                          borderColor: `var(${valgtIndex === i ? '--ax-border-neutral-strong' : '--ax-border-neutral-subtle'})`
-                      }}
+                          borderColor: `var(${valgtIndex === i ? '--ax-border-neutral-strong' : '--ax-border-neutral-subtle'})`,
+                        }}
                       >
                         <img src={url} alt={navn} style={{ width: '100%' }} />
                       </Box.New>

@@ -6,7 +6,7 @@ import { Button, Heading, Stack, TextField } from '@navikt/ds-react'
 import rest from '../services/rest'
 import { OppslagFeil } from '../types/HttpTypes'
 import { Hjelpemiddel, Pilot } from '../types/Types'
-import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
+import { logOppslagFeil, logOppslagGjort } from '../utils/analytics/analytics'
 
 import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'

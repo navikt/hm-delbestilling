@@ -5,7 +5,7 @@ import { DecoratorParams, onLanguageSelect, setParams } from '@navikt/nav-dekora
 
 import { BASE_PATH } from '../App'
 // import restService from '../services/rest-service'
-import { logSpråkEndret } from '../utils/amplitude'
+import { logSpråkEndret } from '../utils/analytics/analytics'
 
 const DECORATOR_LANGUAGE_COOKIE = 'decorator-language'
 const DEFAULT_PARAMS: DecoratorParams = {

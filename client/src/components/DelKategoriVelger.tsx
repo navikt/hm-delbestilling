@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { Chips } from '@navikt/ds-react'
 
 import { Del } from '../types/Types'
-import { logKategoriFiltreringGjort } from '../utils/amplitude'
+import { logKategoriFiltreringGjort } from '../utils/analytics/analytics'
 
 interface Props {
   delKategorier: string[]

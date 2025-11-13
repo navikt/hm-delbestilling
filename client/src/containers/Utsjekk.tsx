@@ -36,7 +36,8 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
-} from '../utils/amplitude'
+} from '../utils/analytics/analytics'
+import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
@@ -406,7 +407,7 @@ const Utsjekk = () => {
           )}
         </>
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.NAIS_CLUSTER_NAME === 'dev-gcp') && (
+      {!isProd() && (
         <Rolleswitcher
           harXKLager={harXKLager}
           setHarXKLager={setHarXKLager}
