@@ -22,7 +22,7 @@ export enum DIGIHOT_TAXONOMY {
   OPPSLAG_FEIL = 'feil på oppslag',
   KATEGORI_FILTRERING = 'filtrering på kategori',
   INNSENDING_FEIL = 'feil ved innsending',
-  START_NY_BESTILING = 'start ny bestilling',
+  START_NY_BESTILLING = 'start ny bestilling',
   PRINT_AV_BESTILLING_ÅPNET = 'print av bestilling åpnet',
   KLIKK_PÅ_VIS_KUN_FAST_LAGERVARE = 'klikk på vis kun fast lagervare',
   KLIKK_ÅPNING_AV_BILDEKARUSELL = 'åpning av bildekarusell',
@@ -35,7 +35,6 @@ function logEvent(eventName: NAV_TAXONOMY | DIGIHOT_TAXONOMY, data?: Record<stri
     return
   }
 
-  // sendUmamiEvent(eventName, data)
   const logger = getAnalyticsInstance(APP_NAVN)
   logger(eventName, data)
 }
@@ -80,7 +79,7 @@ export const logBestillingSlettet = () => {
 }
 
 export const logStartNyBestilling = () => {
-  logEvent(DIGIHOT_TAXONOMY.START_NY_BESTILING)
+  logEvent(DIGIHOT_TAXONOMY.START_NY_BESTILLING)
 }
 
 export const logPrintAvBestillingÅpnet = (pathname: string) => {
