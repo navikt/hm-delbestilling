@@ -16,6 +16,7 @@ import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
 import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
+import { isProd } from '../utils/utils'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -160,9 +161,7 @@ const Index = () => {
           </>
         )}
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
-        <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />
-      )}
+      {!isProd() && <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />}
     </main>
   )
 }

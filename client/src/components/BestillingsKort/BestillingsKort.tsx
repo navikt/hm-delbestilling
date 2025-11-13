@@ -7,7 +7,7 @@ import { Alert, BodyShort, Box, Button, Detail, Heading, HStack, VStack } from '
 
 import { formaterNorskDato } from '../../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../../types/Types'
-import { logPrintAvBestillingÅpnet } from '../../utils/amplitude'
+import { logPrintAvBestillingÅpnet } from '../../utils/analytics/analytics'
 import { Avstand } from '../Avstand'
 import DellinjestatusTag from '../DellinjestatusTag'
 import OrdrestatusTag from '../OrdrestatusTag'

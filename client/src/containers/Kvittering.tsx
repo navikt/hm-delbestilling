@@ -8,7 +8,7 @@ import { Avstand } from '../components/Avstand'
 import BestillingsKort from '../components/BestillingsKort/BestillingsKort'
 import Content from '../components/Layout/Content'
 import { DelbestillingSak } from '../types/Types'
-import { logStartNyBestilling } from '../utils/amplitude'
+import { logStartNyBestilling } from '../utils/analytics/analytics'
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
