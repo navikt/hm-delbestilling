@@ -10,17 +10,10 @@ import './styles/variables.css'
 import '@navikt/ds-css/darkside'
 import './i18n'
 
-interface Umami {
-  track(payload: unknown): void
-  track(event_name: string, payload: unknown): void
-  identify(session_data: unknown): void
-}
-
 declare global {
   interface Window {
     msw: any
     hj: any
-    umami: Umami | undefined
     appSettings: {
       GIT_COMMIT?: string
       MILJO?: 'dev-gcp' | 'prod-gcp'
