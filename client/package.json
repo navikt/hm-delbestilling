@@ -65,5 +65,8 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "resolutions": {
+    "parse5": "6.0.1"
   }
 }
