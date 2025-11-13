@@ -15,8 +15,8 @@ export interface AlleHjelpemidlerMedDelerResponse {
   hjelpemidlerMedDeler: Hjelpemiddel[]
 }
 
-export interface HjelpemiddelTitlerResponse {
-  titler: string[]
+export interface TilgjengeligeHjelpemidlerResponse {
+  [hmTittel: string]: string[]
 }
 
 export interface DellisteResponse {
