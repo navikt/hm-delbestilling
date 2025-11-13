@@ -203,8 +203,7 @@ const apiHandlers = [
     })
   }),
 
-  http.post<{}, { hmsnrs: string[] }, string[]>(`${API_PATH}/deler-til-hmsnrs`, async ({ request }) => {
-    const { hmsnrs } = await request.json()
+  http.post<{}, { hmsnrs: string[] }, string[]>(`${API_PATH}/deler-til-hmsnrs`, async () => {
     await delay(250)
     return HttpResponse.json(['Del 1', 'Del 2', 'Del 3'])
   }),

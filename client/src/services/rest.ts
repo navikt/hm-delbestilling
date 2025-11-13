@@ -1,13 +1,12 @@
 import { StatusCodes } from 'http-status-codes'
 
 import {
-  AlleHjelpemidlerMedDelerResponse,
   DelbestillerrolleResponse,
   DelbestillingResponse,
   DellisteResponse,
-  TilgjengeligeHjelpemidlerResponse,
   OppslagResponse,
   SisteBatteribestillingResponse,
+  TilgjengeligeHjelpemidlerResponse,
   XKLagerResponse,
 } from '../types/HttpTypes'
 import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
