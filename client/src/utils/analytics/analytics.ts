@@ -12,6 +12,8 @@ export enum NAV_TAXONOMY {
   SKJEMAINNSENDING_FEILET = 'skjemainnsending feilet',
   SKJEMA_FULLFØRT = 'skjema fullført',
   NAVIGERE = 'navigere',
+  ACCORDION_ÅPNET = 'accordion åpnet',
+  ACCORDION_LUKKET = 'accordion lukket',
 }
 
 //Events som ikke er i NAV sin taxonomi
@@ -38,6 +40,15 @@ function logEvent(eventName: NAV_TAXONOMY | DIGIHOT_TAXONOMY, data?: Record<stri
   const logger = getAnalyticsInstance(APP_NAVN)
   logger(eventName, data)
 }
+
+export const logAccordionÅpnet = (komponentId: string, tittel: string) => {
+  logEvent(NAV_TAXONOMY.ACCORDION_ÅPNET, { komponentId, tittel })
+}
+
+export const logAccordionLukket = (komponentId: string, tittel: string) => {
+  logEvent(NAV_TAXONOMY.ACCORDION_LUKKET, { komponentId, tittel })
+}
+
 export const logSpråkEndret = (språk: string) => {
   logEvent(DIGIHOT_TAXONOMY.SPRÅK_ENDRET, { språk })
 }

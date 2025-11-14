@@ -6,6 +6,7 @@ import { Accordion, BodyShort, Box, Heading, HStack, List, Loader, Skeleton } fr
 
 import rest, { API_PATH } from '../services/rest'
 import { TilgjengeligeHjelpemidlerResponse } from '../types/HttpTypes'
+import { logAccordionÅpnet, logAccordionLukket } from '../utils/analytics/analytics'
 
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
@@ -41,15 +42,17 @@ const OmÅBestilleDeler = () => {
             {t('info.kunForTeknikere')} {t('info.kanBestilleDelerTil')}:
           </BodyShort>
           {tilgjengeligeHjelpemidler && Object.keys(tilgjengeligeHjelpemidler).length > 1 && (
-            <Accordion>
+            <Accordion id="visDeler">
               {Object.entries(tilgjengeligeHjelpemidler).map(([tittel, hmsnrs], i) => (
                 <Accordion.Item
                   key={tittel}
                   onOpenChange={(open) => {
                     if (open) {
                       setÅpneHjelpemidler((prev) => [...prev, tittel])
+                      logAccordionÅpnet('visDeler', tittel)
                     } else {
                       setÅpneHjelpemidler((prev) => prev.filter((p) => p !== tittel))
+                      logAccordionLukket('visDeler', tittel)
                     }
                   }}
                   open={åpneHjelpemidler.includes(tittel)}
