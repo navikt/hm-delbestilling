@@ -29,7 +29,7 @@ const OmÅBestilleDeler = () => {
   return (
     <Box.New padding="4" background="default" borderRadius="12">
       <Heading level="2" size="medium" spacing>
-        {t('info.omÅBestilleDeler')}
+        {t('info.omÅBestilleDeler.tittel')}
       </Heading>
       {henterHjelpemidler ? (
         <>
@@ -38,9 +38,7 @@ const OmÅBestilleDeler = () => {
         </>
       ) : (
         <>
-          <BodyShort spacing>
-            {t('info.kunForTeknikere')} {t('info.kanBestilleDelerTil')}:
-          </BodyShort>
+          <BodyShort spacing>{t('info.omÅBestilleDeler.beskrivelse')}</BodyShort>
           {tilgjengeligeHjelpemidler && Object.keys(tilgjengeligeHjelpemidler).length > 1 && (
             <Accordion id="visDeler">
               {Object.entries(tilgjengeligeHjelpemidler).map(([tittel, hmsnrs], i) => (
