@@ -46,7 +46,7 @@ func main() {
 		IDP:     idp,
 		EnvKeys: []string{},
 		ProtectedWhitelist: &texas.WhitelistConfig{
-			WhitelistPaths: []string{"/", "/bestillinger", "/utsjekk"},
+			WhitelistPaths: []string{"/", "/bestillinger", "/utsjekk", "/api/oppslag"},
 		},
 	}
 	hotbff.Start(opts)
