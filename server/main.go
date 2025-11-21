@@ -10,10 +10,15 @@ import (
 )
 
 var (
+	useMSW             = os.Getenv("USE_MSW") == "true"
+	idp                = texas.IDPorten
 	logoutWarning bool = true
 )
 
 func init() {
+	if useMSW {
+		idp = ""
+	}
 }
 
 func main() {
@@ -38,8 +43,11 @@ func main() {
 				IDPTarget:   os.Getenv("ROLLER_AUDIENCE"),
 			},
 		},
-		IDP:     "",
+		IDP:     idp,
 		EnvKeys: []string{},
+		ProtectedWhitelist: &texas.WhitelistConfig{
+			WhitelistPaths: []string{"/", "/bestillinger", "/utsjekk"},
+		},
 	}
 	hotbff.Start(opts)
 }
