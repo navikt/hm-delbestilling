@@ -52,7 +52,7 @@ const Index = () => {
       if (await sjekkLoginStatus()) {
         navigate('/utsjekk')
       } else {
-        window.location.replace('/hjelpemidler/delbestilling/login')
+        window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/utsjekk')
       }
     } catch (e: any) {
       console.log(e)
@@ -86,7 +86,7 @@ const Index = () => {
                   if (erLoggetInn) {
                     navigate('/bestillinger')
                   } else {
-                    window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')
+                    window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger')
                   }
                 }}
               >

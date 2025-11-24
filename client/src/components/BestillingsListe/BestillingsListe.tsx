@@ -73,7 +73,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
       if (erLoggetInn) {
         navigate('/bestillinger')
       } else {
-        window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')
+        window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger')
       }
     } catch (e: any) {
       console.error(e)
