@@ -47,6 +47,8 @@ spec:
       value: 'false'
     - name: GIT_COMMIT
       value: {{commit}}
+    - name: DEBUG_LOG
+      value: "true"
   accessPolicy:
     outbound:
       external:
