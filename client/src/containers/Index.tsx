@@ -52,7 +52,7 @@ const Index = () => {
       if (await sjekkLoginStatus()) {
         navigate('/utsjekk')
       } else {
-        window.location.replace('/hjelpemidler/delbestilling/login')
+        window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/utsjekk')
       }
     } catch (e: any) {
       console.log(e)
@@ -80,17 +80,17 @@ const Index = () => {
             <Avstand marginTop={10}>
               <Link
                 href="#"
-                style={{ display: 'block', width: '100%'}}
+                style={{ display: 'block', width: '100%' }}
                 onClick={(e) => {
                   e.preventDefault()
                   if (erLoggetInn) {
                     navigate('/bestillinger')
                   } else {
-                    window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')
+                    window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger')
                   }
                 }}
               >
-                <LinkCard style={{ border: '1px solid'}}>
+                <LinkCard style={{ border: '1px solid' }}>
                   <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
                   {!sjekkerLogin && !erLoggetInn && (
                     <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>

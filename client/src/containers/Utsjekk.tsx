@@ -78,7 +78,7 @@ const Utsjekk = () => {
   }, [harXKLager])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (handlekurv && harXKLager === undefined) {
         try {
           const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr)
@@ -213,7 +213,7 @@ const Utsjekk = () => {
               <Trans
                 i18nKey={'error.sessionExpired'}
                 components={{
-                  link: <Lenke href="/hjelpemidler/delbestilling/login" lenketekst="her" />,
+                  link: <Lenke href="/hjelpemidler/delbestilling/oauth2/login" lenketekst="her" />,
                 }}
               />
             </>

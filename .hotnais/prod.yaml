@@ -13,14 +13,14 @@ spec:
     max: 4
     cpuThresholdPercentage: 90
   liveness:
-    path: /hjelpemidler/delbestilling/internal/isAlive
+    path: /isalive
     initialDelay: 5
   readiness:
-    path: /hjelpemidler/delbestilling/internal/isReady
+    path: /isready
     initialDelay: 5
   prometheus:
-    enabled: true
-    path: /hjelpemidler/delbestilling/internal/metrics
+    enabled: false
+    path: /metrics
   ingresses:
     - https://www.nav.no/hjelpemidler/delbestilling
   tokenx:
