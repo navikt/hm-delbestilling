@@ -1,10 +1,13 @@
 FROM node:lts-alpine AS client-builder
 WORKDIR /app
+
+# Enable pnpm (see package.json for version)
+RUN corepack enable
+
 COPY client/package.json client/pnpm-lock.yaml .npmrc ./
 RUN pnpm fetch
 COPY client .
 RUN pnpm install --offline
-# Upgrade grep to support the --include option, required for i18n tests
 RUN apk add --no-cache --upgrade grep
 RUN pnpm run build
 
