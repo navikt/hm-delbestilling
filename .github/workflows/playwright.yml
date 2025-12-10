@@ -27,7 +27,7 @@ jobs:
           echo '//npm.pkg.github.com/:_authToken='${{ secrets.READER_TOKEN }} >> client/.npmrc
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
         working-directory: client
 
       - name: Install Playwright browsers
