@@ -1,11 +1,15 @@
 FROM node:lts-alpine AS client-builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
 WORKDIR /app
-COPY client/package.json client/package-lock.json .npmrc ./
-RUN npm ci
+COPY client/package.json client/pnpm-lock.yaml .npmrc ./
+RUN pnpm install --frozen-lockfile
 COPY client .
 # Upgrade grep to support the --include option, required for i18n tests
 RUN apk add --no-cache --upgrade grep
-RUN npm run build
+RUN pnpm run build
 
 FROM golang:1.25.1-alpine AS server-builder
 WORKDIR /app
