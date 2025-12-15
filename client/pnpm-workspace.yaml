@@ -1,0 +1,10 @@
+onlyBuiltDependencies:
+  - '@swc/core'
+  - cypress
+  - es5-ext
+  - esbuild
+  - msw
+  - protobufjs
+
+minimumReleaseAgeExclude:
+  - '@navikt/*'

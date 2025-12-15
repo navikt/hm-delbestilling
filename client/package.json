@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/hjelpemidler/delbestilling",
   "proxy": "http://localhost:5000",
+  "packageManager": "pnpm@10.26.0",
   "dependencies": {
     "@navikt/aksel-icons": "^7.32.2",
     "@navikt/ds-css": "^7.32.2",

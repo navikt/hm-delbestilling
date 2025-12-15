@@ -8,7 +8,7 @@ on:
       - 'CODEOWNERS'
     branches:
       - main
-      - hotbff
+      - npm_til_pnpm
 
 jobs:
   test:
@@ -26,8 +26,13 @@ jobs:
         run: |
           echo '//npm.pkg.github.com/:_authToken='${{ secrets.READER_TOKEN }} >> client/.npmrc
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Installer pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+          
+      - name: Installer avhengigheter
+        run: pnpm install --frozen-lockfile
         working-directory: client
 
       - name: Install Playwright browsers
