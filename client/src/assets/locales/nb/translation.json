@@ -61,8 +61,6 @@
   "hjelpemidler.sok.deler_one": "1 del",
   "hjelpemidler.sok.deler_other": "{{count}} deler",
 
-  "filtrering.visKunDelerSomKanBestillesDigitalt": "Vis kun deler som kan bestilles digitalt",
-
   "info.omÅBestilleDeler.tittel": "Om å bestille deler",
   "info.omÅBestilleDeler.beskrivelse": "Her kan kommunalt ansatte bestille deler til hjelpemidler som skal repareres. Det er foreløpig mulig å bestille deler til følgende hjelpemidler:",
   "info.ingenDelerFunnet": "Ingen deler funnet.",
@@ -96,7 +94,6 @@
   "oppslag.visDeler": "Vis deler",
   "oppslag.startPåNytt": "Start på nytt",
 
-  "del.lagerstatus.ikkeFastLagervare": "Delen kan ikke bestilles digitalt. Ta kontakt med HMS {{hmsNavn}} for å bestille.",
   "del.antallDagerSidenSistBatteribestilling_zero": "Det er allerede bestilt batteri til dette hjelpemiddelet i dag. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.",
   "del.antallDagerSidenSistBatteribestilling_other": "Batteriene til dette hjelpemiddelet ble byttet for mindre enn ett år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
   "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",

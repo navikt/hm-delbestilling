@@ -61,8 +61,6 @@
   "hjelpemidler.sok.deler_one": "1 del",
   "hjelpemidler.sok.deler_other": "{{count}} delar",
 
-  "filtrering.visKunDelerSomKanBestillesDigitalt": "Vis berre deler som kan bestillast digitalt",
-
   "info.omÅBestilleDeler.tittel": "Om å bestilla delar",
   "info.omÅBestilleDeler.beskrivelse": "Her kan kommunalt tilsette bestilla delar til hjelpemiddel som skal reparerast. Det er førebels mogleg å bestilla delar til følgjande hjelpemiddel:",
   "info.ingenDelerFunnet": "Ingen deler funne.",
@@ -83,7 +81,6 @@
   "feilside.noeGikkGalt": "Noko gjekk gale og sida kan ikkje visast",
   "feilside.prøvPåNytt": "Prøv på nytt",
 
-  "del.lagerstatus.ikkeFastLagervare": "Delen kan ikkje bestillast digitalt. Ta kontakt med HMS {{hmsNavn}} for å bestilla.",
   "del.antallDagerSidenSistBatteribestilling_zero": "Det er allereie bestilt batteri til dette hjelpemiddelet i dag. Ta kontakt med Hjelpemiddelsentralen om det likevel er behov for nytt batteri.",
   "del.antallDagerSidenSistBatteribestilling_other": "Batteria til dette hjelpemiddelet vart bytte for mindre enn eitt år sidan, og er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien.",
   "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien.",
