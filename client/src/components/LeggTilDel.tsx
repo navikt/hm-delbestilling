@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Alert, BodyShort, Button, Detail, Heading, HStack, Search } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
-import { Del, Hjelpemiddel, Pilot } from '../types/Types'
+import { Del, Hjelpemiddel } from '../types/Types'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
 import { Bilde } from './Bilde/Bilde'
