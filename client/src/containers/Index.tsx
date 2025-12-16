@@ -156,7 +156,6 @@ const Index = () => {
               hjelpemiddel={hjelpemiddel}
               onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
               knappeTekst={t('bestillinger.bestill')}
-              piloter={piloter}
             />
           </>
         )}

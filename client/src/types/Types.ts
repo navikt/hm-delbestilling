@@ -113,8 +113,6 @@ export interface Næringskode {
   beskrivelse: string
 }
 
-export enum Pilot {
-  BESTILLE_IKKE_FASTE_LAGERVARER = 'BESTILLE_IKKE_FASTE_LAGERVARER',
-}
+export enum Pilot {}
 
 export type Valg = 'mine' | 'kommunens'
