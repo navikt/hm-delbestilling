@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Button, Detail, Heading, HStack, Search } from '@navikt/ds-react'
+import { BodyShort, Button, Detail, Heading, HStack, InfoCard, Search } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel } from '../types/Types'
@@ -25,7 +25,14 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
   const [søk, setSøk] = useState('')
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
-    return <Alert variant="info">{t('leggTilDel.ingenDeler')}</Alert>
+    return (
+      <InfoCard data-color="accent">
+        <InfoCard.Header>
+          <InfoCard.Title>{t('leggTilDel.ingenDeler.tittel')}</InfoCard.Title>
+        </InfoCard.Header>
+        <InfoCard.Content>{t('leggTilDel.ingenDeler.innhold')}</InfoCard.Content>
+      </InfoCard>
+    )
   }
 
   return (

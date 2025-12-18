@@ -22,7 +22,8 @@
   "bestillinger.leggTilDeler": "Legg til delar",
   "bestillinger.leggTilFlereDeler": "Legg til fleire delar",
   "bestillinger.harFåttOpplæringBatteri": "Eg har fått opplæring på Hjelpemiddelsentralen i å byta desse batteria.",
-  "bestillinger.delBlirLevertTilKommunen": "Delen blir levert til mottaksstaden til kommunen. Namnet på personen vil stå på pakken med delen.",
+  "bestillinger.delBlirLevertTilKommunen.tittel": "Levering til kommunen",
+  "bestillinger.delBlirLevertTilKommunen.innhold": "Delen blir levert til mottaksstaden til kommunen. Namnet på personen vil stå på pakken med delen.",
   "bestillinger.sendInn": "Send inn bestilling",
   "bestillinger.slett": "Slett bestilling",
   "bestillinger.ordrestatus.INNSENDT": "Mottatt hos NAV",
@@ -38,6 +39,7 @@
   "oppslagfeil.TILBYR_IKKE_HJELPEMIDDEL": "Du kan ikkje bestilla delar til dette hjelpemiddelet digitalt. Ta kontakt med hjelpemiddelsentralen din for å bestilla. Nav jobbar med å leggja inn delar til fleire hjelpemiddel fortløpande",
   "oppslagfeil.IKKE_HOVEDHJELPEMIDDEL": "Du må leggja inn art.nr på eit hjelpemiddel, og ikkje på ein del eller eit tilbehøyr.",
 
+  "error.generellFeil": "Noko gjekk galt",
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må innehalda 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Ver vennleg og vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noko gjekk feil med oppslag, prøv igjen seinare",
@@ -69,9 +71,10 @@
 
   "kvittering.fantIkkeKvittering": "Fann inga kvittering.",
   "kvittering.startNyBestilling": "Start ny bestilling",
-  "kvittering.bestillingMottatt": "Bestillingen blei sendt inn.",
+  "kvittering.bestillingMottatt.tittel": "Bestillingen blei sendt inn.",
 
-  "leggTilDel.ingenDeler": "Me tilbyr førebels berre eit avgrensa utval delar i denne løysinga, og me har akkurat no ingen delar til dette hjelpemiddelet.",
+  "leggTilDel.ingenDeler.tittel": "Ingen delar tilgjengeleg",
+  "leggTilDel.ingenDeler.innhold": "Me tilbyr førebels berre eit avgrensa utval delar i denne løysinga, og me har akkurat no ingen delar til dette hjelpemiddelet.",
 
   "levering.Levering": "Levering",
   "levering.title": "Kvar skal delane plasserast når dei har vorte leverte til kommunen?",
@@ -98,7 +101,8 @@
   "oppslag.visDeler": "Vis delar",
   "oppslag.startPåNytt": "Start på nytt",
 
-  "testbanner": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
+  "testbanner.tittel": "Dette er ein testversjon",
+  "testbanner.innhold": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
 
   "brukFinnHjelpemiddel": "Denne sida er fjerna. Du bør heller bruka <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finna informasjon om delar. Du finn delar til hjelpemiddel under \"Passer saman med\" på ei produktside.",
   "oversikt.nyBestilling": "Ny bestilling"

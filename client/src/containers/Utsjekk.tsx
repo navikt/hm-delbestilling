@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
 import {
-  Alert,
   BodyShort,
   Button,
   ConfirmationPanel,
   GuidePanel,
   Heading,
   HStack,
+  InfoCard,
   Loader,
   Radio,
   RadioGroup,
@@ -78,7 +78,7 @@ const Utsjekk = () => {
   }, [harXKLager])
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       if (handlekurv && harXKLager === undefined) {
         try {
           const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr)
@@ -363,7 +363,14 @@ const Utsjekk = () => {
                 </Heading>
 
                 {harXKLager === undefined && <Loader />}
-                {harXKLager === false && <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>}
+                {harXKLager === false && (
+                  <InfoCard data-color="info">
+                    <InfoCard.Header>
+                      <InfoCard.Title>{t('bestillinger.delBlirLevertTilKommunen.tittel')}</InfoCard.Title>
+                    </InfoCard.Header>
+                    <InfoCard.Content>{t('bestillinger.delBlirLevertTilKommunen.innhold')}</InfoCard.Content>
+                  </InfoCard>
+                )}
                 {harXKLager === true && (
                   <RadioGroup
                     id="levering"

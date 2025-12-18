@@ -41,7 +41,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
     if (hmsnr.length !== 6 || serienr.length !== 6) {
       setFeilmelding({
         feilmelding: t('error.artnrOgSerienr6Siffer'),
-        variant: 'warning',
+        status: 'warning',
       })
       return
     }
@@ -54,7 +54,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
       if (oppslag.feil) {
         setFeilmelding({
           feilmelding: t(`oppslagfeil.${oppslag.feil}`),
-          variant: oppslag.feil === OppslagFeil.INGET_UTLÅN ? 'error' : 'warning',
+          status: oppslag.feil === OppslagFeil.INGET_UTLÅN ? 'error' : 'warning',
         })
         logOppslagFeil(oppslag.feil, hmsnr)
       } else {

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useReactToPrint } from 'react-to-print'
 
 import { PrinterSmallIcon } from '@navikt/aksel-icons'
-import { Alert, BodyShort, Box, Button, Detail, Heading, HStack, VStack } from '@navikt/ds-react'
+import { BodyShort, Box, Button, Detail, Heading, HStack, InlineMessage, VStack } from '@navikt/ds-react'
 
 import { formaterNorskDato } from '../../helpers/utils'
 import { DelbestillingSak, Levering, Ordrestatus } from '../../types/Types'
@@ -66,9 +66,7 @@ const BestillingsKort = ({ sak }: Props) => {
               <div className={styles.skjulForPrint}>
                 {dellinje.lagerstatusPåBestillingstidspunkt &&
                   dellinje.antall > dellinje.lagerstatusPåBestillingstidspunkt.antallDelerPåLager && (
-                    <Alert variant="info" inline>
-                      {t('bestillinger.del.ikkePåLager')}
-                    </Alert>
+                    <InlineMessage status="info">{t('bestillinger.del.ikkePåLager')}</InlineMessage>
                   )}
               </div>
               <div className={styles.skjulForPrint}>

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import { Alert, Heading } from '@navikt/ds-react'
+import { GlobalAlert, Heading } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import Content from '../components/Layout/Content'
@@ -17,7 +17,12 @@ const Layout = () => {
         <Content>
           {visTestMiljoBanner && (
             <Avstand marginTop={4} marginBottom={8}>
-              <Alert variant="info">{t('testbanner')}</Alert>
+              <GlobalAlert status="announcement">
+                <GlobalAlert.Header>
+                  <GlobalAlert.Title>{t('testbanner.tittel')}</GlobalAlert.Title>
+                </GlobalAlert.Header>
+                <GlobalAlert.Content>{t('testbanner.innhold')}</GlobalAlert.Content>
+              </GlobalAlert>
             </Avstand>
           )}
           <Heading level="1" size="xlarge">

@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, AlertProps, ExpansionCard } from '@navikt/ds-react'
+import { ExpansionCard, LocalAlert, LocalAlertProps } from '@navikt/ds-react'
 
 import { Avstand } from './Avstand'
 
 interface FeilmeldingInterface {
-  variant?: AlertProps['variant']
+  status?: LocalAlertProps['status']
   feilmelding: React.ReactNode
   tekniskFeilmelding?: string
 }
@@ -18,8 +18,11 @@ interface Props {
 const Feilmelding = ({ feilmelding }: Props) => {
   const { t } = useTranslation()
   return (
-    <Alert variant={feilmelding.variant ?? 'error'} data-cy="feilmelding" role="alert">
-      <>
+    <LocalAlert status={feilmelding.status ?? 'error'} data-cy="feilmelding">
+      <LocalAlert.Header>
+        <LocalAlert.Title>{t('error.generellFeil')}</LocalAlert.Title>
+      </LocalAlert.Header>
+      <LocalAlert.Content>
         {feilmelding.feilmelding}
         {feilmelding.tekniskFeilmelding && (
           <Avstand marginTop={2}>
@@ -31,8 +34,8 @@ const Feilmelding = ({ feilmelding }: Props) => {
             </ExpansionCard>
           </Avstand>
         )}
-      </>
-    </Alert>
+      </LocalAlert.Content>
+    </LocalAlert>
   )
 }
 

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { Alert, Button, Heading, HStack } from '@navikt/ds-react'
+import { Button, Heading, HStack, LocalAlert } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import BestillingsKort from '../components/BestillingsKort/BestillingsKort'
@@ -43,7 +43,11 @@ const Kvittering = () => {
       <Content>
         {delbestillingSak && (
           <>
-            <Alert variant="success">{t('kvittering.bestillingMottatt')}</Alert>
+            <LocalAlert status="success">
+              <LocalAlert.Header>
+                <LocalAlert.Title>{t('kvittering.bestillingMottatt.tittel')}</LocalAlert.Title>
+              </LocalAlert.Header>
+            </LocalAlert>
             <Avstand marginTop={8} />
             <Heading level="2" size="large" spacing>
               Kvittering
@@ -51,7 +55,13 @@ const Kvittering = () => {
             <BestillingsKort sak={delbestillingSak} />
           </>
         )}
-        {!delbestillingSak && <Alert variant="warning">{t('kvittering.fantIkkeKvittering')}</Alert>}
+        {!delbestillingSak && (
+          <LocalAlert status="warning">
+            <LocalAlert.Header>
+              <LocalAlert.Title>{t('kvittering.fantIkkeKvittering')}</LocalAlert.Title>
+            </LocalAlert.Header>
+          </LocalAlert>
+        )}
 
         <Avstand marginTop={10} />
         <HStack justify="center">

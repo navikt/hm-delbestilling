@@ -22,7 +22,8 @@
   "bestillinger.leggTilDeler": "Legg til deler",
   "bestillinger.leggTilFlereDeler": "Legg til flere deler",
   "bestillinger.harFåttOpplæringBatteri": "Jeg har fått opplæring på Hjelpemiddelsentralen i å bytte disse batteriene.",
-  "bestillinger.delBlirLevertTilKommunen": "Delen blir levert til kommunens mottakssted. Personens navn vil stå på pakken med delen.",
+  "bestillinger.delBlirLevertTilKommunen.tittel": "Levering til kommunen",
+  "bestillinger.delBlirLevertTilKommunen.innhold": "Delen blir levert til kommunens mottakssted. Personens navn vil stå på pakken med delen.",
   "bestillinger.sendInn": "Send inn bestilling",
   "bestillinger.slett": "Slett bestilling",
   "bestillinger.ordrestatus.INNSENDT": "Mottatt hos NAV",
@@ -38,6 +39,7 @@
   "oppslagfeil.INGET_UTLÅN": "Vi finner dessverre ikke et utlån på dette art.nr og serienr.",
   "oppslagfeil.IKKE_HOVEDHJELPEMIDDEL": "Du må legge inn art.nr på et hjelpemiddel, og ikke på en del eller et tilbehør.",
 
+  "error.generellFeil": "Noe gikk galt",
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må inneholde 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noe gikk feil med oppslag, prøv igjen senere",
@@ -69,9 +71,10 @@
 
   "kvittering.fantIkkeKvittering": "Fant ingen kvittering.",
   "kvittering.startNyBestilling": "Start ny bestilling",
-  "kvittering.bestillingMottatt": "Bestillingen ble sendt inn.",
+  "kvittering.bestillingMottatt.tittel": "Bestillingen ble sendt inn.",
 
-  "leggTilDel.ingenDeler": "Vi tilbyr foreløpig bare et begrenset utvalg deler i denne løsningen, og vi har for øyeblikket ingen deler til dette hjelpemiddelet.",
+  "leggTilDel.ingenDeler.tittel": "Ingen deler tilgjengelig",
+  "leggTilDel.ingenDeler.innhold": "Vi tilbyr foreløpig bare et begrenset utvalg deler i denne løsningen, og vi har for øyeblikket ingen deler til dette hjelpemiddelet.",
 
   "levering.Levering": "Levering",
   "levering.title": "Hvor skal delene plasseres når de har blitt levert til kommunen?",
@@ -98,7 +101,8 @@
   "del.antallDagerSidenSistBatteribestilling_other": "Batteriene til dette hjelpemiddelet ble byttet for mindre enn ett år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
   "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
 
-  "testbanner": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke nødvendigvis gjenspeiler virkeligheten. Når du legger inn art.nr. og serienr, så må art.nr. være et gyldig hjelpemiddel (f.eks. 301996), men for serienr kan du fylle inn en vilkårlig verdi.",
+  "testbanner.tittel": "Dette er en testversjon",
+  "testbanner.innhold": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke nødvendigvis gjenspeiler virkeligheten. Når du legger inn art.nr. og serienr, så må art.nr. være et gyldig hjelpemiddel (f.eks. 301996), men for serienr kan du fylle inn en vilkårlig verdi.",
 
   "brukFinnHjelpemiddel": "Denne siden er fjernet. Du bør heller bruke <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finne informasjon om deler. Du finner deler til hjelpemidler under \"Passer sammen med\" på en produktside.",
   "oversikt.nyBestilling": "Ny bestilling"
