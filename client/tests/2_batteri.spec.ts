@@ -24,7 +24,7 @@ test('batteri', async ({ page }) => {
   })
 
   await test.step('Slå opp hjelpemiddel som batteri ikke har blitt bestilt for', async () => {
-    await page.getByRole('button', { name: 'Endre' }).click()
+    await page.getByRole('button', { name: 'Endre', exact: true }).click()
     await page.getByTestId('input-artnr').fill('301996')
     await page.getByTestId('input-serienr').fill('500500')
     await page.getByTestId('button-oppslag-submit').click()
