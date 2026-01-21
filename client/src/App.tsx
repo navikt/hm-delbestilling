@@ -4,8 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 
 import ScrollToTop from './components/ScrollToTop'
 import { ErrorFallback } from './containers/ErrorFallback'
+import { ThemeProvider } from './theme/ThemeContext'
 import Routes from './Routes'
-import { Theme } from '@navikt/ds-react'
 
 import './index.css'
 
@@ -19,15 +19,15 @@ const App = () => {
   }, [])
 
   return (
-    <BrowserRouter basename={BASE_PATH}>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <ScrollToTop>
-          <Theme theme="light">
+    <ThemeProvider>
+      <BrowserRouter basename={BASE_PATH}>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <ScrollToTop>
             <Routes />
-          </Theme>
-        </ScrollToTop>
-      </ErrorBoundary>
-    </BrowserRouter>
+          </ScrollToTop>
+        </ErrorBoundary>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

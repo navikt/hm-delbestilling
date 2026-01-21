@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import { GlobalAlert, Heading } from '@navikt/ds-react'
+import { Box, GlobalAlert, Heading } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import Content from '../components/Layout/Content'
 import Header from '../components/Layout/Header'
+import Toolbar from '../components/Toolbar/Toolbar'
 
 // Delte page-komponenter for hver side
 const Layout = () => {
@@ -13,6 +14,7 @@ const Layout = () => {
   const visTestMiljoBanner = window.appSettings.USE_MSW === true
   return (
     <>
+      <Toolbar />
       <Header>
         <Content>
           {visTestMiljoBanner && (
@@ -30,7 +32,10 @@ const Layout = () => {
           </Heading>
         </Content>
       </Header>
-      <Outlet />
+
+      <Box.New background="sunken" paddingBlock="8">
+        <Outlet />
+      </Box.New>
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React, { SetStateAction, useState } from 'react'
 
-import { Button, Checkbox, CheckboxGroup, Detail, Heading } from '@navikt/ds-react'
+import { Box, Button, Checkbox, CheckboxGroup, Detail, Heading } from '@navikt/ds-react'
 
 import { Pilot } from '../../types/Types'
 
@@ -48,7 +48,7 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
 
   if (erSkjult) {
     return (
-      <div className={styles.wrapper}>
+      <Box.New className={styles.wrapper} background="raised">
         <Button
           size="small"
           variant="secondary"
@@ -59,12 +59,12 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
         >
           Vis Rolleswitcher
         </Button>
-      </div>
+      </Box.New>
     )
   }
 
   return (
-    <div className={styles.wrapper}>
+    <Box.New className={styles.wrapper} background="raised">
       <Button
         style={{ position: 'absolute', top: '7px', right: '7px' }}
         size="small"
@@ -84,7 +84,7 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
         )} */}
       </CheckboxGroup>
       <Detail>Git-commit: {window.appSettings.GIT_COMMIT}</Detail>
-    </div>
+    </Box.New>
   )
 }
 
