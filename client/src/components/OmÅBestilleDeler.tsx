@@ -110,13 +110,11 @@ const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) =>
   }
 
   return (
-    <Box marginBlock="space-16" asChild>
-      <List data-aksel-migrated-v8>
-        {delerNavn.map((del) => (
-          <List.Item key={del}>{del}</List.Item>
-        ))}
-      </List>
-    </Box>
+    <List data-aksel-migrated-v8>
+      {delerNavn.map((del) => (
+        <List.Item key={del}>{del}</List.Item>
+      ))}
+    </List>
   )
 }
 
