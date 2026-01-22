@@ -1,6 +1,6 @@
 /* BestillingsKort component styles */
 .dellinje {
-  border-bottom: 1px solid var(--a-border-subtle);
+  border-bottom: 1px solid var(--ax-border-neutral-subtle);
   padding: 8px 0;
 }
 

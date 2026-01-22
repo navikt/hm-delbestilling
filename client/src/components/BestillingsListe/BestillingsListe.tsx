@@ -99,7 +99,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
       )}
 
       {tidligereBestillinger && tidligereBestillinger.length > 0 && maksBestillinger && (
-        <div className={styles.buttonContainer} style={{ marginTop: 'var(--a-spacing-4)' }}>
+        <div className={styles.buttonContainer} style={{ marginTop: 'var(--ax-space-16)' }}>
           <Button onClick={handleGåTilBestillinger}>{t('bestillinger.visAlle')}</Button>
         </div>
       )}
