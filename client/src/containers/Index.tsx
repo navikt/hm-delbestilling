@@ -86,7 +86,9 @@ const Index = () => {
                   if (erLoggetInn) {
                     navigate('/bestillinger')
                   } else {
-                    window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger')
+                    window.location.replace(
+                      '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
+                    )
                   }
                 }}
               >
@@ -104,7 +106,7 @@ const Index = () => {
             </Avstand>
 
             <Avstand marginTop={10}>
-              <Box.New padding="4" background="default" borderRadius="12">
+              <Box padding="space-4" background="default" borderRadius="12">
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
                 </Heading>
@@ -123,7 +125,7 @@ const Index = () => {
                     }}
                   />
                 </BodyLong>
-              </Box.New>
+              </Box>
             </Avstand>
           </>
         )}
@@ -135,7 +137,7 @@ const Index = () => {
                   <Heading size="xsmall" level="2" spacing data-testid="hjelpemiddel-navn">
                     {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                   </Heading>
-                  <HStack gap="5">
+                  <HStack gap="space-4">
                     <BodyShort>Art.nr. {hmsnr}</BodyShort>
                     <BodyShort>Serienr. {serienr}</BodyShort>
                   </HStack>

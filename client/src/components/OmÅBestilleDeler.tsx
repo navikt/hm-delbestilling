@@ -27,7 +27,7 @@ const OmÅBestilleDeler = () => {
   }, [])
 
   return (
-    <Box.New padding="4" background="default" borderRadius="12">
+    <Box padding="space-4" background="default" borderRadius="12">
       <Heading level="2" size="medium" spacing>
         {t('info.omÅBestilleDeler.tittel')}
       </Heading>
@@ -65,7 +65,7 @@ const OmÅBestilleDeler = () => {
           )}
         </>
       )}
-    </Box.New>
+    </Box>
   )
 }
 

@@ -32,10 +32,9 @@ const Layout = () => {
           </Heading>
         </Content>
       </Header>
-
-      <Box.New background="sunken" paddingBlock="8">
+      <Box background="sunken" paddingBlock="space-8">
         <Outlet />
-      </Box.New>
+      </Box>
     </>
   )
 }

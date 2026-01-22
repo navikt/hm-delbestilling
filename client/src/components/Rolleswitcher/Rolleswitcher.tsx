@@ -48,7 +48,7 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
 
   if (erSkjult) {
     return (
-      <Box.New className={styles.wrapper} background="raised">
+      <Box className={styles.wrapper} background="raised">
         <Button
           size="small"
           variant="secondary"
@@ -59,12 +59,12 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
         >
           Vis Rolleswitcher
         </Button>
-      </Box.New>
+      </Box>
     )
   }
 
   return (
-    <Box.New className={styles.wrapper} background="raised">
+    <Box className={styles.wrapper} background="raised">
       <Button
         style={{ position: 'absolute', top: '7px', right: '7px' }}
         size="small"
@@ -84,7 +84,7 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
         )} */}
       </CheckboxGroup>
       <Detail>Git-commit: {window.appSettings.GIT_COMMIT}</Detail>
-    </Box.New>
+    </Box>
   )
 }
 
