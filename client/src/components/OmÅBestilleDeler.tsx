@@ -110,7 +110,7 @@ const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) =>
   }
 
   return (
-    <List data-aksel-migrated-v8>
+    <List>
       {delerNavn.map((del) => (
         <List.Item key={del}>{del}</List.Item>
       ))}
