@@ -7,7 +7,8 @@ import {
   BodyShort,
   Box,
   Button,
-  ConfirmationPanel,
+  Checkbox,
+  CheckboxGroup,
   GuidePanel,
   Heading,
   HStack,
@@ -41,8 +42,6 @@ import {
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-
-import styles from '../styles/Containers.module.css'
 
 export interface Valideringsfeil {
   id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
@@ -340,23 +339,22 @@ const Utsjekk = () => {
 
               {handlekurvInneholderBatteri && (
                 <Avstand marginBottom={8}>
-                  <ConfirmationPanel
+                  <CheckboxGroup
                     id={'opplæring-batteri'}
-                    checked={!!handlekurv.harOpplæringPåBatteri}
-                    label={t('bestillinger.harFåttOpplæringBatteri')}
-                    onChange={(e) =>
+                    legend={t('bestillinger.harFåttOpplæringBatteri')}
+                    onChange={(values) => {
                       setHandlekurv((prev) => {
                         if (!prev) return undefined
                         return {
                           ...prev,
-                          harOpplæringPåBatteri: e.target.checked,
+                          harOpplæringPåBatteri: !!values[0],
                         }
                       })
-                    }
+                    }}
                     error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
                   >
-                    {t('felles.Bekreft')}
-                  </ConfirmationPanel>
+                    <Checkbox value={true}>{t('felles.Bekreft')}</Checkbox>
+                  </CheckboxGroup>
                 </Avstand>
               )}
 
