@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
 import {
   BodyShort,
+  Box,
   Button,
   ConfirmationPanel,
   GuidePanel,
@@ -301,7 +302,7 @@ const Utsjekk = () => {
                           <Heading size="small" level="4" spacing>
                             {delLinje.del.navn}
                           </Heading>
-                          <HStack gap="5">
+                          <HStack gap="space-20">
                             <BodyShort textColor="subtle">HMS-nr. {delLinje.del.hmsnr}</BodyShort>
                             {delLinje.del.levArtNr && (
                               <BodyShort textColor="subtle">Lev.art.nr. {delLinje.del.levArtNr}</BodyShort>
@@ -309,23 +310,25 @@ const Utsjekk = () => {
                           </HStack>
                         </Beskrivelser>
                       </FlexedStack>
-                      <div className={styles.toolbar}>
-                        <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
-                          {t('bestillinger.slettDel')}
-                        </Button>
-                        <Select
-                          label="Antall"
-                          value={delLinje.antall}
-                          onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
-                          size="small"
-                        >
-                          {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </Select>
-                      </div>
+                      <Box paddingBlock="space-4">
+                        <HStack gap="space-4" align="end" justify="space-between">
+                          <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
+                            {t('bestillinger.slettDel')}
+                          </Button>
+                          <Select
+                            label="Antall"
+                            value={delLinje.antall}
+                            onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
+                            size="small"
+                          >
+                            {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
+                          </Select>
+                        </HStack>
+                      </Box>
                     </CustomBox>
                   </Avstand>
                 ))}
@@ -401,7 +404,7 @@ const Utsjekk = () => {
                 </Avstand>
               )}
 
-              <VStack align="center" gap="3">
+              <VStack align="center" gap="space-12">
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
                   {t('bestillinger.sendInn')}
                 </Button>

@@ -8,6 +8,8 @@ import rest, { API_PATH } from '../services/rest'
 import { TilgjengeligeHjelpemidlerResponse } from '../types/HttpTypes'
 import { logAccordionÅpnet, logAccordionLukket } from '../utils/analytics/analytics'
 
+import { CustomBox } from './Layout/CustomBox'
+
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
   const [henterHjelpemidler, setHenterHjelpemidler] = useState(false)
@@ -27,7 +29,7 @@ const OmÅBestilleDeler = () => {
   }, [])
 
   return (
-    <Box padding="space-4" background="default" borderRadius="12">
+    <CustomBox>
       <Heading level="2" size="medium" spacing>
         {t('info.omÅBestilleDeler.tittel')}
       </Heading>
@@ -65,7 +67,7 @@ const OmÅBestilleDeler = () => {
           )}
         </>
       )}
-    </Box>
+    </CustomBox>
   )
 }
 

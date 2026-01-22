@@ -32,7 +32,7 @@ const Layout = () => {
           </Heading>
         </Content>
       </Header>
-      <Box background="sunken" paddingBlock="space-8">
+      <Box background="sunken" paddingBlock="space-20">
         <Outlet />
       </Box>
     </>

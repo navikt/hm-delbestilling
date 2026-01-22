@@ -3,8 +3,9 @@ import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon, ImageIcon, MagnifyingGlassFillIcon } from '@navikt/aksel-icons'
 import { Box, Button, HGrid, HStack, Modal } from '@navikt/ds-react'
 
-import styles from './Bilde.module.css'
 import { logÅpningAvBildekarusell } from '../../utils/analytics/analytics'
+
+import styles from './Bilde.module.css'
 
 export const Bilde = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
   if (imgs.length === 0) {

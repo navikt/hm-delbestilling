@@ -7,7 +7,7 @@ import App from './App'
 import './styles/global.css'
 import './styles/variables.css'
 
-import '@navikt/ds-css/darkside'
+import '@navikt/ds-css'
 import './i18n'
 
 declare global {

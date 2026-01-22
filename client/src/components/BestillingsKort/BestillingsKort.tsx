@@ -36,7 +36,7 @@ const BestillingsKort = ({ sak }: Props) => {
   return (
     <Avstand marginBottom={4}>
       <Box
-        padding="space-4"
+        padding="space-16"
         background="default"
         borderWidth="1"
         style={{ position: 'relative' }}
@@ -53,7 +53,7 @@ const BestillingsKort = ({ sak }: Props) => {
         <Avstand marginBottom={4} />
         {sak.delbestilling.deler.map((dellinje, index) => (
           <div key={index} className={styles.dellinje}>
-            <VStack gap="space-1">
+            <VStack gap="space-4">
               <HStack justify="space-between">
                 <BodyShort size="medium" style={{ marginBottom: '0' }}>
                   {dellinje.del.navn}
