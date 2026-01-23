@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Box, Button, Heading, HStack, Link, LinkCard } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkCard } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -77,7 +77,7 @@ const Index = () => {
               }}
             />
 
-            <Avstand marginTop={10}>
+            <Avstand marginTop={6}>
               <Link
                 href="#"
                 style={{ display: 'block', width: '100%' }}
@@ -86,7 +86,9 @@ const Index = () => {
                   if (erLoggetInn) {
                     navigate('/bestillinger')
                   } else {
-                    window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger')
+                    window.location.replace(
+                      '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
+                    )
                   }
                 }}
               >
@@ -99,12 +101,12 @@ const Index = () => {
               </Link>
             </Avstand>
 
-            <Avstand marginTop={10}>
+            <Avstand marginTop={6}>
               <OmÅBestilleDeler />
             </Avstand>
 
-            <Avstand marginTop={10}>
-              <Box.New padding="4" background="default" borderRadius="12">
+            <Avstand marginTop={6}>
+              <CustomBox>
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
                 </Heading>
@@ -123,7 +125,7 @@ const Index = () => {
                     }}
                   />
                 </BodyLong>
-              </Box.New>
+              </CustomBox>
             </Avstand>
           </>
         )}
@@ -135,7 +137,7 @@ const Index = () => {
                   <Heading size="xsmall" level="2" spacing data-testid="hjelpemiddel-navn">
                     {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                   </Heading>
-                  <HStack gap="5">
+                  <HStack gap="space-4">
                     <BodyShort>Art.nr. {hmsnr}</BodyShort>
                     <BodyShort>Serienr. {serienr}</BodyShort>
                   </HStack>

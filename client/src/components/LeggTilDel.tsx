@@ -50,7 +50,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
 
         <Avstand marginBottom={4} />
 
-        <HStack justify="start" align="end" gap="4">
+        <HStack justify="start" align="end" gap="space-4">
           <div>
             <Search label="Søk" variant="simple" hideLabel onChange={(val) => setSøk(val)} />
           </div>
@@ -88,7 +88,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                         {del.navn}
                       </Heading>
 
-                      <HStack gap="5">
+                      <HStack gap="space-20">
                         <BodyShort textColor="subtle">HMS-nr. {del.hmsnr}</BodyShort>
                         {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
                       </HStack>

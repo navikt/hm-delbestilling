@@ -85,13 +85,12 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
 
   return (
     <CustomBox>
-      <Heading size="xsmall" level="2">
+      <Heading size="small" level="2" spacing>
         {t('oppslag.hvilketHjelpemiddel')}
       </Heading>
-      <Avstand marginBottom={8} />
 
       <form onSubmit={handleSubmit}>
-        <Stack gap="3" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
+        <Stack gap="space-12" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
           <TextField
             style={{ width: '120px' }}
             label={t('oppslag.artnr')}

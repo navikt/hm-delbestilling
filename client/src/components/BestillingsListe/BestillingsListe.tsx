@@ -35,7 +35,6 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
   }, [valg])
 
   const hentBestillinger = async (valg: Valg) => {
-
     try {
       const erLoggetInn = await sjekkLoginStatus()
       if (erLoggetInn) {
@@ -73,7 +72,9 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
       if (erLoggetInn) {
         navigate('/bestillinger')
       } else {
-        window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger')
+        window.location.replace(
+          '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
+        )
       }
     } catch (e: any) {
       console.error(e)
@@ -99,7 +100,7 @@ const BestillingsListe = ({ text, maksBestillinger }: Props) => {
       )}
 
       {tidligereBestillinger && tidligereBestillinger.length > 0 && maksBestillinger && (
-        <div className={styles.buttonContainer} style={{ marginTop: 'var(--a-spacing-4)' }}>
+        <div className={styles.buttonContainer} style={{ marginTop: 'var(--ax-space-16)' }}>
           <Button onClick={handleGåTilBestillinger}>{t('bestillinger.visAlle')}</Button>
         </div>
       )}
