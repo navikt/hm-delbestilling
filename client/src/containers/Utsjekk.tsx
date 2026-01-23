@@ -340,7 +340,6 @@ const Utsjekk = () => {
               {handlekurvInneholderBatteri && (
                 <Avstand marginBottom={8}>
                   <CheckboxGroup
-                    id={'opplæring-batteri'}
                     legend={t('bestillinger.harFåttOpplæringBatteri')}
                     onChange={(values) => {
                       setHandlekurv((prev) => {
@@ -353,7 +352,9 @@ const Utsjekk = () => {
                     }}
                     error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
                   >
-                    <Checkbox value={true}>{t('felles.Bekreft')}</Checkbox>
+                    <Checkbox id={'opplæring-batteri'} value={true}>
+                      {t('felles.Bekreft')}
+                    </Checkbox>
                   </CheckboxGroup>
                 </Avstand>
               )}
