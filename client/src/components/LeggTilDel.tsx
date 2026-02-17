@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { BodyShort, Button, Detail, Heading, HStack, InfoCard, Search } from '@navikt/ds-react'
+import { BodyShort, Button, Detail, Heading, HStack, InfoCard, Search, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel } from '../types/Types'
@@ -91,6 +91,10 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                       <HStack gap="space-20">
                         <BodyShort textColor="subtle">HMS-nr. {del.hmsnr}</BodyShort>
                         {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
+                        <VStack>
+                          <BodyShort>RESERVEDEL || TILBEHØR</BodyShort>
+                          <BodyShort>{erFastLagervare ? 'Lagervare' : 'Bestillingsvare'}</BodyShort>
+                        </VStack>
                       </HStack>
 
                       {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
