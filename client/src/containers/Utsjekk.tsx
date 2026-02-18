@@ -25,6 +25,7 @@ import { Beskrivelser } from '../components/Beskrivelser/Beskrivelser'
 import { Bilde } from '../components/Bilde/Bilde'
 import Errors from '../components/Errors'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
+import InfoOmDel from '../components/InfoOmDel'
 import Content from '../components/Layout/Content'
 import { CustomBox } from '../components/Layout/CustomBox'
 import FlexedStack from '../components/Layout/FlexedStack'
@@ -298,15 +299,7 @@ const Utsjekk = () => {
                       <FlexedStack>
                         <Bilde imgs={delLinje.del.imgs} navn={delLinje.del.navn} />
                         <Beskrivelser>
-                          <Heading size="small" level="4" spacing>
-                            {delLinje.del.navn}
-                          </Heading>
-                          <HStack gap="space-20">
-                            <BodyShort textColor="subtle">HMS-nr. {delLinje.del.hmsnr}</BodyShort>
-                            {delLinje.del.levArtNr && (
-                              <BodyShort textColor="subtle">Lev.art.nr. {delLinje.del.levArtNr}</BodyShort>
-                            )}
-                          </HStack>
+                          <InfoOmDel del={delLinje.del} erFastLagervare={delLinje.del.lagerstatus.minmax} />
                         </Beskrivelser>
                       </FlexedStack>
                       <Box paddingBlock="space-4">
