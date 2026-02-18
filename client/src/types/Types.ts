@@ -18,6 +18,8 @@ export interface Del {
   datoLagtTil?: string
   lagerstatus: Lagerstatus
   kilde: string
+  erReservedel: boolean
+  erTilbehør: boolean
 }
 
 export interface Lagerstatus {

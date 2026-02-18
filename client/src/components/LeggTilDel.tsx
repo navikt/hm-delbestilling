@@ -77,6 +77,14 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
 
           const kanBestilles = !erDekketAvGaranti
 
+          const getDelType = () => {
+            if (del.erReservedel) return 'RESERVEDEL'
+            if (del.erTilbehør) return 'TILBEHØR'
+            if (!del.erReservedel && !del.erTilbehør) return 'IKKE RESERVEDEL ELLER TILBEHØR'
+            if (del.erReservedel && del.erTilbehør) return 'BÅDE RESERVEDEL OG TILBEHØR'
+            return ''
+          }
+
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomBox>
@@ -92,7 +100,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                         <BodyShort textColor="subtle">HMS-nr. {del.hmsnr}</BodyShort>
                         {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
                         <VStack>
-                          <BodyShort>RESERVEDEL || TILBEHØR</BodyShort>
+                          <BodyShort>{getDelType()}</BodyShort>
                           <BodyShort>{erFastLagervare ? 'Lagervare' : 'Bestillingsvare'}</BodyShort>
                         </VStack>
                       </HStack>
