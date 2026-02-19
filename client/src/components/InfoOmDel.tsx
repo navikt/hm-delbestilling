@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { BodyShort, Heading, HStack, VStack } from '@navikt/ds-react'
 
 import { Del } from '../types/Types'
@@ -8,11 +10,13 @@ interface InfoOmDelProps {
 }
 
 const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
+  const { t } = useTranslation()
+
   const getDelType = () => {
-    if (del.erReservedel) return 'RESERVEDEL'
-    if (del.erTilbehør) return 'TILBEHØR'
-    if (!del.erReservedel && !del.erTilbehør) return 'IKKE RESERVEDEL ELLER TILBEHØR'
-    if (del.erReservedel && del.erTilbehør) return 'BÅDE RESERVEDEL OG TILBEHØR'
+    if (del.erReservedel) return t('del.type.reservedel')
+    if (del.erTilbehør) return t('del.type.tilbehor')
+    if (!del.erReservedel && !del.erTilbehør) return t('del.type.ikkeReservedelEllerTilbehor')
+    if (del.erReservedel && del.erTilbehør) return t('del.type.badeReservedelOgTilbehor')
     return ''
   }
 
@@ -29,7 +33,7 @@ const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
         </HStack>
         <VStack gap="space-6">
           <BodyShort textColor="subtle">{getDelType()}</BodyShort>
-          <BodyShort>{erFastLagervare ? 'Lagervare' : 'Bestillingsvare'}</BodyShort>
+          <BodyShort>{erFastLagervare ? t('del.lagervare') : t('del.bestillingsvare')}</BodyShort>
         </VStack>
       </VStack>
     </>

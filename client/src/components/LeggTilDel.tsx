@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { BodyShort, Button, Detail, Heading, HStack, InfoCard, Search, VStack } from '@navikt/ds-react'
+import { Button, Detail, Heading, HStack, InfoCard, Search } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel } from '../types/Types'

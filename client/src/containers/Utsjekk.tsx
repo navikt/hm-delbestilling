@@ -43,10 +43,16 @@ import {
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
+import TilbehørSpørsmål, { TilbehorInfo, TilbehorErrors } from '../components/TilbehørSpørsmål'
 
 export interface Valideringsfeil {
-  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
-  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år'
+  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år' | 'tilbehør'
+  type:
+    | 'mangler levering'
+    | 'ingen deler'
+    | 'mangler opplæring'
+    | 'batteri-bestilt-innen-ett-år'
+    | 'mangler tilbehør svar'
   melding: string
 }
 
@@ -65,6 +71,8 @@ const Utsjekk = () => {
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
   const [harXKLager, setHarXKLager] = useState<boolean | undefined>(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>(handlekurv?.piloter ?? [])
+  const [tilbehorInfo, setTilbehorInfo] = useState<Record<string, TilbehorInfo>>({})
+  const [tilbehorErrors, setTilbehorErrors] = useState<Record<string, TilbehorErrors>>({})
   const { t } = useTranslation()
 
   const navigate = useNavigate()
@@ -164,6 +172,18 @@ const Utsjekk = () => {
         melding: 'Du må bekrefte at du har fått opplæring i å bytte disse batteriene.',
       })
     }
+
+    const tilbehørDeler = handlekurv.deler.filter((delLinje) => delLinje.del.erTilbehør)
+    tilbehørDeler.forEach((delLinje) => {
+      const delErrors = tilbehorErrors[delLinje.del.hmsnr]
+      if (delErrors?.harTilbehørFraFør) {
+        feil.push({
+          id: 'tilbehør',
+          type: 'mangler tilbehør svar',
+          melding: `${delLinje.del.navn}: ${delErrors.harTilbehørFraFør}`,
+        })
+      }
+    })
 
     setValideringsFeil(feil)
     return feil
@@ -302,6 +322,23 @@ const Utsjekk = () => {
                           <InfoOmDel del={delLinje.del} erFastLagervare={delLinje.del.lagerstatus.minmax} />
                         </Beskrivelser>
                       </FlexedStack>
+                      {delLinje.del.erTilbehør && (
+                        <Box
+                          borderWidth="1 0 0 0"
+                          borderColor="neutral-subtle"
+                          paddingBlock="space-32 space-0"
+                          marginBlock="space-32"
+                        >
+                          <TilbehørSpørsmål
+                            delId={delLinje.del.hmsnr}
+                            errors={tilbehorErrors}
+                            setErrors={setTilbehorErrors}
+                            submitAttempt={submitAttempt}
+                            tilbehorInfo={tilbehorInfo}
+                            setTilbehorInfo={setTilbehorInfo}
+                          />
+                        </Box>
+                      )}
                       <Box paddingBlock="space-4">
                         <HStack gap="space-4" align="end" justify="space-between">
                           <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
