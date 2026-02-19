@@ -4,6 +4,8 @@ import { BodyShort, Heading, HStack, VStack } from '@navikt/ds-react'
 
 import { Del } from '../types/Types'
 
+import styles from './InfoOmDel.module.css'
+
 interface InfoOmDelProps {
   del: Del
   erFastLagervare: boolean
@@ -22,7 +24,7 @@ const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
 
   return (
     <>
-      <Heading size="small" level="4" spacing>
+      <Heading size="small" level="4" spacing className={styles.heading}>
         {del.navn}
       </Heading>
 

@@ -1,0 +1,9 @@
+@media (min-width: 800px) {
+  .heading {
+    /* Lar headingen bruke mer av tilgjengelig plass */
+    position: relative;
+    left: 0;
+    right: -120px;
+    width: calc(100% + 120px);
+  }
+}
