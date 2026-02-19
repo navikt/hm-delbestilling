@@ -26,10 +26,16 @@ const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
         {del.navn}
       </Heading>
 
-      <VStack gap="space-12">
+      <VStack gap="space-32">
         <HStack gap="space-20">
-          <BodyShort textColor="subtle">HMS-nr. {del.hmsnr}</BodyShort>
-          {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
+          <BodyShort textColor="subtle" size="small">
+            HMS-nr. {del.hmsnr}
+          </BodyShort>
+          {del.levArtNr && (
+            <BodyShort textColor="subtle" size="small">
+              Lev.art.nr. {del.levArtNr}
+            </BodyShort>
+          )}
         </HStack>
         <VStack gap="space-6">
           <BodyShort textColor="subtle">{getDelType()}</BodyShort>
