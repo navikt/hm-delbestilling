@@ -46,13 +46,14 @@ import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 import TilbehørSpørsmål, { TilbehorInfo, TilbehorErrors } from '../components/TilbehørSpørsmål'
 
 export interface Valideringsfeil {
-  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år' | 'tilbehør'
+  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år' | 'tilbehør' | 'tilbehør-må-fjernes'
   type:
     | 'mangler levering'
     | 'ingen deler'
     | 'mangler opplæring'
     | 'batteri-bestilt-innen-ett-år'
     | 'mangler tilbehør svar'
+    | 'tilbehør må fjernes'
   melding: string
 }
 
@@ -142,6 +143,15 @@ const Utsjekk = () => {
         }),
       }
     })
+
+    setTilbehorInfo((prev) => {
+      const { [del.hmsnr]: deleted, ...rest } = prev
+      return rest
+    })
+    setTilbehorErrors((prev) => {
+      const { [del.hmsnr]: deleted, ...rest } = prev
+      return rest
+    })
   }
 
   const setLevering = (levering: Levering) => {
@@ -181,6 +191,17 @@ const Utsjekk = () => {
           id: 'tilbehør',
           type: 'mangler tilbehør svar',
           melding: `${delLinje.del.navn}: ${delErrors.harTilbehørFraFør}`,
+        })
+      }
+    })
+
+    tilbehørDeler.forEach((delLinje) => {
+      const delInfo = tilbehorInfo[delLinje.del.hmsnr]
+      if (delInfo?.harTilbehørFraFør === false) {
+        feil.push({
+          id: 'tilbehør-må-fjernes',
+          type: 'tilbehør må fjernes',
+          melding: `${delLinje.del.navn}: ${t('tilbehor.kanIkkeBestilles.måSlettes')}`,
         })
       }
     })
@@ -323,12 +344,7 @@ const Utsjekk = () => {
                         </Beskrivelser>
                       </FlexedStack>
                       {delLinje.del.erTilbehør && (
-                        <Box
-                          borderWidth="1 0 0 0"
-                          borderColor="neutral-subtle"
-                          paddingBlock="space-32 space-0"
-                          marginBlock="space-32"
-                        >
+                        <Avstand marginTop={12} marginBottom={6}>
                           <TilbehørSpørsmål
                             delId={delLinje.del.hmsnr}
                             errors={tilbehorErrors}
@@ -337,7 +353,7 @@ const Utsjekk = () => {
                             tilbehorInfo={tilbehorInfo}
                             setTilbehorInfo={setTilbehorInfo}
                           />
-                        </Box>
+                        </Avstand>
                       )}
                       <Box paddingBlock="space-4">
                         <HStack gap="space-4" align="end" justify="space-between">

@@ -69,6 +69,7 @@ const TilbehørSpørsmål = ({ delId, errors, setErrors, submitAttempt, tilbehor
             </InfoCard.Header>
             <InfoCard.Content>
               <BodyLong>{t('tilbehor.kanIkkeBestilles.beskrivelse')}</BodyLong>
+              <BodyLong>{t('tilbehor.kanIkkeBestilles.måSlettes')}</BodyLong>
             </InfoCard.Content>
           </InfoCard>
         </Avstand>
