@@ -18,7 +18,7 @@
   "bestillinger.bestillDelerTil": "Bestill deler til {{navn}}",
   "bestillinger.delerLagtTil": "Deler lagt til i bestillingen",
   "bestillinger.ikkeLagtTilDeler": "Du har ikke lagt til noen deler.",
-  "bestillinger.slettDel": "Slett del",
+  "bestillinger.slettDel": "Slett",
   "bestillinger.leggTilDeler": "Legg til deler",
   "bestillinger.leggTilFlereDeler": "Legg til flere deler",
   "bestillinger.harFåttOpplæringBatteri": "Jeg har fått opplæring på Hjelpemiddelsentralen i å bytte disse batteriene.",
@@ -117,7 +117,6 @@
   "tilbehor.feil.maSvareFinnesTilbehor": "Du må svare på om tilbehøret finnes på hjelpemidlet fra før",
   "tilbehor.kanIkkeBestilles.tittel": "Kan ikke bestilles",
   "tilbehor.kanIkkeBestilles.beskrivelse": "Når dette tilbehøret ikke er på hjelpemidlet allerede, kan det ikke bestilles. Ta kontakt med fysio- eller ergoterapeut som kan melde behov til Hjelpemiddelsentralen.",
-  "tilbehor.kanIkkeBestilles.måSlettes": "Du må slette dette tilbehøret hvis du skal bestille andre deler.",
 
   "brukFinnHjelpemiddel": "Denne siden er fjernet. Du bør heller bruke <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finne informasjon om deler. Du finner deler til hjelpemidler under \"Passer sammen med\" på en produktside.",
   "oversikt.nyBestilling": "Ny bestilling"

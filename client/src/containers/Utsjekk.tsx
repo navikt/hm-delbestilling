@@ -43,17 +43,10 @@ import {
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-import TilbehørSpørsmål, { TilbehorInfo, TilbehorErrors } from '../components/TilbehørSpørsmål'
 
 export interface Valideringsfeil {
-  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år' | 'tilbehør' | 'tilbehør-må-fjernes'
-  type:
-    | 'mangler levering'
-    | 'ingen deler'
-    | 'mangler opplæring'
-    | 'batteri-bestilt-innen-ett-år'
-    | 'mangler tilbehør svar'
-    | 'tilbehør må fjernes'
+  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
+  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år'
   melding: string
 }
 
@@ -72,8 +65,6 @@ const Utsjekk = () => {
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
   const [harXKLager, setHarXKLager] = useState<boolean | undefined>(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>(handlekurv?.piloter ?? [])
-  const [tilbehorInfo, setTilbehorInfo] = useState<Record<string, TilbehorInfo>>({})
-  const [tilbehorErrors, setTilbehorErrors] = useState<Record<string, TilbehorErrors>>({})
   const { t } = useTranslation()
 
   const navigate = useNavigate()
@@ -143,15 +134,6 @@ const Utsjekk = () => {
         }),
       }
     })
-
-    setTilbehorInfo((prev) => {
-      const { [del.hmsnr]: deleted, ...rest } = prev
-      return rest
-    })
-    setTilbehorErrors((prev) => {
-      const { [del.hmsnr]: deleted, ...rest } = prev
-      return rest
-    })
   }
 
   const setLevering = (levering: Levering) => {
@@ -182,29 +164,6 @@ const Utsjekk = () => {
         melding: 'Du må bekrefte at du har fått opplæring i å bytte disse batteriene.',
       })
     }
-
-    const tilbehørDeler = handlekurv.deler.filter((delLinje) => delLinje.del.erTilbehør)
-    tilbehørDeler.forEach((delLinje) => {
-      const delErrors = tilbehorErrors[delLinje.del.hmsnr]
-      if (delErrors?.harTilbehørFraFør) {
-        feil.push({
-          id: 'tilbehør',
-          type: 'mangler tilbehør svar',
-          melding: `${delLinje.del.navn}: ${delErrors.harTilbehørFraFør}`,
-        })
-      }
-    })
-
-    tilbehørDeler.forEach((delLinje) => {
-      const delInfo = tilbehorInfo[delLinje.del.hmsnr]
-      if (delInfo?.harTilbehørFraFør === false) {
-        feil.push({
-          id: 'tilbehør-må-fjernes',
-          type: 'tilbehør må fjernes',
-          melding: `${delLinje.del.navn}: ${t('tilbehor.kanIkkeBestilles.måSlettes')}`,
-        })
-      }
-    })
 
     setValideringsFeil(feil)
     return feil
@@ -343,18 +302,6 @@ const Utsjekk = () => {
                           <InfoOmDel del={delLinje.del} erFastLagervare={delLinje.del.lagerstatus.minmax} />
                         </Beskrivelser>
                       </FlexedStack>
-                      {delLinje.del.erTilbehør && (
-                        <Avstand marginTop={12} marginBottom={6}>
-                          <TilbehørSpørsmål
-                            delId={delLinje.del.hmsnr}
-                            errors={tilbehorErrors}
-                            setErrors={setTilbehorErrors}
-                            submitAttempt={submitAttempt}
-                            tilbehorInfo={tilbehorInfo}
-                            setTilbehorInfo={setTilbehorInfo}
-                          />
-                        </Avstand>
-                      )}
                       <Box paddingBlock="space-4">
                         <HStack gap="space-4" align="end" justify="space-between">
                           <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>

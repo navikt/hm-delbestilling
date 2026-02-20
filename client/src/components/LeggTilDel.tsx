@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Detail, Heading, HStack, InfoCard, Search } from '@navikt/ds-react'
+import { Button, Detail, Heading, HStack, InfoCard, Search, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel } from '../types/Types'
@@ -13,6 +13,7 @@ import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
 import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
 import InfoOmDel from './InfoOmDel'
+import TilbehørSpørsmål, { TilbehorErrors, TilbehorInfo } from './TilbehørSpørsmål'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -24,6 +25,9 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
 
   const { t } = useTranslation()
   const [søk, setSøk] = useState('')
+  const [tilbehorInfo, setTilbehorInfo] = useState<Record<string, TilbehorInfo>>({})
+  const [tilbehorErrors, setTilbehorErrors] = useState<Record<string, TilbehorErrors>>({})
+  const [submitAttempt, setSubmitAttempt] = useState(false)
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return (
@@ -78,33 +82,62 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
 
           const kanBestilles = !erDekketAvGaranti
 
+          const tilbehorSvar = tilbehorInfo[del.hmsnr]
+          const kanBestilleTilbehor = del.erTilbehør ? tilbehorSvar?.harTilbehørFraFør === true : true
+
           return (
             <Avstand marginBottom={3} key={del.hmsnr}>
               <CustomBox>
                 <DelInnhold>
-                  <FlexedStack>
-                    <Bilde imgs={del.imgs} navn={del.navn} />
-                    <Beskrivelser>
-                      <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
+                  <VStack gap="space-12">
+                    <FlexedStack>
+                      <Bilde imgs={del.imgs} navn={del.navn} />
+                      <Beskrivelser>
+                        <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
 
-                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
-                        <Avstand marginTop={5}>
-                          <Detail textColor="subtle">
-                            {t('del.antallDagerSidenSistBatteribestilling', {
-                              count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
-                            })}
-                          </Detail>
-                        </Avstand>
-                      ) : dekketAvHjelpemiddeletsGaranti ? (
-                        <Avstand marginTop={5}>
-                          <Detail>{t('del.hjelpemiddelErInnenforGarantitid')}</Detail>
-                        </Avstand>
-                      ) : null}
-                    </Beskrivelser>
-                  </FlexedStack>
+                        {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
+                          <Avstand marginTop={5}>
+                            <Detail textColor="subtle">
+                              {t('del.antallDagerSidenSistBatteribestilling', {
+                                count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
+                              })}
+                            </Detail>
+                          </Avstand>
+                        ) : dekketAvHjelpemiddeletsGaranti ? (
+                          <Avstand marginTop={5}>
+                            <Detail>{t('del.hjelpemiddelErInnenforGarantitid')}</Detail>
+                          </Avstand>
+                        ) : null}
+                      </Beskrivelser>
+                    </FlexedStack>
+                    {del.erTilbehør && kanBestilles && (
+                      <Avstand marginTop={4}>
+                        <TilbehørSpørsmål
+                          delId={del.hmsnr}
+                          errors={tilbehorErrors}
+                          setErrors={setTilbehorErrors}
+                          submitAttempt={submitAttempt}
+                          tilbehorInfo={tilbehorInfo}
+                          setTilbehorInfo={setTilbehorInfo}
+                        />
+                      </Avstand>
+                    )}
+                  </VStack>
 
-                  {kanBestilles && (
-                    <Button variant="secondary" onClick={() => onLeggTil(del)}>
+                  {kanBestilles && kanBestilleTilbehor && (
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        if (del.erTilbehør) {
+                          setSubmitAttempt(true)
+                          if (tilbehorSvar?.harTilbehørFraFør === true) {
+                            onLeggTil(del)
+                          }
+                        } else {
+                          onLeggTil(del)
+                        }
+                      }}
+                    >
                       {knappeTekst}
                     </Button>
                   )}

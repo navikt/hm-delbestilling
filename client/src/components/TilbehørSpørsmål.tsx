@@ -63,13 +63,12 @@ const TilbehørSpørsmål = ({ delId, errors, setErrors, submitAttempt, tilbehor
       </HStack>
       {currentInfo?.harTilbehørFraFør === false && (
         <Avstand marginTop={2}>
-          <InfoCard data-color="warning">
+          <InfoCard data-color="info">
             <InfoCard.Header>
               <InfoCard.Title>{t('tilbehor.kanIkkeBestilles.tittel')}</InfoCard.Title>
             </InfoCard.Header>
             <InfoCard.Content>
               <BodyLong>{t('tilbehor.kanIkkeBestilles.beskrivelse')}</BodyLong>
-              <BodyLong>{t('tilbehor.kanIkkeBestilles.måSlettes')}</BodyLong>
             </InfoCard.Content>
           </InfoCard>
         </Avstand>
