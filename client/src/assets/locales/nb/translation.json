@@ -103,10 +103,10 @@
   "del.antallDagerSidenSistBatteribestilling_other": "Batteriene til dette hjelpemiddelet ble byttet for mindre enn ett år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
   "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
 
-  "del.type.reservedel": "RESERVEDEL",
+  "del.type.del": "DEL",
   "del.type.tilbehor": "TILBEHØR",
-  "del.type.ikkeReservedelEllerTilbehor": "IKKE RESERVEDEL ELLER TILBEHØR",
-  "del.type.badeReservedelOgTilbehor": "BÅDE RESERVEDEL OG TILBEHØR",
+  "del.type.ikkeDelEllerTilbehor": "IKKE DEL ELLER TILBEHØR",
+  "del.type.badeDelOgTilbehor": "BÅDE DEL OG TILBEHØR",
   "del.lagervare": "Lagervare",
   "del.bestillingsvare": "Bestillingsvare",
 

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
+import { PackageIcon, WrenchIcon } from '@navikt/aksel-icons'
 import { BodyShort, Heading, HStack, VStack } from '@navikt/ds-react'
 
 import { Del } from '../types/Types'
@@ -15,10 +16,22 @@ const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
   const { t } = useTranslation()
 
   const getDelType = () => {
-    if (del.erReservedel) return t('del.type.reservedel')
-    if (del.erTilbehør) return t('del.type.tilbehor')
-    if (!del.erReservedel && !del.erTilbehør) return t('del.type.ikkeReservedelEllerTilbehor')
-    if (del.erReservedel && del.erTilbehør) return t('del.type.badeReservedelOgTilbehor')
+    if (del.erReservedel)
+      return (
+        <HStack gap="space-4" align="center">
+          <WrenchIcon title="del-ikon" fontSize="1.5rem" />
+          {t('del.type.del')}
+        </HStack>
+      )
+    if (del.erTilbehør)
+      return (
+        <HStack gap="space-4" align="center">
+          <PackageIcon title="tilbehør-ikon" fontSize="1.5rem" />
+          {t('del.type.tilbehor')}
+        </HStack>
+      )
+    if (!del.erReservedel && !del.erTilbehør) return t('del.type.ikkeDelEllerTilbehor')
+    if (del.erReservedel && del.erTilbehør) return t('del.type.badeDelOgTilbehor')
     return ''
   }
 
