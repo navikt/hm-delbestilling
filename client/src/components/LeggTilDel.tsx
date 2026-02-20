@@ -18,9 +18,8 @@ import TilbehørSpørsmål, { TilbehorErrors, TilbehorInfo } from './TilbehørSp
 interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
-  knappeTekst?: string
 }
-const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
+const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
 
   const { t } = useTranslation()
@@ -138,7 +137,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
                         }
                       }}
                     >
-                      {knappeTekst}
+                      {t('bestillinger.bestill')}
                     </Button>
                   )}
                 </DelInnhold>

@@ -154,11 +154,7 @@ const Index = () => {
               </HStack>
             </CustomBox>
             <Avstand marginBottom={12} />
-            <LeggTilDel
-              hjelpemiddel={hjelpemiddel}
-              onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
-              knappeTekst={t('bestillinger.bestill')}
-            />
+            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
           </>
         )}
       </Content>
