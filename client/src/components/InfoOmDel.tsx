@@ -37,7 +37,7 @@ const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
 
   return (
     <>
-      <Heading size="small" level="4" spacing className={styles.heading}>
+      <Heading size="small" level="4" spacing className={styles.utvidetBredde}>
         {del.navn}
       </Heading>
 

@@ -15,6 +15,8 @@ import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
 import InfoOmDel from './InfoOmDel'
 import TilbehørSpørsmål, { TilbehorErrors, TilbehorInfo } from './TilbehørSpørsmål'
 
+import infoOmDelStyles from './InfoOmDel.module.css'
+
 interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
@@ -96,7 +98,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
 
                         {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
                           <Avstand marginTop={5}>
-                            <Detail textColor="subtle">
+                            <Detail textColor="subtle" className={infoOmDelStyles.utvidetBredde}>
                               {t('del.antallDagerSidenSistBatteribestilling', {
                                 count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
                               })}
@@ -104,7 +106,9 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
                           </Avstand>
                         ) : dekketAvHjelpemiddeletsGaranti ? (
                           <Avstand marginTop={5}>
-                            <Detail>{t('del.hjelpemiddelErInnenforGarantitid')}</Detail>
+                            <Detail className={infoOmDelStyles.utvidetBredde}>
+                              {t('del.hjelpemiddelErInnenforGarantitid')}
+                            </Detail>
                           </Avstand>
                         ) : null}
                       </Beskrivelser>
