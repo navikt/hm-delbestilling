@@ -52,13 +52,25 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
           setKategoriFilter={setKategoriFilter}
           delKategorier={delKategorier}
           kategoriFilter={kategoriFilter}
+          onKategoriClick={() => setSøk('')}
         />
 
         <Avstand marginBottom={4} />
 
         <HStack justify="start" align="end" gap="space-4">
           <div>
-            <Search label="Søk" variant="simple" hideLabel onChange={(val) => setSøk(val)} />
+            <Search
+              label="Søk"
+              variant="simple"
+              hideLabel
+              value={søk}
+              onChange={(val) => {
+                setSøk(val)
+                if (val) {
+                  setKategoriFilter(undefined)
+                }
+              }}
+            />
           </div>
         </HStack>
       </Avstand>
