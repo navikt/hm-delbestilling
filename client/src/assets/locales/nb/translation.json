@@ -18,7 +18,7 @@
   "bestillinger.bestillDelerTil": "Bestill deler til {{navn}}",
   "bestillinger.delerLagtTil": "Deler lagt til i bestillingen",
   "bestillinger.ikkeLagtTilDeler": "Du har ikke lagt til noen deler.",
-  "bestillinger.slettDel": "Slett del",
+  "bestillinger.slettDel": "Slett",
   "bestillinger.leggTilDeler": "Legg til deler",
   "bestillinger.leggTilFlereDeler": "Legg til flere deler",
   "bestillinger.harFåttOpplæringBatteri": "Jeg har fått opplæring på Hjelpemiddelsentralen i å bytte disse batteriene.",
@@ -90,6 +90,8 @@
   "felles.Endre": "Endre",
   "felles.saksnummer": "Saksnummer",
   "felles.skrivUt": "Skriv ut",
+  "felles.ja": "Ja",
+  "felles.nei": "Nei",
 
   "oppslag.hvilketHjelpemiddel": "Hvilket hjelpemiddel trenger del?",
   "oppslag.artnr": "Art.nr (6 siffer)",
@@ -101,8 +103,20 @@
   "del.antallDagerSidenSistBatteribestilling_other": "Batteriene til dette hjelpemiddelet ble byttet for mindre enn ett år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
   "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
 
+  "del.type.del": "DEL",
+  "del.type.tilbehor": "TILBEHØR",
+  "del.type.ikkeDelEllerTilbehor": "IKKE DEL ELLER TILBEHØR",
+  "del.type.badeDelOgTilbehor": "BÅDE DEL OG TILBEHØR",
+  "del.lagervare": "Lagervare",
+  "del.bestillingsvare": "Bestillingsvare",
+
   "testbanner.tittel": "Dette er en testversjon",
   "testbanner.innhold": "Du ser nå på en testversjon av løsningen, hvor informasjonen kun er testdata og ikke nødvendigvis gjenspeiler virkeligheten. Når du legger inn art.nr. og serienr, så må art.nr. være et gyldig hjelpemiddel (f.eks. 301996), men for serienr kan du fylle inn en vilkårlig verdi.",
+
+  "tilbehor.sporsmal.finnesTilbehorFraFor": "Finnes dette tilbehøret på hjelpemidlet fra før?",
+  "tilbehor.feil.maSvareFinnesTilbehor": "Du må svare på om tilbehøret finnes på hjelpemidlet fra før",
+  "tilbehor.kanIkkeBestilles.tittel": "Kan ikke bestilles",
+  "tilbehor.kanIkkeBestilles.beskrivelse": "Når dette tilbehøret ikke er på hjelpemidlet allerede, kan det ikke bestilles. Ta kontakt med fysio- eller ergoterapeut som kan melde behov til Hjelpemiddelsentralen.",
 
   "brukFinnHjelpemiddel": "Denne siden er fjernet. Du bør heller bruke <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finne informasjon om deler. Du finner deler til hjelpemidler under \"Passer sammen med\" på en produktside.",
   "oversikt.nyBestilling": "Ny bestilling"

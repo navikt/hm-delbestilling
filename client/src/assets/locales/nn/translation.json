@@ -18,7 +18,7 @@
   "bestillinger.bestillDelerTil": "Bestill delar til {{navn}}",
   "bestillinger.delerLagtTil": "Delar lagt til i bestillinga",
   "bestillinger.ikkeLagtTilDeler": "Du har ikkje lagt til nokon delar.",
-  "bestillinger.slettDel": "Slett del",
+  "bestillinger.slettDel": "Slett",
   "bestillinger.leggTilDeler": "Legg til delar",
   "bestillinger.leggTilFlereDeler": "Legg til fleire delar",
   "bestillinger.harFåttOpplæringBatteri": "Eg har fått opplæring på Hjelpemiddelsentralen i å byta desse batteria.",
@@ -88,13 +88,21 @@
   "del.antallDagerSidenSistBatteribestilling_other": "Batteria til dette hjelpemiddelet vart bytte for mindre enn eitt år sidan, og er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien.",
   "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien.",
 
+  "del.type.del": "DEL",
+  "del.type.tilbehor": "TILBEHØR",
+  "del.type.ikkeDelEllerTilbehor": "IKKE DEL ELLER TILBEHØR",
+  "del.type.badeDelOgTilbehor": "BÅDE DEL OG TILBEHØR",
+  "del.lagervare": "Lagervare",
+  "del.bestillingsvare": "Bestillingsvare",
+
   "felles.overskrift": "Bestilling av delar til hjelpemiddel",
   "felles.Bekreft": "Stadfest",
   "felles.forsiden": "framsida",
   "felles.Endre": "Endre",
   "felles.saksnummer": "Saksnummer",
   "felles.skrivUt": "Skriv ut",
-
+  "felles.ja": "Ja",
+  "felles.nei": "Nei",
   "oppslag.hvilketHjelpemiddel": "Kva hjelpemiddel treng del?",
   "oppslag.artnr": "Art.nr (6 siffer)",
   "oppslag.serienr": "Serienr (6 siffer)",
@@ -103,6 +111,11 @@
 
   "testbanner.tittel": "Dette er ein testversjon",
   "testbanner.innhold": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
+
+  "tilbehor.sporsmal.finnesTilbehorFraFor": "Finst dette tilbehøyret på hjelpemiddelet frå før?",
+  "tilbehor.feil.maSvareFinnesTilbehor": "Du må svara på om tilbehøyret finst på hjelpemiddelet frå før",
+  "tilbehor.kanIkkeBestilles.tittel": "Kan ikkje bestillast",
+  "tilbehor.kanIkkeBestilles.beskrivelse": "Når dette tilbehøyret ikkje er på hjelpemiddelet allereie, kan det ikkje bestillast. Ta kontakt med fysio- eller ergoterapeut som kan melda behov til Hjelpemiddelsentralen.",
 
   "brukFinnHjelpemiddel": "Denne sida er fjerna. Du bør heller bruka <finnHjelpemiddelLink>FinnHjelpemiddel</finnHjelpemiddelLink> for å finna informasjon om delar. Du finn delar til hjelpemiddel under \"Passer saman med\" på ei produktside.",
   "oversikt.nyBestilling": "Ny bestilling"
