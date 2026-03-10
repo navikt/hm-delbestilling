@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { BodyLong, HStack, InfoCard, Radio, RadioGroup } from '@navikt/ds-react'
@@ -9,38 +8,15 @@ export interface TilbehorInfo {
   harTilbehørFraFør: boolean | undefined
 }
 
-export interface TilbehorErrors {
-  harTilbehørFraFør: string | undefined
-}
-
 interface Props {
   delId: string
-  errors: Record<string, TilbehorErrors>
-  setErrors: React.Dispatch<React.SetStateAction<Record<string, TilbehorErrors>>>
-  submitAttempt: boolean
   tilbehorInfo: Record<string, TilbehorInfo>
   setTilbehorInfo: React.Dispatch<React.SetStateAction<Record<string, TilbehorInfo>>>
 }
 
-const TilbehørSpørsmål = ({ delId, errors, setErrors, submitAttempt, tilbehorInfo, setTilbehorInfo }: Props) => {
+const TilbehørSpørsmål = ({ delId, tilbehorInfo, setTilbehorInfo }: Props) => {
   const { t } = useTranslation()
   const currentInfo = tilbehorInfo[delId]
-  const currentErrors = errors[delId] || { harTilbehørFraFør: undefined }
-
-  useEffect(() => {
-    const newErrors: TilbehorErrors = {
-      harTilbehørFraFør: undefined,
-    }
-
-    if (currentInfo?.harTilbehørFraFør === undefined) {
-      newErrors.harTilbehørFraFør = t('tilbehor.feil.maSvareFinnesTilbehor')
-    }
-
-    setErrors((prev) => ({
-      ...prev,
-      [delId]: newErrors,
-    }))
-  }, [currentInfo, setErrors, delId])
 
   return (
     <RadioGroup
@@ -55,7 +31,6 @@ const TilbehørSpørsmål = ({ delId, errors, setErrors, submitAttempt, tilbehor
           },
         }))
       }}
-      error={submitAttempt && currentErrors.harTilbehørFraFør}
     >
       <HStack gap="space-0 space-24">
         <Radio value={true}>{t('felles.ja')}</Radio>

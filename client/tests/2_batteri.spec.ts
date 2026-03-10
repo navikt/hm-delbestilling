@@ -13,13 +13,15 @@ test('batteri', async ({ page }) => {
   })
 
   await test.step("Sorter på 'Batteri' kategorien og se at det ikke kan legges til", async () => {
-    await expect(page.getByRole('button', { name: 'Batteri' })).toBeVisible()
-    await page.getByRole('button', { name: 'Batteri' }).click()
-    await expect(page.getByRole('button', { name: 'Legg til del' })).toBeHidden()
+    await expect(page.getByRole('button', { name: 'Batteri', exact: true })).toBeVisible()
+    await page.getByRole('button', { name: 'Batteri', exact: true }).click()
+    await expect(page.getByRole('button', { name: 'Bestill' })).toBeHidden()
     await expect(
-      page.getByText(
-        'Batteriene til dette hjelpemiddelet ble byttet for mindre enn ett år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.'
-      )
+      page
+        .getByText(
+          'Batteriene til dette hjelpemiddelet ble byttet for mindre enn ett år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.'
+        )
+        .first()
     ).toBeVisible()
   })
 
@@ -31,7 +33,7 @@ test('batteri', async ({ page }) => {
   })
 
   await test.step("Sorter på 'Batteri' kategorien og legg til batteri", async () => {
-    await page.getByRole('button', { name: 'Batteri' }).click()
+    await page.getByRole('button', { name: 'Batteri', exact: true }).click()
     await expect(
       page.getByText(
         'Det er bestilt batteri for 500 dager siden. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.'

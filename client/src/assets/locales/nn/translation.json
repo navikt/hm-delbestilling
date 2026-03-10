@@ -89,9 +89,9 @@
   "del.hjelpemiddelErInnenforGarantitid": "Hjelpemiddelet er innanfor garantitid. Det er derfor ikkje mogleg å bestilla nye batteri via denne tenesta. Ta kontakt med Nav hjelpemiddelsentral for å avklara om feilen blir dekt av garantien.",
 
   "del.type.del": "DEL",
-  "del.type.tilbehor": "TILBEHØR",
-  "del.type.ikkeDelEllerTilbehor": "IKKE DEL ELLER TILBEHØR",
-  "del.type.badeDelOgTilbehor": "BÅDE DEL OG TILBEHØR",
+  "del.type.tilbehor": "TILBEHØYR",
+  "del.type.ikkeDelEllerTilbehor": "IKKJE DEL ELLER TILBEHØYR",
+  "del.type.badeDelOgTilbehor": "BÅDE DEL OG TILBEHØYR",
   "del.lagervare": "Lagervare",
   "del.bestillingsvare": "Bestillingsvare",
 

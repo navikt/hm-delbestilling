@@ -13,7 +13,7 @@ import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
 import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
 import InfoOmDel from './InfoOmDel'
-import TilbehørSpørsmål, { TilbehorErrors, TilbehorInfo } from './TilbehørSpørsmål'
+import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
 
 import infoOmDelStyles from './InfoOmDel.module.css'
 
@@ -27,8 +27,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
   const { t } = useTranslation()
   const [søk, setSøk] = useState('')
   const [tilbehorInfo, setTilbehorInfo] = useState<Record<string, TilbehorInfo>>({})
-  const [tilbehorErrors, setTilbehorErrors] = useState<Record<string, TilbehorErrors>>({})
-  const [submitAttempt, setSubmitAttempt] = useState(false)
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return (
@@ -129,9 +127,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
                       <Avstand marginTop={4}>
                         <TilbehørSpørsmål
                           delId={del.hmsnr}
-                          errors={tilbehorErrors}
-                          setErrors={setTilbehorErrors}
-                          submitAttempt={submitAttempt}
                           tilbehorInfo={tilbehorInfo}
                           setTilbehorInfo={setTilbehorInfo}
                         />
@@ -140,19 +135,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
                   </VStack>
 
                   {kanBestilles && kanBestilleTilbehor && (
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        if (del.erTilbehør) {
-                          setSubmitAttempt(true)
-                          if (tilbehorSvar?.harTilbehørFraFør === true) {
-                            onLeggTil(del)
-                          }
-                        } else {
-                          onLeggTil(del)
-                        }
-                      }}
-                    >
+                    <Button variant="secondary" onClick={() => onLeggTil(del)}>
                       {t('bestillinger.bestill')}
                     </Button>
                   )}

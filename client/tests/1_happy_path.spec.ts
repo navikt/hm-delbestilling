@@ -22,9 +22,9 @@ test('happy path', async ({ page }) => {
     await page.locator('button', { hasText: 'Legg til flere deler' }).click()
   })
 
-  await test.step("Sorter på 'Lader' kategorien og legg til del", async () => {
+  await test.step("Sorter på 'Lader' kategorien og klikk 'Bestill'", async () => {
     await page.getByRole('button', { name: 'lader' }).click()
-    await page.locator('button', { hasText: 'Legg til del' }).first().click()
+    await page.locator('button', { hasText: 'Bestill' }).first().click()
   })
 
   await test.step('Velg levering og send inn', async () => {
