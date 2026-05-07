@@ -42,7 +42,7 @@ const apiHandlers = [
 
     if (hmsnr === '666666') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.IKKE_HOVEDHJELPEMIDDEL, piloter: [] },
+        { hjelpemiddel: undefined, feil: OppslagFeil.PERSON_IKKE_FUNNET, piloter: [] },
         { status: StatusCodes.NOT_FOUND }
       )
     }
