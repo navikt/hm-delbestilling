@@ -34,7 +34,7 @@ const BestillingsKort = ({ sak }: Props) => {
     sak.status !== Ordrestatus.DELVIS_SKIPNINGSBEKREFTET && sak.status !== Ordrestatus.SKIPNINGSBEKREFTET
 
   return (
-    <Avstand marginBottom={4}>
+    <Avstand marginBottom={16}>
       <Box
         padding="space-16"
         background="default"
@@ -50,7 +50,7 @@ const BestillingsKort = ({ sak }: Props) => {
           <span>Art.nr. {sak.delbestilling.hmsnr}</span>
           <span>Serienr. {sak.delbestilling.serienr}</span>
         </Detail>
-        <Avstand marginBottom={4} />
+        <Avstand marginBottom={16} />
         {sak.delbestilling.deler.map((dellinje, index) => (
           <div key={index} className={styles.dellinje}>
             <VStack gap="space-4">
@@ -75,7 +75,7 @@ const BestillingsKort = ({ sak }: Props) => {
             </VStack>
           </div>
         ))}
-        <Avstand marginBottom={4} />
+        <Avstand marginBottom={16} />
 
         <BodyShort size="small" spacing>
           <strong>

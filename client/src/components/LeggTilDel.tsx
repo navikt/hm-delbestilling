@@ -45,7 +45,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
         Deler til {hjelpemiddel.navn}
       </Heading>
 
-      <Avstand marginBottom={2}>
+      <Avstand marginBottom={8}>
         <DelKategoriVelger
           setKategoriFilter={setKategoriFilter}
           delKategorier={delKategorier}
@@ -53,7 +53,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
           onKategoriClick={() => setSøk('')}
         />
 
-        <Avstand marginBottom={4} />
+        <Avstand marginBottom={16} />
 
         <HStack justify="start" align="end" gap="space-4">
           <div>
@@ -97,7 +97,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
           const kanBestilleTilbehor = del.erTilbehør ? tilbehorSvar?.harTilbehørFraFør === true : true
 
           return (
-            <Avstand marginBottom={3} key={del.hmsnr}>
+            <Avstand marginBottom={12} key={del.hmsnr}>
               <CustomBox>
                 <DelInnhold>
                   <VStack gap="space-12">
@@ -107,7 +107,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
                         <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
 
                         {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
-                          <Avstand marginTop={5}>
+                          <Avstand marginTop={20}>
                             <Detail textColor="subtle" className={infoOmDelStyles.utvidetBredde}>
                               {t('del.antallDagerSidenSistBatteribestilling', {
                                 count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
@@ -115,7 +115,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
                             </Detail>
                           </Avstand>
                         ) : dekketAvHjelpemiddeletsGaranti ? (
-                          <Avstand marginTop={5}>
+                          <Avstand marginTop={20}>
                             <Detail className={infoOmDelStyles.utvidetBredde}>
                               {t('del.hjelpemiddelErInnenforGarantitid')}
                             </Detail>
@@ -124,7 +124,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
                       </Beskrivelser>
                     </FlexedStack>
                     {del.erTilbehør && kanBestilles && (
-                      <Avstand marginTop={4}>
+                      <Avstand marginTop={16}>
                         <TilbehørSpørsmål
                           delId={del.hmsnr}
                           tilbehorInfo={tilbehorInfo}

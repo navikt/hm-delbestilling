@@ -77,7 +77,7 @@ const Index = () => {
               }}
             />
 
-            <Avstand marginTop={6}>
+            <Avstand marginTop={24}>
               <Link
                 href="#"
                 style={{ display: 'block', width: '100%' }}
@@ -101,11 +101,11 @@ const Index = () => {
               </Link>
             </Avstand>
 
-            <Avstand marginTop={6}>
+            <Avstand marginTop={24}>
               <OmÅBestilleDeler />
             </Avstand>
 
-            <Avstand marginTop={6}>
+            <Avstand marginTop={24}>
               <CustomBox>
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
@@ -153,7 +153,7 @@ const Index = () => {
                 </Button>
               </HStack>
             </CustomBox>
-            <Avstand marginBottom={12} />
+            <Avstand marginBottom={48} />
             <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
           </>
         )}

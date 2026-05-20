@@ -37,7 +37,7 @@ const TilbehørSpørsmål = ({ delId, tilbehorInfo, setTilbehorInfo }: Props) =>
         <Radio value={false}>{t('felles.nei')}</Radio>
       </HStack>
       {currentInfo?.harTilbehørFraFør === false && (
-        <Avstand marginTop={2}>
+        <Avstand marginTop={8}>
           <InfoCard data-color="info">
             <InfoCard.Header>
               <InfoCard.Title>{t('tilbehor.kanIkkeBestilles.tittel')}</InfoCard.Title>

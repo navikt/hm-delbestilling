@@ -45,7 +45,7 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (henterRolle) {
     return (
-      <Avstand paddingTop={16} paddingBottom={16}>
+      <Avstand paddingTop={64} paddingBottom={64}>
         <HStack justify="center">
           <Loader size="large" />
         </HStack>
@@ -65,7 +65,7 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   if (feilmeldingsTekst) {
     return (
       <Content>
-        <Avstand marginTop={10} marginBottom={10}>
+        <Avstand marginTop={40} marginBottom={40}>
           <GuidePanel>{feilmeldingsTekst}</GuidePanel>
         </Avstand>
       </Content>

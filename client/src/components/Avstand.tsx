@@ -50,5 +50,5 @@ function getSpacingStyle(props: SpacingProps): React.CSSProperties {
 }
 
 function spacingVar(space?: number): string | undefined {
-  return typeof space === 'number' ? `var(--a-spacing-${space})` : undefined
+  return typeof space === 'number' ? `var(--ax-space-${space})` : undefined
 }

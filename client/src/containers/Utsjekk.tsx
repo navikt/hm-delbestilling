@@ -240,7 +240,7 @@ const Utsjekk = () => {
   if (!handlekurv) {
     return (
       <Content>
-        <Avstand paddingTop={8} paddingBottom={8}>
+        <Avstand paddingTop={32} paddingBottom={32}>
           <GuidePanel>
             <Trans
               i18nKey={'error.fantIngenHandlekurv'}
@@ -259,7 +259,7 @@ const Utsjekk = () => {
       <Content>
         <>
           {visFlereDeler && (
-            <Avstand marginBottom={6}>
+            <Avstand marginBottom={24}>
               <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => setVisFlereDeler(false)}>
                 {t('bestillinger.tilbakeTilBestillingen')}
               </Button>
@@ -274,7 +274,7 @@ const Utsjekk = () => {
               <span>Serienr. {handlekurv.serienr}</span>
             </BodyShort>
           </CustomBox>
-          <Avstand marginBottom={12} />
+          <Avstand marginBottom={48} />
           {visFlereDeler ? (
             <LeggTilDel
               hjelpemiddel={{
@@ -288,13 +288,13 @@ const Utsjekk = () => {
             />
           ) : (
             <>
-              <Avstand marginBottom={12}>
+              <Avstand marginBottom={48}>
                 <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
                 {handlekurv.deler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
-                  <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
+                  <Avstand marginBottom={8} key={delLinje.del.hmsnr}>
                     <CustomBox>
                       <FlexedStack>
                         <Bilde imgs={delLinje.del.imgs} navn={delLinje.del.navn} />
@@ -324,14 +324,14 @@ const Utsjekk = () => {
                     </CustomBox>
                   </Avstand>
                 ))}
-                <Avstand marginBottom={4} />
+                <Avstand marginBottom={16} />
                 <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
                   {handlekurv.deler.length > 0 ? t('bestillinger.leggTilFlereDeler') : t('bestillinger.leggTilDeler')}
                 </Button>
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <Avstand marginBottom={8}>
+                <Avstand marginBottom={32}>
                   <CheckboxGroup
                     legend={t('bestillinger.harFåttOpplæringBatteri')}
                     onChange={(values) => {
@@ -352,7 +352,7 @@ const Utsjekk = () => {
                 </Avstand>
               )}
 
-              <Avstand marginBottom={12}>
+              <Avstand marginBottom={48}>
                 <Heading spacing level="3" size="medium">
                   {t('levering.Levering')}
                 </Heading>
@@ -384,14 +384,14 @@ const Utsjekk = () => {
                 )}
 
                 {valideringsFeil.length > 0 && (
-                  <Avstand marginTop={4}>
+                  <Avstand marginTop={16}>
                     <Errors valideringsFeil={valideringsFeil} />
                   </Avstand>
                 )}
               </Avstand>
 
               {feilmelding && (
-                <Avstand marginBottom={4}>
+                <Avstand marginBottom={16}>
                   <Feilmelding feilmelding={feilmelding} />
                 </Avstand>
               )}

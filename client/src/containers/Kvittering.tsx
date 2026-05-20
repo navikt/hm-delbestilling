@@ -48,7 +48,7 @@ const Kvittering = () => {
                 <LocalAlert.Title>{t('kvittering.bestillingMottatt.tittel')}</LocalAlert.Title>
               </LocalAlert.Header>
             </LocalAlert>
-            <Avstand marginTop={8} />
+            <Avstand marginTop={32} />
             <Heading level="2" size="large" spacing>
               Kvittering
             </Heading>
@@ -63,7 +63,7 @@ const Kvittering = () => {
           </LocalAlert>
         )}
 
-        <Avstand marginTop={10} />
+        <Avstand marginTop={40} />
         <HStack justify="center">
           <Button variant="secondary" onClick={handleNyBestillingClick}>
             {t('kvittering.startNyBestilling')}

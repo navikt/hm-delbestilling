@@ -18,7 +18,7 @@ const Layout = () => {
       <Header>
         <Content>
           {visTestMiljoBanner && (
-            <Avstand marginTop={4} marginBottom={8}>
+            <Avstand marginTop={16} marginBottom={32}>
               <GlobalAlert status="announcement">
                 <GlobalAlert.Header>
                   <GlobalAlert.Title>{t('testbanner.tittel')}</GlobalAlert.Title>

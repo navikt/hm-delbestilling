@@ -25,7 +25,7 @@ const Feilmelding = ({ feilmelding }: Props) => {
       <LocalAlert.Content>
         {feilmelding.feilmelding}
         {feilmelding.tekniskFeilmelding && (
-          <Avstand marginTop={2}>
+          <Avstand marginTop={8}>
             <ExpansionCard size="small" aria-label="informasjon for utviklere">
               <ExpansionCard.Header>
                 <ExpansionCard.Title size="small">{t('error.informasjonForUtviklere')}</ExpansionCard.Title>

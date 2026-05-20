@@ -115,7 +115,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
       </form>
 
       {feilmelding && !gjørOppslag && (
-        <Avstand marginTop={4}>
+        <Avstand marginTop={16}>
           <Feilmelding feilmelding={feilmelding} />
         </Avstand>
       )}
