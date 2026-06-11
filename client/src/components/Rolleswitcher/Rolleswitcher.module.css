@@ -5,7 +5,6 @@
   right: 10px;
   z-index: 999999;
   padding: 20px;
-  background: var(--a-gray-100);
   border: 2px dashed black;
   min-width: 220px;
 }

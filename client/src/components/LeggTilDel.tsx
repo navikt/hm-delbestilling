@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Button, Detail, Heading, HStack, Search, Switch } from '@navikt/ds-react'
+import { Button, Detail, Heading, HStack, InfoCard, Search, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
-import { Del, Hjelpemiddel, Pilot } from '../types/Types'
-import { logKlikkVisKunFastLagervare } from '../utils/amplitude'
+import { Del, Hjelpemiddel } from '../types/Types'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
 import { Bilde } from './Bilde/Bilde'
@@ -13,24 +12,31 @@ import DelInnhold from './DelInhold/DelInhold'
 import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
 import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
+import InfoOmDel from './InfoOmDel'
+import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
+
+import infoOmDelStyles from './InfoOmDel.module.css'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
-  knappeTekst?: string
-  piloter: Pilot[]
 }
-const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', piloter }: Props) => {
+const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
 
   const { t } = useTranslation()
-  const [visKunDigitaleDeler, setVisKunDigitaleDeler] = useState(false)
   const [søk, setSøk] = useState('')
-
-  const erPilotForBestilleIkkeFasteLagervarer = piloter.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
+  const [tilbehorInfo, setTilbehorInfo] = useState<Record<string, TilbehorInfo>>({})
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
-    return <Alert variant="info">{t('leggTilDel.ingenDeler')}</Alert>
+    return (
+      <InfoCard data-color="accent">
+        <InfoCard.Header>
+          <InfoCard.Title>{t('leggTilDel.ingenDeler.tittel')}</InfoCard.Title>
+        </InfoCard.Header>
+        <InfoCard.Content>{t('leggTilDel.ingenDeler.innhold')}</InfoCard.Content>
+      </InfoCard>
+    )
   }
 
   return (
@@ -39,36 +45,36 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
         Deler til {hjelpemiddel.navn}
       </Heading>
 
-      <Avstand marginBottom={2}>
+      <Avstand marginBottom={8}>
         <DelKategoriVelger
           setKategoriFilter={setKategoriFilter}
           delKategorier={delKategorier}
           kategoriFilter={kategoriFilter}
+          onKategoriClick={() => setSøk('')}
         />
 
-        <Avstand marginBottom={4} />
+        <Avstand marginBottom={16} />
 
-        <HStack justify="start" align="end" gap="4">
+        <HStack justify="start" align="end" gap="space-4">
           <div>
-            <Search label="Søk" variant="simple" hideLabel onChange={(val) => setSøk(val)} />
-          </div>
-          {!erPilotForBestilleIkkeFasteLagervarer && (
-            <Switch
-              checked={visKunDigitaleDeler}
-              onChange={(e) => {
-                setVisKunDigitaleDeler(e.target.checked)
-                logKlikkVisKunFastLagervare(e.target.checked)
+            <Search
+              label="Søk"
+              variant="simple"
+              hideLabel
+              value={søk}
+              onChange={(val) => {
+                setSøk(val)
+                if (val) {
+                  setKategoriFilter(undefined)
+                }
               }}
-            >
-              {t('filtrering.visKunDelerSomKanBestillesDigitalt')}
-            </Switch>
-          )}
+            />
+          </div>
         </HStack>
       </Avstand>
 
       {hjelpemiddel.deler
         .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
-        .filter((del) => (visKunDigitaleDeler ? del.lagerstatus.minmax === true : true))
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
@@ -85,70 +91,55 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del', pil
 
           const erDekketAvGaranti = harNyligBlittBestiltBatteri || dekketAvHjelpemiddeletsGaranti
 
-          // Må være på minmax eller lager må støtte anmodninger
-          const lagerstatusErOkForBestilling = erFastLagervare || erPilotForBestilleIkkeFasteLagervarer
+          const kanBestilles = !erDekketAvGaranti
 
-          const kanBestilles = !erDekketAvGaranti && lagerstatusErOkForBestilling
+          const tilbehorSvar = tilbehorInfo[del.hmsnr]
+          const kanBestilleTilbehor = del.erTilbehør ? tilbehorSvar?.harTilbehørFraFør === true : true
 
           return (
-            <Avstand marginBottom={3} key={del.hmsnr}>
+            <Avstand marginBottom={12} key={del.hmsnr}>
               <CustomBox>
                 <DelInnhold>
-                  <FlexedStack>
-                    <Bilde imgs={del.imgs} navn={del.navn} />
-                    <Beskrivelser>
-                      <Heading size="small" level="4" spacing>
-                        {del.navn}
-                      </Heading>
+                  <VStack gap="space-12">
+                    <FlexedStack>
+                      <Bilde imgs={del.imgs} navn={del.navn} />
+                      <Beskrivelser>
+                        <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
 
-                      <HStack gap="5">
-                        <BodyShort textColor="subtle">HMS-nr. {del.hmsnr}</BodyShort>
-                        {del.levArtNr && <BodyShort textColor="subtle">Lev.art.nr. {del.levArtNr}</BodyShort>}
-                      </HStack>
+                        {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
+                          <Avstand marginTop={20}>
+                            <Detail textColor="subtle" className={infoOmDelStyles.utvidetBredde}>
+                              {t('del.antallDagerSidenSistBatteribestilling', {
+                                count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
+                              })}
+                            </Detail>
+                          </Avstand>
+                        ) : dekketAvHjelpemiddeletsGaranti ? (
+                          <Avstand marginTop={20}>
+                            <Detail className={infoOmDelStyles.utvidetBredde}>
+                              {t('del.hjelpemiddelErInnenforGarantitid')}
+                            </Detail>
+                          </Avstand>
+                        ) : null}
+                      </Beskrivelser>
+                    </FlexedStack>
+                    {del.erTilbehør && kanBestilles && (
+                      <Avstand marginTop={16}>
+                        <TilbehørSpørsmål
+                          delId={del.hmsnr}
+                          tilbehorInfo={tilbehorInfo}
+                          setTilbehorInfo={setTilbehorInfo}
+                        />
+                      </Avstand>
+                    )}
+                  </VStack>
 
-                      {del.lagerstatus && !lagerstatusErOkForBestilling && (
-                        <Avstand marginTop={5}>
-                          <Detail textColor="subtle">
-                            {t('del.lagerstatus.ikkeFastLagervare', {
-                              hmsNavn:
-                                lagerTilEnhetnavnMap[del.lagerstatus.organisasjons_navn.slice(1, 3)] ??
-                                del.lagerstatus.organisasjons_navn,
-                            })}
-                          </Detail>
-                        </Avstand>
-                      )}
-
-                      {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
-                        <Avstand marginTop={5}>
-                          <Detail textColor="subtle">
-                            {t('del.antallDagerSidenSistBatteribestilling', {
-                              count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
-                            })}
-                          </Detail>
-                        </Avstand>
-                      ) : dekketAvHjelpemiddeletsGaranti ? (
-                        <Avstand marginTop={5}>
-                          <Detail>{t('del.hjelpemiddelErInnenforGarantitid')}</Detail>
-                        </Avstand>
-                      ) : null}
-                    </Beskrivelser>
-                  </FlexedStack>
-
-                  {kanBestilles && (
+                  {kanBestilles && kanBestilleTilbehor && (
                     <Button variant="secondary" onClick={() => onLeggTil(del)}>
-                      {knappeTekst}
+                      {t('bestillinger.bestill')}
                     </Button>
                   )}
                 </DelInnhold>
-                {window.appSettings.MILJO === 'dev-gcp' &&
-                  erPilotForBestilleIkkeFasteLagervarer &&
-                  !erFastLagervare && (
-                    <HStack justify={'end'}>
-                      <Avstand marginTop={2}>
-                        <Detail color="subtle">[DEBUG]: ikke fast lagervare (min/max)</Detail>
-                      </Avstand>
-                    </HStack>
-                  )}
               </CustomBox>
             </Avstand>
           )

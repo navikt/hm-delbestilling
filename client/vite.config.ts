@@ -16,14 +16,25 @@ const htmlPlugin = ({ development }: { development?: boolean }): Plugin => ({
           logoutWarning: true,
         },
       })
+      const {
+        DECORATOR_HEAD_ASSETS: HeadAssets,
+        DECORATOR_HEADER: Header,
+        DECORATOR_FOOTER: Footer,
+        DECORATOR_SCRIPTS: Scripts,
+      } = decorator
       return {
-        html: render(html, decorator),
+        html: render(html.replace(/\{\{\./g, '{{{').replace(/\}\}/g, '}}}'), {
+          HeadAssets,
+          Header,
+          Footer,
+          Scripts,
+        }),
         tags: [
           {
             tag: 'script',
             children: `window.appSettings = {
               GIT_COMMIT: 'ukjent',
-              MILJO: 'dev-gcp',
+              NAIS_CLUSTER_NAME: 'dev-gcp',
               USE_MSW: true,
             }`,
           },

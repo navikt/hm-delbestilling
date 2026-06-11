@@ -2,7 +2,7 @@
 .imgWrap {
   width: 100%;
   height: 150px;
-  background: var(--a-gray-100);
+  background: var(--ax-neutral-200);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +29,7 @@
 .placeholderIcon {
   width: 75px;
   height: 75px;
-  color: var(--a-gray-500);
+  color: var(--ax-neutral-600);
 }
 
 .magnifyer {

@@ -2,12 +2,10 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { ArrowLeftIcon } from '@navikt/aksel-icons'
-import { Button, Heading } from '@navikt/ds-react'
+import { Button, Heading, HStack } from '@navikt/ds-react'
 
 import BestillingsListe from '../components/BestillingsListe/BestillingsListe'
 import Content from '../components/Layout/Content'
-
-import styles from '../styles/Containers.module.css'
 
 const Bestillinger = () => {
   const { t } = useTranslation()
@@ -19,12 +17,12 @@ const Bestillinger = () => {
         <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => navigate('/')}>
           Tilbake
         </Button>
-        <div className={styles.bannerContainer}>
+        <HStack justify="space-between" paddingBlock="space-12">
           <Heading size="large" level="2">
             {t('bestillinger.dineSiste')}
           </Heading>
           <Button onClick={() => navigate('/')}>{t('oversikt.nyBestilling')}</Button>
-        </div>
+        </HStack>
 
         <BestillingsListe text={t('bestillinger.saker')} />
       </Content>

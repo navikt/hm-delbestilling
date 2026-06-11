@@ -16,9 +16,9 @@ const Feilside = ({ error, resetErrorBoundary }: Props) => {
   const { t } = useTranslation()
   return (
     <Content>
-      <Avstand marginTop={4} marginBottom={4}>
+      <Avstand marginTop={16} marginBottom={16}>
         <Feilmelding feilmelding={{ feilmelding: t('feilside.noeGikkGalt'), tekniskFeilmelding: error }} />
-        <Avstand marginTop={4} />
+        <Avstand marginTop={16} />
         <Button onClick={resetErrorBoundary}>{t('feilside.prøvPåNytt')}</Button>
       </Avstand>
     </Content>

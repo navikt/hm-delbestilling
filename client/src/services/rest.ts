@@ -1,20 +1,19 @@
 import { StatusCodes } from 'http-status-codes'
 
 import {
-  AlleHjelpemidlerMedDelerResponse,
   DelbestillerrolleResponse,
   DelbestillingResponse,
   DellisteResponse,
-  HjelpemiddelTitlerResponse,
   OppslagResponse,
   SisteBatteribestillingResponse,
+  TilgjengeligeHjelpemidlerResponse,
   XKLagerResponse,
 } from '../types/HttpTypes'
 import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
 export const API_PATH = REST_BASE_PATH + '/api'
-export const ROLLER_PATH = REST_BASE_PATH + '/roller'
+export const ROLLER_PATH = REST_BASE_PATH + '/roller-api/api'
 
 export class ApiError extends Error {
   statusCode: number | undefined
@@ -36,7 +35,7 @@ export class ApiError extends Error {
 const handleResponse = async (response: Response) => {
   // Catcher statuskoder utenfor 200-299
   if (!response.ok) {
-    const json = await response.json().catch((err: unknown) => {})
+    const json = await response.json().catch((err: unknown) => { })
     // Responsebody inneholder ikke en feil som klienten skal håndtere, så kast ApiError
     if (json?.feil === undefined) {
       throw new ApiError(response.statusText, response.status)
@@ -61,14 +60,8 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
   return await response.json()
 }
 
-const hentAlleHjelpemidlerMedDeler = async (): Promise<AlleHjelpemidlerMedDelerResponse> => {
-  const response = await fetch(API_PATH + '/hjelpemidler')
-  await handleResponse(response.clone())
-  return await response.json()
-}
-
-const hentHjelpemiddelTitler = async (): Promise<HjelpemiddelTitlerResponse> => {
-  const response = await fetch(API_PATH + '/hjelpemiddel-titler')
+const hentTilgjengeligeHjelpemidler = async (): Promise<TilgjengeligeHjelpemidlerResponse> => {
+  const response = await fetch(API_PATH + '/tilgjengelige-hjelpemidler')
   await handleResponse(response.clone())
   return await response.json()
 }
@@ -155,8 +148,7 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
 
 export default {
   hjelpemiddelOppslag,
-  hentAlleHjelpemidlerMedDeler,
-  hentHjelpemiddelTitler,
+  hentTilgjengeligeHjelpemidler,
   hentAlleDeler,
   sendInnBestilling,
   hentBestillinger,

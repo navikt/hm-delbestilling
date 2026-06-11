@@ -4,13 +4,15 @@ import { useNavigate } from 'react-router-dom'
 
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
 import {
-  Alert,
   BodyShort,
+  Box,
   Button,
-  ConfirmationPanel,
+  Checkbox,
+  CheckboxGroup,
   GuidePanel,
   Heading,
   HStack,
+  InfoCard,
   Loader,
   Radio,
   RadioGroup,
@@ -23,6 +25,7 @@ import { Beskrivelser } from '../components/Beskrivelser/Beskrivelser'
 import { Bilde } from '../components/Bilde/Bilde'
 import Errors from '../components/Errors'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
+import InfoOmDel from '../components/InfoOmDel'
 import Content from '../components/Layout/Content'
 import { CustomBox } from '../components/Layout/CustomBox'
 import FlexedStack from '../components/Layout/FlexedStack'
@@ -36,11 +39,10 @@ import {
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
-} from '../utils/amplitude'
+} from '../utils/analytics/analytics'
+import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-
-import styles from '../styles/Containers.module.css'
 
 export interface Valideringsfeil {
   id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
@@ -212,7 +214,7 @@ const Utsjekk = () => {
               <Trans
                 i18nKey={'error.sessionExpired'}
                 components={{
-                  link: <Lenke href="/hjelpemidler/delbestilling/login" lenketekst="her" />,
+                  link: <Lenke href="/hjelpemidler/delbestilling/oauth2/login" lenketekst="her" />,
                 }}
               />
             </>
@@ -238,7 +240,7 @@ const Utsjekk = () => {
   if (!handlekurv) {
     return (
       <Content>
-        <Avstand paddingTop={8} paddingBottom={8}>
+        <Avstand paddingTop={32} paddingBottom={32}>
           <GuidePanel>
             <Trans
               i18nKey={'error.fantIngenHandlekurv'}
@@ -257,7 +259,7 @@ const Utsjekk = () => {
       <Content>
         <>
           {visFlereDeler && (
-            <Avstand marginBottom={6}>
+            <Avstand marginBottom={24}>
               <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => setVisFlereDeler(false)}>
                 {t('bestillinger.tilbakeTilBestillingen')}
               </Button>
@@ -272,7 +274,7 @@ const Utsjekk = () => {
               <span>Serienr. {handlekurv.serienr}</span>
             </BodyShort>
           </CustomBox>
-          <Avstand marginBottom={12} />
+          <Avstand marginBottom={48} />
           {visFlereDeler ? (
             <LeggTilDel
               hjelpemiddel={{
@@ -283,87 +285,87 @@ const Utsjekk = () => {
                 ),
               }}
               onLeggTil={(del) => leggTilDel(del)}
-              piloter={piloter}
             />
           ) : (
             <>
-              <Avstand marginBottom={12}>
+              <Avstand marginBottom={48}>
                 <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
                 {handlekurv.deler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
-                  <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
+                  <Avstand marginBottom={8} key={delLinje.del.hmsnr}>
                     <CustomBox>
                       <FlexedStack>
                         <Bilde imgs={delLinje.del.imgs} navn={delLinje.del.navn} />
                         <Beskrivelser>
-                          <Heading size="small" level="4" spacing>
-                            {delLinje.del.navn}
-                          </Heading>
-                          <HStack gap="5">
-                            <BodyShort textColor="subtle">HMS-nr. {delLinje.del.hmsnr}</BodyShort>
-                            {delLinje.del.levArtNr && (
-                              <BodyShort textColor="subtle">Lev.art.nr. {delLinje.del.levArtNr}</BodyShort>
-                            )}
-                          </HStack>
+                          <InfoOmDel del={delLinje.del} erFastLagervare={delLinje.del.lagerstatus.minmax} />
                         </Beskrivelser>
                       </FlexedStack>
-                      <div className={styles.toolbar}>
-                        <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
-                          {t('bestillinger.slettDel')}
-                        </Button>
-                        <Select
-                          label="Antall"
-                          value={delLinje.antall}
-                          onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
-                          size="small"
-                        >
-                          {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </Select>
-                      </div>
+                      <Box paddingBlock="space-4">
+                        <HStack gap="space-4" align="end" justify="space-between">
+                          <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
+                            {t('bestillinger.slettDel')}
+                          </Button>
+                          <Select
+                            label="Antall"
+                            value={delLinje.antall}
+                            onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
+                            size="small"
+                          >
+                            {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
+                          </Select>
+                        </HStack>
+                      </Box>
                     </CustomBox>
                   </Avstand>
                 ))}
-                <Avstand marginBottom={4} />
+                <Avstand marginBottom={16} />
                 <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
                   {handlekurv.deler.length > 0 ? t('bestillinger.leggTilFlereDeler') : t('bestillinger.leggTilDeler')}
                 </Button>
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <Avstand marginBottom={8}>
-                  <ConfirmationPanel
-                    id={'opplæring-batteri'}
-                    checked={!!handlekurv.harOpplæringPåBatteri}
-                    label={t('bestillinger.harFåttOpplæringBatteri')}
-                    onChange={(e) =>
+                <Avstand marginBottom={32}>
+                  <CheckboxGroup
+                    legend={t('bestillinger.harFåttOpplæringBatteri')}
+                    onChange={(values) => {
                       setHandlekurv((prev) => {
                         if (!prev) return undefined
                         return {
                           ...prev,
-                          harOpplæringPåBatteri: e.target.checked,
+                          harOpplæringPåBatteri: !!values[0],
                         }
                       })
-                    }
+                    }}
                     error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
                   >
-                    {t('felles.Bekreft')}
-                  </ConfirmationPanel>
+                    <Checkbox id={'opplæring-batteri'} value={true}>
+                      {t('felles.Bekreft')}
+                    </Checkbox>
+                  </CheckboxGroup>
                 </Avstand>
               )}
 
-              <Avstand marginBottom={12}>
+              <Avstand marginBottom={48}>
                 <Heading spacing level="3" size="medium">
                   {t('levering.Levering')}
                 </Heading>
 
                 {harXKLager === undefined && <Loader />}
-                {harXKLager === false && <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>}
+                {harXKLager === false && (
+                  <InfoCard data-color="info">
+                    <InfoCard.Header>
+                      <InfoCard.Title>{t('bestillinger.delBlirLevertTilKommunen.tittel')}</InfoCard.Title>
+                    </InfoCard.Header>
+                    <InfoCard.Content>{t('bestillinger.delBlirLevertTilKommunen.innhold')}</InfoCard.Content>
+                  </InfoCard>
+                )}
                 {harXKLager === true && (
                   <RadioGroup
                     id="levering"
@@ -382,19 +384,19 @@ const Utsjekk = () => {
                 )}
 
                 {valideringsFeil.length > 0 && (
-                  <Avstand marginTop={4}>
+                  <Avstand marginTop={16}>
                     <Errors valideringsFeil={valideringsFeil} />
                   </Avstand>
                 )}
               </Avstand>
 
               {feilmelding && (
-                <Avstand marginBottom={4}>
+                <Avstand marginBottom={16}>
                   <Feilmelding feilmelding={feilmelding} />
                 </Avstand>
               )}
 
-              <VStack align="center" gap="3">
+              <VStack align="center" gap="space-12">
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
                   {t('bestillinger.sendInn')}
                 </Button>
@@ -406,7 +408,7 @@ const Utsjekk = () => {
           )}
         </>
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
+      {!isProd() && (
         <Rolleswitcher
           harXKLager={harXKLager}
           setHarXKLager={setHarXKLager}

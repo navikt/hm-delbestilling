@@ -1,6 +1,6 @@
 import React, { SetStateAction, useState } from 'react'
 
-import { Button, Checkbox, CheckboxGroup, Detail, Heading } from '@navikt/ds-react'
+import { Box, Button, Checkbox, CheckboxGroup, Detail, Heading } from '@navikt/ds-react'
 
 import { Pilot } from '../../types/Types'
 
@@ -22,11 +22,13 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
     }
 
     if (setPiloter !== undefined) {
+      /*
       if (values.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)) {
         setPiloter([Pilot.BESTILLE_IKKE_FASTE_LAGERVARER])
       } else {
         setPiloter([])
       }
+      */
     }
   }
 
@@ -38,13 +40,15 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
   if (harXKLager) {
     checkedValues.push('harXKLager')
   }
+  /*
   if (piloter?.includes(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)) {
     checkedValues.push(Pilot.BESTILLE_IKKE_FASTE_LAGERVARER)
   }
+  */
 
   if (erSkjult) {
     return (
-      <div className={styles.wrapper}>
+      <Box className={styles.wrapper} background="raised">
         <Button
           size="small"
           variant="secondary"
@@ -55,12 +59,12 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
         >
           Vis Rolleswitcher
         </Button>
-      </div>
+      </Box>
     )
   }
 
   return (
-    <div className={styles.wrapper}>
+    <Box className={styles.wrapper} background="raised">
       <Button
         style={{ position: 'absolute', top: '7px', right: '7px' }}
         size="small"
@@ -75,12 +79,12 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
       <Heading size="xsmall">[DEBUG]</Heading>
       <CheckboxGroup size="small" legend="Roller" hideLegend onChange={handleChange} value={checkedValues}>
         {!!setHarXKLager && <Checkbox value="harXKLager">Har XK-lager</Checkbox>}
-        {!!setPiloter && (
+        {/* {!!setPiloter && (
           <Checkbox value={Pilot.BESTILLE_IKKE_FASTE_LAGERVARER}>Pilot for bestille ikke-fast lagervare</Checkbox>
-        )}
+        )} */}
       </CheckboxGroup>
       <Detail>Git-commit: {window.appSettings.GIT_COMMIT}</Detail>
-    </div>
+    </Box>
   )
 }
 

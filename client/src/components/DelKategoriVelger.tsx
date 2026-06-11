@@ -3,16 +3,23 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { Chips } from '@navikt/ds-react'
 
 import { Del } from '../types/Types'
-import { logKategoriFiltreringGjort } from '../utils/amplitude'
+import { logKategoriFiltreringGjort } from '../utils/analytics/analytics'
 
 interface Props {
   delKategorier: string[]
   kategoriFilter?: string | undefined
   logKategoriValg?: boolean
   setKategoriFilter: Dispatch<SetStateAction<string | undefined>>
+  onKategoriClick?: () => void
 }
 
-const DelKategoriVelger = ({ delKategorier, kategoriFilter, setKategoriFilter, logKategoriValg = true }: Props) => {
+const DelKategoriVelger = ({
+  delKategorier,
+  kategoriFilter,
+  setKategoriFilter,
+  logKategoriValg = true,
+  onKategoriClick,
+}: Props) => {
   const visCheckmark = delKategorier.length <= 2
 
   return (
@@ -22,6 +29,7 @@ const DelKategoriVelger = ({ delKategorier, kategoriFilter, setKategoriFilter, l
         key="alle-deler"
         selected={kategoriFilter === undefined}
         onClick={() => {
+          onKategoriClick?.()
           if (logKategoriValg) {
             logKategoriFiltreringGjort('alle deler')
           }
@@ -36,6 +44,7 @@ const DelKategoriVelger = ({ delKategorier, kategoriFilter, setKategoriFilter, l
           key={kategori}
           selected={kategoriFilter === kategori}
           onClick={() => {
+            onKategoriClick?.()
             if (logKategoriValg) {
               logKategoriFiltreringGjort(kategori)
             }

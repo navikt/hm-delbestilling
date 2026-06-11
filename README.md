@@ -2,15 +2,50 @@
 
 Frontend-applikasjon for bestilling av deler fra teknikere
 
-## Kjøre lokalt med mockede data
+Koden er delt i to separate moduler:
 
-1. `npm install` (for å installere nav-dekoratoren-moduler så må man logge npm.pkg.github.com med PAT første gang. Se instrukser i [nav-dekoratoren-moduler README](https://github.com/navikt/nav-dekoratoren-moduler#ved-lokal-kj%C3%B8ring))
+- `server` – Go-backend
+- `client` – React-frontend
 
-2. Start applikasjonen med `npm run dev`. Da brukes [Mock Service Worker](https://mswjs.io/) for å mocke API-endepunkter, slik at man ikke trenger å starte noen backend.
+## Kom i gang
+
+### Forutsetninger
+
+- Node ≥ 20
+- Go (for serveren)
+
+### Installasjon
+
+1. Installer avhengigheter fra prosjektroten:
+```bash
+pnpm install
+```
+
+2. Start applikasjonen lokalt med mockede data:
+```bash
+pnpm run dev
+```
+
+Applikasjonen bruker [Mock Service Worker](https://mswjs.io/) for å mocke API-endepunkter, så du trenger ikke å starte backend.
+
 3. Gå til `localhost:3000`
 
 ## Test med Playwright lokalt
-Kjør `npm run playwright` eller `npm run playwright:ui`.
+Kjør `pnpm run playwright` eller `pnpm run playwright:ui`.
+
+## Bygge for produksjon
+
+```bash
+pnpm build
+```
+
+Dette bygger client (TypeScript + Vite) og server (Go) sekvensielt.
+
+Du kan også bygge dem uavhengig:
+```bash
+pnpm run build:client  # TypeScript + Vite build
+pnpm run build:server  # Go build
+```
 
 ## Testguide
 

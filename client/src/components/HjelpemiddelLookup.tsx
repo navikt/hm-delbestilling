@@ -6,7 +6,7 @@ import { Button, Heading, Stack, TextField } from '@navikt/ds-react'
 import rest from '../services/rest'
 import { OppslagFeil } from '../types/HttpTypes'
 import { Hjelpemiddel, Pilot } from '../types/Types'
-import { logOppslagFeil, logOppslagGjort } from '../utils/amplitude'
+import { logOppslagFeil, logOppslagGjort } from '../utils/analytics/analytics'
 
 import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
@@ -41,7 +41,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
     if (hmsnr.length !== 6 || serienr.length !== 6) {
       setFeilmelding({
         feilmelding: t('error.artnrOgSerienr6Siffer'),
-        variant: 'warning',
+        status: 'warning',
       })
       return
     }
@@ -54,7 +54,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
       if (oppslag.feil) {
         setFeilmelding({
           feilmelding: t(`oppslagfeil.${oppslag.feil}`),
-          variant: oppslag.feil === OppslagFeil.INGET_UTLÅN ? 'error' : 'warning',
+          status: oppslag.feil === OppslagFeil.INGET_UTLÅN ? 'error' : 'warning',
         })
         logOppslagFeil(oppslag.feil, hmsnr)
       } else {
@@ -85,13 +85,12 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
 
   return (
     <CustomBox>
-      <Heading size="xsmall" level="2">
+      <Heading size="small" level="2" spacing>
         {t('oppslag.hvilketHjelpemiddel')}
       </Heading>
-      <Avstand marginBottom={8} />
 
       <form onSubmit={handleSubmit}>
-        <Stack gap="3" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
+        <Stack gap="space-12" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
           <TextField
             style={{ width: '120px' }}
             label={t('oppslag.artnr')}
@@ -116,7 +115,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
       </form>
 
       {feilmelding && !gjørOppslag && (
-        <Avstand marginTop={4}>
+        <Avstand marginTop={16}>
           <Feilmelding feilmelding={feilmelding} />
         </Avstand>
       )}

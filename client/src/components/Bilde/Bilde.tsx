@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon, ImageIcon, MagnifyingGlassFillIcon } from '@navikt/aksel-icons'
 import { Box, Button, HGrid, HStack, Modal } from '@navikt/ds-react'
 
-import { logÅpningAvBildekarusell } from '../../utils/amplitude'
+import { logÅpningAvBildekarusell } from '../../utils/analytics/analytics'
 
 import styles from './Bilde.module.css'
 
@@ -48,7 +48,7 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
             </HStack>
           </Modal.Body>
 
-          <Box.New padding="4">
+          <Box padding="space-4">
             <HStack justify="space-evenly">
               <Button
                 disabled={valgtIndex === 0}
@@ -57,18 +57,18 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
                 variant="tertiary"
               />
               <div style={{ width: '70%' }}>
-                <HGrid columns={{ xs: 4, sm: 4, md: 4 }} gap="4" align="center">
+                <HGrid columns={{ xs: 4, sm: 4, md: 4 }} gap="space-4" align="center">
                   {imgs.map((url, i) => (
                     <button key={i} className={styles.thumbnailButton} onClick={() => setValgtIndex(i)}>
-                      <Box.New
+                      <Box
                         borderWidth="2"
                         style={{
                           display: 'flex',
-                          borderColor: `var(${valgtIndex === i ? '--ax-border-neutral-strong' : '--ax-border-neutral-subtle'})`
-                      }}
+                          borderColor: `var(${valgtIndex === i ? '--ax-border-neutral-strong' : '--ax-border-neutral-subtle'})`,
+                        }}
                       >
                         <img src={url} alt={navn} style={{ width: '100%' }} />
-                      </Box.New>
+                      </Box>
                     </button>
                   ))}
                 </HGrid>
@@ -81,7 +81,7 @@ const Karusell = ({ imgs, navn }: { imgs: string[]; navn: string }) => {
                 variant="tertiary"
               />
             </HStack>
-          </Box.New>
+          </Box>
         </Modal>
       )}
     </>

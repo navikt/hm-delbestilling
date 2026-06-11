@@ -1,44 +1,37 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useSWRImmutable from 'swr/immutable'
 
-import { BodyShort, Box, Heading, HStack, List, Skeleton } from '@navikt/ds-react'
+import { Accordion, BodyShort, Box, Heading, HStack, List, Loader, Skeleton } from '@navikt/ds-react'
 
-import rest from '../services/rest'
-import { Avstand } from './Avstand'
+import rest, { API_PATH } from '../services/rest'
+import { TilgjengeligeHjelpemidlerResponse } from '../types/HttpTypes'
+import { logAccordionÅpnet, logAccordionLukket } from '../utils/analytics/analytics'
+
+import { CustomBox } from './Layout/CustomBox'
 
 const OmÅBestilleDeler = () => {
   const { t } = useTranslation()
   const [henterHjelpemidler, setHenterHjelpemidler] = useState(false)
-  const [titler, setTitler] = useState<string[]>([])
+  const [tilgjengeligeHjelpemidler, setTilgjengeligeHjelpemidler] = useState<
+    TilgjengeligeHjelpemidlerResponse | undefined
+  >(undefined)
+  const [åpneHjelpemidler, setÅpneHjelpemidler] = useState<string[]>([])
 
-  // Lag en liste over de hjelpemidlene vi har i sortimentet vårt som også vi har deler til.
   useEffect(() => {
     setHenterHjelpemidler(true)
     rest
-      .hentHjelpemiddelTitler()
-      .then((resp) => {
-        if (resp && resp.titler) {
-          setTitler(resp.titler)
-        }
-      })
+      .hentTilgjengeligeHjelpemidler()
+      .then(setTilgjengeligeHjelpemidler)
       .finally(() => {
         setHenterHjelpemidler(false)
       })
   }, [])
 
-  var kolonne1: string[] = []
-  var kolonne2: string[] = []
-  if (titler.length) {
-    const lengde = titler.length
-    const splitAt = Math.round(lengde / 2)
-    kolonne1.push(...titler.slice(0, splitAt))
-    kolonne2.push(...titler.slice(splitAt, lengde))
-  }
-
   return (
-    <Box.New padding="4" background="default" borderRadius="12">
+    <CustomBox>
       <Heading level="2" size="medium" spacing>
-        {t('info.omÅBestilleDeler')}
+        {t('info.omÅBestilleDeler.tittel')}
       </Heading>
       {henterHjelpemidler ? (
         <>
@@ -47,27 +40,81 @@ const OmÅBestilleDeler = () => {
         </>
       ) : (
         <>
-          <BodyShort>
-            {t('info.kunForTeknikere')} {t('info.kanBestilleDelerTil')}:
-          </BodyShort>
-          <Avstand marginBottom={4}></Avstand>
-          {kolonne1.length > 0 && kolonne2.length > 0 && (
-            <HStack gap="4">
-              <List>
-                {kolonne1.map((navn, i) => (
-                  <List.Item key={i}>{navn}</List.Item>
-                ))}
-              </List>
-              <List>
-                {kolonne2.map((navn, i) => (
-                  <List.Item key={i}>{navn}</List.Item>
-                ))}
-              </List>
-            </HStack>
+          <BodyShort spacing>{t('info.omÅBestilleDeler.beskrivelse')}</BodyShort>
+          {tilgjengeligeHjelpemidler && Object.keys(tilgjengeligeHjelpemidler).length > 1 && (
+            <Accordion id="visDeler">
+              {Object.entries(tilgjengeligeHjelpemidler).map(([tittel, hmsnrs], i) => (
+                <Accordion.Item
+                  key={tittel}
+                  onOpenChange={(open) => {
+                    if (open) {
+                      setÅpneHjelpemidler((prev) => [...prev, tittel])
+                      logAccordionÅpnet('visDeler', tittel)
+                    } else {
+                      setÅpneHjelpemidler((prev) => prev.filter((p) => p !== tittel))
+                      logAccordionLukket('visDeler', tittel)
+                    }
+                  }}
+                  open={åpneHjelpemidler.includes(tittel)}
+                >
+                  <Accordion.Header>{tittel}</Accordion.Header>
+                  <Accordion.Content>
+                    {åpneHjelpemidler.includes(tittel) && <DelerListe tittel={tittel} hmsnrs={hmsnrs} />}
+                  </Accordion.Content>
+                </Accordion.Item>
+              ))}
+            </Accordion>
           )}
         </>
       )}
-    </Box.New>
+    </CustomBox>
+  )
+}
+
+const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) => {
+  const { t } = useTranslation()
+  const {
+    data: delerNavn,
+    error,
+    isLoading,
+  } = useSWRImmutable<string[]>(tittel, async () => {
+    const response = await fetch(`${API_PATH}/deler-til-hmsnrs`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ hmsnrs }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Feil ved henting av deler')
+    }
+
+    return await response.json()
+  })
+
+  if (isLoading) {
+    return (
+      <HStack align="center" justify="center">
+        <Loader />
+      </HStack>
+    )
+  }
+
+  if (error) {
+    return <BodyShort>{t('info.feilVedHentingAvDeler')}</BodyShort>
+  }
+
+  if (!delerNavn || Object.keys(delerNavn || {}).length === 0) {
+    return <BodyShort>{t('info.ingenDelerFunnet')}</BodyShort>
+  }
+
+  return (
+    <List>
+      {delerNavn.map((del) => (
+        <List.Item key={del}>{del}</List.Item>
+      ))}
+    </List>
   )
 }
 

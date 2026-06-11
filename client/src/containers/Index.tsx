@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Box, Button, Heading, HStack, Link, LinkCard } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkCard } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
@@ -16,6 +16,7 @@ import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
 import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
+import { isProd } from '../utils/utils'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -51,7 +52,7 @@ const Index = () => {
       if (await sjekkLoginStatus()) {
         navigate('/utsjekk')
       } else {
-        window.location.replace('/hjelpemidler/delbestilling/login')
+        window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/utsjekk')
       }
     } catch (e: any) {
       console.log(e)
@@ -76,20 +77,22 @@ const Index = () => {
               }}
             />
 
-            <Avstand marginTop={10}>
+            <Avstand marginTop={24}>
               <Link
                 href="#"
-                style={{ display: 'block', width: '100%'}}
+                style={{ display: 'block', width: '100%' }}
                 onClick={(e) => {
                   e.preventDefault()
                   if (erLoggetInn) {
                     navigate('/bestillinger')
                   } else {
-                    window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')
+                    window.location.replace(
+                      '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
+                    )
                   }
                 }}
               >
-                <LinkCard style={{ border: '1px solid'}}>
+                <LinkCard style={{ border: '1px solid' }}>
                   <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
                   {!sjekkerLogin && !erLoggetInn && (
                     <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
@@ -98,12 +101,12 @@ const Index = () => {
               </Link>
             </Avstand>
 
-            <Avstand marginTop={10}>
+            <Avstand marginTop={24}>
               <OmÅBestilleDeler />
             </Avstand>
 
-            <Avstand marginTop={10}>
-              <Box.New padding="4" background="default" borderRadius="12">
+            <Avstand marginTop={24}>
+              <CustomBox>
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
                 </Heading>
@@ -122,7 +125,7 @@ const Index = () => {
                     }}
                   />
                 </BodyLong>
-              </Box.New>
+              </CustomBox>
             </Avstand>
           </>
         )}
@@ -134,7 +137,7 @@ const Index = () => {
                   <Heading size="xsmall" level="2" spacing data-testid="hjelpemiddel-navn">
                     {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                   </Heading>
-                  <HStack gap="5">
+                  <HStack gap="space-4">
                     <BodyShort>Art.nr. {hmsnr}</BodyShort>
                     <BodyShort>Serienr. {serienr}</BodyShort>
                   </HStack>
@@ -150,19 +153,12 @@ const Index = () => {
                 </Button>
               </HStack>
             </CustomBox>
-            <Avstand marginBottom={12} />
-            <LeggTilDel
-              hjelpemiddel={hjelpemiddel}
-              onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
-              knappeTekst={t('bestillinger.bestill')}
-              piloter={piloter}
-            />
+            <Avstand marginBottom={48} />
+            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
           </>
         )}
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
-        <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />
-      )}
+      {!isProd() && <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />}
     </main>
   )
 }

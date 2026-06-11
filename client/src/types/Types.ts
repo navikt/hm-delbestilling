@@ -18,6 +18,8 @@ export interface Del {
   datoLagtTil?: string
   lagerstatus: Lagerstatus
   kilde: string
+  erReservedel: boolean
+  erTilbehør: boolean
 }
 
 export interface Lagerstatus {
@@ -113,8 +115,6 @@ export interface Næringskode {
   beskrivelse: string
 }
 
-export enum Pilot {
-  BESTILLE_IKKE_FASTE_LAGERVARER = 'BESTILLE_IKKE_FASTE_LAGERVARER',
-}
+export enum Pilot {}
 
 export type Valg = 'mine' | 'kommunens'
