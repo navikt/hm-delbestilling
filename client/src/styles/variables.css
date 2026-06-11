@@ -1,0 +1,4 @@
+/* CSS custom properties for breakpoints and common rules */
+:root {
+  --breakpoint-large: 800px;
+}

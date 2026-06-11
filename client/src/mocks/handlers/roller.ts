@@ -3,23 +3,47 @@ import { delay, http, HttpResponse } from 'msw'
 import { DelbestillerrolleResponse } from '../../types/HttpTypes'
 
 const rollerHandlers = [
-  http.get<{}, {}, DelbestillerrolleResponse>('/hjelpemidler/delbestilling/roller/delbestiller', async () => {
+  http.get<{}, {}, DelbestillerrolleResponse>('/hjelpemidler/delbestilling/roller-api/api/delbestiller', async () => {
     await delay(250)
     return HttpResponse.json({
       delbestillerrolle: {
         kanBestilleDeler: true,
-        harXKLager: true,
         erKommunaltAnsatt: true,
         kommunaleOrgs: [
           {
             orgnr: '0001',
             navn: 'Oslo Teknikere',
             orgform: 'KOMM',
-            overordnetOrgnr: undefined,
+            overordnetOrgnr: null,
             næringskoder: [],
             kommunenummer: '0301',
           },
         ],
+        kommunaleAnsettelsesforhold: [
+          {
+            orgnr: '0001',
+            navn: 'Oslo Teknikere',
+            orgform: 'KOMM',
+            overordnetOrgnr: null,
+            næringskoder: [],
+            kommunenummer: '0301',
+          },
+        ],
+        representasjoner: [
+          {
+            orgnr: '0001',
+            navn: 'Oslo Teknikere',
+            orgform: 'KOMM',
+            overordnetOrgnr: null,
+            næringskoder: [],
+            kommunenummer: '0301',
+          },
+        ],
+        erBrukerpassbruker: false,
+        erTekniker: true,
+        privateAnsettelsesforhold: [],
+        godkjenteIkkeKommunaleOrgs: [],
+        erAnsattIGodkjentIkkeKommunaleOrgs: false,
       },
     })
   }),

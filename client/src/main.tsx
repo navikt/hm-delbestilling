@@ -1,12 +1,11 @@
-import React from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { Modal } from '@navikt/ds-react'
-
 import { initDecorator } from './decorator/decorator'
-import { initAmplitude } from './utils/amplitude'
 import { initMSW } from './utils/msw'
 import App from './App'
+
+import './styles/global.css'
+import './styles/variables.css'
 
 import '@navikt/ds-css'
 import './i18n'
@@ -17,7 +16,7 @@ declare global {
     hj: any
     appSettings: {
       GIT_COMMIT?: string
-      MILJO?: 'dev-gcp' | 'prod-gcp'
+      NAIS_CLUSTER_NAME?: 'dev-gcp' | 'prod-gcp'
       USE_MSW?: boolean
     }
   }
@@ -25,7 +24,6 @@ declare global {
 
 const init = async () => {
   await initMSW()
-  initAmplitude()
   initDecorator()
   const rootElement = document.getElementById('root')!!
   createRoot(rootElement).render(<App />)

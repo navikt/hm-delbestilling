@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react'
-
 import { Link } from '@navikt/ds-react'
 
 interface Props {

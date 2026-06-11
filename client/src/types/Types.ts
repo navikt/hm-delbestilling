@@ -2,17 +2,33 @@ export interface Hjelpemiddel {
   navn: string
   hmsnr: string
   deler: Del[] | undefined
+  antallDagerSidenSistBatteribestilling: number | null
+  erInnenforGaranti: boolean | null
+  antallÅrGaranti: boolean | null
 }
 
 export interface Del {
   navn: string
   hmsnr: string
   levArtNr: string | null
-  img: string | null
+  imgs: string[]
   kategori: string
   maksAntall: number
   defaultAntall: number
   datoLagtTil?: string
+  lagerstatus: Lagerstatus
+  kilde: string
+  erReservedel: boolean
+  erTilbehør: boolean
+}
+
+export interface Lagerstatus {
+  organisasjons_id: number
+  organisasjons_navn: string
+  artikkelnummer: string
+  minmax: boolean
+  tilgjengelig: number
+  antallDelerPåLager: number
 }
 
 export interface Handlekurv {
@@ -22,6 +38,7 @@ export interface Handlekurv {
   deler: Dellinje[]
   levering: Levering | undefined
   harOpplæringPåBatteri: boolean | undefined
+  piloter: Pilot[]
 }
 
 export interface Dellinje {
@@ -30,6 +47,7 @@ export interface Dellinje {
   status?: Dellinjestatus
   datoSkipningsbekreftet?: string
   forventetLeveringsdato?: string
+  lagerstatusPåBestillingstidspunkt?: Lagerstatus
 }
 
 export interface Delbestilling {
@@ -71,24 +89,32 @@ export enum Levering {
 }
 
 export interface Delbestillerrolle {
+  erBrukerpassbruker: boolean
+  erTekniker: boolean
   kanBestilleDeler: boolean
-  harXKLager: boolean
+  kommunaleOrgs: Organisasjon[]
   erKommunaltAnsatt: boolean
-  kommunaleOrgs: Organisasjon[] | undefined
+  godkjenteIkkeKommunaleOrgs: Organisasjon[]
+  kommunaleAnsettelsesforhold: Organisasjon[]
+  privateAnsettelsesforhold: Organisasjon[]
+  representasjoner: Organisasjon[]
+  erAnsattIGodkjentIkkeKommunaleOrgs: boolean
 }
 
 export interface Organisasjon {
   orgnr: string
   navn: string
   orgform: string
-  overordnetOrgnr: string | undefined
+  overordnetOrgnr: string | null
   næringskoder: Næringskode[]
-  kommunenummer: string | undefined
+  kommunenummer: string | null
 }
 
 export interface Næringskode {
   kode: string
   beskrivelse: string
 }
+
+export enum Pilot {}
 
 export type Valg = 'mine' | 'kommunens'

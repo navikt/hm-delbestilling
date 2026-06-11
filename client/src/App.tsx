@@ -1,21 +1,33 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { BrowserRouter } from 'react-router-dom'
 
+import ScrollToTop from './components/ScrollToTop'
 import { ErrorFallback } from './containers/ErrorFallback'
-import { GlobalStyle } from './GlobalStyle'
+import { ThemeProvider } from './theme/ThemeContext'
 import Routes from './Routes'
+
+import './index.css'
 
 export const BASE_PATH = '/hjelpemidler/delbestilling/'
 
 const App = () => {
+  useEffect(() => {
+    if (navigator.webdriver) {
+      document.body.classList.add('playwright')
+    }
+  }, [])
+
   return (
-    <BrowserRouter basename={BASE_PATH}>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <GlobalStyle />
-        <Routes />
-      </ErrorBoundary>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter basename={BASE_PATH}>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <ScrollToTop>
+            <Routes />
+          </ScrollToTop>
+        </ErrorBoundary>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 
