@@ -14,46 +14,38 @@ Koden er delt i to separate moduler:
 - Node ≥ 20
 - Go (for serveren)
 
-### PNPM
+### Installasjon
 
-Prosjektet bruker **pnpm** som pakkehåndterer. Hvis du:
-
-- aldri har brukt pnpm før, eller
-- har klonet repoet tidligere da det brukte npm
-
-gjør følgende først:
-
+1. Installer avhengigheter fra prosjektroten:
 ```bash
-corepack enable
-```
-
-Deretter, én gang etter at du har hentet ned pnpm-endringene:
-
-```bash
-# i prosjektroten
-rm -rf node_modules package-lock.json
-pnpm install
-
-# i client
-cd client
-rm -rf node_modules package-lock.json
 pnpm install
 ```
 
-Etter dette holder det med:
+2. Start applikasjonen lokalt med mockede data:
+```bash
+pnpm run dev
+```
 
-- `pnpm install` i rot når du får nye root-avhengigheter
-- `cd client && pnpm install` når `client/package.json` endrer seg
+Applikasjonen bruker [Mock Service Worker](https://mswjs.io/) for å mocke API-endepunkter, så du trenger ikke å starte backend.
 
-## Kjøre lokalt med mockede data
-
-1. `pnpm install` (for å installere nav-dekoratoren-moduler så må man logge npm.pkg.github.com med PAT første gang. Se instrukser i [nav-dekoratoren-moduler README](https://github.com/navikt/nav-dekoratoren-moduler#ved-lokal-kj%C3%B8ring))
-
-2. Start applikasjonen med `pnpm run dev`. Da brukes [Mock Service Worker](https://mswjs.io/) for å mocke API-endepunkter, slik at man ikke trenger å starte noen backend.
 3. Gå til `localhost:3000`
 
 ## Test med Playwright lokalt
 Kjør `pnpm run playwright` eller `pnpm run playwright:ui`.
+
+## Bygge for produksjon
+
+```bash
+pnpm build
+```
+
+Dette bygger client (TypeScript + Vite) og server (Go) sekvensielt.
+
+Du kan også bygge dem uavhengig:
+```bash
+pnpm run build:client  # TypeScript + Vite build
+pnpm run build:server  # Go build
+```
 
 ## Testguide
 

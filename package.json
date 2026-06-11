@@ -7,6 +7,7 @@
     "prettier": "^2.6.2"
   },
   "scripts": {
+    "install": "cd client && pnpm install",
     "dev": "pnpm run --prefix client dev",
     "playwright": "pnpm run --prefix client playwright",
     "playwright:ui": "pnpm run --prefix client playwright:ui",
