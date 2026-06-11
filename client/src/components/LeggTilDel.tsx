@@ -1,38 +1,42 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Alert, BodyShort, Button, Heading, HStack, Switch, TextField } from '@navikt/ds-react'
+import { Button, Detail, Heading, HStack, InfoCard, Search, VStack } from '@navikt/ds-react'
 
-import useDelKategorier from '../hooks/useDelKategorier'
-import { CustomPanel, DottedPanel } from '../styledcomponents/CustomPanel'
-import FlexedStack from '../styledcomponents/FlexedStack'
+import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel } from '../types/Types'
 
+import { Beskrivelser } from './Beskrivelser/Beskrivelser'
+import { Bilde } from './Bilde/Bilde'
+import DelInnhold from './DelInhold/DelInhold'
+import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
-import DelInfo from './DelInfo'
-import DelInnhold from './DelInhold'
-import DelKategoriVelger from './DelKategoriVelger'
-import { isConsentingToSurveys } from '../utils/nav-cookie-consent'
+import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
+import InfoOmDel from './InfoOmDel'
+import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
+
+import infoOmDelStyles from './InfoOmDel.module.css'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
-  knappeTekst?: string
 }
-const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: Props) => {
+const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
-  const { t } = useTranslation()
-  const [visKunFastLagervarer, setVisKunFastLagervarer] = useState(false)
-  const [søk, setSøk] = useState('')
 
-  const handleClickManglerDel = () => {
-    if (isConsentingToSurveys()) {
-      window.hj('event', 'digihot_delbestilling_mangler_del_feedback')
-    }
-  }
+  const { t } = useTranslation()
+  const [søk, setSøk] = useState('')
+  const [tilbehorInfo, setTilbehorInfo] = useState<Record<string, TilbehorInfo>>({})
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
-    return <Alert variant="info">{t('leggTilDel.ingenDeler')}</Alert>
+    return (
+      <InfoCard data-color="accent">
+        <InfoCard.Header>
+          <InfoCard.Title>{t('leggTilDel.ingenDeler.tittel')}</InfoCard.Title>
+        </InfoCard.Header>
+        <InfoCard.Content>{t('leggTilDel.ingenDeler.innhold')}</InfoCard.Content>
+      </InfoCard>
+    )
   }
 
   return (
@@ -40,70 +44,130 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, knappeTekst = 'Legg til del' }: P
       <Heading size="medium" level="3" spacing>
         Deler til {hjelpemiddel.navn}
       </Heading>
-      <Avstand marginBottom={2}>
+
+      <Avstand marginBottom={8}>
         <DelKategoriVelger
           setKategoriFilter={setKategoriFilter}
           delKategorier={delKategorier}
           kategoriFilter={kategoriFilter}
+          onKategoriClick={() => setSøk('')}
         />
 
-        <Avstand marginBottom={4} />
+        <Avstand marginBottom={16} />
 
-        <HStack align="end" gap="4">
-          <TextField label="Søk" onChange={(e) => setSøk(e.target.value)} />
-          <Switch
-            checked={visKunFastLagervarer}
-            onChange={(e) => {
-              setVisKunFastLagervarer(e.target.checked)
-            }}
-          >
-            Vis kun faste lagervarer
-          </Switch>
+        <HStack justify="start" align="end" gap="space-4">
+          <div>
+            <Search
+              label="Søk"
+              variant="simple"
+              hideLabel
+              value={søk}
+              onChange={(val) => {
+                setSøk(val)
+                if (val) {
+                  setKategoriFilter(undefined)
+                }
+              }}
+            />
+          </div>
         </HStack>
       </Avstand>
 
       {hjelpemiddel.deler
-        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : del))
-        .filter((del) => (visKunFastLagervarer ? del.lagerstatus.minmax === true : del))
-        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : del))
+        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
+        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
-          return (
-            <Avstand marginBottom={3} key={del.hmsnr}>
-              <CustomPanel border>
-                <DelInnhold>
-                  <FlexedStack>
-                    <DelInfo
-                      navn={del.navn}
-                      hmsnr={del.hmsnr}
-                      levArtNr={del.levArtNr}
-                      img={del.img}
-                      lagerstatus={del.lagerstatus}
-                    />
-                  </FlexedStack>
+          const erBatteri = del.kategori.toLowerCase() === 'batteri'
 
-                  {erFastLagervare && (
+          // Batteri er i seg selv dekket av garanti i 1 år
+          const harNyligBlittBestiltBatteri =
+            erBatteri &&
+            hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
+            hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
+
+          // Dersom hjelpemiddelet er innenfor garantitiden, så kan batteriet være dekket av garantien
+          const dekketAvHjelpemiddeletsGaranti = erBatteri && hjelpemiddel.erInnenforGaranti === true
+
+          const erDekketAvGaranti = harNyligBlittBestiltBatteri || dekketAvHjelpemiddeletsGaranti
+
+          const kanBestilles = !erDekketAvGaranti
+
+          const tilbehorSvar = tilbehorInfo[del.hmsnr]
+          const kanBestilleTilbehor = del.erTilbehør ? tilbehorSvar?.harTilbehørFraFør === true : true
+
+          return (
+            <Avstand marginBottom={12} key={del.hmsnr}>
+              <CustomBox>
+                <DelInnhold>
+                  <VStack gap="space-12">
+                    <FlexedStack>
+                      <Bilde imgs={del.imgs} navn={del.navn} />
+                      <Beskrivelser>
+                        <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
+
+                        {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
+                          <Avstand marginTop={20}>
+                            <Detail textColor="subtle" className={infoOmDelStyles.utvidetBredde}>
+                              {t('del.antallDagerSidenSistBatteribestilling', {
+                                count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
+                              })}
+                            </Detail>
+                          </Avstand>
+                        ) : dekketAvHjelpemiddeletsGaranti ? (
+                          <Avstand marginTop={20}>
+                            <Detail className={infoOmDelStyles.utvidetBredde}>
+                              {t('del.hjelpemiddelErInnenforGarantitid')}
+                            </Detail>
+                          </Avstand>
+                        ) : null}
+                      </Beskrivelser>
+                    </FlexedStack>
+                    {del.erTilbehør && kanBestilles && (
+                      <Avstand marginTop={16}>
+                        <TilbehørSpørsmål
+                          delId={del.hmsnr}
+                          tilbehorInfo={tilbehorInfo}
+                          setTilbehorInfo={setTilbehorInfo}
+                        />
+                      </Avstand>
+                    )}
+                  </VStack>
+
+                  {kanBestilles && kanBestilleTilbehor && (
                     <Button variant="secondary" onClick={() => onLeggTil(del)}>
-                      {knappeTekst}
+                      {t('bestillinger.bestill')}
                     </Button>
                   )}
                 </DelInnhold>
-              </CustomPanel>
+              </CustomBox>
             </Avstand>
           )
         })}
-      {isConsentingToSurveys() && (
-        <DottedPanel>
-          <Avstand centered>
-            <BodyShort spacing>
-              <strong>Finner du ikke delen du er ute etter?</strong>
-            </BodyShort>
-            <Button onClick={handleClickManglerDel}>Fortell oss om det</Button>
-          </Avstand>
-        </DottedPanel>
-      )}
     </>
   )
+}
+
+const lagerTilEnhetnavnMap: { [key: string]: string } = {
+  '01': 'Øst-Viken',
+  '02': 'Oslo',
+  '03': 'Oslo',
+  '04': 'Elverum',
+  '05': 'Gjøvik',
+  '06': 'Vest-Viken',
+  '07': 'Vestfold og Telemark',
+  '08': 'Vestfold og Telemark',
+  '09': 'Agder',
+  '10': 'Agder',
+  '11': 'Rogaland',
+  '12': 'Vestland-Bergen',
+  '14': 'Vestland-Førde',
+  '15': 'Møre og Romsdal',
+  '16': 'Trøndelag',
+  '17': 'Trøndelag',
+  '18': 'Nordland',
+  '19': 'Troms og Finnmark',
+  '20': 'Troms og Finnmark',
 }
 
 export default LeggTilDel

@@ -1,12 +1,9 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Tag, TagProps } from '@navikt/ds-react'
 
 import { formaterNorskDato } from '../helpers/utils'
 import { Dellinje, Dellinjestatus } from '../types/Types'
-
-import { Avstand } from './Avstand'
 
 interface Props {
   dellinje: Dellinje

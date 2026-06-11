@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
 import {
-  Alert,
   BodyShort,
+  Box,
   Button,
-  ConfirmationPanel,
+  Checkbox,
+  CheckboxGroup,
   GuidePanel,
   Heading,
+  HStack,
+  InfoCard,
   Loader,
   Radio,
   RadioGroup,
@@ -19,44 +21,32 @@ import {
 } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import DelInfo from '../components/DelInfo'
+import { Beskrivelser } from '../components/Beskrivelser/Beskrivelser'
+import { Bilde } from '../components/Bilde/Bilde'
 import Errors from '../components/Errors'
 import { Feilmelding, FeilmeldingInterface } from '../components/Feilmelding'
+import InfoOmDel from '../components/InfoOmDel'
+import Content from '../components/Layout/Content'
+import { CustomBox } from '../components/Layout/CustomBox'
+import FlexedStack from '../components/Layout/FlexedStack'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
-import Rolleswitcher from '../components/Rolleswitcher'
-import { useRolleContext } from '../context/rolle'
-import { GlobalStyle } from '../GlobalStyle'
+import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import rest from '../services/rest'
-import Content from '../styledcomponents/Content'
-import { CustomPanel } from '../styledcomponents/CustomPanel'
-import FlexedStack from '../styledcomponents/FlexedStack'
-import { DelbestillingFeil } from '../types/HttpTypes'
-import { Del, Delbestilling, Handlekurv, Levering } from '../types/Types'
+import { Del, Delbestilling, Handlekurv, Levering, Pilot } from '../types/Types'
 import {
   logBestillingSlettet,
   logInnsendingFeil,
   logInnsendingGjort,
   logSkjemavalideringFeilet,
-} from '../utils/amplitude'
+} from '../utils/analytics/analytics'
+import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
 
-const Toolbar = styled.div`
-  padding: 1rem;
-  background: #f7f7f7;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: -24px;
-  margin-left: -24px;
-  margin-top: 16px;
-  width: calc(100% + 48px);
-`
-
 export interface Valideringsfeil {
-  id: 'levering' | 'deler' | 'opplæring-batteri'
-  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring'
+  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
+  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år'
   melding: string
 }
 
@@ -74,11 +64,12 @@ const Utsjekk = () => {
   const [valideringsFeil, setValideringsFeil] = useState<Valideringsfeil[]>([])
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
   const [harXKLager, setHarXKLager] = useState<boolean | undefined>(undefined)
+  const [piloter, setPiloter] = useState<Pilot[]>(handlekurv?.piloter ?? [])
   const { t } = useTranslation()
 
   const navigate = useNavigate()
 
-  const handlekurvInneholderBatteri = handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
+  const handlekurvInneholderBatteri = !!handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
@@ -155,10 +146,6 @@ const Utsjekk = () => {
     })
   }
 
-  const hentInnsendingFeil = (innsendingFeil: DelbestillingFeil): string => {
-    return t(`error.${innsendingFeil}`)
-  }
-
   const validerBestilling = (handlekurv: Handlekurv) => {
     const feil: Valideringsfeil[] = []
 
@@ -211,10 +198,12 @@ const Utsjekk = () => {
       if (response.feil) {
         logInnsendingFeil(response.feil)
         setFeilmelding({
-          feilmelding: hentInnsendingFeil(response.feil),
+          feilmelding: t(`error.${response.feil}`),
         })
       } else {
-        navigate('/kvittering', { state: { delbestillingSak: response.delbestillingSak } })
+        navigate('/kvittering', {
+          state: { delbestillingSak: response.delbestillingSak },
+        })
       }
     } catch (err: any) {
       logInnsendingFeil('FEIL_FRA_BACKEND')
@@ -225,7 +214,7 @@ const Utsjekk = () => {
               <Trans
                 i18nKey={'error.sessionExpired'}
                 components={{
-                  link: <Lenke href="/hjelpemidler/delbestilling/login" lenketekst="her" />,
+                  link: <Lenke href="/hjelpemidler/delbestilling/oauth2/login" lenketekst="her" />,
                 }}
               />
             </>
@@ -251,7 +240,7 @@ const Utsjekk = () => {
   if (!handlekurv) {
     return (
       <Content>
-        <Avstand paddingTop={8} paddingBottom={8}>
+        <Avstand paddingTop={32} paddingBottom={32}>
           <GuidePanel>
             <Trans
               i18nKey={'error.fantIngenHandlekurv'}
@@ -266,18 +255,17 @@ const Utsjekk = () => {
   }
 
   return (
-    <main>
-      <GlobalStyle mainBg="white" />
+    <main style={{ '--main-bg-color': 'white' } as React.CSSProperties}>
       <Content>
         <>
           {visFlereDeler && (
-            <Avstand marginBottom={6}>
+            <Avstand marginBottom={24}>
               <Button icon={<ArrowLeftIcon />} variant="tertiary" onClick={() => setVisFlereDeler(false)}>
                 {t('bestillinger.tilbakeTilBestillingen')}
               </Button>
             </Avstand>
           )}
-          <CustomPanel border>
+          <CustomBox>
             <Heading level="2" size="small" spacing>
               {t('bestillinger.bestillDelerTil', { navn: handlekurv.hjelpemiddel.navn })}
             </Heading>
@@ -285,8 +273,8 @@ const Utsjekk = () => {
               <span>Art.nr. {handlekurv.hjelpemiddel.hmsnr}</span>
               <span>Serienr. {handlekurv.serienr}</span>
             </BodyShort>
-          </CustomPanel>
-          <Avstand marginBottom={12} />
+          </CustomBox>
+          <Avstand marginBottom={48} />
           {visFlereDeler ? (
             <LeggTilDel
               hjelpemiddel={{
@@ -300,109 +288,115 @@ const Utsjekk = () => {
             />
           ) : (
             <>
-              <Avstand marginBottom={12}>
+              <Avstand marginBottom={48}>
                 <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
                 {handlekurv.deler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
-                  <Avstand marginBottom={2} key={delLinje.del.hmsnr}>
-                    <CustomPanel border>
+                  <Avstand marginBottom={8} key={delLinje.del.hmsnr}>
+                    <CustomBox>
                       <FlexedStack>
-                        <DelInfo
-                          navn={delLinje.del.navn}
-                          hmsnr={delLinje.del.hmsnr}
-                          levArtNr={delLinje.del.levArtNr}
-                          img={delLinje.del.img}
-                        />
+                        <Bilde imgs={delLinje.del.imgs} navn={delLinje.del.navn} />
+                        <Beskrivelser>
+                          <InfoOmDel del={delLinje.del} erFastLagervare={delLinje.del.lagerstatus.minmax} />
+                        </Beskrivelser>
                       </FlexedStack>
-                      <Toolbar>
-                        <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
-                          {t('bestillinger.slettDel')}
-                        </Button>
-                        <Select
-                          label="Antall"
-                          value={delLinje.antall}
-                          onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
-                          style={{ width: 80 }}
-                        >
-                          {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </Select>
-                      </Toolbar>
-                    </CustomPanel>
+                      <Box paddingBlock="space-4">
+                        <HStack gap="space-4" align="end" justify="space-between">
+                          <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettDel(delLinje.del)}>
+                            {t('bestillinger.slettDel')}
+                          </Button>
+                          <Select
+                            label="Antall"
+                            value={delLinje.antall}
+                            onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
+                            size="small"
+                          >
+                            {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
+                          </Select>
+                        </HStack>
+                      </Box>
+                    </CustomBox>
                   </Avstand>
                 ))}
-                <Avstand marginBottom={4} />
+                <Avstand marginBottom={16} />
                 <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
                   {handlekurv.deler.length > 0 ? t('bestillinger.leggTilFlereDeler') : t('bestillinger.leggTilDeler')}
                 </Button>
               </Avstand>
 
               {handlekurvInneholderBatteri && (
-                <Avstand marginBottom={8}>
-                  <Avstand marginBottom={4}>
-                    <ConfirmationPanel
-                      id={'opplæring-batteri'}
-                      checked={!!handlekurv.harOpplæringPåBatteri}
-                      label={t('bestillinger.harFåttOpplæringBatteri')}
-                      onChange={(e) =>
-                        setHandlekurv((prev) => {
-                          if (!prev) return undefined
-                          return {
-                            ...prev,
-                            harOpplæringPåBatteri: e.target.checked,
-                          }
-                        })
-                      }
-                      error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
-                    >
+                <Avstand marginBottom={32}>
+                  <CheckboxGroup
+                    legend={t('bestillinger.harFåttOpplæringBatteri')}
+                    onChange={(values) => {
+                      setHandlekurv((prev) => {
+                        if (!prev) return undefined
+                        return {
+                          ...prev,
+                          harOpplæringPåBatteri: !!values[0],
+                        }
+                      })
+                    }}
+                    error={!!valideringsFeil.find((feil) => feil.id === 'opplæring-batteri')}
+                  >
+                    <Checkbox id={'opplæring-batteri'} value={true}>
                       {t('felles.Bekreft')}
-                    </ConfirmationPanel>
-                  </Avstand>
-                  <Alert variant="info">{t('bestillinger.gjenvinningAvBatterier')}</Alert>
+                    </Checkbox>
+                  </CheckboxGroup>
                 </Avstand>
               )}
 
-              <Avstand marginBottom={12}>
+              <Avstand marginBottom={48}>
                 <Heading spacing level="3" size="medium">
                   {t('levering.Levering')}
                 </Heading>
 
                 {harXKLager === undefined && <Loader />}
-                {harXKLager === false && <Alert variant="info">{t('bestillinger.delBlirLevertTilKommunen')}</Alert>}
+                {harXKLager === false && (
+                  <InfoCard data-color="info">
+                    <InfoCard.Header>
+                      <InfoCard.Title>{t('bestillinger.delBlirLevertTilKommunen.tittel')}</InfoCard.Title>
+                    </InfoCard.Header>
+                    <InfoCard.Content>{t('bestillinger.delBlirLevertTilKommunen.innhold')}</InfoCard.Content>
+                  </InfoCard>
+                )}
                 {harXKLager === true && (
-                  <>
-                    <RadioGroup
-                      id="levering"
-                      legend={t('levering.title')}
-                      value={handlekurv.levering ?? ''}
-                      onChange={(levering: Levering) => setLevering(levering)}
-                      error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
-                    >
-                      <Radio value={Levering.TIL_XK_LAGER}>{t('levering.xkLager')}</Radio>
-                      <Radio value={Levering.TIL_SERVICE_OPPDRAG}>{t('levering.serviceOppdrag')}</Radio>
-                    </RadioGroup>
-                  </>
+                  <RadioGroup
+                    id="levering"
+                    legend={t('levering.title')}
+                    value={handlekurv.levering ?? ''}
+                    onChange={(levering: Levering) => setLevering(levering)}
+                    error={!!valideringsFeil.find((feil) => feil.id === 'levering')}
+                  >
+                    <Radio value={Levering.TIL_XK_LAGER} data-testid="levering-xk-lager">
+                      {t('levering.xkLager')}
+                    </Radio>
+                    <Radio value={Levering.TIL_SERVICE_OPPDRAG} data-testid="levering-serviceOppdrag">
+                      {t('levering.serviceOppdrag')}
+                    </Radio>
+                  </RadioGroup>
                 )}
 
                 {valideringsFeil.length > 0 && (
-                  <Avstand marginTop={4}>
+                  <Avstand marginTop={16}>
                     <Errors valideringsFeil={valideringsFeil} />
                   </Avstand>
                 )}
               </Avstand>
 
               {feilmelding && (
-                <Avstand marginBottom={4}>
+                <Avstand marginBottom={16}>
                   <Feilmelding feilmelding={feilmelding} />
                 </Avstand>
               )}
 
-              <VStack align="center" gap="3">
+              <VStack align="center" gap="space-12">
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
                   {t('bestillinger.sendInn')}
                 </Button>
@@ -414,8 +408,13 @@ const Utsjekk = () => {
           )}
         </>
       </Content>
-      {(window.appSettings.USE_MSW || window.appSettings.MILJO === 'dev-gcp') && (
-        <Rolleswitcher harXKLager={harXKLager} setHarXKLager={setHarXKLager} />
+      {!isProd() && (
+        <Rolleswitcher
+          harXKLager={harXKLager}
+          setHarXKLager={setHarXKLager}
+          piloter={piloter}
+          setPiloter={setPiloter}
+        />
       )}
     </main>
   )
