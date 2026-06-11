@@ -2,13 +2,50 @@
 
 Frontend-applikasjon for bestilling av deler fra teknikere
 
-## Kjøre lokalt med mockede data
+Koden er delt i to separate moduler:
 
-1. `npm install` (for å installere nav-dekoratoren-moduler så må man logge npm.pkg.github.com med PAT første gang. Se instrukser i [nav-dekoratoren-moduler README](https://github.com/navikt/nav-dekoratoren-moduler#ved-lokal-kj%C3%B8ring))
+- `server` – Go-backend
+- `client` – React-frontend
 
-2. Start applikasjonen med `npm run dev`. Da brukes [Mock Service Worker](https://mswjs.io/) for å mocke API-endepunkter, slik at man ikke trenger å starte noen backend.
-   
+## Kom i gang
+
+### Forutsetninger
+
+- Node ≥ 20
+- Go (for serveren)
+
+### Installasjon
+
+1. Installer avhengigheter fra prosjektroten:
+```bash
+pnpm install
+```
+
+2. Start applikasjonen lokalt med mockede data:
+```bash
+pnpm run dev
+```
+
+Applikasjonen bruker [Mock Service Worker](https://mswjs.io/) for å mocke API-endepunkter, så du trenger ikke å starte backend.
+
 3. Gå til `localhost:3000`
+
+## Test med Playwright lokalt
+Kjør `pnpm run playwright` eller `pnpm run playwright:ui`.
+
+## Bygge for produksjon
+
+```bash
+pnpm build
+```
+
+Dette bygger client (TypeScript + Vite) og server (Go) sekvensielt.
+
+Du kan også bygge dem uavhengig:
+```bash
+pnpm run build:client  # TypeScript + Vite build
+pnpm run build:server  # Go build
+```
 
 ## Testguide
 
@@ -18,6 +55,7 @@ Frontend-applikasjon for bestilling av deler fra teknikere
 | 167624 | 123123  | Returnerer hjelpemiddel (Comet Alpine)        | Gyldig innsending                                      |
 | 000000 | 000000  | Tilbyr ikke deler til produkt                 | N/A                                                    |
 | 333333 | 000000  | Inget utlån på bruker                         | N/A                                                    |
+| 666666 | 000000  | Oppslag på ikke-hovedhjelpemiddel             | N/A                                                    |
 | 444444 | 000000  | Feilmelding om for mange requests (ratelimit) | N/A                                                    |
 | 222222 | 000000  | Returnerer hjelpemiddel                       | Bruker ikke funnet                                     |
 | 222222 | 111111  | Returnerer hjelpemiddel                       | Innsender prøver å bestille til seg selv               |
@@ -37,7 +75,8 @@ sequenceDiagram;
     hm-oebs-sink-->>hm-oebs-api-proxy: opprettOrdre;
     hm-oebs-api-proxy-->>OeBS: opprettOrdre;
 ```
-___
+
+---
 
 ```mermaid
 ---
@@ -49,7 +88,8 @@ sequenceDiagram;
     hm-oebs-listener-->>hm-soknadsbehandling: hm-ordrekvittering-delbestilling-mottatt
     hm-soknadsbehandling-->>hm-delbestilling-api: PUT /delbestilling/status/v2/{id}
 ```
-___
+
+---
 
 ```mermaid
 ---
@@ -61,8 +101,11 @@ sequenceDiagram;
     hm-oebs-listener-->>hm-soknadsbehandling: hm-uvalidert-ordrelinje
     hm-soknadsbehandling-->>hm-delbestilling-api: PUT /delbestilling/status/dellinje/{ordrenummer}
 ```
+
 For skipningsbekreftelse så sendes allerede eventet `hm-uvalidert-ordrelinje` til rapid for bruk i hm-kommune-api, derfor kan hm-soknadsbehandling lytte etter dette. hm-soknadsbehandling plukker da opp mange irrelevante ordrelinjer, men hm-delbestilling-api er i stand til å gjenkjenne hva som er relevant via `ordrenr` (fra OeBS). hm-soknadsbehandling filtrerer på `hjelpemiddeltype == "Del"`, men sender ellers alt videre til hm-delbestilling-api.
-___
+
+---
 
 ## WCAG
+
 [WCAG-rapport ligger her](https://a11y-statement.nav.no/reports/e235e6ea-91d9-4e41-a5b4-dc1a1968e8fb)

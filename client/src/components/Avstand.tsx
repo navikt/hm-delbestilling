@@ -1,6 +1,4 @@
-import React from 'react'
 import type { ReactNode } from 'react'
-import styled from 'styled-components'
 
 export interface AvstandProps {
   children?: ReactNode | undefined
@@ -19,38 +17,38 @@ export interface AvstandProps {
 }
 
 export function Avstand(props: AvstandProps) {
-  const { children, centered, ...rest } = props
+  const { children, style, centered, ...spacingProps } = props
+
+  const spacingStyle: React.CSSProperties = {
+    ...getSpacingStyle(spacingProps),
+    textAlign: centered ? 'center' : 'unset',
+    ...style,
+  }
+
   return (
-    <Box aria-hidden={!children} $centered={centered} {...rest}>
+    <div aria-hidden={!children} style={spacingStyle}>
       {children}
-    </Box>
+    </div>
   )
 }
 
-type MarginPadding = Omit<AvstandProps, 'centered' | 'children'> & {
-  $centered?: boolean
-}
+type SpacingProps = Omit<AvstandProps, 'children' | 'centered' | 'style'>
 
-const Box = styled.div<MarginPadding>`
-  ${spacer}
-  ${(props) => ({ textAlign: props.$centered ? 'center' : 'unset' })}
-`
-
-export function spacer(props: MarginPadding) {
+function getSpacingStyle(props: SpacingProps): React.CSSProperties {
   return {
-    margin: props.margin,
-    'margin-top': spacingVar(props.marginTop),
-    'margin-right': spacingVar(props.marginRight),
-    'margin-bottom': spacingVar(props.marginBottom),
-    'margin-left': spacingVar(props.marginLeft),
-    padding: props.padding,
-    'padding-top': spacingVar(props.paddingTop),
-    'padding-right': spacingVar(props.paddingRight),
-    'padding-bottom': spacingVar(props.paddingBottom),
-    'padding-left': spacingVar(props.paddingLeft),
+    margin: spacingVar(props.margin),
+    marginTop: spacingVar(props.marginTop),
+    marginRight: spacingVar(props.marginRight),
+    marginBottom: spacingVar(props.marginBottom),
+    marginLeft: spacingVar(props.marginLeft),
+    padding: spacingVar(props.padding),
+    paddingTop: spacingVar(props.paddingTop),
+    paddingRight: spacingVar(props.paddingRight),
+    paddingBottom: spacingVar(props.paddingBottom),
+    paddingLeft: spacingVar(props.paddingLeft),
   }
 }
 
-export function spacingVar(space?: number): string | undefined {
-  return typeof space === 'number' ? `var(--a-spacing-${space})` : undefined
+function spacingVar(space?: number): string | undefined {
+  return typeof space === 'number' ? `var(--ax-space-${space})` : undefined
 }

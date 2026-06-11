@@ -1,4 +1,4 @@
-import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel } from './Types'
+import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel, Pilot } from './Types'
 
 export interface OppslagRequest {
   hmsnr: string
@@ -8,10 +8,15 @@ export interface OppslagRequest {
 export interface OppslagResponse {
   hjelpemiddel: Hjelpemiddel | undefined
   feil: OppslagFeil | undefined
+  piloter: Pilot[]
 }
 
 export interface AlleHjelpemidlerMedDelerResponse {
   hjelpemidlerMedDeler: Hjelpemiddel[]
+}
+
+export interface TilgjengeligeHjelpemidlerResponse {
+  [hmTittel: string]: string[]
 }
 
 export interface DellisteResponse {
@@ -21,6 +26,10 @@ export interface DellisteResponse {
 
 export interface XKLagerResponse {
   xkLager: boolean
+}
+
+export interface SisteBatteribestillingResponse {
+  antallDagerSiden: number
 }
 
 export interface DellisteDel {
@@ -33,6 +42,7 @@ export interface DellisteDel {
 export enum OppslagFeil {
   'TILBYR_IKKE_HJELPEMIDDEL' = 'TILBYR_IKKE_HJELPEMIDDEL',
   'INGET_UTLÅN' = 'INGET_UTLÅN',
+  'PERSON_IKKE_FUNNET' = 'PERSON_IKKE_FUNNET',
 }
 
 export interface DelbestillingRequest {

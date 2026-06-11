@@ -1,24 +1,30 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import { Alert, Heading } from '@navikt/ds-react'
+import { Box, GlobalAlert, Heading } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
-import Content from '../styledcomponents/Content'
-import Header from '../styledcomponents/Header'
+import Content from '../components/Layout/Content'
+import Header from '../components/Layout/Header'
+import Toolbar from '../components/Toolbar/Toolbar'
 
 // Delte page-komponenter for hver side
 const Layout = () => {
   const { t } = useTranslation()
-  const visTestMiljoBanner = window.appSettings.USE_MSW === true && window.location.hostname !== 'localhost'
+  const visTestMiljoBanner = window.appSettings.USE_MSW === true
   return (
     <>
+      <Toolbar />
       <Header>
         <Content>
           {visTestMiljoBanner && (
-            <Avstand marginTop={4} marginBottom={8}>
-              <Alert variant="info">{t('testbanner')}</Alert>
+            <Avstand marginTop={16} marginBottom={32}>
+              <GlobalAlert status="announcement">
+                <GlobalAlert.Header>
+                  <GlobalAlert.Title>{t('testbanner.tittel')}</GlobalAlert.Title>
+                </GlobalAlert.Header>
+                <GlobalAlert.Content>{t('testbanner.innhold')}</GlobalAlert.Content>
+              </GlobalAlert>
             </Avstand>
           )}
           <Heading level="1" size="xlarge">
@@ -26,7 +32,9 @@ const Layout = () => {
           </Heading>
         </Content>
       </Header>
-      <Outlet />
+      <Box background="sunken" paddingBlock="space-20">
+        <Outlet />
+      </Box>
     </>
   )
 }
