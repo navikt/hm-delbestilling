@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
@@ -6,8 +6,8 @@ import { Outlet } from 'react-router-dom'
 import { GuidePanel, HStack, Loader } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
+import Content from '../components/Layout/Content'
 import useAuth from '../hooks/useAuth'
-import Content from '../styledcomponents/Content'
 import { Delbestillerrolle } from '../types/Types'
 
 type RolleContextType = {
@@ -45,7 +45,7 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (henterRolle) {
     return (
-      <Avstand paddingTop={16} paddingBottom={16}>
+      <Avstand paddingTop={64} paddingBottom={64}>
         <HStack justify="center">
           <Loader size="large" />
         </HStack>
@@ -58,8 +58,6 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   if (!delbestillerrolle) {
     return <div>{t('error.ingenRolle')}</div>
   } else if (delbestillerrolle.kanBestilleDeler === false) {
-    // feilmeldingsTekst = 'error.kanIkkeBestilleDeler'
-    // TODO: greit at vi viser generell tekst her?
     feilmeldingsTekst =
       'Du kan ikke bestiller deler, da du ikke er kommunalt ansatt eller jobber i en godkjent organisasjon.'
   }
@@ -67,7 +65,7 @@ export const RolleProvider = ({ children }: { children: React.ReactNode }) => {
   if (feilmeldingsTekst) {
     return (
       <Content>
-        <Avstand marginTop={10} marginBottom={10}>
+        <Avstand marginTop={40} marginBottom={40}>
           <GuidePanel>{feilmeldingsTekst}</GuidePanel>
         </Avstand>
       </Content>
@@ -84,13 +82,4 @@ export const RolleContextLayout = () => {
       <Outlet />
     </RolleProvider>
   )
-}
-
-export const useRolleContext = () => {
-  const context = useContext(RolleContext)
-  if (context === undefined) {
-    throw new Error('useRolleContext må ligge inni RolleProvider')
-  }
-
-  return context
 }

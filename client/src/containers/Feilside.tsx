@@ -1,4 +1,3 @@
-import React from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useTranslation } from 'react-i18next'
 
@@ -6,7 +5,7 @@ import { Button } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import { Feilmelding } from '../components/Feilmelding'
-import Content from '../styledcomponents/Content'
+import Content from '../components/Layout/Content'
 
 interface Props {
   error: any
@@ -17,9 +16,9 @@ const Feilside = ({ error, resetErrorBoundary }: Props) => {
   const { t } = useTranslation()
   return (
     <Content>
-      <Avstand marginTop={4} marginBottom={4}>
+      <Avstand marginTop={16} marginBottom={16}>
         <Feilmelding feilmelding={{ feilmelding: t('feilside.noeGikkGalt'), tekniskFeilmelding: error }} />
-        <Avstand marginTop={4} />
+        <Avstand marginTop={16} />
         <Button onClick={resetErrorBoundary}>{t('feilside.prøvPåNytt')}</Button>
       </Avstand>
     </Content>

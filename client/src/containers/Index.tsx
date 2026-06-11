@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PencilIcon } from '@navikt/aksel-icons'
-import { Alert, BodyLong, BodyShort, Button, Heading, HStack, Link, LinkPanel, Panel } from '@navikt/ds-react'
+import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkCard } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
+import Content from '../components/Layout/Content'
+import { CustomBox } from '../components/Layout/CustomBox'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
+import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import Content from '../styledcomponents/Content'
-import { CustomPanel } from '../styledcomponents/CustomPanel'
-import { Del, Handlekurv, Hjelpemiddel } from '../types/Types'
+import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
+import { isProd } from '../utils/utils'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
@@ -22,6 +24,7 @@ const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
+  const [piloter, setPiloter] = useState<Pilot[]>([])
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
   const { sjekkerLogin, sjekkLoginStatus } = useAuth()
@@ -40,6 +43,7 @@ const Index = () => {
       deler: [{ del, antall: del.defaultAntall }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
+      piloter,
     }
 
     window.sessionStorage.setItem(SESSIONSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
@@ -48,7 +52,7 @@ const Index = () => {
       if (await sjekkLoginStatus()) {
         navigate('/utsjekk')
       } else {
-        window.location.replace('/hjelpemidler/delbestilling/login')
+        window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/utsjekk')
       }
     } catch (e: any) {
       console.log(e)
@@ -62,48 +66,47 @@ const Index = () => {
       <Content>
         {!hjelpemiddel && (
           <>
-            <Avstand marginBottom={10}>
-              <Alert variant="info" style={{ marginBottom: '1rem' }}>
-                <Heading level="2" size="small">
-                  {t('nyhet.nyeDelerHeading')}
-                </Heading>
-                {t('nyhet.nyeDelerLagtTil')}
-              </Alert>
-            </Avstand>
-
             <HjelpemiddelLookup
               hmsnr={hmsnr}
               setHmsnr={setHmsnr}
               serienr={serienr}
               setSerienr={setSerienr}
-              setHjelpemiddel={setHjelpemiddel}
+              onOppslagSuksess={(hjelpemiddel, piloter) => {
+                setHjelpemiddel(hjelpemiddel)
+                setPiloter(piloter)
+              }}
             />
 
-            <Avstand marginTop={10}>
-              <LinkPanel
+            <Avstand marginTop={24}>
+              <Link
                 href="#"
+                style={{ display: 'block', width: '100%' }}
                 onClick={(e) => {
                   e.preventDefault()
                   if (erLoggetInn) {
                     navigate('/bestillinger')
                   } else {
-                    window.location.replace('/hjelpemidler/delbestilling/login?redirect=bestillinger')
+                    window.location.replace(
+                      '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
+                    )
                   }
                 }}
               >
-                <LinkPanel.Title>{t('bestillinger.dineSiste')}</LinkPanel.Title>
-                {!sjekkerLogin && !erLoggetInn && (
-                  <LinkPanel.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkPanel.Description>
-                )}
-              </LinkPanel>
+                <LinkCard style={{ border: '1px solid' }}>
+                  <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
+                  {!sjekkerLogin && !erLoggetInn && (
+                    <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
+                  )}
+                </LinkCard>
+              </Link>
             </Avstand>
 
-            <Avstand marginTop={10}>
+            <Avstand marginTop={24}>
               <OmÅBestilleDeler />
             </Avstand>
 
-            <Avstand marginTop={10}>
-              <Panel>
+            <Avstand marginTop={24}>
+              <CustomBox>
                 <Heading level="2" size="medium" spacing>
                   Kontakt oss
                 </Heading>
@@ -122,22 +125,22 @@ const Index = () => {
                     }}
                   />
                 </BodyLong>
-              </Panel>
+              </CustomBox>
             </Avstand>
           </>
         )}
         {hjelpemiddel && (
           <>
-            <CustomPanel border>
+            <CustomBox>
               <HStack align="end" justify="space-between">
                 <div>
-                  <Heading size="xsmall" level="2" spacing>
+                  <Heading size="xsmall" level="2" spacing data-testid="hjelpemiddel-navn">
                     {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                   </Heading>
-                  <BodyShort style={{ display: 'flex', gap: '20px' }}>
-                    <span>Art.nr. {hmsnr}</span>
-                    <span>Serienr. {serienr}</span>
-                  </BodyShort>
+                  <HStack gap="space-4">
+                    <BodyShort>Art.nr. {hmsnr}</BodyShort>
+                    <BodyShort>Serienr. {serienr}</BodyShort>
+                  </HStack>
                 </div>
                 <Button
                   icon={<PencilIcon />}
@@ -149,16 +152,13 @@ const Index = () => {
                   {t('felles.Endre')}
                 </Button>
               </HStack>
-            </CustomPanel>
-            <Avstand marginBottom={12} />
-            <LeggTilDel
-              hjelpemiddel={hjelpemiddel}
-              onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
-              knappeTekst={t('bestillinger.bestill')}
-            />
+            </CustomBox>
+            <Avstand marginBottom={48} />
+            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
           </>
         )}
       </Content>
+      {!isProd() && <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />}
     </main>
   )
 }

@@ -1,0 +1,8 @@
+@media (min-width: 800px) {
+  .utvidetBredde {
+    position: relative;
+    left: 0;
+    right: -120px;
+    width: calc(100% + 120px);
+  }
+}
