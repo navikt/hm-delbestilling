@@ -12,7 +12,6 @@ import {
   OppslagFeil,
   OppslagRequest,
   OppslagResponse,
-  TilgjengeligeHjelpemidlerResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
 import { DelbestillingSak, Ordrestatus } from '../../types/Types'
@@ -194,14 +193,6 @@ const apiHandlers = [
     return HttpResponse.json(dellisteMock)
   }),
 
-  http.get<{}, {}, TilgjengeligeHjelpemidlerResponse>(`${API_PATH}/tilgjengelige-hjelpemidler`, async () => {
-    await delay(250)
-    return HttpResponse.json({
-      'Aurora Standard': ['296142', '296146', '296143', '296147', '296140', '296141', '296144', '296145'],
-      'Aurora Standard XXL': ['296148', '296149'],
-      'Aurora Synkron': ['296151', '296152', '296156', '296153', '296157', '296150', '296154', '296155'],
-    })
-  }),
 
   http.post<{}, { hmsnrs: string[] }, string[]>(`${API_PATH}/deler-til-hmsnrs`, async () => {
     await delay(250)

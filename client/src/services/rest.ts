@@ -6,7 +6,6 @@ import {
   DellisteResponse,
   OppslagResponse,
   SisteBatteribestillingResponse,
-  TilgjengeligeHjelpemidlerResponse,
   XKLagerResponse,
 } from '../types/HttpTypes'
 import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
@@ -57,12 +56,6 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
 
   await handleResponse(response.clone())
 
-  return await response.json()
-}
-
-const hentTilgjengeligeHjelpemidler = async (): Promise<TilgjengeligeHjelpemidlerResponse> => {
-  const response = await fetch(API_PATH + '/tilgjengelige-hjelpemidler')
-  await handleResponse(response.clone())
   return await response.json()
 }
 
@@ -148,7 +141,6 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
 
 export default {
   hjelpemiddelOppslag,
-  hentTilgjengeligeHjelpemidler,
   hentAlleDeler,
   sendInnBestilling,
   hentBestillinger,
