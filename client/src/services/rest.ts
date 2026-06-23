@@ -5,7 +5,9 @@ import {
   DelbestillingResponse,
   DellisteResponse,
   OppslagResponse,
+  OppslagResponseV2,
   SisteBatteribestillingResponse,
+
   XKLagerResponse,
 } from '../types/HttpTypes'
 import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
@@ -46,9 +48,9 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
   return fetch(url, { method: 'POST', ...otherParams })
 }
 
-const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<OppslagResponse> => {
-  const response = await fetchPost(API_PATH + '/oppslag', {
-    body: JSON.stringify({ hmsnr, serienr }),
+const hjelpemiddelOppslag = async (hmsnr: string): Promise<OppslagResponseV2> => {
+  const response = await fetchPost(API_PATH + '/oppslagv2', { // todo: Opprett nytt endepunkt
+    body: JSON.stringify({ hmsnr}),
     headers: {
       'Content-Type': 'application/json',
     },

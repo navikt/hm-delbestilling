@@ -7,6 +7,12 @@ export interface Hjelpemiddel {
   antallÅrGaranti: boolean | null
 }
 
+export interface HjelpemiddelV2 {
+  navn: string
+  hmsnr: string
+  deler: DelV2[] | undefined
+}
+
 export interface Del {
   navn: string
   hmsnr: string
@@ -18,6 +24,18 @@ export interface Del {
   datoLagtTil?: string
   lagerstatus: Lagerstatus
   kilde: string
+  erReservedel: boolean
+  erTilbehør: boolean
+}
+
+export interface DelV2 {
+  navn: string
+  hmsnr: string
+  levArtNr: string | null
+  imgs: string[]
+  kategori: string
+  maksAntall: number
+  defaultAntall: number
   erReservedel: boolean
   erTilbehør: boolean
 }

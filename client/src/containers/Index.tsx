@@ -69,8 +69,6 @@ const Index = () => {
             <HjelpemiddelLookup
               hmsnr={hmsnr}
               setHmsnr={setHmsnr}
-              serienr={serienr}
-              setSerienr={setSerienr}
               onOppslagSuksess={(hjelpemiddel, piloter) => {
                 setHjelpemiddel(hjelpemiddel)
                 setPiloter(piloter)

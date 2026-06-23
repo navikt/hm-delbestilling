@@ -30,7 +30,7 @@ interface Props {
   onOppslagSuksess: (hjelpemiddel: Hjelpemiddel | undefined, piloter: Pilot[]) => void
 }
 
-const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuksess }: Props) => {
+const HjelpemiddelLookup = ({ hmsnr, setHmsnr, onOppslagSuksess }: Props) => {
   const { t } = useTranslation()
   const [gjørOppslag, setGjørOppslag] = useState(false)
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
@@ -38,9 +38,9 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (hmsnr.length !== 6 || serienr.length !== 6) {
+    if (hmsnr.length !== 6 ) {
       setFeilmelding({
-        feilmelding: t('error.artnrOgSerienr6Siffer'),
+        feilmelding: t('error.artnr6Siffer'),
         status: 'warning',
       })
       return
@@ -49,7 +49,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
     try {
       setGjørOppslag(true)
       logOppslagGjort(hmsnr)
-      const oppslag = await rest.hjelpemiddelOppslag(hmsnr, serienr)
+      const oppslag = await rest.hjelpemiddelOppslag(hmsnr)
 
       if (oppslag.feil) {
         setFeilmelding({

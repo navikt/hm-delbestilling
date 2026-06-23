@@ -40,7 +40,7 @@
   "oppslagfeil.PERSON_IKKE_FUNNET": "Vi finner ikke personen knyttet til dette hjelpemiddelet. Ta kontakt med hjelpemiddelsentralen.",
 
   "error.generellFeil": "Noe gikk galt",
-  "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må inneholde 6 siffer.",
+  "error.artnr6Siffer": "Art.nr må inneholde 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noe gikk feil med oppslag, prøv igjen senere",
   "error.klarteIkkeViseBestillinger": "Vi klarte ikke å gå til bestillinger akkurat nå. Prøv igjen senere.",

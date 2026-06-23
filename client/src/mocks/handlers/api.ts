@@ -11,7 +11,9 @@ import {
   DellisteResponse,
   OppslagFeil,
   OppslagRequest,
+  OppslagRequestV2,
   OppslagResponse,
+  OppslagResponseV2,
   XKLagerResponse,
 } from '../../types/HttpTypes'
 import { DelbestillingSak, Ordrestatus } from '../../types/Types'
@@ -20,28 +22,14 @@ let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
 
 const apiHandlers = [
-  http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag`, async ({ request }) => {
-    const { hmsnr, serienr } = await request.json()
+  http.post<{}, OppslagRequestV2, OppslagResponseV2>(`${API_PATH}/oppslagv2`, async ({ request }) => {
+    const { hmsnr} = await request.json()
 
     await delay(250)
 
-    if (hmsnr === '333333') {
-      return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN, piloter: [] },
-        { status: StatusCodes.NOT_FOUND }
-      )
-    }
-
     if (hmsnr === '000000') {
       return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL, piloter: [] },
-        { status: StatusCodes.NOT_FOUND }
-      )
-    }
-
-    if (hmsnr === '666666') {
-      return HttpResponse.json(
-        { hjelpemiddel: undefined, feil: OppslagFeil.PERSON_IKKE_FUNNET, piloter: [] },
+        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL},
         { status: StatusCodes.NOT_FOUND }
       )
     }
@@ -50,9 +38,9 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev`, {
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-devV2`, {
       method: 'POST',
-      body: JSON.stringify({ hmsnr, serienr }),
+      body: JSON.stringify({ hmsnr}),
       headers: {
         'Content-Type': 'application/json',
       },
