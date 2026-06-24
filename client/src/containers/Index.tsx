@@ -15,15 +15,15 @@ import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
+import { Del, Handlekurv, Hjelpemiddel, HjelpemiddelV2, Pilot } from '../types/Types'
 import { isProd } from '../utils/utils'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
 const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
-  const [serienr, setSerienr] = useState('')
-  const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
+  const [serienr] = useState('')
+  const [hjelpemiddel, setHjelpemiddel] = useState<HjelpemiddelV2 | undefined>(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>([])
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
@@ -35,7 +35,7 @@ const Index = () => {
     sjekkLoginStatus().then(setErLoggetInn)
   }, [])
 
-  const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
+  const handleBestill = async (hjelpemiddel: HjelpemiddelV2, del: Del) => {
     const handlekurv: Handlekurv = {
       id: uuidv4(),
       serienr,
@@ -69,9 +69,8 @@ const Index = () => {
             <HjelpemiddelLookup
               hmsnr={hmsnr}
               setHmsnr={setHmsnr}
-              onOppslagSuksess={(hjelpemiddel, piloter) => {
+              onOppslagSuksess={(hjelpemiddel) => {
                 setHjelpemiddel(hjelpemiddel)
-                setPiloter(piloter)
               }}
             />
 

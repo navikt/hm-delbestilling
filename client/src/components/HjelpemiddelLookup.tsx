@@ -5,7 +5,7 @@ import { Button, Heading, Stack, TextField } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 import { OppslagFeil } from '../types/HttpTypes'
-import { Hjelpemiddel, Pilot } from '../types/Types'
+import { HjelpemiddelV2, Pilot } from '../types/Types'
 import { logOppslagFeil, logOppslagGjort } from '../utils/analytics/analytics'
 
 import { CustomBox } from './Layout/CustomBox'
@@ -25,9 +25,7 @@ const erGyldig = (input: string, maksLengde: number = 6) => innenforMaksLengde(i
 interface Props {
   hmsnr: string
   setHmsnr: React.Dispatch<SetStateAction<string>>
-  serienr: string
-  setSerienr: React.Dispatch<SetStateAction<string>>
-  onOppslagSuksess: (hjelpemiddel: Hjelpemiddel | undefined, piloter: Pilot[]) => void
+  onOppslagSuksess: (hjelpemiddel: HjelpemiddelV2 | undefined) => void
 }
 
 const HjelpemiddelLookup = ({ hmsnr, setHmsnr, onOppslagSuksess }: Props) => {
@@ -58,7 +56,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, onOppslagSuksess }: Props) => {
         })
         logOppslagFeil(oppslag.feil, hmsnr)
       } else {
-        onOppslagSuksess(oppslag.hjelpemiddel, oppslag.piloter)
+        onOppslagSuksess(oppslag.hjelpemiddel)
       }
     } catch (err: any) {
       console.log(`Kunne ikke hente hjelpemiddel`, err)
@@ -80,7 +78,6 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, onOppslagSuksess }: Props) => {
 
   const reset = () => {
     setHmsnr('')
-    setSerienr('')
   }
 
   return (
@@ -97,13 +94,6 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, onOppslagSuksess }: Props) => {
             value={hmsnr}
             onChange={(e) => erGyldig(e.target.value) && setHmsnr(e.target.value)}
             data-testid="input-artnr"
-          />
-          <TextField
-            style={{ width: '120px' }}
-            label={t('oppslag.serienr')}
-            value={serienr}
-            onChange={(e) => erGyldig(e.target.value) && setSerienr(e.target.value)}
-            data-testid="input-serienr"
           />
           <Button loading={gjørOppslag} onClick={handleSubmit} data-testid="button-oppslag-submit">
             {t('oppslag.visDeler')}

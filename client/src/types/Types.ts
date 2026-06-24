@@ -52,7 +52,7 @@ export interface Lagerstatus {
 export interface Handlekurv {
   id: string
   serienr: string
-  hjelpemiddel: Hjelpemiddel
+  hjelpemiddel: HjelpemiddelV2
   deler: Dellinje[]
   levering: Levering | undefined
   harOpplæringPåBatteri: boolean | undefined

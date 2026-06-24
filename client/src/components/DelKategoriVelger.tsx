@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 
 import { Chips } from '@navikt/ds-react'
 
-import { Del } from '../types/Types'
+import { Del, DelV2 } from '../types/Types'
 import { logKategoriFiltreringGjort } from '../utils/analytics/analytics'
 
 interface Props {
@@ -58,7 +58,7 @@ const DelKategoriVelger = ({
   )
 }
 
-export const useDelKategorier = (deler: Del[] | undefined) => {
+export const useDelKategorier = (deler: DelV2[] | undefined) => {
   const [kategoriFilter, setKategoriFilter] = useState<string | undefined>()
 
   const delKategorier = useMemo(() => {

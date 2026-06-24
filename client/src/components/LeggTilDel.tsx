@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Button, Detail, Heading, HStack, InfoCard, Search, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
-import { Del, Hjelpemiddel } from '../types/Types'
+import { Del, Hjelpemiddel, HjelpemiddelV2 } from '../types/Types'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
 import { Bilde } from './Bilde/Bilde'
@@ -18,7 +18,7 @@ import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
 import infoOmDelStyles from './InfoOmDel.module.css'
 
 interface Props {
-  hjelpemiddel: Hjelpemiddel
+  hjelpemiddel: HjelpemiddelV2
   onLeggTil: (del: Del) => void
 }
 const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
@@ -77,21 +77,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
         .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
         .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
         .map((del) => {
-          const erFastLagervare = del.lagerstatus.minmax
-          const erBatteri = del.kategori.toLowerCase() === 'batteri'
-
-          // Batteri er i seg selv dekket av garanti i 1 år
-          const harNyligBlittBestiltBatteri =
-            erBatteri &&
-            hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
-            hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
-
-          // Dersom hjelpemiddelet er innenfor garantitiden, så kan batteriet være dekket av garantien
-          const dekketAvHjelpemiddeletsGaranti = erBatteri && hjelpemiddel.erInnenforGaranti === true
-
-          const erDekketAvGaranti = harNyligBlittBestiltBatteri || dekketAvHjelpemiddeletsGaranti
-
-          const kanBestilles = !erDekketAvGaranti
 
           const tilbehorSvar = tilbehorInfo[del.hmsnr]
           const kanBestilleTilbehor = del.erTilbehør ? tilbehorSvar?.harTilbehørFraFør === true : true
