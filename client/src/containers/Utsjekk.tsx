@@ -33,7 +33,7 @@ import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import rest from '../services/rest'
-import { Del, Delbestilling, Handlekurv, Levering, Pilot } from '../types/Types'
+import { Delbestilling, DelV2, Handlekurv, Levering, Pilot } from '../types/Types'
 import {
   logBestillingSlettet,
   logInnsendingFeil,
@@ -98,7 +98,7 @@ const Utsjekk = () => {
     }
   }, [submitAttempt, handlekurv])
 
-  const leggTilDel = (del: Del) => {
+  const leggTilDel = (del: DelV2) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
@@ -111,7 +111,7 @@ const Utsjekk = () => {
     window.scrollTo(0, 0)
   }
 
-  const setAntall = (del: Del, antall: number) => {
+  const setAntall = (del: DelV2, antall: number) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
@@ -124,7 +124,7 @@ const Utsjekk = () => {
     })
   }
 
-  const handleSlettDel = (del: Del) => {
+  const handleSlettDel = (del: DelV2) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
@@ -299,7 +299,7 @@ const Utsjekk = () => {
                       <FlexedStack>
                         <Bilde imgs={delLinje.del.imgs} navn={delLinje.del.navn} />
                         <Beskrivelser>
-                          <InfoOmDel del={delLinje.del} erFastLagervare={delLinje.del.lagerstatus.minmax} />
+                          <InfoOmDel del={delLinje.del} />
                         </Beskrivelser>
                       </FlexedStack>
                       <Box paddingBlock="space-4">

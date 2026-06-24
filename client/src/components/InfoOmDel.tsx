@@ -3,16 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { PackageIcon, WrenchIcon } from '@navikt/aksel-icons'
 import { BodyShort, Heading, HStack, VStack } from '@navikt/ds-react'
 
-import { Del } from '../types/Types'
+import { DelV2 } from '../types/Types'
 
 import styles from './InfoOmDel.module.css'
 
 interface InfoOmDelProps {
-  del: Del
-  erFastLagervare: boolean
+  del: DelV2
 }
 
-const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
+const InfoOmDel = ({ del }: InfoOmDelProps) => {
   const { t } = useTranslation()
 
   const getDelType = () => {
@@ -54,7 +53,7 @@ const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
         </HStack>
         <VStack gap="space-6">
           <BodyShort textColor="subtle">{getDelType()}</BodyShort>
-          <BodyShort>{erFastLagervare ? t('del.lagervare') : t('del.bestillingsvare')}</BodyShort>
+          {/*<BodyShort>{erFastLagervare ? t('del.lagervare') : t('del.bestillingsvare')}</BodyShort>*/}
         </VStack>
       </VStack>
     </>

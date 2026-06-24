@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Button, Detail, Heading, HStack, InfoCard, Search, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
-import { Del, Hjelpemiddel, HjelpemiddelV2 } from '../types/Types'
+import { Del, DelV2, Hjelpemiddel, HjelpemiddelV2 } from '../types/Types'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
 import { Bilde } from './Bilde/Bilde'
@@ -15,11 +15,9 @@ import DelKategoriVelger, { useDelKategorier } from './DelKategoriVelger'
 import InfoOmDel from './InfoOmDel'
 import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
 
-import infoOmDelStyles from './InfoOmDel.module.css'
-
 interface Props {
   hjelpemiddel: HjelpemiddelV2
-  onLeggTil: (del: Del) => void
+  onLeggTil: (del: DelV2) => void
 }
 const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
@@ -89,26 +87,10 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
                     <FlexedStack>
                       <Bilde imgs={del.imgs} navn={del.navn} />
                       <Beskrivelser>
-                        <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
-
-                        {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
-                          <Avstand marginTop={20}>
-                            <Detail textColor="subtle" className={infoOmDelStyles.utvidetBredde}>
-                              {t('del.antallDagerSidenSistBatteribestilling', {
-                                count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
-                              })}
-                            </Detail>
-                          </Avstand>
-                        ) : dekketAvHjelpemiddeletsGaranti ? (
-                          <Avstand marginTop={20}>
-                            <Detail className={infoOmDelStyles.utvidetBredde}>
-                              {t('del.hjelpemiddelErInnenforGarantitid')}
-                            </Detail>
-                          </Avstand>
-                        ) : null}
+                        <InfoOmDel del={del} />
                       </Beskrivelser>
                     </FlexedStack>
-                    {del.erTilbehør && kanBestilles && (
+                    {del.erTilbehør && (
                       <Avstand marginTop={16}>
                         <TilbehørSpørsmål
                           delId={del.hmsnr}
@@ -119,7 +101,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
                     )}
                   </VStack>
 
-                  {kanBestilles && kanBestilleTilbehor && (
+                  {kanBestilleTilbehor && (
                     <Button variant="secondary" onClick={() => onLeggTil(del)}>
                       {t('bestillinger.bestill')}
                     </Button>

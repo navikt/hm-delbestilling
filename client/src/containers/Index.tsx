@@ -15,7 +15,7 @@ import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import { Del, Handlekurv, Hjelpemiddel, HjelpemiddelV2, Pilot } from '../types/Types'
+import { Del, DelV2, Handlekurv, Hjelpemiddel, HjelpemiddelV2, Pilot } from '../types/Types'
 import { isProd } from '../utils/utils'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
@@ -35,7 +35,7 @@ const Index = () => {
     sjekkLoginStatus().then(setErLoggetInn)
   }, [])
 
-  const handleBestill = async (hjelpemiddel: HjelpemiddelV2, del: Del) => {
+  const handleBestill = async (hjelpemiddel: HjelpemiddelV2, del: DelV2) => {
     const handlekurv: Handlekurv = {
       id: uuidv4(),
       serienr,

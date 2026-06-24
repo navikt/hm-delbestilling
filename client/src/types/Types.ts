@@ -59,8 +59,13 @@ export interface Handlekurv {
   piloter: Pilot[]
 }
 
+export interface NyDellinje {
+  del: DelV2
+  antall: number
+}
+
 export interface Dellinje {
-  del: Del
+  del: DelV2
   antall: number
   status?: Dellinjestatus
   datoSkipningsbekreftet?: string
@@ -68,10 +73,22 @@ export interface Dellinje {
   lagerstatusPåBestillingstidspunkt?: Lagerstatus
 }
 
+export interface NyDelbestilling {
+  id: string
+  hmsnr: string
+  serienr: string | undefined
+  brukernr: string | undefined
+  navn: string
+  deler: NyDellinje[]
+  levering: Levering
+  harOpplæringPåBatteri: boolean | undefined
+}
+
 export interface Delbestilling {
   id: string
   hmsnr: string
-  serienr: string
+  serienr: string | undefined
+  brukernr: string | undefined
   navn: string
   deler: Dellinje[]
   levering: Levering

@@ -58,7 +58,7 @@ const apiHandlers = [
       !delbestilling ||
       !delbestilling.deler ||
       !delbestilling.hmsnr ||
-      !delbestilling.serienr ||
+      !(delbestilling.serienr || delbestilling.brukernr) ||
       !delbestilling.levering
     ) {
       throw new HttpResponse('Bad Request', { status: StatusCodes.BAD_REQUEST })
@@ -66,7 +66,7 @@ const apiHandlers = [
 
     const id = delbestilling.id
 
-    if (delbestilling.serienr === '000000') {
+    if (delbestilling.serienr === '000000' || delbestilling.brukernr === '000000') {
       return HttpResponse.json(
         {
           id,
@@ -134,20 +134,6 @@ const apiHandlers = [
       status: Ordrestatus.INNSENDT,
       oebsOrdrenummer: null,
     }
-
-    // for mocking: anta at alle deler som ikke er minmax heller ikke er tilgjengelige på lager
-    nyDelbestilling.delbestilling.deler = nyDelbestilling.delbestilling.deler.map((delLinje) => {
-      delLinje.lagerstatusPåBestillingstidspunkt = {
-        artikkelnummer: delLinje.del.hmsnr,
-        minmax: delLinje.del.lagerstatus.minmax,
-        antallDelerPåLager: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
-        organisasjons_id: 263,
-        organisasjons_navn: '*05 Oppland',
-        tilgjengelig: delLinje.del.lagerstatus.minmax === false ? 0 : 10,
-      }
-
-      return delLinje
-    })
 
     tidligereBestillinger.push(nyDelbestilling)
 
