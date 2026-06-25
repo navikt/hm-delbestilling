@@ -11,6 +11,7 @@ export interface HjelpemiddelV2 {
   navn: string
   hmsnr: string
   deler: DelV2[] | undefined
+  isoKode: string
 }
 
 export interface Del {

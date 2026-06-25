@@ -45,7 +45,7 @@ import {
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-import { erGyldigBrukernr, erGyldigSerienr } from '../helpers/utils'
+import { erGyldigBrukernr, erGyldigSerienr, erSerienummerstyrt } from '../helpers/utils'
 
 export interface Valideringsfeil {
   id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
@@ -191,7 +191,7 @@ const Utsjekk = () => {
         id: handlekurv.id,
         hmsnr: handlekurv.hjelpemiddel.hmsnr,
         serienr: serienr,
-        brukernr: undefined,
+        brukernr: brukernr,
         navn: handlekurv.hjelpemiddel.navn,
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
@@ -297,27 +297,29 @@ const Utsjekk = () => {
               <Avstand marginBottom={48}>
 
                 <Avstand marginBottom={36}>
-                  <CustomBox background="accent-soft">
-                    <BodyLong spacing>Oppgi serienummer på hjelpemidlet. Vi trenger dette for å vite hvem som låner hjelpemidlet som skal repareres.</BodyLong>
-                    <TextField
-                      style={{ width: '120px' }}
-                      label={t('oppslag.serienr')}
-                      value={serienr}
-                      onChange={(e) => erGyldigSerienr(e.target.value) && setSerienr(e.target.value)}
-                      data-testid="input-serienr"
-                    />
-                  </CustomBox>
 
-                  <CustomBox background="accent-soft">
-                    <BodyLong spacing>Oppgi brukernummeret til personen. Vi trenger dette for å vite hvem som låner hjelpemidlet som skal repareres.</BodyLong>
-                    <TextField
-                      style={{ width: '120px' }}
-                      label={t('oppslag.brukernr')}
-                      value={brukernr}
-                      onChange={(e) => erGyldigBrukernr(e.target.value) && setBrukernr(e.target.value)}
-                      data-testid="input-brukernr"
-                    />
-                  </CustomBox>
+                  {erSerienummerstyrt(handlekurv.hjelpemiddel.isoKode) ?
+                    (<CustomBox background="accent-soft">
+                      <BodyLong spacing>Oppgi serienummer på hjelpemidlet. Vi trenger dette for å vite hvem som låner hjelpemidlet som skal repareres.</BodyLong>
+                      <TextField
+                        style={{ width: '120px' }}
+                        label={t('oppslag.serienr')}
+                        value={serienr}
+                        onChange={(e) => erGyldigSerienr(e.target.value) && setSerienr(e.target.value)}
+                        data-testid="input-serienr"
+                      />
+                    </CustomBox>)
+                    :
+                    (<CustomBox background="accent-soft">
+                      <BodyLong spacing>Oppgi brukernummeret til personen. Vi trenger dette for å vite hvem som låner hjelpemidlet som skal repareres.</BodyLong>
+                      <TextField
+                        style={{ width: '120px' }}
+                        label={t('oppslag.brukernr')}
+                        value={brukernr}
+                        onChange={(e) => erGyldigBrukernr(e.target.value) && setBrukernr(e.target.value)}
+                        data-testid="input-brukernr"
+                      />
+                    </CustomBox>)}
                 </Avstand>
 
                 <Heading level="3" size="medium" spacing id="deler">
