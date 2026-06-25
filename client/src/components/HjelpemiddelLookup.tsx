@@ -11,16 +11,8 @@ import { logOppslagFeil, logOppslagGjort } from '../utils/analytics/analytics'
 import { CustomBox } from './Layout/CustomBox'
 import { Avstand } from './Avstand'
 import { Feilmelding, FeilmeldingInterface } from './Feilmelding'
+import { erGyldigArtnr } from '../helpers/utils'
 
-const erBareTall = (input: string): boolean => {
-  return input === '' || /^[0-9]+$/.test(input)
-}
-
-const innenforMaksLengde = (input: string, maksLengde: number): boolean => {
-  return input.length <= maksLengde
-}
-
-const erGyldig = (input: string, maksLengde: number = 6) => innenforMaksLengde(input, maksLengde) && erBareTall(input)
 
 interface Props {
   hmsnr: string
@@ -92,7 +84,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, onOppslagSuksess }: Props) => {
             style={{ width: '120px' }}
             label={t('oppslag.artnr')}
             value={hmsnr}
-            onChange={(e) => erGyldig(e.target.value) && setHmsnr(e.target.value)}
+            onChange={(e) => erGyldigArtnr(e.target.value) && setHmsnr(e.target.value)}
             data-testid="input-artnr"
           />
           <Button loading={gjørOppslag} onClick={handleSubmit} data-testid="button-oppslag-submit">

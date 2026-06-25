@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
 import {
+  BodyLong,
   BodyShort,
   Box,
   Button,
@@ -17,6 +18,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  TextField,
   VStack,
 } from '@navikt/ds-react'
 
@@ -33,7 +35,7 @@ import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import rest from '../services/rest'
-import { Delbestilling, DelV2, Handlekurv, Levering, Pilot } from '../types/Types'
+import { Delbestilling, DelV2, Handlekurv, Levering, NyDelbestilling, Pilot } from '../types/Types'
 import {
   logBestillingSlettet,
   logInnsendingFeil,
@@ -43,6 +45,7 @@ import {
 import { isProd } from '../utils/utils'
 
 import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
+import { erGyldigBrukernr, erGyldigSerienr } from '../helpers/utils'
 
 export interface Valideringsfeil {
   id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
@@ -58,6 +61,8 @@ const Utsjekk = () => {
       return undefined
     }
   })
+  const [serienr, setSerienr] = useState('')
+  const [brukernr, setBrukernr] = useState('')
   const [visFlereDeler, setVisFlereDeler] = useState(false)
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
   const [submitAttempt, setSubmitAttempt] = useState(false)
@@ -79,7 +84,7 @@ const Utsjekk = () => {
   }, [harXKLager])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (handlekurv && harXKLager === undefined) {
         try {
           const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr)
@@ -182,10 +187,11 @@ const Utsjekk = () => {
 
     try {
       setSenderInnBestilling(true)
-      const delbestilling: Delbestilling = {
+      const delbestilling: NyDelbestilling = {
         id: handlekurv.id,
         hmsnr: handlekurv.hjelpemiddel.hmsnr,
-        serienr: handlekurv.serienr,
+        serienr: serienr,
+        brukernr: undefined,
         navn: handlekurv.hjelpemiddel.navn,
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
@@ -289,6 +295,31 @@ const Utsjekk = () => {
           ) : (
             <>
               <Avstand marginBottom={48}>
+
+                <Avstand marginBottom={36}>
+                  <CustomBox background="accent-soft">
+                    <BodyLong spacing>Oppgi serienummer på hjelpemidlet. Vi trenger dette for å vite hvem som låner hjelpemidlet som skal repareres.</BodyLong>
+                    <TextField
+                      style={{ width: '120px' }}
+                      label={t('oppslag.serienr')}
+                      value={serienr}
+                      onChange={(e) => erGyldigSerienr(e.target.value) && setSerienr(e.target.value)}
+                      data-testid="input-serienr"
+                    />
+                  </CustomBox>
+
+                  <CustomBox background="accent-soft">
+                    <BodyLong spacing>Oppgi brukernummeret til personen. Vi trenger dette for å vite hvem som låner hjelpemidlet som skal repareres.</BodyLong>
+                    <TextField
+                      style={{ width: '120px' }}
+                      label={t('oppslag.brukernr')}
+                      value={brukernr}
+                      onChange={(e) => erGyldigBrukernr(e.target.value) && setBrukernr(e.target.value)}
+                      data-testid="input-brukernr"
+                    />
+                  </CustomBox>
+                </Avstand>
+
                 <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
