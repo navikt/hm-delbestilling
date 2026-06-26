@@ -4,6 +4,7 @@ import {
   DelbestillerrolleResponse,
   DelbestillingResponse,
   DellisteResponse,
+  HjelpemiddelOppslagResponse,
   OppslagResponse,
   SisteBatteribestillingResponse,
   TilgjengeligeHjelpemidlerResponse,
@@ -50,6 +51,19 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
 const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<OppslagResponse> => {
   const response = await fetchPost(API_PATH + '/oppslag', {
     body: JSON.stringify({ hmsnr, serienr }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  await handleResponse(response.clone())
+
+  return await response.json()
+}
+
+const hjelpemiddelOppslagPåArtNr = async (hmsnr: string): Promise<HjelpemiddelOppslagResponse> => {
+  const response = await fetchPost(API_PATH + '/oppslagv2', {
+    body: JSON.stringify({ hmsnr}),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -148,6 +162,7 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
 
 export default {
   hjelpemiddelOppslag,
+  hjelpemiddelOppslagPåArtNr,
   hentTilgjengeligeHjelpemidler,
   hentAlleDeler,
   sendInnBestilling,

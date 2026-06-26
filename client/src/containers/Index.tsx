@@ -15,7 +15,7 @@ import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import { Del, Handlekurv, Hjelpemiddel, Pilot } from '../types/Types'
+import { Del, Handlekurv, Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from '../types/Types'
 import { isProd } from '../utils/utils'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
@@ -23,7 +23,7 @@ export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
-  const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
+  const [hjelpemiddel, setHjelpemiddel] = useState<HjelpemiddelUtenDeler | undefined>(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>([])
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
@@ -71,9 +71,8 @@ const Index = () => {
               setHmsnr={setHmsnr}
               serienr={serienr}
               setSerienr={setSerienr}
-              onOppslagSuksess={(hjelpemiddel, piloter) => {
+              onOppslagSuksess={(hjelpemiddel) => {
                 setHjelpemiddel(hjelpemiddel)
-                setPiloter(piloter)
               }}
             />
 
@@ -154,7 +153,7 @@ const Index = () => {
               </HStack>
             </CustomBox>
             <Avstand marginBottom={48} />
-            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
+            {/* <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} /> */}
           </>
         )}
       </Content>

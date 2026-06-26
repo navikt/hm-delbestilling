@@ -40,6 +40,7 @@
   "oppslagfeil.PERSON_IKKE_FUNNET": "Vi finner ikke personen knyttet til dette hjelpemiddelet. Ta kontakt med hjelpemiddelsentralen.",
 
   "error.generellFeil": "Noe gikk galt",
+  "error.artnr": "Art.nr må inneholde 6 siffer.",
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må inneholde 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noe gikk feil med oppslag, prøv igjen senere",
@@ -96,7 +97,7 @@
   "oppslag.hvilketHjelpemiddel": "Hvilket hjelpemiddel trenger del?",
   "oppslag.artnr": "Art.nr (6 siffer)",
   "oppslag.serienr": "Serienr (6 siffer)",
-  "oppslag.visDeler": "Vis deler",
+  "oppslag.hjelpemiddel": "Slå opp hjelpemiddel",
   "oppslag.startPåNytt": "Start på nytt",
 
   "del.antallDagerSidenSistBatteribestilling_zero": "Det er allerede bestilt batteri til dette hjelpemiddelet i dag. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.",

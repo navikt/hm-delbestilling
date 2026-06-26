@@ -7,6 +7,13 @@ export interface Hjelpemiddel {
   antallÅrGaranti: boolean | null
 }
 
+export interface HjelpemiddelUtenDeler {
+  navn: string
+  hmsnr: string
+  isokode: string
+  erSerienrStyrt: boolean
+}
+
 export interface Del {
   navn: string
   hmsnr: string

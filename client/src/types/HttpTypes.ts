@@ -1,14 +1,28 @@
-import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel, Pilot } from './Types'
+import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from './Types'
 
 export interface OppslagRequest {
   hmsnr: string
   serienr: string
 }
 
+export interface OppslagRequestUtenSerienr {
+  hmsnr: string
+}
+
+export interface OppslagResponseUtenDeler {
+  hjelpemiddel: HjelpemiddelUtenDeler | undefined
+  feil: OppslagFeil | undefined
+}
+
 export interface OppslagResponse {
   hjelpemiddel: Hjelpemiddel | undefined
   feil: OppslagFeil | undefined
   piloter: Pilot[]
+}
+
+export interface HjelpemiddelOppslagResponse {
+  hjelpemiddel: HjelpemiddelUtenDeler | undefined
+  feil: OppslagFeil | undefined
 }
 
 export interface AlleHjelpemidlerMedDelerResponse {

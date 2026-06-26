@@ -11,7 +11,9 @@ import {
   DellisteResponse,
   OppslagFeil,
   OppslagRequest,
+  OppslagRequestUtenSerienr,
   OppslagResponse,
+  OppslagResponseUtenDeler,
   TilgjengeligeHjelpemidlerResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
@@ -54,6 +56,46 @@ const apiHandlers = [
     const response = await fetch(`${API_PATH}/oppslag-ekstern-dev`, {
       method: 'POST',
       body: JSON.stringify({ hmsnr, serienr }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    return HttpResponse.json(await response.json())
+  }),
+  http.post<{}, OppslagRequestUtenSerienr, OppslagResponseUtenDeler>(`${API_PATH}/oppslagv2`, async ({ request }) => {
+    const { hmsnr} = await request.json()
+
+    await delay(250)
+
+    if (hmsnr === '333333') {
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.INGET_UTLÅN,},
+        { status: StatusCodes.NOT_FOUND }
+      )
+    }
+
+    if (hmsnr === '000000') {
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL},
+        { status: StatusCodes.NOT_FOUND }
+      )
+    }
+
+    if (hmsnr === '666666') {
+      return HttpResponse.json(
+        { hjelpemiddel: undefined, feil: OppslagFeil.PERSON_IKKE_FUNNET},
+        { status: StatusCodes.NOT_FOUND }
+      )
+    }
+
+    if (hmsnr === '444444') {
+      throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
+    }
+
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-devV2`, {
+      method: 'POST',
+      body: JSON.stringify({ hmsnr}),
       headers: {
         'Content-Type': 'application/json',
       },

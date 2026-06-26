@@ -40,6 +40,7 @@
   "oppslagfeil.PERSON_IKKE_FUNNET": "Me finn ikkje personen knytt til dette hjelpemiddelet. Ta kontakt med hjelpemiddelsentralen.",
 
   "error.generellFeil": "Noko gjekk galt",
+  "error.artnr": "Art.nr må innehalda 6 siffer.",
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må innehalda 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Ver vennleg og vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noko gjekk feil med oppslag, prøv igjen seinare",
@@ -106,7 +107,7 @@
   "oppslag.hvilketHjelpemiddel": "Kva hjelpemiddel treng del?",
   "oppslag.artnr": "Art.nr (6 siffer)",
   "oppslag.serienr": "Serienr (6 siffer)",
-  "oppslag.visDeler": "Vis delar",
+  "oppslag.hjelpemiddel": "Slå opp hjelpemiddel",
   "oppslag.startPåNytt": "Start på nytt",
 
   "testbanner.tittel": "Dette er ein testversjon",

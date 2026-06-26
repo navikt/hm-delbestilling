@@ -5,7 +5,7 @@ import { Button, Heading, Stack, TextField } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 import { OppslagFeil } from '../types/HttpTypes'
-import { Hjelpemiddel, Pilot } from '../types/Types'
+import { Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from '../types/Types'
 import { logOppslagFeil, logOppslagGjort } from '../utils/analytics/analytics'
 
 import { CustomBox } from './Layout/CustomBox'
@@ -27,7 +27,7 @@ interface Props {
   setHmsnr: React.Dispatch<SetStateAction<string>>
   serienr: string
   setSerienr: React.Dispatch<SetStateAction<string>>
-  onOppslagSuksess: (hjelpemiddel: Hjelpemiddel | undefined, piloter: Pilot[]) => void
+  onOppslagSuksess: (hjelpemiddel: HjelpemiddelUtenDeler | undefined) => void
 }
 
 const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuksess }: Props) => {
@@ -38,9 +38,9 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (hmsnr.length !== 6 || serienr.length !== 6) {
+    if (hmsnr.length !== 6) {
       setFeilmelding({
-        feilmelding: t('error.artnrOgSerienr6Siffer'),
+        feilmelding: t('error.artnr'),
         status: 'warning',
       })
       return
@@ -49,7 +49,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
     try {
       setGjørOppslag(true)
       logOppslagGjort(hmsnr)
-      const oppslag = await rest.hjelpemiddelOppslag(hmsnr, serienr)
+      const oppslag = await rest.hjelpemiddelOppslagPåArtNr(hmsnr)
 
       if (oppslag.feil) {
         setFeilmelding({
@@ -58,7 +58,8 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
         })
         logOppslagFeil(oppslag.feil, hmsnr)
       } else {
-        onOppslagSuksess(oppslag.hjelpemiddel, oppslag.piloter)
+        onOppslagSuksess(oppslag.hjelpemiddel)
+        console.log(`Oppslag for ${hmsnr} returnerte hjelpemiddel:`, oppslag.hjelpemiddel)
       }
     } catch (err: any) {
       console.log(`Kunne ikke hente hjelpemiddel`, err)
@@ -98,15 +99,15 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, onOppslagSuk
             onChange={(e) => erGyldig(e.target.value) && setHmsnr(e.target.value)}
             data-testid="input-artnr"
           />
-          <TextField
+          {/* <TextField
             style={{ width: '120px' }}
             label={t('oppslag.serienr')}
             value={serienr}
             onChange={(e) => erGyldig(e.target.value) && setSerienr(e.target.value)}
             data-testid="input-serienr"
-          />
+          /> */}
           <Button loading={gjørOppslag} onClick={handleSubmit} data-testid="button-oppslag-submit">
-            {t('oppslag.visDeler')}
+            {t('oppslag.hjelpemiddel')}
           </Button>
           <Button type="button" onClick={reset} variant="tertiary" data-testid="button-oppslag-reset">
             {t('oppslag.startPåNytt')}
