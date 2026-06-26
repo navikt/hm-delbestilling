@@ -23,6 +23,7 @@ export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
+  const [brukernr, setBrukernr] = useState('')
   const [hjelpemiddel, setHjelpemiddel] = useState<HjelpemiddelUtenDeler | undefined>(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>([])
   const [erLoggetInn, setErLoggetInn] = useState(false)
@@ -64,71 +65,73 @@ const Index = () => {
   return (
     <main>
       <Content>
-        {!hjelpemiddel && (
-          <>
-            <HjelpemiddelLookup
-              hmsnr={hmsnr}
-              setHmsnr={setHmsnr}
-              serienr={serienr}
-              setSerienr={setSerienr}
-              onOppslagSuksess={(hjelpemiddel) => {
-                setHjelpemiddel(hjelpemiddel)
+        <>
+          <HjelpemiddelLookup
+            hmsnr={hmsnr}
+            setHmsnr={setHmsnr}
+            serienr={serienr}
+            setSerienr={setSerienr}
+            brukernr={brukernr}
+            setBrukernr={setBrukernr}
+            onOppslagSuksess={(hjelpemiddel) => {
+              setHjelpemiddel(hjelpemiddel)
+            }}
+            hjelpemiddelUtenDeler={hjelpemiddel}
+          />
+
+          <Avstand marginTop={24}>
+            <Link
+              href="#"
+              style={{ display: 'block', width: '100%' }}
+              onClick={(e) => {
+                e.preventDefault()
+                if (erLoggetInn) {
+                  navigate('/bestillinger')
+                } else {
+                  window.location.replace(
+                    '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
+                  )
+                }
               }}
-            />
+            >
+              <LinkCard style={{ border: '1px solid' }}>
+                <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
+                {!sjekkerLogin && !erLoggetInn && (
+                  <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
+                )}
+              </LinkCard>
+            </Link>
+          </Avstand>
 
-            <Avstand marginTop={24}>
-              <Link
-                href="#"
-                style={{ display: 'block', width: '100%' }}
-                onClick={(e) => {
-                  e.preventDefault()
-                  if (erLoggetInn) {
-                    navigate('/bestillinger')
-                  } else {
-                    window.location.replace(
-                      '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
-                    )
-                  }
-                }}
-              >
-                <LinkCard style={{ border: '1px solid' }}>
-                  <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
-                  {!sjekkerLogin && !erLoggetInn && (
-                    <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
-                  )}
-                </LinkCard>
-              </Link>
-            </Avstand>
+          <Avstand marginTop={24}>
+            <OmÅBestilleDeler />
+          </Avstand>
 
-            <Avstand marginTop={24}>
-              <OmÅBestilleDeler />
-            </Avstand>
-
-            <Avstand marginTop={24}>
-              <CustomBox>
-                <Heading level="2" size="medium" spacing>
-                  Kontakt oss
-                </Heading>
-                <BodyLong>
-                  <Trans
-                    i18nKey={'info.omDigiHoT'}
-                    components={{
-                      linkDigihot: (
-                        <Lenke
-                          href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
-                          target={'_blank'}
-                          lenketekst="Les mer om bruk av digitale løsninger på hjelpemiddelområdet"
-                        />
-                      ),
-                      linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
-                    }}
-                  />
-                </BodyLong>
-              </CustomBox>
-            </Avstand>
-          </>
-        )}
-        {hjelpemiddel && (
+          <Avstand marginTop={24}>
+            <CustomBox>
+              <Heading level="2" size="medium" spacing>
+                Kontakt oss
+              </Heading>
+              <BodyLong>
+                <Trans
+                  i18nKey={'info.omDigiHoT'}
+                  components={{
+                    linkDigihot: (
+                      <Lenke
+                        href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
+                        target={'_blank'}
+                        lenketekst="Les mer om bruk av digitale løsninger på hjelpemiddelområdet"
+                      />
+                    ),
+                    linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
+                  }}
+                />
+              </BodyLong>
+            </CustomBox>
+          </Avstand>
+        </>
+        )
+        {/* {hjelpemiddel && (
           <>
             <CustomBox>
               <HStack align="end" justify="space-between">
@@ -153,9 +156,9 @@ const Index = () => {
               </HStack>
             </CustomBox>
             <Avstand marginBottom={48} />
-            {/* <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} /> */}
+            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
           </>
-        )}
+        )} */}
       </Content>
       {!isProd() && <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />}
     </main>
