@@ -23,8 +23,9 @@ let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
 
 const apiHandlers = [
-  http.post<{}, OppslagRequest, OppslagResponse>(`${API_PATH}/oppslag`, async ({ request }) => {
-    const { hmsnr, serienr } = await request.json()
+  http.post<{hmsnr: string}, OppslagRequest, OppslagResponse>(`${API_PATH}/hjelpemidler/:hmsnr/deler`, async ({ request, params }) => {
+    const { serienr, brukernr } = await request.json()
+    const hmsnr = params['hmsnr']
 
     await delay(250)
 
@@ -53,9 +54,9 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev`, {
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev-deler`, {
       method: 'POST',
-      body: JSON.stringify({ hmsnr, serienr }),
+      body: JSON.stringify({ hmsnr, serienr, brukernr}),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -63,8 +64,8 @@ const apiHandlers = [
 
     return HttpResponse.json(await response.json())
   }),
-  http.post<{}, OppslagRequestUtenSerienr, OppslagResponseUtenDeler>(`${API_PATH}/oppslagv2`, async ({ request }) => {
-    const { hmsnr} = await request.json()
+  http.get<{hmsnr: string}, {}, OppslagResponseUtenDeler>(`${API_PATH}/hjelpemidler/:hmsnr`, async ({ params }) => {
+    const hmsnr = params['hmsnr']
 
     await delay(250)
 
@@ -93,7 +94,7 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const response = await fetch(`${API_PATH}/oppslag-ekstern-devV2`, {
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev-hjelpemiddel`, {
       method: 'POST',
       body: JSON.stringify({ hmsnr}),
       headers: {

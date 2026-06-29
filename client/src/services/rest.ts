@@ -48,9 +48,13 @@ const fetchPost: (url: string, otherParams?: any, timeout?: number) => Promise<R
   return fetch(url, { method: 'POST', ...otherParams })
 }
 
-const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<OppslagResponse> => {
-  const response = await fetchPost(API_PATH + '/oppslag', {
-    body: JSON.stringify({ hmsnr, serienr }),
+const fetchGet: (url: string, otherParams?: any, timeout?: number) => Promise<Response> = (url, otherParams) => {
+  return fetch(url, { method: 'GET', ...otherParams })
+}
+
+const hjelpemiddelOppslag = async (hmsnr: string, serienr: string | undefined, brukernr: string | undefined): Promise<OppslagResponse> => {
+  const response = await fetchPost(API_PATH + `/hjelpemidler/${hmsnr}/deler`, {
+    body: JSON.stringify({serienr, brukernr}),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -62,8 +66,7 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string): Promise<Opps
 }
 
 const hjelpemiddelOppslagPåArtNr = async (hmsnr: string): Promise<HjelpemiddelOppslagResponse> => {
-  const response = await fetchPost(API_PATH + '/oppslagv2', {
-    body: JSON.stringify({ hmsnr}),
+  const response = await fetchGet(API_PATH + `/hjelpemidler/${hmsnr}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -80,11 +83,6 @@ const hentTilgjengeligeHjelpemidler = async (): Promise<TilgjengeligeHjelpemidle
   return await response.json()
 }
 
-const hentAlleDeler = async (): Promise<DellisteResponse> => {
-  const response = await fetch(API_PATH + '/deler')
-  await handleResponse(response.clone())
-  return await response.json()
-}
 
 const hentBestillinger = async (valg: Valg): Promise<DelbestillingSak[] | undefined> => {
   let bestillinger: DelbestillingSak[] | undefined = undefined
@@ -164,7 +162,6 @@ export default {
   hjelpemiddelOppslag,
   hjelpemiddelOppslagPåArtNr,
   hentTilgjengeligeHjelpemidler,
-  hentAlleDeler,
   sendInnBestilling,
   hentBestillinger,
   hentBestillingerForBruker,

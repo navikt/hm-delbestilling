@@ -1,8 +1,8 @@
 import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from './Types'
 
 export interface OppslagRequest {
-  hmsnr: string
-  serienr: string
+  brukernr: string | undefined
+  serienr: string | undefined
 }
 
 export interface OppslagRequestUtenSerienr {
