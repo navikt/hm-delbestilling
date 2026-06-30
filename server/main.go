@@ -35,6 +35,10 @@ func main() {
 				StripPrefix: false,
 				IDPTarget:   os.Getenv("DELBESTILLING_API_AUDIENCE"),
 			},
+			"/public/": &proxy.Options{
+				Target:      os.Getenv("API_URL"),
+				StripPrefix: true,
+			},
 			"/roller-api/": &proxy.Options{
 				Target:      os.Getenv("ROLLER_URL"),
 				StripPrefix: true,
@@ -43,7 +47,7 @@ func main() {
 		},
 		IDP:         idp,
 		EnvKeys:     []string{},
-		PublicPaths: []string{"/", "/api/oppslag", "/api/hjelpemidler", "/api/tilgjengelige-hjelpemidler", "/api/deler-til-hmsnrs"},
+		PublicPaths: []string{"/"},
 	}
 	hotbff.Start(nil, opts)
 }

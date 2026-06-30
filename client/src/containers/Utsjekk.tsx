@@ -82,7 +82,7 @@ const Utsjekk = () => {
     ;(async () => {
       if (handlekurv && harXKLager === undefined) {
         try {
-          const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr)
+          const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr, handlekurv.brukernr)
           setHarXKLager(response.xkLager)
         } catch {
           setHarXKLager(false)
