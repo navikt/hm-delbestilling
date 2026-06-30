@@ -3,7 +3,7 @@ import { delay, http, HttpResponse } from 'msw'
 
 import delBestillingMock from '../../services/delbestilling-mock.json'
 import dellisteMock from '../../services/delliste-mock.json'
-import { API_PATH } from '../../services/rest'
+import { DELBESTILLING_API_PATH, DELBESTILLING_PUBLIC_API_PATH } from '../../services/rest'
 import {
   DelbestillingFeil,
   DelbestillingRequest,
@@ -23,7 +23,7 @@ let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
 
 const apiHandlers = [
-  http.post<{hmsnr: string}, OppslagRequest, OppslagResponse>(`${API_PATH}/hjelpemidler/:hmsnr/deler`, async ({ request, params }) => {
+  http.post<{hmsnr: string}, OppslagRequest, OppslagResponse>(`${DELBESTILLING_API_PATH}/hjelpemidler/:hmsnr/deler`, async ({ request, params }) => {
     const { serienr, brukernr } = await request.json()
     const hmsnr = params['hmsnr']
 
@@ -54,7 +54,7 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev-deler`, {
+    const response = await fetch(`${DELBESTILLING_API_PATH}/oppslag-ekstern-dev-deler`, {
       method: 'POST',
       body: JSON.stringify({ hmsnr, serienr, brukernr}),
       headers: {
@@ -64,7 +64,7 @@ const apiHandlers = [
 
     return HttpResponse.json(await response.json())
   }),
-  http.get<{hmsnr: string}, {}, OppslagResponseUtenDeler>(`${API_PATH}/hjelpemidler/:hmsnr`, async ({ params }) => {
+  http.get<{hmsnr: string}, {}, OppslagResponseUtenDeler>(`${DELBESTILLING_PUBLIC_API_PATH}/hjelpemidler/:hmsnr`, async ({ params }) => {
     const hmsnr = params['hmsnr']
 
     await delay(250)
@@ -94,7 +94,7 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev-hjelpemiddel`, {
+    const response = await fetch(`${DELBESTILLING_API_PATH}/oppslag-ekstern-dev-hjelpemiddel`, {
       method: 'POST',
       body: JSON.stringify({ hmsnr}),
       headers: {
@@ -105,7 +105,7 @@ const apiHandlers = [
     return HttpResponse.json(await response.json())
   }),
 
-  http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${API_PATH}/delbestilling`, async ({ request }) => {
+  http.post<{}, DelbestillingRequest, DelbestillingResponse>(`${DELBESTILLING_API_PATH}/delbestilling`, async ({ request }) => {
     const { delbestilling } = await request.json()
 
     await delay(450)
@@ -218,26 +218,26 @@ const apiHandlers = [
     )
   }),
 
-  http.post<{}, {}, XKLagerResponse>(`${API_PATH}/xk-lager`, async () => {
+  http.post<{}, {}, XKLagerResponse>(`${DELBESTILLING_API_PATH}/xk-lager`, async () => {
     await delay(250)
     return HttpResponse.json({ xkLager: true })
   }),
 
-  http.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling`, async () => {
+  http.get<{}, {}, DelbestillingSak[]>(`${DELBESTILLING_API_PATH}/delbestilling`, async () => {
     await delay(250)
     return HttpResponse.json(tidligereBestillinger)
   }),
 
-  http.get<{}, {}, DelbestillingSak[]>(`${API_PATH}/delbestilling/kommune`, async () => {
+  http.get<{}, {}, DelbestillingSak[]>(`${DELBESTILLING_API_PATH}/delbestilling/kommune`, async () => {
     await delay(250)
     return HttpResponse.json(tidligereBestillingerKommune)
   }),
-  http.get<{}, {}, DellisteResponse>(`${API_PATH}/deler`, async () => {
+  http.get<{}, {}, DellisteResponse>(`${DELBESTILLING_API_PATH}/deler`, async () => {
     await delay(250)
     return HttpResponse.json(dellisteMock)
   }),
 
-  http.get<{}, {}, TilgjengeligeHjelpemidlerResponse>(`${API_PATH}/tilgjengelige-hjelpemidler`, async () => {
+  http.get<{}, {}, TilgjengeligeHjelpemidlerResponse>(`${DELBESTILLING_PUBLIC_API_PATH}/tilgjengelige-hjelpemidler`, async () => {
     await delay(250)
     return HttpResponse.json({
       'Aurora Standard': ['296142', '296146', '296143', '296147', '296140', '296141', '296144', '296145'],
@@ -246,7 +246,7 @@ const apiHandlers = [
     })
   }),
 
-  http.post<{}, { hmsnrs: string[] }, string[]>(`${API_PATH}/deler-til-hmsnrs`, async () => {
+  http.post<{}, { hmsnrs: string[] }, string[]>(`${DELBESTILLING_PUBLIC_API_PATH}/deler-til-hmsnrs`, async () => {
     await delay(250)
     return HttpResponse.json(['Del 1', 'Del 2', 'Del 3'])
   }),

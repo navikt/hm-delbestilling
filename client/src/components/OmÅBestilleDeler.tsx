@@ -4,7 +4,7 @@ import useSWRImmutable from 'swr/immutable'
 
 import { Accordion, BodyShort, Box, Heading, HStack, List, Loader, Skeleton } from '@navikt/ds-react'
 
-import rest, { API_PATH } from '../services/rest'
+import rest, { DELBESTILLING_API_PATH, DELBESTILLING_PUBLIC_API_PATH } from '../services/rest'
 import { TilgjengeligeHjelpemidlerResponse } from '../types/HttpTypes'
 import { logAccordionÅpnet, logAccordionLukket } from '../utils/analytics/analytics'
 
@@ -78,7 +78,7 @@ const DelerListe = ({ tittel, hmsnrs }: { tittel: string; hmsnrs: string[] }) =>
     error,
     isLoading,
   } = useSWRImmutable<string[]>(tittel, async () => {
-    const response = await fetch(`${API_PATH}/deler-til-hmsnrs`, {
+    const response = await fetch(`${DELBESTILLING_PUBLIC_API_PATH}/deler-til-hmsnrs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

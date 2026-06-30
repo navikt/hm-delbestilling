@@ -13,7 +13,8 @@ import {
 import { Delbestilling, DelbestillingSak, Valg } from '../types/Types'
 
 export const REST_BASE_PATH = '/hjelpemidler/delbestilling'
-export const API_PATH = REST_BASE_PATH + '/api'
+export const DELBESTILLING_API_PATH = REST_BASE_PATH + '/api'
+export const DELBESTILLING_PUBLIC_API_PATH = REST_BASE_PATH + '/public/api'
 export const ROLLER_PATH = REST_BASE_PATH + '/roller-api/api'
 
 export class ApiError extends Error {
@@ -53,7 +54,7 @@ const fetchGet: (url: string, otherParams?: any, timeout?: number) => Promise<Re
 }
 
 const hjelpemiddelOppslag = async (hmsnr: string, serienr: string | undefined, brukernr: string | undefined): Promise<OppslagResponse> => {
-  const response = await fetchPost(API_PATH + `/hjelpemidler/${hmsnr}/deler`, {
+  const response = await fetchPost(DELBESTILLING_API_PATH + `/hjelpemidler/${hmsnr}/deler`, {
     body: JSON.stringify({serienr, brukernr}),
     headers: {
       'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ const hjelpemiddelOppslag = async (hmsnr: string, serienr: string | undefined, b
 }
 
 const hjelpemiddelOppslagPåArtNr = async (hmsnr: string): Promise<HjelpemiddelOppslagResponse> => {
-  const response = await fetchGet(API_PATH + `/hjelpemidler/${hmsnr}`, {
+  const response = await fetchGet(DELBESTILLING_PUBLIC_API_PATH + `/hjelpemidler/${hmsnr}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -78,7 +79,7 @@ const hjelpemiddelOppslagPåArtNr = async (hmsnr: string): Promise<HjelpemiddelO
 }
 
 const hentTilgjengeligeHjelpemidler = async (): Promise<TilgjengeligeHjelpemidlerResponse> => {
-  const response = await fetch(API_PATH + '/tilgjengelige-hjelpemidler')
+  const response = await fetch(DELBESTILLING_PUBLIC_API_PATH + '/tilgjengelige-hjelpemidler')
   await handleResponse(response.clone())
   return await response.json()
 }
@@ -95,13 +96,13 @@ const hentBestillinger = async (valg: Valg): Promise<DelbestillingSak[] | undefi
 }
 
 const hentBestillingerForBruker = async (): Promise<DelbestillingSak[]> => {
-  const response = await fetch(API_PATH + '/delbestilling')
+  const response = await fetch(DELBESTILLING_API_PATH + '/delbestilling')
   await handleResponse(response.clone())
   return await response.json()
 }
 
 const hentBestillingerForKommune = async (): Promise<DelbestillingSak[]> => {
-  const response = await fetch(API_PATH + '/delbestilling/kommune')
+  const response = await fetch(DELBESTILLING_API_PATH + '/delbestilling/kommune')
   await handleResponse(response.clone())
   return await response.json()
 }
@@ -110,13 +111,13 @@ const hentSisteBatteribestilling = async (
   hmsnr: string,
   serienr: string
 ): Promise<SisteBatteribestillingResponse | undefined> => {
-  const response = await fetch(API_PATH + `/siste-batteribestilling/${hmsnr}/${serienr}`)
+  const response = await fetch(DELBESTILLING_API_PATH + `/siste-batteribestilling/${hmsnr}/${serienr}`)
   await handleResponse(response.clone())
   return await response.json()
 }
 
 const sendInnBestilling = async (delbestilling: Delbestilling): Promise<DelbestillingResponse> => {
-  const response = await fetchPost(`${API_PATH}/delbestilling`, {
+  const response = await fetchPost(`${DELBESTILLING_API_PATH}/delbestilling`, {
     body: JSON.stringify({ delbestilling }),
     headers: {
       'Content-Type': 'application/json',
@@ -134,7 +135,7 @@ const hentRolle = async (): Promise<DelbestillerrolleResponse> => {
 }
 
 const sjekkXKLager = async (hmsnr: string, serienr: string | undefined, brukernr: string | undefined): Promise<XKLagerResponse> => {
-  const response = await fetchPost(`${API_PATH}/xk-lager`, {
+  const response = await fetchPost(`${DELBESTILLING_API_PATH}/xk-lager`, {
     body: JSON.stringify({ hmsnr, serienr, brukernr }),
     headers: {
       'Content-Type': 'application/json',

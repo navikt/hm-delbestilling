@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import rest, { API_PATH } from '../services/rest'
+import rest, { DELBESTILLING_API_PATH } from '../services/rest'
 import { DelbestillerrolleResponse } from '../types/HttpTypes'
 
 const useAuth = () => {
