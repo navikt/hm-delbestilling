@@ -24,7 +24,8 @@ const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
   const [brukernr, setBrukernr] = useState('')
-  const [hjelpemiddel, setHjelpemiddel] = useState<HjelpemiddelUtenDeler | undefined>(undefined)
+  const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
+  const [hjelpemiddelUtenDeler, setHjelpemiddelUtenDeler] = useState<HjelpemiddelUtenDeler | undefined>(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>([])
   const [erLoggetInn, setErLoggetInn] = useState(false)
 
@@ -62,9 +63,13 @@ const Index = () => {
     }
   }
 
+  console.log('hjelpemiddel:', hjelpemiddel)
+  console.log('hjelpemiddelUtenDeler:', hjelpemiddelUtenDeler)
+
   return (
     <main>
       <Content>
+        { !hjelpemiddel && (
         <>
           <HjelpemiddelLookup
             hmsnr={hmsnr}
@@ -76,8 +81,13 @@ const Index = () => {
             onOppslagSuksess={(hjelpemiddel) => {
               setHjelpemiddel(hjelpemiddel)
             }}
-            hjelpemiddelUtenDeler={hjelpemiddel}
+            hjelpemiddel={hjelpemiddel}
+            onOppslagUtenDelerSuksess={(hjelpemiddelUtenDeler) => {
+              setHjelpemiddelUtenDeler(hjelpemiddelUtenDeler)
+            }}
+            hjelpemiddelUtenDeler={hjelpemiddelUtenDeler}
           />
+        
 
           <Avstand marginTop={24}>
             <Link
@@ -130,8 +140,9 @@ const Index = () => {
             </CustomBox>
           </Avstand>
         </>
-        )
-        {/* {hjelpemiddel && (
+        )}
+        
+        { hjelpemiddel && (
           <>
             <CustomBox>
               <HStack align="end" justify="space-between">
@@ -139,9 +150,17 @@ const Index = () => {
                   <Heading size="xsmall" level="2" spacing data-testid="hjelpemiddel-navn">
                     {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                   </Heading>
-                  <HStack gap="space-4">
+                  <HStack gap="space-24">
+                    
                     <BodyShort>Art.nr. {hmsnr}</BodyShort>
+                    
+                    { serienr && ( 
                     <BodyShort>Serienr. {serienr}</BodyShort>
+                      )}
+                    { brukernr && (
+                    <BodyShort>Brukernr. {brukernr}</BodyShort>
+                      )}
+                    
                   </HStack>
                 </div>
                 <Button
@@ -158,7 +177,7 @@ const Index = () => {
             <Avstand marginBottom={48} />
             <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
           </>
-        )} */}
+        )}
       </Content>
       {!isProd() && <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />}
     </main>

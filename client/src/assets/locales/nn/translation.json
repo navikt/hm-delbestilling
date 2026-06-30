@@ -13,6 +13,7 @@
   "bestillinger.loggInnForÅSeBestillinger": "Logg inn for å sjå dine innsende bestillingar.",
   "bestillinger.bestillingTil": "Bestilling til {{navn}}",
   "bestillinger.bestill": "Bestill",
+  "bestillinger.bestilldel": "Bestill del",
   "bestillinger.del.ikkePåLager": "Delen var ikkje på lager og kan ha lengre leveringstid.",
   "bestillinger.tilbakeTilBestillingen": "Tilbake til bestillinga",
   "bestillinger.bestillDelerTil": "Bestill delar til {{navn}}",
@@ -42,6 +43,7 @@
   "error.generellFeil": "Noko gjekk galt",
   "error.artnr": "Art.nr må innehalda 6 siffer.",
   "error.serienr": "Serienr må innehalda 6 siffer.",
+  "error.brukernr": "Brukernr må innehalda 6-8 siffer.",
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må innehalda 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Ver vennleg og vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noko gjekk feil med oppslag, prøv igjen seinare",
@@ -110,6 +112,7 @@
   "oppslag.serienr": "Serienr (6 siffer)",
   "oppslag.brukernr": "Brukernr (6-8 siffer)",
   "oppslag.hjelpemiddel": "Slå opp hjelpemiddel",
+
   "oppslag.startPåNytt": "Start på nytt",
 
   "testbanner.tittel": "Dette er ein testversjon",
