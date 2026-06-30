@@ -46,10 +46,11 @@ const BestillingsKort = ({ sak }: Props) => {
         <Heading size="small" level="3">
           {sak.delbestilling.navn ? <>Bestilling til {sak.delbestilling.navn}</> : <>Bestilling</>}
         </Heading>
-        <Detail style={{ display: 'flex', gap: '1rem' }}>
-          <span>Art.nr. {sak.delbestilling.hmsnr}</span>
-          <span>Serienr. {sak.delbestilling.serienr}</span>
-        </Detail>
+        <HStack gap="space-24">
+          <Detail>Art.nr. {sak.delbestilling.hmsnr}</Detail>
+          {sak.delbestilling.serienr && <Detail>Serienr. {sak.delbestilling.serienr}</Detail>}
+          {sak.delbestilling.brukernr && <Detail>Brukernr. {sak.delbestilling.brukernr}</Detail>}
+        </HStack>
         <Avstand marginBottom={16} />
         {sak.delbestilling.deler.map((dellinje, index) => (
           <div key={index} className={styles.dellinje}>

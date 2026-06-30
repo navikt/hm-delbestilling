@@ -186,6 +186,7 @@ const Utsjekk = () => {
         id: handlekurv.id,
         hmsnr: handlekurv.hjelpemiddel.hmsnr,
         serienr: handlekurv.serienr,
+        brukernr: handlekurv.brukernr,
         navn: handlekurv.hjelpemiddel.navn,
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
@@ -269,10 +270,11 @@ const Utsjekk = () => {
             <Heading level="2" size="small" spacing>
               {t('bestillinger.bestillDelerTil', { navn: handlekurv.hjelpemiddel.navn })}
             </Heading>
-            <BodyShort style={{ display: 'flex', gap: '20px' }}>
-              <span>Art.nr. {handlekurv.hjelpemiddel.hmsnr}</span>
-              <span>Serienr. {handlekurv.serienr}</span>
-            </BodyShort>
+            <HStack gap="space-24" >
+              <BodyShort>Art.nr. {handlekurv.hjelpemiddel.hmsnr}</BodyShort>
+              {handlekurv.brukernr && <BodyShort>Brukernr. {handlekurv.brukernr}</BodyShort>}
+              {handlekurv.serienr && <BodyShort>Serienr. {handlekurv.serienr}</BodyShort>}
+            </HStack>
           </CustomBox>
           <Avstand marginBottom={48} />
           {visFlereDeler ? (

@@ -40,7 +40,8 @@ export interface Lagerstatus {
 
 export interface Handlekurv {
   id: string
-  serienr: string
+  serienr: string | undefined
+  brukernr: string | undefined
   hjelpemiddel: Hjelpemiddel
   deler: Dellinje[]
   levering: Levering | undefined
@@ -60,7 +61,8 @@ export interface Dellinje {
 export interface Delbestilling {
   id: string
   hmsnr: string
-  serienr: string
+  serienr: string | undefined
+  brukernr: string | undefined
   navn: string
   deler: Dellinje[]
   levering: Levering

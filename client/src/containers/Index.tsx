@@ -41,6 +41,7 @@ const Index = () => {
     const handlekurv: Handlekurv = {
       id: uuidv4(),
       serienr,
+      brukernr,
       hjelpemiddel,
       deler: [{ del, antall: del.defaultAntall }],
       levering: undefined,
@@ -69,80 +70,80 @@ const Index = () => {
   return (
     <main>
       <Content>
-        { !hjelpemiddel && (
-        <>
-          <HjelpemiddelLookup
-            hmsnr={hmsnr}
-            setHmsnr={setHmsnr}
-            serienr={serienr}
-            setSerienr={setSerienr}
-            brukernr={brukernr}
-            setBrukernr={setBrukernr}
-            onOppslagSuksess={(hjelpemiddel) => {
-              setHjelpemiddel(hjelpemiddel)
-            }}
-            hjelpemiddel={hjelpemiddel}
-            onOppslagUtenDelerSuksess={(hjelpemiddelUtenDeler) => {
-              setHjelpemiddelUtenDeler(hjelpemiddelUtenDeler)
-            }}
-            hjelpemiddelUtenDeler={hjelpemiddelUtenDeler}
-          />
-        
-
-          <Avstand marginTop={24}>
-            <Link
-              href="#"
-              style={{ display: 'block', width: '100%' }}
-              onClick={(e) => {
-                e.preventDefault()
-                if (erLoggetInn) {
-                  navigate('/bestillinger')
-                } else {
-                  window.location.replace(
-                    '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
-                  )
-                }
+        {!hjelpemiddel && (
+          <>
+            <HjelpemiddelLookup
+              hmsnr={hmsnr}
+              setHmsnr={setHmsnr}
+              serienr={serienr}
+              setSerienr={setSerienr}
+              brukernr={brukernr}
+              setBrukernr={setBrukernr}
+              onOppslagSuksess={(hjelpemiddel) => {
+                setHjelpemiddel(hjelpemiddel)
               }}
-            >
-              <LinkCard style={{ border: '1px solid' }}>
-                <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
-                {!sjekkerLogin && !erLoggetInn && (
-                  <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
-                )}
-              </LinkCard>
-            </Link>
-          </Avstand>
+              hjelpemiddel={hjelpemiddel}
+              onOppslagUtenDelerSuksess={(hjelpemiddelUtenDeler) => {
+                setHjelpemiddelUtenDeler(hjelpemiddelUtenDeler)
+              }}
+              hjelpemiddelUtenDeler={hjelpemiddelUtenDeler}
+            />
 
-          <Avstand marginTop={24}>
-            <OmÅBestilleDeler />
-          </Avstand>
 
-          <Avstand marginTop={24}>
-            <CustomBox>
-              <Heading level="2" size="medium" spacing>
-                Kontakt oss
-              </Heading>
-              <BodyLong>
-                <Trans
-                  i18nKey={'info.omDigiHoT'}
-                  components={{
-                    linkDigihot: (
-                      <Lenke
-                        href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
-                        target={'_blank'}
-                        lenketekst="Les mer om bruk av digitale løsninger på hjelpemiddelområdet"
-                      />
-                    ),
-                    linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
-                  }}
-                />
-              </BodyLong>
-            </CustomBox>
-          </Avstand>
-        </>
+            <Avstand marginTop={24}>
+              <Link
+                href="#"
+                style={{ display: 'block', width: '100%' }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (erLoggetInn) {
+                    navigate('/bestillinger')
+                  } else {
+                    window.location.replace(
+                      '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
+                    )
+                  }
+                }}
+              >
+                <LinkCard style={{ border: '1px solid' }}>
+                  <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
+                  {!sjekkerLogin && !erLoggetInn && (
+                    <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
+                  )}
+                </LinkCard>
+              </Link>
+            </Avstand>
+
+            <Avstand marginTop={24}>
+              <OmÅBestilleDeler />
+            </Avstand>
+
+            <Avstand marginTop={24}>
+              <CustomBox>
+                <Heading level="2" size="medium" spacing>
+                  Kontakt oss
+                </Heading>
+                <BodyLong>
+                  <Trans
+                    i18nKey={'info.omDigiHoT'}
+                    components={{
+                      linkDigihot: (
+                        <Lenke
+                          href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
+                          target={'_blank'}
+                          lenketekst="Les mer om bruk av digitale løsninger på hjelpemiddelområdet"
+                        />
+                      ),
+                      linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
+                    }}
+                  />
+                </BodyLong>
+              </CustomBox>
+            </Avstand>
+          </>
         )}
-        
-        { hjelpemiddel && (
+
+        {hjelpemiddel && (
           <>
             <CustomBox>
               <HStack align="end" justify="space-between">
@@ -151,16 +152,9 @@ const Index = () => {
                     {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
                   </Heading>
                   <HStack gap="space-24">
-                    
                     <BodyShort>Art.nr. {hmsnr}</BodyShort>
-                    
-                    { serienr && ( 
-                    <BodyShort>Serienr. {serienr}</BodyShort>
-                      )}
-                    { brukernr && (
-                    <BodyShort>Brukernr. {brukernr}</BodyShort>
-                      )}
-                    
+                    {serienr && (<BodyShort>Serienr. {serienr}</BodyShort>)}
+                    {brukernr && (<BodyShort>Brukernr. {brukernr}</BodyShort>)}
                   </HStack>
                 </div>
                 <Button

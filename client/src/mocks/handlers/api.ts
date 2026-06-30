@@ -114,7 +114,7 @@ const apiHandlers = [
       !delbestilling ||
       !delbestilling.deler ||
       !delbestilling.hmsnr ||
-      !delbestilling.serienr ||
+      (!delbestilling.serienr && !delbestilling.brukernr) ||
       !delbestilling.levering
     ) {
       throw new HttpResponse('Bad Request', { status: StatusCodes.BAD_REQUEST })
