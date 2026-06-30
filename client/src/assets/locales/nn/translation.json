@@ -41,6 +41,7 @@
 
   "error.generellFeil": "Noko gjekk galt",
   "error.artnr": "Art.nr må innehalda 6 siffer.",
+  "error.serienr": "Serienr må innehalda 6 siffer.",
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må innehalda 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Ver vennleg og vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noko gjekk feil med oppslag, prøv igjen seinare",
