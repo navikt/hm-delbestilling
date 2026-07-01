@@ -79,6 +79,8 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
       return
     }
 
+    setFeilmelding(undefined)
+
     try {
       setGjørOppslag(true)
       logOppslagGjort(hmsnr)

@@ -112,7 +112,7 @@
   "oppslag.hvilketHjelpemiddel": "Kva hjelpemiddel treng del?",
   "oppslag.artnr": "Art.nr (6 siffer)",
   "oppslag.serienr": "Serienr (6 siffer)",
-  "oppslag.brukernr": "Brukernr (6-8 siffer)",
+  "oppslag.brukernr": "Brukernr (5-8 siffer)",
   "oppslag.hjelpemiddel": "Slå opp hjelpemiddel",
 
   "oppslag.startPåNytt": "Start på nytt",
