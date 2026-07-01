@@ -40,6 +40,7 @@
   "oppslagfeil.TILBYR_IKKE_HJELPEMIDDEL": "Du kan ikke bestille deler til dette hjelpemiddelet digitalt. Ta kontakt med din hjelpemiddelsentral for å bestille. Nav jobber med å legge inn deler til flere hjelpemidler fortløpende",
   "oppslagfeil.INGET_UTLÅN": "Vi finner dessverre ikke et utlån på dette art.nr og serienr.",
   "oppslagfeil.PERSON_IKKE_FUNNET": "Vi finner ikke personen knyttet til dette hjelpemiddelet. Ta kontakt med hjelpemiddelsentralen.",
+  "oppslagfeil.MANGLER_BRUKERNR_ELLER_SERIENR": "Serienr eller brukernr mangler.",
 
   "error.generellFeil": "Noe gikk galt",
   "error.artnr": "Art.nr må inneholde 6 siffer.",
