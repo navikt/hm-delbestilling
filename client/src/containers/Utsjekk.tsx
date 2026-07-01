@@ -178,12 +178,13 @@ const Utsjekk = () => {
       const delbestilling: Delbestilling = {
         id: handlekurv.id,
         hmsnr: handlekurv.hjelpemiddel.hmsnr,
-        serienr: handlekurv.serienr,
-        brukernr: handlekurv.brukernr,
         navn: handlekurv.hjelpemiddel.navn,
         deler: handlekurv.deler,
         levering: handlekurv.levering!,
         harOpplæringPåBatteri: handlekurv.harOpplæringPåBatteri,
+        // Default til undefined hvis serienr eller brukernr er tom string, for å matche backend-validering
+        serienr: handlekurv.serienr || undefined,
+        brukernr: handlekurv.brukernr || undefined,
       }
 
       logInnsendingGjort(handlekurv.id)
