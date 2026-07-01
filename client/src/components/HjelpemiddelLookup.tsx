@@ -64,8 +64,9 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
     if (erLoggetInn) {
       navigate('/deler?hmsnr=' + hmsnr + '&serienr=' + serienr + '&brukernr=' + brukernr)
     } else {
+      const redirectUrl = `/hjelpemidler/delbestilling/deler?hmsnr=${hmsnr}&serienr=${serienr}&brukernr=${brukernr}`
       window.location.replace(
-        '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/deler?hmsnr=' + hmsnr + '&serienr=' + serienr + '&brukernr=' + brukernr
+        `/hjelpemidler/delbestilling/oauth2/login?redirect=${encodeURIComponent(redirectUrl)}`
       )
     }
   }
