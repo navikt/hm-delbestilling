@@ -19,7 +19,6 @@ import { FeilmeldingInterface } from '../components/Feilmelding'
 import { logOppslagFeil, logOppslagGjort } from '../utils/analytics/analytics'
 import { OppslagFeil } from '../types/HttpTypes'
 
-export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
 
 const Delvelger = () => {
   const [searchParams] = useSearchParams()
@@ -47,8 +46,7 @@ const Delvelger = () => {
       piloter,
     }
 
-    // TODO window.sessionStorage.setItem(SESSIONSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
-    navigate('/utsjekk')
+    navigate('/utsjekk', { state: handlekurv })
   }
 
   const slåOppDeler = async () => {

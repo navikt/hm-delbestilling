@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
 import {
@@ -42,8 +42,6 @@ import {
 } from '../utils/analytics/analytics'
 import { isProd } from '../utils/utils'
 
-import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-
 export interface Valideringsfeil {
   id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
   type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år'
@@ -51,13 +49,8 @@ export interface Valideringsfeil {
 }
 
 const Utsjekk = () => {
-  const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(() => {
-    try {
-      return JSON.parse(window.sessionStorage.getItem(SESSIONSTORAGE_HANDLEKURV_KEY) || '')
-    } catch {
-      return undefined
-    }
-  })
+  const location = useLocation()
+  const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(location.state as Handlekurv | undefined)
   const [visFlereDeler, setVisFlereDeler] = useState(false)
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
   const [submitAttempt, setSubmitAttempt] = useState(false)
@@ -234,7 +227,6 @@ const Utsjekk = () => {
 
   const slettBestilling = () => {
     logBestillingSlettet()
-    window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
     navigate('/')
   }
 

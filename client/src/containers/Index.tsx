@@ -15,8 +15,6 @@ import useAuth from '../hooks/useAuth'
 import { Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from '../types/Types'
 import { isProd } from '../utils/utils'
 
-export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
-
 const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
