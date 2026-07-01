@@ -45,7 +45,7 @@
   "error.generellFeil": "Noe gikk galt",
   "error.artnr": "Art.nr må inneholde 6 siffer.",
   "error.serienr": "Serienr må inneholde 6 siffer.",
-  "error.brukernr": "Brukernr må inneholde 6-8 siffer.",
+  "error.brukernr": "Brukernr må inneholde 5-8 siffer.",
   "error.artnrOgSerienr6Siffer": "Både art.nr og serienr må inneholde 6 siffer.",
   "error.forMangeOppslag": "Du har gjort for mange oppslag. Vennligst vent litt og prøv igjen.",
   "error.noeGikkGalt": "Noe gikk feil med oppslag, prøv igjen senere",

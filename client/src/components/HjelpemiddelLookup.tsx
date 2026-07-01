@@ -42,7 +42,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
         return
       }
     } else {
-      if (brukernr.length < 6 || brukernr.length > 8) {
+      if (brukernr.length < 5 || brukernr.length > 8) {
         setFeilmelding({
           feilmelding: t('error.brukernr'),
           status: 'warning',
