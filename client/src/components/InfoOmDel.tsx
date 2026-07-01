@@ -20,19 +20,19 @@ const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
       return (
         <HStack gap="space-4" align="center">
           <WrenchIcon title="del-ikon" fontSize="1.5rem" />
-          {t('del.type.del')}
+          <BodyShort textColor="subtle">{t('del.type.del')}</BodyShort>
         </HStack>
       )
     if (del.erTilbehør)
       return (
         <HStack gap="space-4" align="center">
           <PackageIcon title="tilbehør-ikon" fontSize="1.5rem" />
-          {t('del.type.tilbehor')}
+          <BodyShort textColor="subtle">{t('del.type.tilbehor')}</BodyShort>
         </HStack>
       )
-    if (!del.erReservedel && !del.erTilbehør) return t('del.type.ikkeDelEllerTilbehor')
-    if (del.erReservedel && del.erTilbehør) return t('del.type.badeDelOgTilbehor')
-    return ''
+    if (!del.erReservedel && !del.erTilbehør) return <BodyShort textColor="subtle">{t('del.type.ikkeDelEllerTilbehor')}</BodyShort>
+    if (del.erReservedel && del.erTilbehør) return <BodyShort textColor="subtle">{t('del.type.badeDelOgTilbehor')}</BodyShort>
+    return null
   }
 
   return (
@@ -53,7 +53,7 @@ const InfoOmDel = ({ del, erFastLagervare }: InfoOmDelProps) => {
           )}
         </HStack>
         <VStack gap="space-6">
-          <BodyShort textColor="subtle">{getDelType()}</BodyShort>
+          {getDelType()}
           <BodyShort>{erFastLagervare ? t('del.lagervare') : t('del.bestillingsvare')}</BodyShort>
         </VStack>
       </VStack>
