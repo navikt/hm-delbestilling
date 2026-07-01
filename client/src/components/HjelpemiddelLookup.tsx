@@ -1,17 +1,18 @@
 import React, { SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Accordion, BodyLong, Button, Heading, HStack, ReadMore, Stack, TextField, VStack } from '@navikt/ds-react'
+import { BodyLong, Button, Heading, ReadMore, Stack, TextField, VStack } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 import { OppslagFeil } from '../types/HttpTypes'
-import { Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from '../types/Types'
+import { Hjelpemiddel, HjelpemiddelUtenDeler } from '../types/Types'
 import { logOppslagFeil, logOppslagGjort } from '../utils/analytics/analytics'
 
-import { CustomBox } from './Layout/CustomBox'
+import { useNavigate } from 'react-router-dom'
+import { erGyldigArtnr, erGyldigBrukernr, erGyldigSerienr } from '../helpers/utils'
 import { Avstand } from './Avstand'
 import { Feilmelding, FeilmeldingInterface } from './Feilmelding'
-import { erGyldigArtnr, erGyldigBrukernr, erGyldigSerienr } from '../helpers/utils'
+import { CustomBox } from './Layout/CustomBox'
 
 interface Props {
   hmsnr: string
@@ -20,20 +21,18 @@ interface Props {
   setSerienr: React.Dispatch<SetStateAction<string>>
   brukernr: string
   setBrukernr: React.Dispatch<SetStateAction<string>>
-  onOppslagSuksess: (hjelpemiddel: Hjelpemiddel | undefined) => void
-  hjelpemiddel: Hjelpemiddel | undefined
   onOppslagUtenDelerSuksess: (hjelpemiddelUtenDeler: HjelpemiddelUtenDeler | undefined) => void
   hjelpemiddelUtenDeler: HjelpemiddelUtenDeler | undefined
+  erLoggetInn: boolean
 }
 
-const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, setBrukernr, onOppslagSuksess, onOppslagUtenDelerSuksess, hjelpemiddelUtenDeler }: Props) => {
+const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, setBrukernr, onOppslagUtenDelerSuksess, hjelpemiddelUtenDeler, erLoggetInn }: Props) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [gjørOppslag, setGjørOppslag] = useState(false)
-  const [slårOppDeler, setSlårOppDeler] = useState(false)
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
 
   const handleHentDeler = async (hjelpemiddel: HjelpemiddelUtenDeler) => {
-
     if (hjelpemiddel.erSerienrStyrt) {
       if (serienr.length !== 6) {
         setFeilmelding({
@@ -61,35 +60,13 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
     }
 
     setFeilmelding(undefined)
-    try {
-      setSlårOppDeler(true)
-      logOppslagGjort(hmsnr)
-      const oppslag = await rest.hjelpemiddelOppslag(hmsnr, serienr, brukernr)
 
-      if (oppslag.feil) {
-        setFeilmelding({
-          feilmelding: t(`oppslagfeil.${oppslag.feil}`),
-          status: oppslag.feil === OppslagFeil.INGET_UTLÅN ? 'error' : 'warning',
-        })
-        logOppslagFeil(oppslag.feil, hmsnr)
-      } else {
-        onOppslagSuksess(oppslag.hjelpemiddel) 
-      }
-    } catch (err: any) {
-      console.log(`Kunne ikke hente hjelpemiddel`, err)
-      logOppslagFeil('FEIL_FRA_BACKEND', hmsnr, err.statusCode)
-      let feilmelding = ''
-      if (err.isTooManyRequests()) {
-        feilmelding = t('error.forMangeOppslag')
-      } else {
-        feilmelding = t('error.noeGikkGalt')
-      }
-      setFeilmelding({
-        feilmelding,
-        tekniskFeilmelding: err,
-      })
-    } finally {
-      setSlårOppDeler(false)
+    if (erLoggetInn) {
+      navigate('/deler?hmsnr=' + hmsnr + '&serienr=' + serienr + '&brukernr=' + brukernr)
+    } else {
+      window.location.replace(
+        '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/deler?hmsnr=' + hmsnr + '&serienr=' + serienr + '&brukernr=' + brukernr
+      )
     }
   }
 
@@ -171,27 +148,27 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
             </Avstand>
 
             <VStack gap="space-12">
-            {hjelpemiddelUtenDeler.erSerienrStyrt ? (
-              <TextField
-                style={{ width: '150px' }}
-                label={t('oppslag.serienr')}
-                value={serienr}
-                onChange={(e) => erGyldigSerienr(e.target.value) && setSerienr(e.target.value)}
-                data-testid="input-serienr"
-              />
-            ) : (
-              <TextField
-                style={{ width: '150px' }}
-                label={t('oppslag.brukernr')}
-                value={brukernr}
-                onChange={(e) => erGyldigBrukernr(e.target.value) && setBrukernr(e.target.value)}
-                data-testid="input-brukernr"
-              />)}
-            <Stack gap="space-12" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
-              <Button loading={slårOppDeler} onClick={() => handleHentDeler(hjelpemiddelUtenDeler)} data-testid="button-oppslag-submit">
-                {t('bestillinger.bestilldel')}
-              </Button>
-            </Stack>
+              {hjelpemiddelUtenDeler.erSerienrStyrt ? (
+                <TextField
+                  style={{ width: '150px' }}
+                  label={t('oppslag.serienr')}
+                  value={serienr}
+                  onChange={(e) => erGyldigSerienr(e.target.value) && setSerienr(e.target.value)}
+                  data-testid="input-serienr"
+                />
+              ) : (
+                <TextField
+                  style={{ width: '150px' }}
+                  label={t('oppslag.brukernr')}
+                  value={brukernr}
+                  onChange={(e) => erGyldigBrukernr(e.target.value) && setBrukernr(e.target.value)}
+                  data-testid="input-brukernr"
+                />)}
+              <Stack gap="space-12" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
+                <Button onClick={() => handleHentDeler(hjelpemiddelUtenDeler)} data-testid="button-oppslag-submit">
+                  {t('bestillinger.bestilldel')}
+                </Button>
+              </Stack>
             </VStack>
 
             <Avstand marginTop={16}>
@@ -204,7 +181,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
 
       </VStack>
 
-      {feilmelding && !gjørOppslag && !slårOppDeler && (
+      {feilmelding && !gjørOppslag && (
         <Avstand marginTop={16}>
           <Feilmelding feilmelding={feilmelding} />
         </Avstand>

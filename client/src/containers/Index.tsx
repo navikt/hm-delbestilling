@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
 
-import { PencilIcon } from '@navikt/aksel-icons'
-import { BodyLong, BodyShort, Button, Heading, HStack, Link, LinkCard } from '@navikt/ds-react'
+import { BodyLong, Heading, Link, LinkCard } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import HjelpemiddelLookup from '../components/HjelpemiddelLookup'
 import Content from '../components/Layout/Content'
 import { CustomBox } from '../components/Layout/CustomBox'
-import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import { Del, Handlekurv, Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from '../types/Types'
+import { Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from '../types/Types'
 import { isProd } from '../utils/utils'
 
 export const SESSIONSTORAGE_HANDLEKURV_KEY = 'hm-delbestilling-handlekurv'
@@ -24,7 +21,6 @@ const Index = () => {
   const [hmsnr, setHmsnr] = useState('')
   const [serienr, setSerienr] = useState('')
   const [brukernr, setBrukernr] = useState('')
-  const [hjelpemiddel, setHjelpemiddel] = useState<Hjelpemiddel | undefined>(undefined)
   const [hjelpemiddelUtenDeler, setHjelpemiddelUtenDeler] = useState<HjelpemiddelUtenDeler | undefined>(undefined)
   const [piloter, setPiloter] = useState<Pilot[]>([])
   const [erLoggetInn, setErLoggetInn] = useState(false)
@@ -37,141 +33,76 @@ const Index = () => {
     sjekkLoginStatus().then(setErLoggetInn)
   }, [])
 
-  const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
-    const handlekurv: Handlekurv = {
-      id: uuidv4(),
-      serienr,
-      brukernr,
-      hjelpemiddel,
-      deler: [{ del, antall: del.defaultAntall }],
-      levering: undefined,
-      harOpplæringPåBatteri: undefined,
-      piloter,
-    }
-
-    window.sessionStorage.setItem(SESSIONSTORAGE_HANDLEKURV_KEY, JSON.stringify(handlekurv))
-
-    try {
-      if (await sjekkLoginStatus()) {
-        navigate('/utsjekk')
-      } else {
-        window.location.replace('/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/utsjekk')
-      }
-    } catch (e: any) {
-      console.log(e)
-      // TODO: vis feilmelding
-      alert(t('error.klarteIkkeSjekkeLoginStatus'))
-    }
-  }
-
-  console.log('hjelpemiddel:', hjelpemiddel)
-  console.log('hjelpemiddelUtenDeler:', hjelpemiddelUtenDeler)
-
   return (
     <main>
       <Content>
-        {!hjelpemiddel && (
-          <>
-            <HjelpemiddelLookup
-              hmsnr={hmsnr}
-              setHmsnr={setHmsnr}
-              serienr={serienr}
-              setSerienr={setSerienr}
-              brukernr={brukernr}
-              setBrukernr={setBrukernr}
-              onOppslagSuksess={(hjelpemiddel) => {
-                setHjelpemiddel(hjelpemiddel)
+        <>
+          <HjelpemiddelLookup
+            hmsnr={hmsnr}
+            setHmsnr={setHmsnr}
+            serienr={serienr}
+            setSerienr={setSerienr}
+            brukernr={brukernr}
+            setBrukernr={setBrukernr}
+            onOppslagUtenDelerSuksess={(hjelpemiddelUtenDeler) => {
+              setHjelpemiddelUtenDeler(hjelpemiddelUtenDeler)
+            }}
+            hjelpemiddelUtenDeler={hjelpemiddelUtenDeler}
+            erLoggetInn={erLoggetInn}
+          />
+
+
+          <Avstand marginTop={24}>
+            <Link
+              href="#"
+              style={{ display: 'block', width: '100%' }}
+              onClick={(e) => {
+                e.preventDefault()
+                if (erLoggetInn) {
+                  navigate('/bestillinger')
+                } else {
+                  window.location.replace(
+                    '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
+                  )
+                }
               }}
-              hjelpemiddel={hjelpemiddel}
-              onOppslagUtenDelerSuksess={(hjelpemiddelUtenDeler) => {
-                setHjelpemiddelUtenDeler(hjelpemiddelUtenDeler)
-              }}
-              hjelpemiddelUtenDeler={hjelpemiddelUtenDeler}
-            />
+            >
+              <LinkCard style={{ border: '1px solid' }}>
+                <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
+                {!sjekkerLogin && !erLoggetInn && (
+                  <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
+                )}
+              </LinkCard>
+            </Link>
+          </Avstand>
 
+          <Avstand marginTop={24}>
+            <OmÅBestilleDeler />
+          </Avstand>
 
-            <Avstand marginTop={24}>
-              <Link
-                href="#"
-                style={{ display: 'block', width: '100%' }}
-                onClick={(e) => {
-                  e.preventDefault()
-                  if (erLoggetInn) {
-                    navigate('/bestillinger')
-                  } else {
-                    window.location.replace(
-                      '/hjelpemidler/delbestilling/oauth2/login?redirect=/hjelpemidler/delbestilling/bestillinger'
-                    )
-                  }
-                }}
-              >
-                <LinkCard style={{ border: '1px solid' }}>
-                  <LinkCard.Title>{t('bestillinger.dineSiste')}</LinkCard.Title>
-                  {!sjekkerLogin && !erLoggetInn && (
-                    <LinkCard.Description>{t('bestillinger.loggInnForÅSeBestillinger')}</LinkCard.Description>
-                  )}
-                </LinkCard>
-              </Link>
-            </Avstand>
-
-            <Avstand marginTop={24}>
-              <OmÅBestilleDeler />
-            </Avstand>
-
-            <Avstand marginTop={24}>
-              <CustomBox>
-                <Heading level="2" size="medium" spacing>
-                  Kontakt oss
-                </Heading>
-                <BodyLong>
-                  <Trans
-                    i18nKey={'info.omDigiHoT'}
-                    components={{
-                      linkDigihot: (
-                        <Lenke
-                          href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
-                          target={'_blank'}
-                          lenketekst="Les mer om bruk av digitale løsninger på hjelpemiddelområdet"
-                        />
-                      ),
-                      linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
-                    }}
-                  />
-                </BodyLong>
-              </CustomBox>
-            </Avstand>
-          </>
-        )}
-
-        {hjelpemiddel && (
-          <>
+          <Avstand marginTop={24}>
             <CustomBox>
-              <HStack align="end" justify="space-between">
-                <div>
-                  <Heading size="xsmall" level="2" spacing data-testid="hjelpemiddel-navn">
-                    {t('bestillinger.bestillingTil', { navn: hjelpemiddel.navn })}
-                  </Heading>
-                  <HStack gap="space-24">
-                    <BodyShort>Art.nr. {hmsnr}</BodyShort>
-                    {serienr && (<BodyShort>Serienr. {serienr}</BodyShort>)}
-                    {brukernr && (<BodyShort>Brukernr. {brukernr}</BodyShort>)}
-                  </HStack>
-                </div>
-                <Button
-                  icon={<PencilIcon />}
-                  variant="tertiary"
-                  onClick={() => {
-                    setHjelpemiddel(undefined)
+              <Heading level="2" size="medium" spacing>
+                Kontakt oss
+              </Heading>
+              <BodyLong>
+                <Trans
+                  i18nKey={'info.omDigiHoT'}
+                  components={{
+                    linkDigihot: (
+                      <Lenke
+                        href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
+                        target={'_blank'}
+                        lenketekst="Les mer om bruk av digitale løsninger på hjelpemiddelområdet"
+                      />
+                    ),
+                    linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
                   }}
-                >
-                  {t('felles.Endre')}
-                </Button>
-              </HStack>
+                />
+              </BodyLong>
             </CustomBox>
-            <Avstand marginBottom={48} />
-            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
-          </>
-        )}
+          </Avstand>
+        </>
       </Content>
       {!isProd() && <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />}
     </main>

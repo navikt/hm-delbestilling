@@ -14,6 +14,7 @@
   "bestillinger.bestillingTil": "Bestilling til {{navn}}",
   "bestillinger.bestill": "Bestill",
   "bestillinger.bestilldel": "Bestill del",
+  "bestillinger.henterDeler": "Henter deler...",
   "bestillinger.del.ikkePåLager": "Delen var ikkje på lager og kan ha lengre leveringstid.",
   "bestillinger.tilbakeTilBestillingen": "Tilbake til bestillinga",
   "bestillinger.bestillDelerTil": "Bestill delar til {{navn}}",
