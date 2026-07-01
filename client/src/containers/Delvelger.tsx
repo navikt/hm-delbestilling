@@ -53,7 +53,8 @@ const Delvelger = () => {
     try {
       setSlårOppDeler(true)
       logOppslagGjort(hmsnr)
-      const oppslag = await rest.hjelpemiddelOppslag(hmsnr, serienr, brukernr)
+      // Default serienr og brukernr til undefined hvis de er tomme strenger, for å matche backendvalidering
+      const oppslag = await rest.hjelpemiddelOppslag(hmsnr, serienr || undefined, brukernr || undefined)
 
       if (oppslag.feil) {
         setFeilmelding({
