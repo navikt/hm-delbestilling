@@ -12,7 +12,7 @@ import { CustomBox } from '../components/Layout/CustomBox'
 import LeggTilDel from '../components/LeggTilDel'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import { Del, Handlekurv, Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from '../types/Types'
+import { Del, Handlekurv, Hjelpemiddel, HjelpemiddelUtenDeler, Pilot, UkjentDel } from '../types/Types'
 import { isProd } from '../utils/utils'
 import rest from '../services/rest'
 import { FeilmeldingInterface } from '../components/Feilmelding'
@@ -41,6 +41,23 @@ const Delvelger = () => {
       brukernr,
       hjelpemiddel,
       deler: [{ del, antall: del.defaultAntall }],
+      ukjenteDeler: [],
+      levering: undefined,
+      harOpplæringPåBatteri: undefined,
+      piloter,
+    }
+
+    navigate('/utsjekk', { state: handlekurv })
+  }
+
+  const handleBestillUkjent = async (hjelpemiddel: Hjelpemiddel, del: UkjentDel) => {
+    const handlekurv: Handlekurv = {
+      id: uuidv4(),
+      serienr,
+      brukernr,
+      hjelpemiddel,
+      deler: [],
+      ukjenteDeler: [{ del, antall: 1 }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
       piloter,
@@ -155,7 +172,7 @@ const Delvelger = () => {
               </HStack>
             </CustomBox>
             <Avstand marginBottom={48} />
-            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} />
+            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} onLeggTilUkjent={(del) => handleBestillUkjent(hjelpemiddel, del)} />
           </>
         )}
       </Content>

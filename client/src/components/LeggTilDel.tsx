@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Detail, Heading, HStack, InfoCard, Pagination, Search, VStack } from '@navikt/ds-react'
+import { BodyLong, Box, Button, Detail, Heading, HStack, InfoCard, InlineMessage, Pagination, Search, TextField, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
-import { Del, Hjelpemiddel } from '../types/Types'
+import { Del, Hjelpemiddel, UkjentDel } from '../types/Types'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
 import { Bilde } from './Bilde/Bilde'
@@ -16,12 +16,14 @@ import InfoOmDel from './InfoOmDel'
 import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
 
 import infoOmDelStyles from './InfoOmDel.module.css'
+import { erGyldigArtnr } from '../helpers/utils'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
+  onLeggTilUkjent: (del: UkjentDel) => void
 }
-const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
+const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
 
   const { t } = useTranslation()
@@ -30,6 +32,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
   const pageSize = 10
 
   const [page, setPage] = useState(1)
+  const [hmsnr, setHmsnr] = useState('')
 
   useEffect(() => { setPage(1) }, [kategoriFilter, søk])
 
@@ -170,6 +173,34 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
         prevNextTexts
       />
       }
+      <Avstand marginTop={16} />
+      <Box padding="space-24" background="neutral-soft" borderWidth="1" borderRadius="12" borderColor="neutral-subtleA">
+
+        <HStack justify="space-between" align="end" wrap={false} gap="space-8">
+
+          <VStack gap="space-12">
+            <Heading level="3" size="small">Finner du ikke delen du trenger?</Heading>
+            <BodyLong textColor="subtle" size="small">Bestill ved å oppgi HMS-nr. eller lev.art.nr (leverandørens artikkelnummer).</BodyLong>
+            <TextField
+              style={{ width: '150px' }}
+              label={t('oppslag.artnr')}
+              value={hmsnr}
+              onChange={(e) => erGyldigArtnr(e.target.value) && setHmsnr(e.target.value)}
+              data-testid="input-artnr"
+            />
+            <InlineMessage status="info" size="small">
+              {t('bestillinger.måManueltSaksbehandles')}
+            </InlineMessage>
+          </VStack>
+
+          <Button variant="secondary" onClick={() => onLeggTilUkjent({ hmsnr, levArtNr: undefined })}>
+            {t('bestillinger.bestill')}
+          </Button>
+
+        </HStack>
+
+      </Box>
+
     </>
 
   )

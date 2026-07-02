@@ -26,6 +26,7 @@
   "bestillinger.harFåttOpplæringBatteri": "Eg har fått opplæring på Hjelpemiddelsentralen i å byta desse batteria.",
   "bestillinger.delBlirLevertTilKommunen.tittel": "Levering til kommunen",
   "bestillinger.delBlirLevertTilKommunen.innhold": "Delen blir levert til mottaksstaden til kommunen. Namnet på personen vil stå på pakken med delen.",
+  "bestillinger.måManueltSaksbehandles": "Bestillinga må manuelt behandlast og har dermed lengre behandlingstid.",
   "bestillinger.sendInn": "Send inn bestilling",
   "bestillinger.slett": "Slett bestilling",
   "bestillinger.ordrestatus.INNSENDT": "Mottatt hos NAV",

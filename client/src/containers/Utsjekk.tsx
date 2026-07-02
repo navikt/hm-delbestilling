@@ -33,7 +33,7 @@ import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import rest from '../services/rest'
-import { Del, Delbestilling, Handlekurv, Levering, Pilot } from '../types/Types'
+import { Del, Delbestilling, Handlekurv, Levering, Pilot, UkjentDel } from '../types/Types'
 import {
   logBestillingSlettet,
   logInnsendingFeil,
@@ -97,6 +97,19 @@ const Utsjekk = () => {
       return {
         ...prev,
         deler: [...prev.deler, { del, antall: del.defaultAntall }],
+      }
+    })
+
+    setVisFlereDeler(false)
+    window.scrollTo(0, 0)
+  }
+
+    const leggTilUkjentDel = (del: UkjentDel) => {
+    setHandlekurv((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        ukjenteDeler: [...prev.ukjenteDeler, { del, antall: 1 }],
       }
     })
 
@@ -180,6 +193,7 @@ const Utsjekk = () => {
         hmsnr: handlekurv.hjelpemiddel.hmsnr,
         navn: handlekurv.hjelpemiddel.navn,
         deler: handlekurv.deler,
+        ukjenteDeler: handlekurv.ukjenteDeler,
         levering: handlekurv.levering!,
         harOpplæringPåBatteri: handlekurv.harOpplæringPåBatteri,
         // Default til undefined hvis serienr eller brukernr er tom string, for å matche backend-validering
@@ -248,6 +262,7 @@ const Utsjekk = () => {
     )
   }
 
+  console.log('handlekurv', handlekurv)
   return (
     <main style={{ '--main-bg-color': 'white' } as React.CSSProperties}>
       <Content>
@@ -280,6 +295,7 @@ const Utsjekk = () => {
                 ),
               }}
               onLeggTil={(del) => leggTilDel(del)}
+              onLeggTilUkjent={(del) => leggTilUkjentDel(del)}
             />
           ) : (
             <>
