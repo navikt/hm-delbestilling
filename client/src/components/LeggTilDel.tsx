@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Detail, Heading, HStack, InfoCard, Search, VStack } from '@navikt/ds-react'
+import { Button, Detail, Heading, HStack, InfoCard, Pagination, Search, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel } from '../types/Types'
@@ -27,6 +27,10 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
   const { t } = useTranslation()
   const [søk, setSøk] = useState('')
   const [tilbehorInfo, setTilbehorInfo] = useState<Record<string, TilbehorInfo>>({})
+  const pageSize = 10
+
+  const [page, setPage] = useState(1)
+
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return (
@@ -38,6 +42,10 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
       </InfoCard>
     )
   }
+
+  console.log('Antall deler funnet:', hjelpemiddel.deler.length)
+
+  const numberOfPages = Math.ceil(hjelpemiddel.deler.length / pageSize)
 
   return (
     <>
@@ -144,6 +152,14 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
             </Avstand>
           )
         })}
+      <Pagination
+        page={page}
+        onPageChange={() => {}}
+        count={numberOfPages}
+        boundaryCount={1}
+        siblingCount={1}
+        prevNextTexts
+      />
     </>
   )
 }
