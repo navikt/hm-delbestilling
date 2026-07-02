@@ -18,9 +18,12 @@ import {
   XKLagerResponse,
 } from '../../types/HttpTypes'
 import { DelbestillingSak, Ordrestatus } from '../../types/Types'
+import { isLocal } from '../../utils/utils'
 
 let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
+
+const API_PATH = isLocal() ? DELBESTILLING_API_PATH : DELBESTILLING_PUBLIC_API_PATH
 
 const apiHandlers = [
   http.post<{hmsnr: string}, OppslagRequest, OppslagResponse>(`${DELBESTILLING_API_PATH}/hjelpemidler/:hmsnr/deler`, async ({ request, params }) => {
@@ -54,7 +57,7 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const response = await fetch(`${DELBESTILLING_API_PATH}/oppslag-ekstern-dev-deler`, {
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev-deler`, {
       method: 'POST',
       body: JSON.stringify({ hmsnr, serienr, brukernr}),
       headers: {
@@ -94,7 +97,7 @@ const apiHandlers = [
       throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
     }
 
-    const response = await fetch(`${DELBESTILLING_API_PATH}/oppslag-ekstern-dev-hjelpemiddel`, {
+    const response = await fetch(`${API_PATH}/oppslag-ekstern-dev-hjelpemiddel`, {
       method: 'POST',
       body: JSON.stringify({ hmsnr}),
       headers: {
