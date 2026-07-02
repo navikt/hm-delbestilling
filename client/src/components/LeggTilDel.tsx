@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Button, Detail, Heading, HStack, InfoCard, Pagination, Search, VStack } from '@navikt/ds-react'
@@ -31,6 +31,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
 
   const [page, setPage] = useState(1)
 
+  useEffect(() => { setPage(1) }, [kategoriFilter, søk])
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return (
@@ -45,7 +46,16 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
 
   console.log('Antall deler funnet:', hjelpemiddel.deler.length)
 
-  const numberOfPages = Math.ceil(hjelpemiddel.deler.length / pageSize)
+  const filtrerteDeler = hjelpemiddel.deler.filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
+    .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
+
+  const delerForSide = (deler: Del[], page: number) => {
+    const startIndex = (page - 1) * pageSize
+    const endIndex = startIndex + pageSize
+    return deler.slice(startIndex, endIndex)
+  }
+
+  const antallSider = Math.ceil(filtrerteDeler.length / pageSize)
 
   return (
     <>
@@ -81,9 +91,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
         </HStack>
       </Avstand>
 
-      {hjelpemiddel.deler
-        .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
-        .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
+      {delerForSide(filtrerteDeler, page)
         .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
           const erBatteri = del.kategori.toLowerCase() === 'batteri'
@@ -152,15 +160,18 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil }: Props) => {
             </Avstand>
           )
         })}
-      <Pagination
+      {antallSider > 1 && <Pagination
         page={page}
-        onPageChange={() => {}}
-        count={numberOfPages}
+        onPageChange={setPage}
+        count={antallSider}
+        size="small"
         boundaryCount={1}
         siblingCount={1}
         prevNextTexts
       />
+      }
     </>
+
   )
 }
 
