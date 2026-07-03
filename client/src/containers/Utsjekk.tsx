@@ -332,7 +332,7 @@ const Utsjekk = () => {
                 <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
-                {handlekurv.deler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
+                {handlekurv.deler.length === 0 && handlekurv.ukjenteDeler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
                   <Avstand marginBottom={8} key={delLinje.del.hmsnr}>
                     <CustomBox>
@@ -366,7 +366,7 @@ const Utsjekk = () => {
                 ))}
 
                 {handlekurv.ukjenteDeler.map((delLinje) => (
-                  <Avstand marginBottom={8} key={delLinje.del.hmsnr}>
+                  <Avstand marginBottom={8} key={`${delLinje.del.hmsnr}-${delLinje.del.levArtNr}`}>
                     <CustomBox>
                       <FlexedStack>
                         {delLinje.del.hmsnr && (
