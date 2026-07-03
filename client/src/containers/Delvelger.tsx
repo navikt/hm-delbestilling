@@ -172,7 +172,12 @@ const Delvelger = () => {
               </HStack>
             </CustomBox>
             <Avstand marginBottom={48} />
-            <LeggTilDel hjelpemiddel={hjelpemiddel} onLeggTil={(del) => handleBestill(hjelpemiddel, del)} onLeggTilUkjent={(del) => handleBestillUkjent(hjelpemiddel, del)} />
+            <LeggTilDel
+              hjelpemiddel={hjelpemiddel}
+              onLeggTil={(del) => handleBestill(hjelpemiddel, del)}
+              onLeggTilUkjent={(del) => handleBestillUkjent(hjelpemiddel, del)} 
+              handlekurv={undefined}
+              />
           </>
         )}
       </Content>

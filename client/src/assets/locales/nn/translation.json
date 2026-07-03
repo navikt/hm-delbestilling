@@ -121,7 +121,9 @@
   "oppslag.startPåNytt": "Start på nytt",
 
   "leggTilDel.ukjentDel.feilHmsnr": "HMS-nr må innehalda 6 siffer.",
+  "leggTilDel.ukjentDel.hmsnrAlleredeLagtTil": "Ein del med dette HMS-nr er allereie lagd til.",
   "leggTilDel.ukjentDel.feilLevartnr": "Lev.art.nr må innehalda minst eitt teikn.",
+  "leggTilDel.ukjentDel.levartnrAlleredeLagtTil": "Ein del med dette lev.art.nr er allereie lagt til.",
 
   "testbanner.tittel": "Dette er ein testversjon",
   "testbanner.innhold": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",

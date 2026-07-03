@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { BodyLong, Box, Button, Detail, Heading, HStack, InfoCard, InlineMessage, Pagination, Search, Stack, TextField, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
-import { Del, Hjelpemiddel, UkjentDel } from '../types/Types'
+import { Del, Handlekurv, Hjelpemiddel, UkjentDel } from '../types/Types'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
 import { Bilde } from './Bilde/Bilde'
@@ -23,8 +23,9 @@ interface Props {
   hjelpemiddel: Hjelpemiddel
   onLeggTil: (del: Del) => void
   onLeggTilUkjent: (del: UkjentDel) => void
+  handlekurv: Handlekurv | undefined
 }
-const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent }: Props) => {
+const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Props) => {
   const { delKategorier, kategoriFilter, setKategoriFilter } = useDelKategorier(hjelpemiddel.deler)
 
   const { t } = useTranslation()
@@ -43,15 +44,31 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent }: Props) => {
   useEffect(() => { setPage(1) }, [kategoriFilter, søk])
 
   useEffect(() => {
-    if (visHmsnrInputForUkjentDel && hmsnr.length !== 6) {
-      setErrorMessageUkjentDel(t('leggTilDel.ukjentDel.feilHmsnr'))
-    } else if (!visHmsnrInputForUkjentDel && levArtNr.length < 1) {
-      setErrorMessageUkjentDel(t('leggTilDel.ukjentDel.feilLevartnr'))
+
+    let nyErrorMessage = null
+
+    if (visHmsnrInputForUkjentDel) {
+      if (handlekurv?.ukjenteDeler.some((del) => del.del.hmsnr === hmsnr)) {
+        nyErrorMessage = t('leggTilDel.ukjentDel.hmsnrAlleredeLagtTil')
+      }
+
+      if (hmsnr.length !== 6) {
+        nyErrorMessage = t('leggTilDel.ukjentDel.feilHmsnr')
+      }
     }
-    else {
-      setErrorMessageUkjentDel(null)
+
+    if (!visHmsnrInputForUkjentDel) {
+      if (handlekurv?.ukjenteDeler.some((del) => del.del.levArtNr === levArtNr)) {
+        nyErrorMessage = t('leggTilDel.ukjentDel.levartnrAlleredeLagtTil')
+      }
+
+      if (levArtNr.length < 1) {
+        nyErrorMessage = t('leggTilDel.ukjentDel.feilLevartnr')
+      }
     }
-  }, [hmsnr, levArtNr, visHmsnrInputForUkjentDel])
+
+    setErrorMessageUkjentDel(nyErrorMessage)
+  }, [hmsnr, levArtNr, visHmsnrInputForUkjentDel, handlekurv])
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return (
@@ -208,7 +225,10 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent }: Props) => {
                   error={submitAttempt && errorMessageUkjentDel}
                 />
                 <Stack align={'start'}>
-                  <Button icon={<ArrowsCirclepathIcon aria-hidden />} variant="tertiary" onClick={() => setVisHmsnrInputForUkjentDel(false)}>
+                  <Button icon={<ArrowsCirclepathIcon aria-hidden />} variant="tertiary" onClick={() => {
+                    setHmsnr('')
+                    setVisHmsnrInputForUkjentDel(false)
+                  }}>
                     {t('oppslag.byttTilLevartnr')}
                   </Button>
                 </Stack>
@@ -224,7 +244,10 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent }: Props) => {
                   error={submitAttempt && errorMessageUkjentDel}
                 />
                 <Stack align={'start'}>
-                  <Button icon={<ArrowsCirclepathIcon aria-hidden />} variant="tertiary" onClick={() => setVisHmsnrInputForUkjentDel(true)}>
+                  <Button icon={<ArrowsCirclepathIcon aria-hidden />} variant="tertiary" onClick={() => {
+                    setLevArtNr('')
+                    setVisHmsnrInputForUkjentDel(true)
+                  }}>
                     {t('oppslag.byttTilHmsnr')}
                   </Button>
                 </Stack>

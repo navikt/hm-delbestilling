@@ -13,6 +13,7 @@ import {
   Heading,
   HStack,
   InfoCard,
+  Label,
   Loader,
   Radio,
   RadioGroup,
@@ -48,6 +49,8 @@ export interface Valideringsfeil {
   melding: string
 }
 
+const MAKS_ANTALL_UKJENT_DEL = 4
+
 const Utsjekk = () => {
   const location = useLocation()
   const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(location.state as Handlekurv | undefined)
@@ -72,7 +75,7 @@ const Utsjekk = () => {
   }, [harXKLager])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (handlekurv && harXKLager === undefined) {
         try {
           const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr, handlekurv.brukernr)
@@ -104,7 +107,7 @@ const Utsjekk = () => {
     window.scrollTo(0, 0)
   }
 
-    const leggTilUkjentDel = (del: UkjentDel) => {
+  const leggTilUkjentDel = (del: UkjentDel) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
@@ -117,13 +120,26 @@ const Utsjekk = () => {
     window.scrollTo(0, 0)
   }
 
-  const setAntall = (del: Del, antall: number) => {
+  const setAntallForDel = (del: Del, antall: number) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
         deler: prev.deler.map((handlekurvDel) => {
           if (handlekurvDel.del.hmsnr === del.hmsnr) return { ...handlekurvDel, antall }
+          return handlekurvDel
+        }),
+      }
+    })
+  }
+
+  const setAntallForUkjentDel = (del: UkjentDel, antall: number) => {
+    setHandlekurv((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        ukjenteDeler: prev.ukjenteDeler.map((handlekurvDel) => {
+          if (handlekurvDel.del.hmsnr === del.hmsnr && handlekurvDel.del.levArtNr === del.levArtNr) return { ...handlekurvDel, antall }
           return handlekurvDel
         }),
       }
@@ -142,6 +158,18 @@ const Utsjekk = () => {
     })
   }
 
+  const handleSlettUkjentDel = (del: UkjentDel) => {
+    setHandlekurv((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        ukjenteDeler: prev.ukjenteDeler.filter((handlekurvDel) => {
+          return !(handlekurvDel.del.hmsnr === del.hmsnr && handlekurvDel.del.levArtNr === del.levArtNr)
+        }),
+      }
+    })
+  }
+
   const setLevering = (levering: Levering) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
@@ -155,8 +183,8 @@ const Utsjekk = () => {
   const validerBestilling = (handlekurv: Handlekurv) => {
     const feil: Valideringsfeil[] = []
 
-    if (handlekurv.deler.length === 0) {
-      feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn bestilling med ingen deler.' })
+    if (handlekurv.deler.length === 0 && handlekurv.ukjenteDeler.length === 0) {
+      feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn en bestilling uten deler.' })
     }
 
     if (!handlekurv.levering) {
@@ -296,6 +324,7 @@ const Utsjekk = () => {
               }}
               onLeggTil={(del) => leggTilDel(del)}
               onLeggTilUkjent={(del) => leggTilUkjentDel(del)}
+              handlekurv={handlekurv}
             />
           ) : (
             <>
@@ -321,7 +350,7 @@ const Utsjekk = () => {
                           <Select
                             label="Antall"
                             value={delLinje.antall}
-                            onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
+                            onChange={(e) => setAntallForDel(delLinje.del, Number(e.target.value))}
                             size="small"
                           >
                             {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
@@ -335,6 +364,48 @@ const Utsjekk = () => {
                     </CustomBox>
                   </Avstand>
                 ))}
+
+                {handlekurv.ukjenteDeler.map((delLinje) => (
+                  <Avstand marginBottom={8} key={delLinje.del.hmsnr}>
+                    <CustomBox>
+                      <FlexedStack>
+                        {delLinje.del.hmsnr && (
+                          <>
+                            <Label>HMS-nr:</Label>
+                            <BodyShort>{delLinje.del.hmsnr}</BodyShort>
+                          </>
+                        )}
+                        {delLinje.del.levArtNr && (
+                          <>
+                            <Label>Lev.art.nr:</Label>
+                            <BodyShort>{delLinje.del.levArtNr}</BodyShort>
+                          </>
+                        )}
+
+                      </FlexedStack>
+                      <Box paddingBlock="space-4">
+                        <HStack gap="space-4" align="end" justify="space-between">
+                          <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettUkjentDel(delLinje.del)}>
+                            {t('bestillinger.slettDel')}
+                          </Button>
+                          <Select
+                            label="Antall"
+                            value={delLinje.antall}
+                            onChange={(e) => setAntallForUkjentDel(delLinje.del, Number(e.target.value))}
+                            size="small"
+                          >
+                            {Array.from(Array(MAKS_ANTALL_UKJENT_DEL), (_, x: number) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
+                          </Select>
+                        </HStack>
+                      </Box>
+                    </CustomBox>
+                  </Avstand>
+                ))}
+
                 <Avstand marginBottom={16} />
                 <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
                   {handlekurv.deler.length > 0 ? t('bestillinger.leggTilFlereDeler') : t('bestillinger.leggTilDeler')}
