@@ -19,3 +19,4 @@ const erGyldig = (input: string, maksLengde: number = 6) => innenforMaksLengde(i
 export const erGyldigArtnr = (input: string) => erGyldig(input, 6)
 export const erGyldigSerienr = (input: string) => erGyldig(input, 6)
 export const erGyldigBrukernr = (input: string) => erGyldig(input, 8)
+export const erGyldigLevartnr = (input: string) => innenforMaksLengde(input, 20)

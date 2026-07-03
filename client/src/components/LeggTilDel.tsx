@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { BodyLong, Box, Button, Detail, Heading, HStack, InfoCard, InlineMessage, Pagination, Search, TextField, VStack } from '@navikt/ds-react'
+import { BodyLong, Box, Button, Detail, Heading, HStack, InfoCard, InlineMessage, Pagination, Search, Stack, TextField, VStack } from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
 import { Del, Hjelpemiddel, UkjentDel } from '../types/Types'
@@ -16,7 +16,8 @@ import InfoOmDel from './InfoOmDel'
 import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
 
 import infoOmDelStyles from './InfoOmDel.module.css'
-import { erGyldigArtnr } from '../helpers/utils'
+import { erGyldigArtnr, erGyldigLevartnr } from '../helpers/utils'
+import { ArrowsCirclepathIcon } from '@navikt/aksel-icons'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -29,12 +30,28 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent }: Props) => {
   const { t } = useTranslation()
   const [søk, setSøk] = useState('')
   const [tilbehorInfo, setTilbehorInfo] = useState<Record<string, TilbehorInfo>>({})
-  const pageSize = 10
-
+  const [visHmsnrInputForUkjentDel, setVisHmsnrInputForUkjentDel] = useState(true)
   const [page, setPage] = useState(1)
   const [hmsnr, setHmsnr] = useState('')
+  const [levArtNr, setLevArtNr] = useState('')
+  const [errorMessageUkjentDel, setErrorMessageUkjentDel] = useState<string | null>(null)
+  const [submitAttempt, setSubmitAttempt] = useState(false)
+
+  const pageSize = 10
+
 
   useEffect(() => { setPage(1) }, [kategoriFilter, søk])
+
+  useEffect(() => {
+    if (visHmsnrInputForUkjentDel && hmsnr.length !== 6) {
+      setErrorMessageUkjentDel(t('leggTilDel.ukjentDel.feilHmsnr'))
+    } else if (!visHmsnrInputForUkjentDel && levArtNr.length < 1) {
+      setErrorMessageUkjentDel(t('leggTilDel.ukjentDel.feilLevartnr'))
+    }
+    else {
+      setErrorMessageUkjentDel(null)
+    }
+  }, [hmsnr, levArtNr, visHmsnrInputForUkjentDel])
 
   if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
     return (
@@ -167,7 +184,6 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent }: Props) => {
         page={page}
         onPageChange={setPage}
         count={antallSider}
-        size="small"
         boundaryCount={1}
         siblingCount={1}
         prevNextTexts
@@ -181,19 +197,52 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent }: Props) => {
           <VStack gap="space-12">
             <Heading level="3" size="small">Finner du ikke delen du trenger?</Heading>
             <BodyLong textColor="subtle" size="small">Bestill ved å oppgi HMS-nr. eller lev.art.nr (leverandørens artikkelnummer).</BodyLong>
-            <TextField
-              style={{ width: '150px' }}
-              label={t('oppslag.artnr')}
-              value={hmsnr}
-              onChange={(e) => erGyldigArtnr(e.target.value) && setHmsnr(e.target.value)}
-              data-testid="input-artnr"
-            />
+            {visHmsnrInputForUkjentDel ?
+              (<>
+                <TextField
+                  style={{ width: '110px' }}
+                  label={t('oppslag.artnr')}
+                  value={hmsnr}
+                  onChange={(e) => erGyldigArtnr(e.target.value) && setHmsnr(e.target.value)}
+                  data-testid="input-artnr"
+                  error={submitAttempt && errorMessageUkjentDel}
+                />
+                <Stack align={'start'}>
+                  <Button icon={<ArrowsCirclepathIcon aria-hidden />} variant="tertiary" onClick={() => setVisHmsnrInputForUkjentDel(false)}>
+                    {t('oppslag.byttTilLevartnr')}
+                  </Button>
+                </Stack>
+              </>)
+              :
+              (<>
+                <TextField
+                  style={{ width: '195px' }}
+                  label={t('oppslag.levartnr')}
+                  value={levArtNr}
+                  onChange={(e) => erGyldigLevartnr(e.target.value) && setLevArtNr(e.target.value)}
+                  data-testid="input-levartnr"
+                  error={submitAttempt && errorMessageUkjentDel}
+                />
+                <Stack align={'start'}>
+                  <Button icon={<ArrowsCirclepathIcon aria-hidden />} variant="tertiary" onClick={() => setVisHmsnrInputForUkjentDel(true)}>
+                    {t('oppslag.byttTilHmsnr')}
+                  </Button>
+                </Stack>
+              </>
+              )
+            }
+
             <InlineMessage status="info" size="small">
               {t('bestillinger.måManueltSaksbehandles')}
             </InlineMessage>
           </VStack>
 
-          <Button variant="secondary" onClick={() => onLeggTilUkjent({ hmsnr, levArtNr: undefined })}>
+          <Button variant="secondary" onClick={() => {
+            setSubmitAttempt(true)
+            if (!errorMessageUkjentDel) {
+              onLeggTilUkjent({ hmsnr, levArtNr })
+            }
+          }}>
             {t('bestillinger.bestill')}
           </Button>
 

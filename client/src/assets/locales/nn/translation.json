@@ -112,11 +112,16 @@
   "felles.nei": "Nei",
   "oppslag.hvilketHjelpemiddel": "Kva hjelpemiddel treng del?",
   "oppslag.artnr": "Art.nr (6 siffer)",
+  "oppslag.levartnr": "Lev.art.nr (minst eitt teikn)",
+  "oppslag.byttTilLevartnr": "Oppgi lev.art.nr i staden",
+  "oppslag.byttTilHmsnr": "Oppgi HMS-nr i staden",
   "oppslag.serienr": "Serienr (6 siffer)",
   "oppslag.brukernr": "Brukernr (5-8 siffer)",
   "oppslag.hjelpemiddel": "Slå opp hjelpemiddel",
-
   "oppslag.startPåNytt": "Start på nytt",
+
+  "leggTilDel.ukjentDel.feilHmsnr": "HMS-nr må innehalda 6 siffer.",
+  "leggTilDel.ukjentDel.feilLevartnr": "Lev.art.nr må innehalda minst eitt teikn.",
 
   "testbanner.tittel": "Dette er ein testversjon",
   "testbanner.innhold": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",

@@ -102,10 +102,16 @@
 
   "oppslag.hvilketHjelpemiddel": "Hvilket hjelpemiddel trenger del?",
   "oppslag.artnr": "Art.nr (6 siffer)",
+  "oppslag.levartnr": "Lev.art.nr (minst ett tegn)",
+  "oppslag.byttTilLevartnr": "Oppgi lev.art.nr i stedet",
+  "oppslag.byttTilHmsnr": "Oppgi HMS-nr i stedet",
   "oppslag.serienr": "Serienr (6 siffer)",
   "oppslag.brukernr": "Brukernr (5-8 siffer)",
   "oppslag.hjelpemiddel": "Slå opp hjelpemiddel",
   "oppslag.startPåNytt": "Start på nytt",
+
+  "leggTilDel.ukjentDel.feilHmsnr": "HMS-nr må inneholde 6 siffer.",
+  "leggTilDel.ukjentDel.feilLevartnr": "Lev.art.nr må inneholde minst ett tegn.",
 
   "del.antallDagerSidenSistBatteribestilling_zero": "Det er allerede bestilt batteri til dette hjelpemiddelet i dag. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.",
   "del.antallDagerSidenSistBatteribestilling_other": "Batteriene til dette hjelpemiddelet ble byttet for mindre enn ett år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
