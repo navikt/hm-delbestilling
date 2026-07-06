@@ -21,12 +21,13 @@ interface Props {
   setSerienr: React.Dispatch<SetStateAction<string>>
   brukernr: string
   setBrukernr: React.Dispatch<SetStateAction<string>>
-  onOppslagUtenDelerSuksess: (hjelpemiddelUtenDeler: HjelpemiddelUtenDeler | undefined) => void
   hjelpemiddelUtenDeler: HjelpemiddelUtenDeler | undefined
+  setHjelpemiddelUtenDeler: React.Dispatch<SetStateAction<HjelpemiddelUtenDeler | undefined>>
+  
   erLoggetInn: boolean
 }
 
-const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, setBrukernr, onOppslagUtenDelerSuksess, hjelpemiddelUtenDeler, erLoggetInn }: Props) => {
+const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, setBrukernr, hjelpemiddelUtenDeler, setHjelpemiddelUtenDeler, erLoggetInn }: Props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [gjørOppslag, setGjørOppslag] = useState(false)
@@ -72,6 +73,8 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
   }
 
   const handleSlåOppHjelpemiddel = async () => {
+    setHjelpemiddelUtenDeler(undefined)
+
     if (hmsnr.length !== 6) {
       setFeilmelding({
         feilmelding: t('error.artnr'),
@@ -80,9 +83,13 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
       return
     }
 
+    setSerienr('')
+    setBrukernr('')
+
     setFeilmelding(undefined)
 
     try {
+
       setGjørOppslag(true)
       logOppslagGjort(hmsnr)
       const oppslag = await rest.hjelpemiddelOppslagPåArtNr(hmsnr)
@@ -94,7 +101,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
         })
         logOppslagFeil(oppslag.feil, hmsnr)
       } else {
-        onOppslagUtenDelerSuksess(oppslag.hjelpemiddel)
+        setHjelpemiddelUtenDeler(oppslag.hjelpemiddel)
       }
     } catch (err: any) {
       console.log(`Kunne ikke hente hjelpemiddel`, err)
@@ -112,11 +119,6 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
     } finally {
       setGjørOppslag(false)
     }
-  }
-
-  const reset = () => {
-    setHmsnr('')
-    setSerienr('')
   }
 
   return (

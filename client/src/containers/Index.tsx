@@ -42,9 +42,7 @@ const Index = () => {
             setSerienr={setSerienr}
             brukernr={brukernr}
             setBrukernr={setBrukernr}
-            onOppslagUtenDelerSuksess={(hjelpemiddelUtenDeler) => {
-              setHjelpemiddelUtenDeler(hjelpemiddelUtenDeler)
-            }}
+            setHjelpemiddelUtenDeler={setHjelpemiddelUtenDeler}
             hjelpemiddelUtenDeler={hjelpemiddelUtenDeler}
             erLoggetInn={erLoggetInn}
           />
