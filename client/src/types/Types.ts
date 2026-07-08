@@ -65,7 +65,7 @@ export interface Dellinje {
 }
 
 export interface DellinjeUkjentDel {
-  del: UkjentDel
+  delUkjent: UkjentDel
   antall: number
 }
 
