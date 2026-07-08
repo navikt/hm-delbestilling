@@ -112,7 +112,7 @@ const Utsjekk = () => {
       if (!prev) return undefined
       return {
         ...prev,
-        ukjenteDeler: [...prev.ukjenteDeler, { del, antall: 1 }],
+        ukjenteDeler: [...prev.ukjenteDeler, { delUkjent: del, antall: 1 }],
       }
     })
 
@@ -139,7 +139,7 @@ const Utsjekk = () => {
       return {
         ...prev,
         ukjenteDeler: prev.ukjenteDeler.map((handlekurvDel) => {
-          if (handlekurvDel.del.hmsnr === del.hmsnr && handlekurvDel.del.levArtNr === del.levArtNr) return { ...handlekurvDel, antall }
+          if (handlekurvDel.delUkjent.hmsnr === del.hmsnr && handlekurvDel.delUkjent.levArtNr === del.levArtNr) return { ...handlekurvDel, antall }
           return handlekurvDel
         }),
       }
@@ -164,7 +164,7 @@ const Utsjekk = () => {
       return {
         ...prev,
         ukjenteDeler: prev.ukjenteDeler.filter((handlekurvDel) => {
-          return !(handlekurvDel.del.hmsnr === del.hmsnr && handlekurvDel.del.levArtNr === del.levArtNr)
+          return !(handlekurvDel.delUkjent.hmsnr === del.hmsnr && handlekurvDel.delUkjent.levArtNr === del.levArtNr)
         }),
       }
     })
@@ -366,32 +366,32 @@ const Utsjekk = () => {
                 ))}
 
                 {handlekurv.ukjenteDeler.map((delLinje) => (
-                  <Avstand marginBottom={8} key={`${delLinje.del.hmsnr}-${delLinje.del.levArtNr}`}>
+                  <Avstand marginBottom={8} key={`${delLinje.delUkjent.hmsnr}-${delLinje.delUkjent.levArtNr}`}>
                     <CustomBox>
                       <FlexedStack>
-                        {delLinje.del.hmsnr && (
+                        {delLinje.delUkjent.hmsnr && (
                           <>
                             <Label>HMS-nr:</Label>
-                            <BodyShort>{delLinje.del.hmsnr}</BodyShort>
+                            <BodyShort>{delLinje.delUkjent.hmsnr}</BodyShort>
                           </>
                         )}
-                        {delLinje.del.levArtNr && (
+                        {delLinje.delUkjent.levArtNr && (
                           <>
                             <Label>Lev.art.nr:</Label>
-                            <BodyShort>{delLinje.del.levArtNr}</BodyShort>
+                            <BodyShort>{delLinje.delUkjent.levArtNr}</BodyShort>
                           </>
                         )}
 
                       </FlexedStack>
                       <Box paddingBlock="space-4">
                         <HStack gap="space-4" align="end" justify="space-between">
-                          <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettUkjentDel(delLinje.del)}>
+                          <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettUkjentDel(delLinje.delUkjent)}>
                             {t('bestillinger.slettDel')}
                           </Button>
                           <Select
                             label="Antall"
                             value={delLinje.antall}
-                            onChange={(e) => setAntallForUkjentDel(delLinje.del, Number(e.target.value))}
+                            onChange={(e) => setAntallForUkjentDel(delLinje.delUkjent, Number(e.target.value))}
                             size="small"
                           >
                             {Array.from(Array(MAKS_ANTALL_UKJENT_DEL), (_, x: number) => (

@@ -57,7 +57,7 @@ const Delvelger = () => {
       brukernr,
       hjelpemiddel,
       deler: [],
-      ukjenteDeler: [{ del, antall: 1 }],
+      ukjenteDeler: [{ delUkjent: del, antall: 1 }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
       piloter,

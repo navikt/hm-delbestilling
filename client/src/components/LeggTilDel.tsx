@@ -48,7 +48,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
     let nyErrorMessage = null
 
     if (visHmsnrInputForUkjentDel) {
-      if (handlekurv?.ukjenteDeler.some((del) => del.del.hmsnr === hmsnr)) {
+      if (handlekurv?.ukjenteDeler.some((del) => del.delUkjent.hmsnr === hmsnr)) {
         nyErrorMessage = t('leggTilDel.ukjentDel.hmsnrAlleredeLagtTil')
       }
 
@@ -58,7 +58,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
     }
 
     if (!visHmsnrInputForUkjentDel) {
-      if (handlekurv?.ukjenteDeler.some((del) => del.del.levArtNr === levArtNr)) {
+      if (handlekurv?.ukjenteDeler.some((del) => del.delUkjent.levArtNr === levArtNr)) {
         nyErrorMessage = t('leggTilDel.ukjentDel.levartnrAlleredeLagtTil')
       }
 
