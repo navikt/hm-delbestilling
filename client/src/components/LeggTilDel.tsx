@@ -263,7 +263,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
           <Button variant="secondary" onClick={() => {
             setSubmitAttempt(true)
             if (!errorMessageUkjentDel) {
-              onLeggTilUkjent({ hmsnr, levArtNr })
+              onLeggTilUkjent({ hmsnr: hmsnr || undefined, levArtNr: levArtNr || undefined })
             }
           }}>
             {t('bestillinger.bestill')}
