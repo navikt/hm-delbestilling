@@ -76,6 +76,20 @@ const BestillingsKort = ({ sak }: Props) => {
             </VStack>
           </div>
         ))}
+
+        {sak.delbestilling.ukjenteDeler.map((dellinjeUkjentDel, index) => (
+          <div key={index} className={styles.dellinje}>
+            <VStack gap="space-4">
+              <HStack justify="space-between">
+                {dellinjeUkjentDel.del.hmsnr && <BodyShort size="medium" style={{ marginBottom: '0' }}>
+                  HMS-nr. {dellinjeUkjentDel.del.hmsnr} </BodyShort>}
+                {dellinjeUkjentDel.del.levArtNr && <BodyShort size="medium" style={{ marginBottom: '0' }}>
+                  Lev.art.nr. {dellinjeUkjentDel.del.levArtNr} </BodyShort>}
+                <BodyShort size="medium">{dellinjeUkjentDel.antall} stk</BodyShort>
+              </HStack>
+            </VStack>
+          </div>
+        ))}
         <Avstand marginBottom={16} />
 
         <BodyShort size="small" spacing>
