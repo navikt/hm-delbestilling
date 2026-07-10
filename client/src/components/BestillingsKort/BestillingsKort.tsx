@@ -81,10 +81,10 @@ const BestillingsKort = ({ sak }: Props) => {
           <div key={index} className={styles.dellinje}>
             <VStack gap="space-4">
               <HStack justify="space-between">
-                {dellinjeUkjentDel.del.hmsnr && <BodyShort size="medium" style={{ marginBottom: '0' }}>
-                  HMS-nr. {dellinjeUkjentDel.del.hmsnr} </BodyShort>}
-                {dellinjeUkjentDel.del.levArtNr && <BodyShort size="medium" style={{ marginBottom: '0' }}>
-                  Lev.art.nr. {dellinjeUkjentDel.del.levArtNr} </BodyShort>}
+                {dellinjeUkjentDel.delUkjent.hmsnr && <BodyShort size="medium" style={{ marginBottom: '0' }}>
+                  HMS-nr. {dellinjeUkjentDel.delUkjent.hmsnr} </BodyShort>}
+                {dellinjeUkjentDel.delUkjent.levArtNr && <BodyShort size="medium" style={{ marginBottom: '0' }}>
+                  Lev.art.nr. {dellinjeUkjentDel.delUkjent.levArtNr} </BodyShort>}
                 <BodyShort size="medium">{dellinjeUkjentDel.antall} stk</BodyShort>
               </HStack>
             </VStack>
