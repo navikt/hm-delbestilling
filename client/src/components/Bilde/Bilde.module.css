@@ -11,6 +11,7 @@
 @media (min-width: 800px) {
   .imgWrap {
     width: 150px;
+    flex-shrink: 0;
   }
 }
 
