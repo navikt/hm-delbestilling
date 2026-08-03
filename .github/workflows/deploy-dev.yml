@@ -10,6 +10,7 @@ on:
     branches:
       - main
       - bilde-fiks
+      - bestille_med_brukernr_tidlig_input
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
