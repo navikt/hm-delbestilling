@@ -23,7 +23,7 @@ interface Props {
   setBrukernr: React.Dispatch<SetStateAction<string>>
   hjelpemiddelUtenDeler: HjelpemiddelUtenDeler | undefined
   setHjelpemiddelUtenDeler: React.Dispatch<SetStateAction<HjelpemiddelUtenDeler | undefined>>
-  
+
   erLoggetInn: boolean
 }
 
@@ -169,18 +169,21 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
                   onChange={(e) => erGyldigBrukernr(e.target.value) && setBrukernr(e.target.value)}
                   data-testid="input-brukernr"
                 />)}
-              <Stack gap="space-12" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
+
+              <Avstand marginTop={2} marginBottom={8}>
+                <ReadMore header="Slik finner du art.nr, serienr. og brukernr.">
+                  TODO
+                </ReadMore>
+              </Avstand>
+
+              <Stack gap="space-8" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
                 <Button onClick={() => handleHentDeler(hjelpemiddelUtenDeler)} data-testid="button-oppslag-submit">
                   {t('bestillinger.bestilldel')}
                 </Button>
               </Stack>
             </VStack>
 
-            <Avstand marginTop={16}>
-              <ReadMore header="Slik finner du art.nr, serienr. og brukernr.">
-                TODO
-              </ReadMore>
-            </Avstand>
+
           </>
         )}
 
