@@ -18,6 +18,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  TextField,
   VStack,
 } from '@navikt/ds-react'
 
@@ -44,12 +45,13 @@ import {
 import { isProd } from '../utils/utils'
 
 export interface Valideringsfeil {
-  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
-  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år'
+  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år' | 'epost-tekniker'
+  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år' | 'mangler eller ugyldig epost'
   melding: string
 }
 
 const MAKS_ANTALL_UKJENT_DEL = 4
+const epostRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const Utsjekk = () => {
   const location = useLocation()
@@ -66,6 +68,8 @@ const Utsjekk = () => {
   const navigate = useNavigate()
 
   const handlekurvInneholderBatteri = !!handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
+
+  const harUkjentDelMedLeverandørArtikkelnummer = !!handlekurv?.ukjenteDeler.some(({ delUkjent }) => !!delUkjent.levArtNr,)
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
@@ -183,6 +187,8 @@ const Utsjekk = () => {
   const validerBestilling = (handlekurv: Handlekurv) => {
     const feil: Valideringsfeil[] = []
 
+    const harUkjentDelMedLeverandørArtikkelnummer =handlekurv.ukjenteDeler.some(({ delUkjent }) => !!delUkjent.levArtNr,)
+
     if (handlekurv.deler.length === 0 && handlekurv.ukjenteDeler.length === 0) {
       feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn en bestilling uten deler.' })
     }
@@ -197,6 +203,18 @@ const Utsjekk = () => {
         type: 'mangler opplæring',
         melding: 'Du må bekrefte at du har fått opplæring i å bytte disse batteriene.',
       })
+    }
+
+    if (harUkjentDelMedLeverandørArtikkelnummer) {
+      const epost = handlekurv.epostTekniker?.trim() ?? ''
+
+      if (!epostRegex.test(epost)) {
+        feil.push({
+          id: 'epost-tekniker',
+          type: 'mangler eller ugyldig epost',
+          melding: t('bestillinger.epostTekniker.error'),
+        })
+      }
     }
 
     setValideringsFeil(feil)
@@ -224,6 +242,7 @@ const Utsjekk = () => {
         ukjenteDeler: handlekurv.ukjenteDeler,
         levering: handlekurv.levering!,
         harOpplæringPåBatteri: handlekurv.harOpplæringPåBatteri,
+        epostTekniker: harUkjentDelMedLeverandørArtikkelnummer ? handlekurv.epostTekniker?.trim() || null : null,
         // Default til undefined hvis serienr eller brukernr er tom string, for å matche backend-validering
         serienr: handlekurv.serienr || undefined,
         brukernr: handlekurv.brukernr || undefined,
@@ -475,6 +494,36 @@ const Utsjekk = () => {
               {feilmelding && (
                 <Avstand marginBottom={16}>
                   <Feilmelding feilmelding={feilmelding} />
+                </Avstand>
+              )}
+
+              {harUkjentDelMedLeverandørArtikkelnummer && (
+                <Avstand marginBottom={32}>
+                  <TextField
+                    style={{ width: '400px', maxWidth: '100%' }}
+                    label={t('bestillinger.epostTekniker.label')}
+                    description={t('bestillinger.epostTekniker.description')}
+                    type="email"
+                    required
+                    value={handlekurv.epostTekniker ?? ''}
+                    onChange={(event) => {
+                      const epostTekniker = event.target.value
+
+                      setHandlekurv((prev) =>
+                        prev
+                          ? {
+                            ...prev,
+                            epostTekniker,
+                          }
+                          : undefined,
+                      )
+                    }}
+                    error={
+                      valideringsFeil.find(
+                        (feil) => feil.id === 'epost-tekniker',
+                      )?.melding
+                    }
+                  />
                 </Avstand>
               )}
 
