@@ -52,6 +52,7 @@ export interface Handlekurv {
   ukjenteDeler: DellinjeUkjentDel[] 
   levering: Levering | undefined
   harOpplæringPåBatteri: boolean | undefined
+  epostTekniker: string | null
   piloter: Pilot[]
 }
 
@@ -79,6 +80,7 @@ export interface Delbestilling {
   ukjenteDeler: DellinjeUkjentDel[]
   levering: Levering
   harOpplæringPåBatteri: boolean | undefined
+  epostTekniker: string | null
 }
 
 export interface DelbestillingSak {
