@@ -44,6 +44,7 @@ const Delvelger = () => {
       ukjenteDeler: [],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
+      epostTekniker: null,
       piloter,
     }
 
@@ -60,6 +61,7 @@ const Delvelger = () => {
       ukjenteDeler: [{ delUkjent: del, antall: 1 }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
+      epostTekniker: null,
       piloter,
     }
 
