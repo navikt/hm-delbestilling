@@ -37,6 +37,10 @@
   "bestillinger.dellinjestatus.SKIPNINGSBEKREFTET": "Plukka på lager",
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventa levering {{dato}}",
+  "bestillinger.epostTekniker.label": "E-postadresse (påkravd)",
+  "bestillinger.epostTekniker.description": "Bestillinga inneheld ein ukjend del. Du må oppgi ei e-postadresse for å kunna senda inn bestillinga.",
+  "bestillinger.epostTekniker.error": "Du må oppgi ei gyldig e-postadresse.",
+  "bestillinger.bestillersEpost": "Bestillaren sin e-post",
 
   "oppslagfeil.INGET_UTLÅN": "Me finn dessverre ikkje eit utlån på dette art.nr og serienr.",
   "oppslagfeil.TILBYR_IKKE_HJELPEMIDDEL": "Du kan ikkje bestilla delar til dette hjelpemiddelet digitalt. Ta kontakt med hjelpemiddelsentralen din for å bestilla. Nav jobbar med å leggja inn delar til fleire hjelpemiddel fortløpande",
