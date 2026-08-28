@@ -50,7 +50,7 @@ export interface Valideringsfeil {
   melding: string
 }
 
-const MAKS_ANTALL_UKJENT_DEL = 4
+const MAKS_ANTALL_UKJENT_DEL = 4 
 const epostRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const Utsjekk = () => {
@@ -69,7 +69,7 @@ const Utsjekk = () => {
 
   const handlekurvInneholderBatteri = !!handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
 
-  const harUkjentDelMedLeverandørArtikkelnummer = !!handlekurv?.ukjenteDeler.some(({ delUkjent }) => !!delUkjent.levArtNr,)
+  const inneholderUkjentDel = (handlekurv?.ukjenteDeler.length ?? 0) > 0
 
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
@@ -187,7 +187,7 @@ const Utsjekk = () => {
   const validerBestilling = (handlekurv: Handlekurv) => {
     const feil: Valideringsfeil[] = []
 
-    const harUkjentDelMedLeverandørArtikkelnummer =handlekurv.ukjenteDeler.some(({ delUkjent }) => !!delUkjent.levArtNr,)
+    const inneholderUkjentDel = handlekurv.ukjenteDeler.length > 0
 
     if (handlekurv.deler.length === 0 && handlekurv.ukjenteDeler.length === 0) {
       feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn en bestilling uten deler.' })
@@ -205,7 +205,7 @@ const Utsjekk = () => {
       })
     }
 
-    if (harUkjentDelMedLeverandørArtikkelnummer) {
+    if (inneholderUkjentDel) {
       const epost = handlekurv.epostTekniker?.trim() ?? ''
 
       if (!epostRegex.test(epost)) {
@@ -242,7 +242,7 @@ const Utsjekk = () => {
         ukjenteDeler: handlekurv.ukjenteDeler,
         levering: handlekurv.levering!,
         harOpplæringPåBatteri: handlekurv.harOpplæringPåBatteri,
-        epostTekniker: harUkjentDelMedLeverandørArtikkelnummer ? handlekurv.epostTekniker?.trim() || null : null,
+        epostTekniker: inneholderUkjentDel ? handlekurv.epostTekniker?.trim() || null : null,
         // Default til undefined hvis serienr eller brukernr er tom string, for å matche backend-validering
         serienr: handlekurv.serienr || undefined,
         brukernr: handlekurv.brukernr || undefined,
@@ -484,21 +484,8 @@ const Utsjekk = () => {
                   </RadioGroup>
                 )}
 
-                {valideringsFeil.length > 0 && (
-                  <Avstand marginTop={16}>
-                    <Errors valideringsFeil={valideringsFeil} />
-                  </Avstand>
-                )}
-              </Avstand>
-
-              {feilmelding && (
-                <Avstand marginBottom={16}>
-                  <Feilmelding feilmelding={feilmelding} />
-                </Avstand>
-              )}
-
-              {harUkjentDelMedLeverandørArtikkelnummer && (
-                <Avstand marginBottom={32}>
+              {inneholderUkjentDel && (
+                <Avstand marginBottom={32} marginTop={32}>
                   <TextField
                     style={{ width: '400px', maxWidth: '100%' }}
                     label={t('bestillinger.epostTekniker.label')}
@@ -518,14 +505,24 @@ const Utsjekk = () => {
                           : undefined,
                       )
                     }}
-                    error={
-                      valideringsFeil.find(
-                        (feil) => feil.id === 'epost-tekniker',
-                      )?.melding
-                    }
                   />
                 </Avstand>
               )}
+
+                {valideringsFeil.length > 0 && (
+                  <Avstand marginTop={16}>
+                    <Errors valideringsFeil={valideringsFeil} />
+                  </Avstand>
+                )}
+              </Avstand>
+
+              {feilmelding && (
+                <Avstand marginBottom={16}>
+                  <Feilmelding feilmelding={feilmelding} />
+                </Avstand>
+              )}
+
+
 
               <VStack align="center" gap="space-12">
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
