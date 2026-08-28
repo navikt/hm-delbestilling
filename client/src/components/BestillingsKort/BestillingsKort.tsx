@@ -50,11 +50,6 @@ const BestillingsKort = ({ sak }: Props) => {
           <Detail>Art.nr. {sak.delbestilling.hmsnr}</Detail>
           {sak.delbestilling.serienr && <Detail>Serienr. {sak.delbestilling.serienr}</Detail>}
           {sak.delbestilling.brukernr && <Detail>Brukernr. {sak.delbestilling.brukernr}</Detail>}
-          {sak.delbestilling.epostTekniker && (
-            <Detail>
-              {t('bestillinger.bestillersEpost')}: {sak.delbestilling.epostTekniker}
-            </Detail>
-          )}
         </HStack>
         <Avstand marginBottom={16} />
         {sak.delbestilling.deler.map((dellinje, index) => (
@@ -112,6 +107,12 @@ const BestillingsKort = ({ sak }: Props) => {
         <BodyShort size="small" spacing>
           {t('felles.saksnummer')}: {sak.saksnummer}
         </BodyShort>
+
+        {sak.delbestilling.epostTekniker && (
+          <BodyShort size="small" spacing>
+            {t('bestillinger.bestillersEpost')}: {sak.delbestilling.epostTekniker}
+          </BodyShort>
+        )}
 
         <div className={styles.skjulForPrint}>
           {visOrdrestatusTag && <OrdrestatusTag sak={sak} />}
