@@ -486,10 +486,14 @@ const Utsjekk = () => {
 
               {inneholderUkjentDel && (
                 <Avstand marginBottom={32} marginTop={32}>
+                  <Heading spacing level="3" size="medium">
+                    {t('bestillinger.epostTekniker.label')}
+                  </Heading>
+                  <BodyShort spacing>{t('bestillinger.epostTekniker.description')}</BodyShort>
                   <TextField
                     style={{ width: '400px', maxWidth: '100%' }}
                     label={t('bestillinger.epostTekniker.label')}
-                    description={t('bestillinger.epostTekniker.description')}
+                    hideLabel
                     type="email"
                     required
                     value={handlekurv.epostTekniker ?? ''}
