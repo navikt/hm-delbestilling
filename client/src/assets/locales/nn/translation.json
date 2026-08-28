@@ -38,7 +38,7 @@
   "bestillinger.dellinjestatus.klarTilPlukk": "Klar til plukk",
   "bestillinger.dellinjestatus.forventetLeveringsdato": "Forventa levering {{dato}}",
   "bestillinger.epostTekniker.label": "E-postadresse (påkravd)",
-  "bestillinger.epostTekniker.description": "Bestillinga inneheld ein ukjend del. Du må oppgi ei e-postadresse for å kunna senda inn bestillinga.",
+  "bestillinger.epostTekniker.description": "Bestillinga inneheld ein eller fleire ukjende delar. Du må oppgi ei e-postadresse for å kunna senda inn bestillinga.",
   "bestillinger.epostTekniker.error": "Du må oppgi ei gyldig e-postadresse.",
   "bestillinger.bestillersEpost": "Bestillaren sin e-post",
 
