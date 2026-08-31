@@ -490,34 +490,32 @@ const Utsjekk = () => {
                   </RadioGroup>
                 )}
 
-              {inneholderUkjentDel && (
-                <Avstand marginBottom={32} marginTop={32}>
-                  <Heading spacing level="3" size="medium">
-                    {t('bestillinger.epostTekniker.label')}
-                  </Heading>
-                  <BodyShort spacing>{t('bestillinger.epostTekniker.description')}</BodyShort>
-                  <TextField
-                    style={{ width: '400px', maxWidth: '100%' }}
-                    label={t('bestillinger.epostTekniker.label')}
-                    hideLabel
-                    type="email"
-                    required
-                    value={handlekurv.epostTekniker ?? ''}
-                    onChange={(event) => {
-                      const epostTekniker = event.target.value
+                {inneholderUkjentDel && (
+                  <Avstand marginBottom={32} marginTop={32}>
+                    <Heading spacing level="3" size="medium">
+                      {t('bestillinger.epostTekniker.heading')}
+                    </Heading>
+                    <BodyShort spacing>{t('bestillinger.epostTekniker.description')}</BodyShort>
+                    <TextField
+                      style={{ width: '400px', maxWidth: '100%' }}
+                      label={t('bestillinger.epostTekniker.label')}
+                      type="email"
+                      value={handlekurv.epostTekniker ?? ''}
+                      onChange={(event) => {
+                        const epostTekniker = event.target.value
 
-                      setHandlekurv((prev) =>
-                        prev
-                          ? {
-                            ...prev,
-                            epostTekniker,
-                          }
-                          : undefined,
-                      )
-                    }}
-                  />
-                </Avstand>
-              )}
+                        setHandlekurv((prev) =>
+                          prev
+                            ? {
+                              ...prev,
+                              epostTekniker,
+                            }
+                            : undefined,
+                        )
+                      }}
+                    />
+                  </Avstand>
+                )}
 
                 {valideringsFeil.length > 0 && (
                   <Avstand marginTop={16}>
