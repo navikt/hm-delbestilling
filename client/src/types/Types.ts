@@ -31,7 +31,8 @@ export interface Del {
 
 export interface UkjentDel {
   hmsnr: string | undefined
-  levArtNr: string | undefined 
+  levArtNr: string | undefined
+  beskrivelse?: string
 }
 
 export interface Lagerstatus {
