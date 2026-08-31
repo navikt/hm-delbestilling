@@ -1,2 +1,4 @@
 github.com/navikt/hotbff v0.0.0-20251124203156-1402230b3a3d h1:ww8pRU80QjfdBEDekQg5m6nciUFbKfU8ytIaFwCIRd0=
 github.com/navikt/hotbff v0.0.0-20251124203156-1402230b3a3d/go.mod h1:W8egrk/ttVU95TJeFlbqWGXgazM+t/WkUNiFeVO2z/A=
+github.com/navikt/hotbff v0.0.0-20260618071543-86e37de8042a h1:2D3oSNbsjJGrWd+9QtEumonZdAy0wOjanFmOLMK8VuM=
+github.com/navikt/hotbff v0.0.0-20260618071543-86e37de8042a/go.mod h1:Ujk5DQx+jClUuRBcMlERKPUBWku5SUdLH4aP1hG8oKk=

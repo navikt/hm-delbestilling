@@ -7,6 +7,7 @@ import Kvittering from './containers/Kvittering'
 import Layout from './containers/Layout'
 import Utsjekk from './containers/Utsjekk'
 import { RolleContextLayout } from './context/rolle'
+import Delvelger from './containers/Delvelger'
 
 const Routes = () => {
   return (
@@ -19,6 +20,7 @@ const Routes = () => {
           <Route path="/" element={<Index />} />
           {/* Routes som krever at innlogget bruker har delbestillerrolle */}
           <Route element={<RolleContextLayout />}>
+            <Route path="/deler" element={<Delvelger />} />
             <Route path="/utsjekk" element={<Utsjekk />} />
             <Route path="/kvittering" element={<Kvittering />} />
             <Route path="/bestillinger" element={<Bestillinger />} />

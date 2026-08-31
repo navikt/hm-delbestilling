@@ -11,8 +11,6 @@ import { DelbestillingSak } from '../types/Types'
 import { logStartNyBestilling } from '../utils/analytics/analytics'
 import { isProd } from '../utils/utils'
 
-import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-
 type LocationState = {
   delbestillingSak: DelbestillingSak
 }
@@ -25,7 +23,6 @@ const Kvittering = () => {
 
   useEffect(() => {
     if (isProd()) {
-      window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
       // Klarer window.history med staten med en gang, så vi unngår at den henger igjen på noe vis
       window.history.replaceState({}, document.title)
     }
