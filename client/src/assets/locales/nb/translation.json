@@ -14,7 +14,10 @@
   "bestillinger.bestillingTil": "Bestilling til {{navn}}",
   "bestillinger.bestill": "Bestill",
   "bestillinger.bestilldel": "Bestill del",
+  "bestillinger.visdeler": "Vis deler",
   "bestillinger.henterDeler": "Henter deler...",
+  "bestillinger.finnerIkkeDel": "Finner du ikke delen du trenger?",
+  "bestillinger.leggTilDelManuelt": "Bestill ved å oppgi HMS-nr. eller lev.art.nr (leverandørens artikkelnummer).",
   "bestillinger.del.ikkePåLager": "Delen var ikke på lager og kan ha lenger leveringstid.",
   "bestillinger.tilbakeTilBestillingen": "Tilbake til bestillingen",
   "bestillinger.bestillDelerTil": "Bestill deler til {{navn}}",
@@ -105,7 +108,7 @@
   "felles.nei": "Nei",
 
   "oppslag.hvilketHjelpemiddel": "Hvilket hjelpemiddel trenger del?",
-  "oppslag.artnr": "Art.nr (6 siffer)",
+  "oppslag.artnr": "HMS-nr (6 siffer)",
   "oppslag.levartnr": "Lev.art.nr (minst ett tegn)",
   "oppslag.byttTilLevartnr": "Oppgi lev.art.nr i stedet",
   "oppslag.byttTilHmsnr": "Oppgi HMS-nr i stedet",
@@ -118,6 +121,8 @@
   "leggTilDel.ukjentDel.hmsnrAlleredeLagtTil": "En del med dette HMS-nr er allerede lagt til.",
   "leggTilDel.ukjentDel.feilLevartnr": "Lev.art.nr må inneholde minst ett tegn.",
   "leggTilDel.ukjentDel.levartnrAlleredeLagtTil": "En del med dette lev.art.nr er allerede lagt til.",
+  "leggTilDel.ukjentDel.beskrivelse": "Beskriv kort hva slags type del dette er",
+  "leggTilDel.ukjentDel.feilBeskrivelse": "Du må beskrive hva slags type del dette er.",
 
   "del.antallDagerSidenSistBatteribestilling_zero": "Det er allerede bestilt batteri til dette hjelpemiddelet i dag. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.",
   "del.antallDagerSidenSistBatteribestilling_other": "Batteriene til dette hjelpemiddelet ble byttet for mindre enn ett år siden, og er innenfor garantitid. Det er derfor ikke mulig å bestille nye batterier via denne tjenesten. Ta kontakt med Nav hjelpemiddelsentral for å avklare om feilen dekkes av garantien.",
