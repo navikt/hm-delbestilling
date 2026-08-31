@@ -400,6 +400,12 @@ const Utsjekk = () => {
                             <BodyShort>{delLinje.delUkjent.levArtNr}</BodyShort>
                           </>
                         )}
+                        {delLinje.delUkjent.beskrivelse && (
+                          <>
+                            <Label>{t('leggTilDel.ukjentDel.beskrivelse')}:</Label>
+                            <BodyShort>{delLinje.delUkjent.beskrivelse}</BodyShort>
+                          </>
+                        )}
 
                       </FlexedStack>
                       <Box paddingBlock="space-4">

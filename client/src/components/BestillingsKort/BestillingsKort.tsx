@@ -87,6 +87,11 @@ const BestillingsKort = ({ sak }: Props) => {
                   Lev.art.nr. {dellinjeUkjentDel.delUkjent.levArtNr} </BodyShort>}
                 <BodyShort size="medium">{dellinjeUkjentDel.antall} stk</BodyShort>
               </HStack>
+              {dellinjeUkjentDel.delUkjent.beskrivelse && (
+                <BodyShort size="medium" textColor="subtle">
+                  {dellinjeUkjentDel.delUkjent.beskrivelse}
+                </BodyShort>
+              )}
             </VStack>
           </div>
         ))}
