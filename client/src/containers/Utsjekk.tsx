@@ -387,27 +387,26 @@ const Utsjekk = () => {
                 {handlekurv.ukjenteDeler.map((delLinje) => (
                   <Avstand marginBottom={8} key={`${delLinje.delUkjent.hmsnr}-${delLinje.delUkjent.levArtNr}`}>
                     <CustomBox>
-                      <FlexedStack>
+                      <VStack gap="space-8">
                         {delLinje.delUkjent.hmsnr && (
-                          <>
+                          <HStack gap="space-8">
                             <Label>HMS-nr:</Label>
                             <BodyShort>{delLinje.delUkjent.hmsnr}</BodyShort>
-                          </>
+                          </HStack>
                         )}
                         {delLinje.delUkjent.levArtNr && (
-                          <>
+                          <HStack gap="space-8">
                             <Label>Lev.art.nr:</Label>
                             <BodyShort>{delLinje.delUkjent.levArtNr}</BodyShort>
-                          </>
+                          </HStack>
                         )}
                         {delLinje.delUkjent.beskrivelse && (
-                          <>
+                          <HStack gap="space-8">
                             <Label>{t('leggTilDel.ukjentDel.beskrivelse')}:</Label>
                             <BodyShort>{delLinje.delUkjent.beskrivelse}</BodyShort>
-                          </>
+                          </HStack>
                         )}
-
-                      </FlexedStack>
+                      </VStack>
                       <Box paddingBlock="space-4">
                         <HStack gap="space-4" align="end" justify="space-between">
                           <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettUkjentDel(delLinje.delUkjent)}>
