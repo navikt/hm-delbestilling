@@ -178,7 +178,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
 
               <Stack gap="space-8" align={{ xs: 'baseline', md: 'end' }} direction={{ xs: 'column', md: 'row' }}>
                 <Button onClick={() => handleHentDeler(hjelpemiddelUtenDeler)} data-testid="button-oppslag-submit">
-                  {t('bestillinger.bestilldel')}
+                  {t('bestillinger.visdeler')}
                 </Button>
               </Stack>
             </VStack>
