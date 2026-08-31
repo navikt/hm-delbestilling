@@ -498,6 +498,7 @@ const Utsjekk = () => {
                     <TextField
                       style={{ width: '400px', maxWidth: '100%' }}
                       label={t('bestillinger.epostTekniker.label')}
+                      error={valideringsFeil.some((feil) => feil.id === 'epost-tekniker')}
                       type="email"
                       value={handlekurv.epostTekniker ?? ''}
                       onChange={(event) => {
