@@ -28,6 +28,10 @@ const Layout = () => {
             </Avstand>
           )}
 
+          <Heading level="1" size="xlarge">
+            {t('felles.overskrift')}
+          </Heading>
+
           <Avstand marginTop={16} marginBottom={32}>
             <GlobalAlert status="announcement">
               <GlobalAlert.Header>
@@ -36,10 +40,6 @@ const Layout = () => {
               <GlobalAlert.Content>{t('nyhet.innhold')}</GlobalAlert.Content>
             </GlobalAlert>
           </Avstand>
-
-          <Heading level="1" size="xlarge">
-            {t('felles.overskrift')}
-          </Heading>
         </Content>
       </Header>
       <Box background="default" paddingBlock="space-20">
