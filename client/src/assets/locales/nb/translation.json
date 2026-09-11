@@ -45,6 +45,7 @@
   "bestillinger.epostTekniker.description": "Hjelpemiddelsentralen kan ha behov for å kontakte deg angående delen.",
   "bestillinger.epostTekniker.error": "Du må oppgi en gyldig e-postadresse.",
   "bestillinger.bestillersEpost": "Bestillers e-post",
+  "bestillinger.klikkForLesMer": "Les mer om bruk av digitale løsninger på hjelpemiddelområdet",
 
   "oppslagfeil.TILBYR_IKKE_HJELPEMIDDEL": "Du kan ikke bestille deler til dette hjelpemiddelet digitalt. Ta kontakt med din hjelpemiddelsentral for å bestille. Nav jobber med å legge inn deler til flere hjelpemidler fortløpende",
   "oppslagfeil.INGET_UTLÅN": "Vi finner dessverre ikke et utlån på dette art.nr og serienr.",

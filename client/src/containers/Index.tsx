@@ -12,7 +12,7 @@ import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import useAuth from '../hooks/useAuth'
-import { Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from '../types/Types'
+import { HjelpemiddelUtenDeler, Pilot } from '../types/Types'
 import { isProd } from '../utils/utils'
 
 const Index = () => {
@@ -89,7 +89,7 @@ const Index = () => {
                       <Lenke
                         href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
                         target={'_blank'}
-                        lenketekst="Les mer om bruk av digitale løsninger på hjelpemiddelområdet"
+                        lenketekst={t('bestillinger.klikkForLesMer')}
                       />
                     ),
                     linkEmail: <Lenke href="mailto:digihot@nav.no" lenketekst="digihot@nav.no" />,
