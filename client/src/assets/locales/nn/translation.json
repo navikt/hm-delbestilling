@@ -141,7 +141,7 @@
   "leggTilDel.ukjentDel.feilBeskrivelse": "Du må beskriva kva slags type del dette er.",
 
   "testbanner.tittel": "Dette er ein testversjon",
-  "testbanner.innhold": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
+  "testbanner.innhold": "I testversjonen bruker me berre testdata og speglar ikkje røyndommen . Art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
 
    "nyhet.tittel": "Nyheit - Ny funksjonalitet",
   "nyhet.innhold": "Det er no mogleg å bestilla delar til hjelpemiddel utan serienummer. Du må då oppgi brukarnummer slik at Nav veit kven som låner hjelpemiddelet som skal reparerast.",
