@@ -197,8 +197,6 @@ const HjelpemiddelLookup = ({
                 </Button>
               </Stack>
             </VStack>
-
-
           </>
         )}
       </VStack>
