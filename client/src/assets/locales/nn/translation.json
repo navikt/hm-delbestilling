@@ -128,6 +128,10 @@
   "oppslag.brukernr": "Brukernr (5-8 siffer)",
   "oppslag.hjelpemiddel": "Slå opp hjelpemiddel",
   "oppslag.startPåNytt": "Start på nytt",
+  "oppslag.finnNummer.header": "Slik finn du art.nr, serienr. og brukernr.",
+  "oppslag.finnNummer.artnr": "Artikkelnummer (art.nr.) finn du på sølvlappen som er festa på hjelpemiddelet.",
+  "oppslag.finnNummer.serienr": "Viss hjelpemiddelet har serienummer (serienr.) finn du også dette på sølvlappen. Det ikkje er alle hjelpemiddel som har serienummer.",
+  "oppslag.finnNummer.brukernr": "Viss hjelpemiddelet ikkje har serienummer må du oppgi brukarnummer (brukernr.). Dette finn du anten i pasientjournalsystemet for kommunen eller ved å ta kontakt med Nav.",
 
   "leggTilDel.ukjentDel.feilHmsnr": "HMS-nr må innehalda 6 siffer.",
   "leggTilDel.ukjentDel.hmsnrAlleredeLagtTil": "Ein del med dette HMS-nr er allereie lagd til.",
@@ -138,6 +142,9 @@
 
   "testbanner.tittel": "Dette er ein testversjon",
   "testbanner.innhold": "Du ser no på ein testversjon av løysinga, der informasjonen berre er testdata og ikkje nødvendigvis speglar røyndommen. Når du legg inn art.nr. og serienr, så må art.nr. vera eit gyldig hjelpemiddel (t.d. 301996), men for serienr kan du fylla inn ein vilkårleg verdi.",
+
+   "nyhet.tittel": "Nyheit - Ny funksjonalitet",
+  "nyhet.innhold": "Det er no mogleg å bestilla delar til hjelpemiddel utan serienummer. Du må då oppgi brukarnummer slik at Nav veit kven som låner hjelpemiddelet som skal reparerast.",
 
   "tilbehor.sporsmal.finnesTilbehorFraFor": "Finst dette tilbehøyret på hjelpemiddelet frå før?",
   "tilbehor.feil.maSvareFinnesTilbehor": "Du må svara på om tilbehøyret finst på hjelpemiddelet frå før",

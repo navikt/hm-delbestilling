@@ -1,7 +1,7 @@
 import React, { SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { BodyLong, Button, Heading, ReadMore, Stack, TextField, VStack } from '@navikt/ds-react'
+import { BodyLong, Button, Heading, List, ReadMore, Stack, TextField, VStack } from '@navikt/ds-react'
 
 import rest from '../services/rest'
 import { OppslagFeil } from '../types/HttpTypes'
@@ -27,7 +27,17 @@ interface Props {
   erLoggetInn: boolean
 }
 
-const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, setBrukernr, hjelpemiddelUtenDeler, setHjelpemiddelUtenDeler, erLoggetInn }: Props) => {
+const HjelpemiddelLookup = ({
+  hmsnr,
+  setHmsnr,
+  serienr,
+  setSerienr,
+  brukernr,
+  setBrukernr,
+  hjelpemiddelUtenDeler,
+  setHjelpemiddelUtenDeler,
+  erLoggetInn,
+}: Props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [gjørOppslag, setGjørOppslag] = useState(false)
@@ -66,9 +76,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
       navigate('/deler?hmsnr=' + hmsnr + '&serienr=' + serienr + '&brukernr=' + brukernr)
     } else {
       const redirectUrl = `/hjelpemidler/delbestilling/deler?hmsnr=${hmsnr}&serienr=${serienr}&brukernr=${brukernr}`
-      window.location.replace(
-        `/hjelpemidler/delbestilling/oauth2/login?redirect=${encodeURIComponent(redirectUrl)}`
-      )
+      window.location.replace(`/hjelpemidler/delbestilling/oauth2/login?redirect=${encodeURIComponent(redirectUrl)}`)
     }
   }
 
@@ -89,7 +97,6 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
     setFeilmelding(undefined)
 
     try {
-
       setGjørOppslag(true)
       logOppslagGjort(hmsnr)
       const oppslag = await rest.hjelpemiddelOppslagPåArtNr(hmsnr)
@@ -136,7 +143,12 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
             onChange={(e) => erGyldigArtnr(e.target.value) && setHmsnr(e.target.value)}
             data-testid="input-artnr"
           />
-          <Button variant="secondary" loading={gjørOppslag} onClick={handleSlåOppHjelpemiddel} data-testid="button-oppslag-submit">
+          <Button
+            variant="secondary"
+            loading={gjørOppslag}
+            onClick={handleSlåOppHjelpemiddel}
+            data-testid="button-oppslag-submit"
+          >
             {t('oppslag.hjelpemiddel')}
           </Button>
           {/* <Button type="button" onClick={reset} variant="tertiary" data-testid="button-oppslag-reset">
@@ -147,9 +159,7 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
         {hjelpemiddelUtenDeler && (
           <>
             <Avstand marginTop={8} marginBottom={24}>
-              <BodyLong>
-                {hjelpemiddelUtenDeler.navn}
-              </BodyLong>
+              <BodyLong>{hjelpemiddelUtenDeler.navn}</BodyLong>
             </Avstand>
 
             <VStack gap="space-12">
@@ -168,11 +178,16 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
                   value={brukernr}
                   onChange={(e) => erGyldigBrukernr(e.target.value) && setBrukernr(e.target.value)}
                   data-testid="input-brukernr"
-                />)}
+                />
+              )}
 
               <Avstand marginTop={2} marginBottom={8}>
-                <ReadMore header="Slik finner du art.nr, serienr. og brukernr.">
-                  TODO
+                <ReadMore header={t('oppslag.finnNummer.header')}>
+                  <List>
+                    <List.Item>{t('oppslag.finnNummer.artnr')}</List.Item>
+                    <List.Item>{t('oppslag.finnNummer.serienr')}</List.Item>
+                    <List.Item>{t('oppslag.finnNummer.brukernr')}</List.Item>
+                  </List>
                 </ReadMore>
               </Avstand>
 
@@ -186,7 +201,6 @@ const HjelpemiddelLookup = ({ hmsnr, setHmsnr, serienr, setSerienr, brukernr, se
 
           </>
         )}
-
       </VStack>
 
       {feilmelding && !gjørOppslag && (
