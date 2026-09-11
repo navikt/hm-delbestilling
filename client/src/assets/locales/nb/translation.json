@@ -142,7 +142,7 @@
   "del.bestillingsvare": "Bestillingsvare",
 
   "testbanner.tittel": "Dette er en testversjon",
-  "testbanner.innhold": "I testversjonen bruker vi kun testdata og gjenspeiler ikke virkeligheten . Art.nr. være et gyldig hjelpemiddel (f.eks. 301996), men for serienr kan du fylle inn en vilkårlig verdi.",
+  "testbanner.innhold": "I testversjonen bruker vi kun testdata og gjenspeiler ikke virkeligheten . Art.nr. kan være et gyldig hjelpemiddel (f.eks. 301996), men for serienr kan du fylle inn en vilkårlig verdi.",
 
   "nyhet.tittel": "Nyhet - Ny funksjonalitet",
   "nyhet.innhold": "Det er nå mulig å bestille deler til hjelpemidler uten serienummer. Du må da oppgi brukernummer slik at Nav vet hvem som låner hjelpemiddelet som skal repareres.",
