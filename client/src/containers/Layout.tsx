@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import { Box, GlobalAlert, Heading } from '@navikt/ds-react'
+import { Box, GlobalAlert, Heading, InfoCard } from '@navikt/ds-react'
 
 import { Avstand } from '../components/Avstand'
 import Content from '../components/Layout/Content'
@@ -15,24 +15,31 @@ const Layout = () => {
   return (
     <>
       <Toolbar />
+      {visTestMiljoBanner && (
+        <GlobalAlert status="announcement">
+          <GlobalAlert.Header>
+            <GlobalAlert.Title>{t('testbanner.tittel')}</GlobalAlert.Title>
+          </GlobalAlert.Header>
+          <GlobalAlert.Content>{t('testbanner.innhold')}</GlobalAlert.Content>
+        </GlobalAlert>
+      )}
       <Header>
         <Content>
-          {visTestMiljoBanner && (
-            <Avstand marginTop={16} marginBottom={32}>
-              <GlobalAlert status="announcement">
-                <GlobalAlert.Header>
-                  <GlobalAlert.Title>{t('testbanner.tittel')}</GlobalAlert.Title>
-                </GlobalAlert.Header>
-                <GlobalAlert.Content>{t('testbanner.innhold')}</GlobalAlert.Content>
-              </GlobalAlert>
-            </Avstand>
-          )}
           <Heading level="1" size="xlarge">
             {t('felles.overskrift')}
           </Heading>
+
+          <Avstand marginTop={16} marginBottom={32}>
+            <InfoCard data-color="info">
+              <InfoCard.Header>
+                <InfoCard.Title>{t('nyhet.tittel')}</InfoCard.Title>
+              </InfoCard.Header>
+              <InfoCard.Content>{t('nyhet.innhold')}</InfoCard.Content>
+            </InfoCard>
+          </Avstand>
         </Content>
       </Header>
-      <Box background="sunken" paddingBlock="space-20">
+      <Box background="default" paddingBlock="space-20">
         <Outlet />
       </Box>
     </>

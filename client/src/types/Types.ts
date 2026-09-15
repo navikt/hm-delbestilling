@@ -7,6 +7,13 @@ export interface Hjelpemiddel {
   antallÅrGaranti: boolean | null
 }
 
+export interface HjelpemiddelUtenDeler {
+  navn: string
+  hmsnr: string
+  isokode: string
+  erSerienrStyrt: boolean
+}
+
 export interface Del {
   navn: string
   hmsnr: string
@@ -22,6 +29,12 @@ export interface Del {
   erTilbehør: boolean
 }
 
+export interface UkjentDel {
+  hmsnr: string | undefined
+  levArtNr: string | undefined
+  beskrivelse?: string
+}
+
 export interface Lagerstatus {
   organisasjons_id: number
   organisasjons_navn: string
@@ -33,11 +46,14 @@ export interface Lagerstatus {
 
 export interface Handlekurv {
   id: string
-  serienr: string
+  serienr: string | undefined
+  brukernr: string | undefined
   hjelpemiddel: Hjelpemiddel
   deler: Dellinje[]
+  ukjenteDeler: DellinjeUkjentDel[] 
   levering: Levering | undefined
   harOpplæringPåBatteri: boolean | undefined
+  epostTekniker: string | null
   piloter: Pilot[]
 }
 
@@ -50,14 +66,22 @@ export interface Dellinje {
   lagerstatusPåBestillingstidspunkt?: Lagerstatus
 }
 
+export interface DellinjeUkjentDel {
+  delUkjent: UkjentDel
+  antall: number
+}
+
 export interface Delbestilling {
   id: string
   hmsnr: string
-  serienr: string
+  serienr: string | undefined
+  brukernr: string | undefined
   navn: string
   deler: Dellinje[]
+  ukjenteDeler: DellinjeUkjentDel[]
   levering: Levering
   harOpplæringPåBatteri: boolean | undefined
+  epostTekniker: string | null
 }
 
 export interface DelbestillingSak {

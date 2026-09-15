@@ -17,7 +17,7 @@ var (
 
 func init() {
 	if useMSW {
-		idp = ""
+		idp = nil
 	}
 }
 
@@ -33,21 +33,21 @@ func main() {
 			"/api/": &proxy.Options{
 				Target:      os.Getenv("API_URL"),
 				StripPrefix: false,
-				IDP:         texas.TokenX,
 				IDPTarget:   os.Getenv("DELBESTILLING_API_AUDIENCE"),
+			},
+			"/public/": &proxy.Options{
+				Target:      os.Getenv("API_URL"),
+				StripPrefix: true,
 			},
 			"/roller-api/": &proxy.Options{
 				Target:      os.Getenv("ROLLER_URL"),
 				StripPrefix: true,
-				IDP:         texas.TokenX,
 				IDPTarget:   os.Getenv("ROLLER_AUDIENCE"),
 			},
 		},
-		IDP:     idp,
-		EnvKeys: []string{},
-		ProtectedWhitelist: &texas.WhitelistConfig{
-			WhitelistPaths: []string{"/", "/api/oppslag", "/api/tilgjengelige-hjelpemidler", "/api/deler-til-hmsnrs"},
-		},
+		IDP:         idp,
+		EnvKeys:     []string{},
+		PublicPaths: []string{"/"},
 	}
-	hotbff.Start(opts)
+	hotbff.Start(nil, opts)
 }

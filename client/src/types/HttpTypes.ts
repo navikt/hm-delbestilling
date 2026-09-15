@@ -1,14 +1,28 @@
-import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel, Pilot } from './Types'
+import { Del, Delbestillerrolle, Delbestilling, DelbestillingSak, Hjelpemiddel, HjelpemiddelUtenDeler, Pilot } from './Types'
 
 export interface OppslagRequest {
+  brukernr: string | undefined
+  serienr: string | undefined
+}
+
+export interface OppslagRequestUtenSerienr {
   hmsnr: string
-  serienr: string
+}
+
+export interface OppslagResponseUtenDeler {
+  hjelpemiddel: HjelpemiddelUtenDeler | undefined
+  feil: OppslagFeil | undefined
 }
 
 export interface OppslagResponse {
   hjelpemiddel: Hjelpemiddel | undefined
   feil: OppslagFeil | undefined
   piloter: Pilot[]
+}
+
+export interface HjelpemiddelOppslagResponse {
+  hjelpemiddel: HjelpemiddelUtenDeler | undefined
+  feil: OppslagFeil | undefined
 }
 
 export interface AlleHjelpemidlerMedDelerResponse {
@@ -43,6 +57,7 @@ export enum OppslagFeil {
   'TILBYR_IKKE_HJELPEMIDDEL' = 'TILBYR_IKKE_HJELPEMIDDEL',
   'INGET_UTLÅN' = 'INGET_UTLÅN',
   'PERSON_IKKE_FUNNET' = 'PERSON_IKKE_FUNNET',
+  'MANGLER_BRUKERNR_ELLER_SERIENR' = 'MANGLER_BRUKERNR_ELLER_SERIENR',
 }
 
 export interface DelbestillingRequest {

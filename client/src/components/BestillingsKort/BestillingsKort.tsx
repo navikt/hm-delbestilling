@@ -46,10 +46,11 @@ const BestillingsKort = ({ sak }: Props) => {
         <Heading size="small" level="3">
           {sak.delbestilling.navn ? <>Bestilling til {sak.delbestilling.navn}</> : <>Bestilling</>}
         </Heading>
-        <Detail style={{ display: 'flex', gap: '1rem' }}>
-          <span>Art.nr. {sak.delbestilling.hmsnr}</span>
-          <span>Serienr. {sak.delbestilling.serienr}</span>
-        </Detail>
+        <HStack gap="space-24">
+          <Detail>Art.nr. {sak.delbestilling.hmsnr}</Detail>
+          {sak.delbestilling.serienr && <Detail>Serienr. {sak.delbestilling.serienr}</Detail>}
+          {sak.delbestilling.brukernr && <Detail>Brukernr. {sak.delbestilling.brukernr}</Detail>}
+        </HStack>
         <Avstand marginBottom={16} />
         {sak.delbestilling.deler.map((dellinje, index) => (
           <div key={index} className={styles.dellinje}>
@@ -75,6 +76,25 @@ const BestillingsKort = ({ sak }: Props) => {
             </VStack>
           </div>
         ))}
+
+        {sak.delbestilling.ukjenteDeler.map((dellinjeUkjentDel, index) => (
+          <div key={index} className={styles.dellinje}>
+            <VStack gap="space-4">
+              <HStack justify="space-between">
+                {dellinjeUkjentDel.delUkjent.hmsnr && <BodyShort size="medium" style={{ marginBottom: '0' }}>
+                  HMS-nr. {dellinjeUkjentDel.delUkjent.hmsnr} </BodyShort>}
+                {dellinjeUkjentDel.delUkjent.levArtNr && <BodyShort size="medium" style={{ marginBottom: '0' }}>
+                  Lev.art.nr. {dellinjeUkjentDel.delUkjent.levArtNr} </BodyShort>}
+                <BodyShort size="medium">{dellinjeUkjentDel.antall} stk</BodyShort>
+              </HStack>
+              {dellinjeUkjentDel.delUkjent.beskrivelse && (
+                <BodyShort size="medium" textColor="subtle">
+                  {dellinjeUkjentDel.delUkjent.beskrivelse}
+                </BodyShort>
+              )}
+            </VStack>
+          </div>
+        ))}
         <Avstand marginBottom={16} />
 
         <BodyShort size="small" spacing>
@@ -92,6 +112,12 @@ const BestillingsKort = ({ sak }: Props) => {
         <BodyShort size="small" spacing>
           {t('felles.saksnummer')}: {sak.saksnummer}
         </BodyShort>
+
+        {sak.delbestilling.epostTekniker && (
+          <BodyShort size="small" spacing>
+            {t('bestillinger.bestillersEpost')}: {sak.delbestilling.epostTekniker}
+          </BodyShort>
+        )}
 
         <div className={styles.skjulForPrint}>
           {visOrdrestatusTag && <OrdrestatusTag sak={sak} />}

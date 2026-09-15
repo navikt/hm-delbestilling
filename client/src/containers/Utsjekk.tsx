@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { ArrowLeftIcon, TrashIcon } from '@navikt/aksel-icons'
 import {
@@ -13,10 +13,12 @@ import {
   Heading,
   HStack,
   InfoCard,
+  Label,
   Loader,
   Radio,
   RadioGroup,
   Select,
+  TextField,
   VStack,
 } from '@navikt/ds-react'
 
@@ -33,7 +35,7 @@ import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
 import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
 import rest from '../services/rest'
-import { Del, Delbestilling, Handlekurv, Levering, Pilot } from '../types/Types'
+import { Del, Delbestilling, Handlekurv, Levering, Pilot, UkjentDel } from '../types/Types'
 import {
   logBestillingSlettet,
   logInnsendingFeil,
@@ -42,22 +44,18 @@ import {
 } from '../utils/analytics/analytics'
 import { isProd } from '../utils/utils'
 
-import { SESSIONSTORAGE_HANDLEKURV_KEY } from './Index'
-
 export interface Valideringsfeil {
-  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år'
-  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år'
+  id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år' | 'epost-tekniker'
+  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år' | 'mangler eller ugyldig epost'
   melding: string
 }
 
+const MAKS_ANTALL_UKJENT_DEL = 4 
+const epostRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 const Utsjekk = () => {
-  const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(() => {
-    try {
-      return JSON.parse(window.sessionStorage.getItem(SESSIONSTORAGE_HANDLEKURV_KEY) || '')
-    } catch {
-      return undefined
-    }
-  })
+  const location = useLocation()
+  const [handlekurv, setHandlekurv] = useState<Handlekurv | undefined>(location.state as Handlekurv | undefined)
   const [visFlereDeler, setVisFlereDeler] = useState(false)
   const [senderInnBestilling, setSenderInnBestilling] = useState(false)
   const [submitAttempt, setSubmitAttempt] = useState(false)
@@ -71,6 +69,8 @@ const Utsjekk = () => {
 
   const handlekurvInneholderBatteri = !!handlekurv?.deler.some((delLinje) => delLinje.del.kategori === 'Batteri')
 
+  const inneholderUkjentDel = (handlekurv?.ukjenteDeler.length ?? 0) > 0
+
   useEffect(() => {
     // Innsendere i kommuner uten XK-lager skal ikke trenge å måtte gjøre et valg her
     if (harXKLager === false) {
@@ -79,10 +79,10 @@ const Utsjekk = () => {
   }, [harXKLager])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (handlekurv && harXKLager === undefined) {
         try {
-          const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr)
+          const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr, handlekurv.brukernr)
           setHarXKLager(response.xkLager)
         } catch {
           setHarXKLager(false)
@@ -111,13 +111,39 @@ const Utsjekk = () => {
     window.scrollTo(0, 0)
   }
 
-  const setAntall = (del: Del, antall: number) => {
+  const leggTilUkjentDel = (del: UkjentDel) => {
+    setHandlekurv((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        ukjenteDeler: [...prev.ukjenteDeler, { delUkjent: del, antall: 1 }],
+      }
+    })
+
+    setVisFlereDeler(false)
+    window.scrollTo(0, 0)
+  }
+
+  const setAntallForDel = (del: Del, antall: number) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
       return {
         ...prev,
         deler: prev.deler.map((handlekurvDel) => {
           if (handlekurvDel.del.hmsnr === del.hmsnr) return { ...handlekurvDel, antall }
+          return handlekurvDel
+        }),
+      }
+    })
+  }
+
+  const setAntallForUkjentDel = (del: UkjentDel, antall: number) => {
+    setHandlekurv((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        ukjenteDeler: prev.ukjenteDeler.map((handlekurvDel) => {
+          if (handlekurvDel.delUkjent.hmsnr === del.hmsnr && handlekurvDel.delUkjent.levArtNr === del.levArtNr) return { ...handlekurvDel, antall }
           return handlekurvDel
         }),
       }
@@ -136,6 +162,18 @@ const Utsjekk = () => {
     })
   }
 
+  const handleSlettUkjentDel = (del: UkjentDel) => {
+    setHandlekurv((prev) => {
+      if (!prev) return undefined
+      return {
+        ...prev,
+        ukjenteDeler: prev.ukjenteDeler.filter((handlekurvDel) => {
+          return !(handlekurvDel.delUkjent.hmsnr === del.hmsnr && handlekurvDel.delUkjent.levArtNr === del.levArtNr)
+        }),
+      }
+    })
+  }
+
   const setLevering = (levering: Levering) => {
     setHandlekurv((prev) => {
       if (!prev) return undefined
@@ -149,8 +187,10 @@ const Utsjekk = () => {
   const validerBestilling = (handlekurv: Handlekurv) => {
     const feil: Valideringsfeil[] = []
 
-    if (handlekurv.deler.length === 0) {
-      feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn bestilling med ingen deler.' })
+    const inneholderUkjentDel = handlekurv.ukjenteDeler.length > 0
+
+    if (handlekurv.deler.length === 0 && handlekurv.ukjenteDeler.length === 0) {
+      feil.push({ id: 'deler', type: 'ingen deler', melding: 'Du kan ikke sende inn en bestilling uten deler.' })
     }
 
     if (!handlekurv.levering) {
@@ -163,6 +203,18 @@ const Utsjekk = () => {
         type: 'mangler opplæring',
         melding: 'Du må bekrefte at du har fått opplæring i å bytte disse batteriene.',
       })
+    }
+
+    if (inneholderUkjentDel) {
+      const epost = handlekurv.epostTekniker?.trim() ?? ''
+
+      if (!epostRegex.test(epost)) {
+        feil.push({
+          id: 'epost-tekniker',
+          type: 'mangler eller ugyldig epost',
+          melding: t('bestillinger.epostTekniker.error'),
+        })
+      }
     }
 
     setValideringsFeil(feil)
@@ -185,11 +237,15 @@ const Utsjekk = () => {
       const delbestilling: Delbestilling = {
         id: handlekurv.id,
         hmsnr: handlekurv.hjelpemiddel.hmsnr,
-        serienr: handlekurv.serienr,
         navn: handlekurv.hjelpemiddel.navn,
         deler: handlekurv.deler,
+        ukjenteDeler: handlekurv.ukjenteDeler,
         levering: handlekurv.levering!,
         harOpplæringPåBatteri: handlekurv.harOpplæringPåBatteri,
+        epostTekniker: inneholderUkjentDel ? handlekurv.epostTekniker?.trim() || null : null,
+        // Default til undefined hvis serienr eller brukernr er tom string, for å matche backend-validering
+        serienr: handlekurv.serienr || undefined,
+        brukernr: handlekurv.brukernr || undefined,
       }
 
       logInnsendingGjort(handlekurv.id)
@@ -233,7 +289,6 @@ const Utsjekk = () => {
 
   const slettBestilling = () => {
     logBestillingSlettet()
-    window.sessionStorage.removeItem(SESSIONSTORAGE_HANDLEKURV_KEY)
     navigate('/')
   }
 
@@ -254,6 +309,7 @@ const Utsjekk = () => {
     )
   }
 
+  console.log('handlekurv', handlekurv)
   return (
     <main style={{ '--main-bg-color': 'white' } as React.CSSProperties}>
       <Content>
@@ -269,10 +325,11 @@ const Utsjekk = () => {
             <Heading level="2" size="small" spacing>
               {t('bestillinger.bestillDelerTil', { navn: handlekurv.hjelpemiddel.navn })}
             </Heading>
-            <BodyShort style={{ display: 'flex', gap: '20px' }}>
-              <span>Art.nr. {handlekurv.hjelpemiddel.hmsnr}</span>
-              <span>Serienr. {handlekurv.serienr}</span>
-            </BodyShort>
+            <HStack gap="space-24" >
+              <BodyShort>Art.nr. {handlekurv.hjelpemiddel.hmsnr}</BodyShort>
+              {handlekurv.brukernr && <BodyShort>Brukernr. {handlekurv.brukernr}</BodyShort>}
+              {handlekurv.serienr && <BodyShort>Serienr. {handlekurv.serienr}</BodyShort>}
+            </HStack>
           </CustomBox>
           <Avstand marginBottom={48} />
           {visFlereDeler ? (
@@ -285,6 +342,8 @@ const Utsjekk = () => {
                 ),
               }}
               onLeggTil={(del) => leggTilDel(del)}
+              onLeggTilUkjent={(del) => leggTilUkjentDel(del)}
+              handlekurv={handlekurv}
             />
           ) : (
             <>
@@ -292,7 +351,7 @@ const Utsjekk = () => {
                 <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
-                {handlekurv.deler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
+                {handlekurv.deler.length === 0 && handlekurv.ukjenteDeler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
                 {handlekurv.deler.map((delLinje) => (
                   <Avstand marginBottom={8} key={delLinje.del.hmsnr}>
                     <CustomBox>
@@ -310,7 +369,7 @@ const Utsjekk = () => {
                           <Select
                             label="Antall"
                             value={delLinje.antall}
-                            onChange={(e) => setAntall(delLinje.del, Number(e.target.value))}
+                            onChange={(e) => setAntallForDel(delLinje.del, Number(e.target.value))}
                             size="small"
                           >
                             {Array.from(Array(delLinje.del.maksAntall), (_, x: number) => (
@@ -324,6 +383,53 @@ const Utsjekk = () => {
                     </CustomBox>
                   </Avstand>
                 ))}
+
+                {handlekurv.ukjenteDeler.map((delLinje) => (
+                  <Avstand marginBottom={8} key={`${delLinje.delUkjent.hmsnr}-${delLinje.delUkjent.levArtNr}`}>
+                    <CustomBox>
+                      <VStack gap="space-8">
+                        {delLinje.delUkjent.hmsnr && (
+                          <HStack gap="space-8">
+                            <Label>HMS-nr:</Label>
+                            <BodyShort>{delLinje.delUkjent.hmsnr}</BodyShort>
+                          </HStack>
+                        )}
+                        {delLinje.delUkjent.levArtNr && (
+                          <HStack gap="space-8">
+                            <Label>Lev.art.nr:</Label>
+                            <BodyShort>{delLinje.delUkjent.levArtNr}</BodyShort>
+                          </HStack>
+                        )}
+                        {delLinje.delUkjent.beskrivelse && (
+                          <HStack gap="space-8">
+                            <Label>{t('leggTilDel.ukjentDel.beskrivelse')}:</Label>
+                            <BodyShort>{delLinje.delUkjent.beskrivelse}</BodyShort>
+                          </HStack>
+                        )}
+                      </VStack>
+                      <Box paddingBlock="space-4">
+                        <HStack gap="space-4" align="end" justify="space-between">
+                          <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettUkjentDel(delLinje.delUkjent)}>
+                            {t('bestillinger.slettDel')}
+                          </Button>
+                          <Select
+                            label="Antall"
+                            value={delLinje.antall}
+                            onChange={(e) => setAntallForUkjentDel(delLinje.delUkjent, Number(e.target.value))}
+                            size="small"
+                          >
+                            {Array.from(Array(MAKS_ANTALL_UKJENT_DEL), (_, x: number) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
+                          </Select>
+                        </HStack>
+                      </Box>
+                    </CustomBox>
+                  </Avstand>
+                ))}
+
                 <Avstand marginBottom={16} />
                 <Button variant="secondary" onClick={() => setVisFlereDeler(true)}>
                   {handlekurv.deler.length > 0 ? t('bestillinger.leggTilFlereDeler') : t('bestillinger.leggTilDeler')}
@@ -383,6 +489,34 @@ const Utsjekk = () => {
                   </RadioGroup>
                 )}
 
+                {inneholderUkjentDel && (
+                  <Avstand marginBottom={32} marginTop={32}>
+                    <Heading spacing level="3" size="medium">
+                      {t('bestillinger.epostTekniker.heading')}
+                    </Heading>
+                    <BodyShort spacing>{t('bestillinger.epostTekniker.description')}</BodyShort>
+                    <TextField
+                      style={{ width: '400px', maxWidth: '100%' }}
+                      label={t('bestillinger.epostTekniker.label')}
+                      error={valideringsFeil.some((feil) => feil.id === 'epost-tekniker')}
+                      type="email"
+                      value={handlekurv.epostTekniker ?? ''}
+                      onChange={(event) => {
+                        const epostTekniker = event.target.value
+
+                        setHandlekurv((prev) =>
+                          prev
+                            ? {
+                              ...prev,
+                              epostTekniker,
+                            }
+                            : undefined,
+                        )
+                      }}
+                    />
+                  </Avstand>
+                )}
+
                 {valideringsFeil.length > 0 && (
                   <Avstand marginTop={16}>
                     <Errors valideringsFeil={valideringsFeil} />
@@ -395,6 +529,8 @@ const Utsjekk = () => {
                   <Feilmelding feilmelding={feilmelding} />
                 </Avstand>
               )}
+
+
 
               <VStack align="center" gap="space-12">
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
