@@ -74,20 +74,9 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
     setErrorMessageUkjentDel(nyErrorMessage)
   }, [hmsnr, levArtNr, visHmsnrInputForUkjentDel, handlekurv])
 
-  if (!hjelpemiddel.deler || hjelpemiddel.deler.length === 0) {
-    return (
-      <InfoCard data-color="accent">
-        <InfoCard.Header>
-          <InfoCard.Title>{t('leggTilDel.ingenDeler.tittel')}</InfoCard.Title>
-        </InfoCard.Header>
-        <InfoCard.Content>{t('leggTilDel.ingenDeler.innhold')}</InfoCard.Content>
-      </InfoCard>
-    )
-  }
+  const harIngenDeler = !hjelpemiddel.deler || hjelpemiddel.deler.length === 0
 
-  console.log('Antall deler funnet:', hjelpemiddel.deler.length)
-
-  const filtrerteDeler = hjelpemiddel.deler.filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
+  const filtrerteDeler = (hjelpemiddel.deler ?? []).filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
     .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
 
   const delerForSide = (deler: Del[], page: number) => {
@@ -100,40 +89,49 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
 
   return (
     <>
-      <Heading size="medium" level="3" spacing>
-        Deler til {hjelpemiddel.navn}
-      </Heading>
+      {harIngenDeler ? (
+        <InfoCard data-color="accent">
+          <InfoCard.Header>
+            <InfoCard.Title>{t('leggTilDel.ingenDeler.tittel')}</InfoCard.Title>
+          </InfoCard.Header>
+          <InfoCard.Content>{t('leggTilDel.ingenDeler.innhold')}</InfoCard.Content>
+        </InfoCard>
+      ) : (
+        <>
+          <Heading size="medium" level="3" spacing>
+            Deler til {hjelpemiddel.navn}
+          </Heading>
 
-      <Avstand marginBottom={8}>
-        <DelKategoriVelger
-          setKategoriFilter={setKategoriFilter}
-          delKategorier={delKategorier}
-          kategoriFilter={kategoriFilter}
-          onKategoriClick={() => setSøk('')}
-        />
-
-        <Avstand marginBottom={16} />
-
-        <HStack justify="start" align="end" gap="space-4">
-          <div>
-            <Search
-              label="Søk"
-              variant="simple"
-              hideLabel
-              value={søk}
-              onChange={(val) => {
-                setSøk(val)
-                if (val) {
-                  setKategoriFilter(undefined)
-                }
-              }}
+          <Avstand marginBottom={8}>
+            <DelKategoriVelger
+              setKategoriFilter={setKategoriFilter}
+              delKategorier={delKategorier}
+              kategoriFilter={kategoriFilter}
+              onKategoriClick={() => setSøk('')}
             />
-          </div>
-        </HStack>
-      </Avstand>
 
-      {delerForSide(filtrerteDeler, page)
-        .map((del) => {
+            <Avstand marginBottom={16} />
+
+            <HStack justify="start" align="end" gap="space-4">
+              <div>
+                <Search
+                  label="Søk"
+                  variant="simple"
+                  hideLabel
+                  value={søk}
+                  onChange={(val) => {
+                    setSøk(val)
+                    if (val) {
+                      setKategoriFilter(undefined)
+                    }
+                  }}
+                />
+              </div>
+            </HStack>
+          </Avstand>
+
+          {delerForSide(filtrerteDeler, page)
+            .map((del) => {
           const erFastLagervare = del.lagerstatus.minmax
           const erBatteri = del.kategori.toLowerCase() === 'batteri'
 
@@ -200,16 +198,18 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
               </CustomBox>
             </Avstand>
           )
-        })}
-      {antallSider > 1 && <Pagination
-        page={page}
-        onPageChange={setPage}
-        count={antallSider}
-        boundaryCount={1}
-        siblingCount={1}
-        prevNextTexts
-      />
-      }
+            })}
+          {antallSider > 1 && <Pagination
+            page={page}
+            onPageChange={setPage}
+            count={antallSider}
+            boundaryCount={1}
+            siblingCount={1}
+            prevNextTexts
+          />
+          }
+        </>
+      )}
       <Avstand marginTop={16} />
       <Box padding="space-24" background="neutral-soft" borderWidth="1" borderRadius="12" borderColor="neutral-subtleA">
 
