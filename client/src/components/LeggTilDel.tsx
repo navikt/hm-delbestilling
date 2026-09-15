@@ -1,9 +1,25 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { BodyLong, Box, Button, Detail, Heading, HStack, InfoCard, InlineMessage, Pagination, Search, Stack, TextField, VStack } from '@navikt/ds-react'
+import { ArrowsCirclepathIcon } from '@navikt/aksel-icons'
+import {
+  BodyLong,
+  Box,
+  Button,
+  Detail,
+  Heading,
+  HStack,
+  InfoCard,
+  InlineMessage,
+  Pagination,
+  Search,
+  Stack,
+  TextField,
+  VStack,
+} from '@navikt/ds-react'
 
 import FlexedStack from '../components/Layout/FlexedStack'
+import { erGyldigArtnr, erGyldigLevartnr } from '../helpers/utils'
 import { Del, Handlekurv, Hjelpemiddel, UkjentDel } from '../types/Types'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
@@ -16,8 +32,6 @@ import InfoOmDel from './InfoOmDel'
 import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
 
 import infoOmDelStyles from './InfoOmDel.module.css'
-import { erGyldigArtnr, erGyldigLevartnr } from '../helpers/utils'
-import { ArrowsCirclepathIcon } from '@navikt/aksel-icons'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -40,15 +54,14 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
   const [submitAttempt, setSubmitAttempt] = useState(false)
 
   const pageSize = 10
-  const errorMessageBeskrivelse = !visHmsnrInputForUkjentDel && !beskrivelse.trim()
-    ? t('leggTilDel.ukjentDel.feilBeskrivelse')
-    : null
-
-
-  useEffect(() => { setPage(1) }, [kategoriFilter, søk])
+  const errorMessageBeskrivelse =
+    !visHmsnrInputForUkjentDel && !beskrivelse.trim() ? t('leggTilDel.ukjentDel.feilBeskrivelse') : null
 
   useEffect(() => {
+    setPage(1)
+  }, [kategoriFilter, søk])
 
+  useEffect(() => {
     let nyErrorMessage = null
 
     if (visHmsnrInputForUkjentDel) {
@@ -76,7 +89,8 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
 
   const harIngenDeler = !hjelpemiddel.deler || hjelpemiddel.deler.length === 0
 
-  const filtrerteDeler = (hjelpemiddel.deler ?? []).filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
+  const filtrerteDeler = (hjelpemiddel.deler ?? [])
+    .filter((del) => (søk ? del.navn.toLowerCase().includes(søk.toLowerCase()) || del.hmsnr.includes(søk) : true))
     .filter((del) => (kategoriFilter ? del.kategori === kategoriFilter : true))
 
   const delerForSide = (deler: Del[], page: number) => {
@@ -130,96 +144,99 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
             </HStack>
           </Avstand>
 
-          {delerForSide(filtrerteDeler, page)
-            .map((del) => {
-          const erFastLagervare = del.lagerstatus.minmax
-          const erBatteri = del.kategori.toLowerCase() === 'batteri'
+          {delerForSide(filtrerteDeler, page).map((del) => {
+            const erFastLagervare = del.lagerstatus.minmax
+            const erBatteri = del.kategori.toLowerCase() === 'batteri'
 
-          // Batteri er i seg selv dekket av garanti i 1 år
-          const harNyligBlittBestiltBatteri =
-            erBatteri &&
-            hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
-            hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
+            // Batteri er i seg selv dekket av garanti i 1 år
+            const harNyligBlittBestiltBatteri =
+              erBatteri &&
+              hjelpemiddel.antallDagerSidenSistBatteribestilling !== null &&
+              hjelpemiddel.antallDagerSidenSistBatteribestilling < 365
 
-          // Dersom hjelpemiddelet er innenfor garantitiden, så kan batteriet være dekket av garantien
-          const dekketAvHjelpemiddeletsGaranti = erBatteri && hjelpemiddel.erInnenforGaranti === true
+            // Dersom hjelpemiddelet er innenfor garantitiden, så kan batteriet være dekket av garantien
+            const dekketAvHjelpemiddeletsGaranti = erBatteri && hjelpemiddel.erInnenforGaranti === true
 
-          const erDekketAvGaranti = harNyligBlittBestiltBatteri || dekketAvHjelpemiddeletsGaranti
+            const erDekketAvGaranti = harNyligBlittBestiltBatteri || dekketAvHjelpemiddeletsGaranti
 
-          const kanBestilles = !erDekketAvGaranti
+            const kanBestilles = !erDekketAvGaranti
 
-          const tilbehorSvar = tilbehorInfo[del.hmsnr]
-          const kanBestilleTilbehor = del.erTilbehør ? tilbehorSvar?.harTilbehørFraFør === true : true
+            const tilbehorSvar = tilbehorInfo[del.hmsnr]
+            const kanBestilleTilbehor = del.erTilbehør ? tilbehorSvar?.harTilbehørFraFør === true : true
 
-          return (
-            <Avstand marginBottom={12} key={del.hmsnr}>
-              <CustomBox>
-                <DelInnhold>
-                  <VStack gap="space-12">
-                    <FlexedStack>
-                      <Bilde imgs={del.imgs} navn={del.navn} />
-                      <Beskrivelser>
-                        <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
+            return (
+              <Avstand marginBottom={12} key={del.hmsnr}>
+                <CustomBox>
+                  <DelInnhold>
+                    <VStack gap="space-12">
+                      <FlexedStack>
+                        <Bilde imgs={del.imgs} navn={del.navn} />
+                        <Beskrivelser>
+                          <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
 
-                        {harNyligBlittBestiltBatteri && hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
-                          <Avstand marginTop={20}>
-                            <Detail textColor="subtle" className={infoOmDelStyles.utvidetBredde}>
-                              {t('del.antallDagerSidenSistBatteribestilling', {
-                                count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
-                              })}
-                            </Detail>
-                          </Avstand>
-                        ) : dekketAvHjelpemiddeletsGaranti ? (
-                          <Avstand marginTop={20}>
-                            <Detail className={infoOmDelStyles.utvidetBredde}>
-                              {t('del.hjelpemiddelErInnenforGarantitid')}
-                            </Detail>
-                          </Avstand>
-                        ) : null}
-                      </Beskrivelser>
-                    </FlexedStack>
-                    {del.erTilbehør && kanBestilles && (
-                      <Avstand marginTop={16}>
-                        <TilbehørSpørsmål
-                          delId={del.hmsnr}
-                          tilbehorInfo={tilbehorInfo}
-                          setTilbehorInfo={setTilbehorInfo}
-                        />
-                      </Avstand>
+                          {harNyligBlittBestiltBatteri &&
+                          hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
+                            <Avstand marginTop={20}>
+                              <Detail textColor="subtle" className={infoOmDelStyles.utvidetBredde}>
+                                {t('del.antallDagerSidenSistBatteribestilling', {
+                                  count: hjelpemiddel.antallDagerSidenSistBatteribestilling,
+                                })}
+                              </Detail>
+                            </Avstand>
+                          ) : dekketAvHjelpemiddeletsGaranti ? (
+                            <Avstand marginTop={20}>
+                              <Detail className={infoOmDelStyles.utvidetBredde}>
+                                {t('del.hjelpemiddelErInnenforGarantitid')}
+                              </Detail>
+                            </Avstand>
+                          ) : null}
+                        </Beskrivelser>
+                      </FlexedStack>
+                      {del.erTilbehør && kanBestilles && (
+                        <Avstand marginTop={16}>
+                          <TilbehørSpørsmål
+                            delId={del.hmsnr}
+                            tilbehorInfo={tilbehorInfo}
+                            setTilbehorInfo={setTilbehorInfo}
+                          />
+                        </Avstand>
+                      )}
+                    </VStack>
+
+                    {kanBestilles && kanBestilleTilbehor && (
+                      <Button variant="secondary" onClick={() => onLeggTil(del)}>
+                        {t('bestillinger.bestill')}
+                      </Button>
                     )}
-                  </VStack>
-
-                  {kanBestilles && kanBestilleTilbehor && (
-                    <Button variant="secondary" onClick={() => onLeggTil(del)}>
-                      {t('bestillinger.bestill')}
-                    </Button>
-                  )}
-                </DelInnhold>
-              </CustomBox>
-            </Avstand>
-          )
-            })}
-          {antallSider > 1 && <Pagination
-            page={page}
-            onPageChange={setPage}
-            count={antallSider}
-            boundaryCount={1}
-            siblingCount={1}
-            prevNextTexts
-          />
-          }
+                  </DelInnhold>
+                </CustomBox>
+              </Avstand>
+            )
+          })}
+          {antallSider > 1 && (
+            <Pagination
+              page={page}
+              onPageChange={setPage}
+              count={antallSider}
+              boundaryCount={1}
+              siblingCount={1}
+              prevNextTexts
+            />
+          )}
         </>
       )}
       <Avstand marginTop={16} />
       <Box padding="space-24" background="neutral-soft" borderWidth="1" borderRadius="12" borderColor="neutral-subtleA">
-
         <HStack justify="space-between" align="end" wrap={false} gap="space-8">
-
           <VStack gap="space-12">
-            <Heading level="3" size="small">{t('bestillinger.finnerIkkeDel')}</Heading>
-            <BodyLong textColor="subtle" size="small">{t('bestillinger.leggTilDelManuelt')}</BodyLong>
-            {visHmsnrInputForUkjentDel ?
-              (<>
+            <Heading level="3" size="small">
+              {t('bestillinger.finnerIkkeDel')}
+            </Heading>
+            <BodyLong textColor="subtle" size="small">
+              {t('bestillinger.leggTilDelManuelt')}
+            </BodyLong>
+            {visHmsnrInputForUkjentDel ? (
+              <>
                 <HStack align="end" gap="space-8" wrap>
                   <TextField
                     style={{ width: '110px' }}
@@ -229,16 +246,20 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                     data-testid="input-artnr"
                     error={submitAttempt && errorMessageUkjentDel}
                   />
-                  <Button icon={<ArrowsCirclepathIcon aria-hidden />} variant="tertiary" onClick={() => {
-                    setHmsnr('')
-                    setVisHmsnrInputForUkjentDel(false)
-                  }}>
+                  <Button
+                    icon={<ArrowsCirclepathIcon aria-hidden />}
+                    variant="tertiary"
+                    onClick={() => {
+                      setHmsnr('')
+                      setVisHmsnrInputForUkjentDel(false)
+                    }}
+                  >
                     {t('oppslag.byttTilLevartnr')}
                   </Button>
                 </HStack>
-              </>)
-              :
-              (<>
+              </>
+            ) : (
+              <>
                 <HStack align="end" gap="space-8" wrap>
                   <TextField
                     style={{ width: '110px' }}
@@ -248,11 +269,15 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                     data-testid="input-levartnr"
                     error={submitAttempt && errorMessageUkjentDel}
                   />
-                  <Button icon={<ArrowsCirclepathIcon aria-hidden />} variant="tertiary" onClick={() => {
-                    setLevArtNr('')
-                    setBeskrivelse('')
-                    setVisHmsnrInputForUkjentDel(true)
-                  }}>
+                  <Button
+                    icon={<ArrowsCirclepathIcon aria-hidden />}
+                    variant="tertiary"
+                    onClick={() => {
+                      setLevArtNr('')
+                      setBeskrivelse('')
+                      setVisHmsnrInputForUkjentDel(true)
+                    }}
+                  >
                     {t('oppslag.byttTilHmsnr')}
                   </Button>
                 </HStack>
@@ -266,33 +291,31 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                   error={submitAttempt && errorMessageBeskrivelse}
                 />
               </>
-              )
-            }
+            )}
 
             <InlineMessage status="info" size="small">
               {t('bestillinger.måManueltSaksbehandles')}
             </InlineMessage>
           </VStack>
 
-          <Button variant="secondary" onClick={() => {
-            setSubmitAttempt(true)
-            if (!errorMessageUkjentDel && !errorMessageBeskrivelse) {
-              onLeggTilUkjent({
-                hmsnr: hmsnr || undefined,
-                levArtNr: levArtNr || undefined,
-                beskrivelse: visHmsnrInputForUkjentDel ? undefined : beskrivelse.trim(),
-              })
-            }
-          }}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setSubmitAttempt(true)
+              if (!errorMessageUkjentDel && !errorMessageBeskrivelse) {
+                onLeggTilUkjent({
+                  hmsnr: hmsnr || undefined,
+                  levArtNr: levArtNr || undefined,
+                  beskrivelse: visHmsnrInputForUkjentDel ? undefined : beskrivelse.trim(),
+                })
+              }
+            }}
+          >
             {t('bestillinger.bestill')}
           </Button>
-
         </HStack>
-
       </Box>
-
     </>
-
   )
 }
 
