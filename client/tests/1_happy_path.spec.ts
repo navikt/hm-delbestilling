@@ -8,8 +8,9 @@ test('happy path', async ({ page }) => {
 
   await test.step('Slå opp hjelpemiddel', async () => {
     await page.getByTestId('input-artnr').fill('301996')
-    await page.getByTestId('input-serienr').fill('123456')
     await page.getByTestId('button-oppslag-submit').click()
+    await page.getByTestId('input-serienr').fill('123456')
+    await page.getByRole('button', { name: 'Vis deler' }).click()
   })
 
   await test.step('Forvent at hjelpemiddel er funnet og velg del', async () => {
@@ -23,7 +24,7 @@ test('happy path', async ({ page }) => {
   })
 
   await test.step("Sorter på 'Lader' kategorien og klikk 'Bestill'", async () => {
-    await page.getByRole('button', { name: 'lader' }).click()
+    await page.getByRole('button', { name: 'Lader', exact: true }).click()
     await page.locator('button', { hasText: 'Bestill' }).first().click()
   })
 

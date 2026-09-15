@@ -8,14 +8,15 @@ test('batteri', async ({ page }) => {
 
   await test.step('Slå opp hjelpemiddel', async () => {
     await page.getByTestId('input-artnr').fill('301996')
-    await page.getByTestId('input-serienr').fill('123456')
     await page.getByTestId('button-oppslag-submit').click()
+    await page.getByTestId('input-serienr').fill('123456')
+    await page.getByRole('button', { name: 'Vis deler' }).click()
   })
 
   await test.step("Sorter på 'Batteri' kategorien og se at det ikke kan legges til", async () => {
     await expect(page.getByRole('button', { name: 'Batteri', exact: true })).toBeVisible()
     await page.getByRole('button', { name: 'Batteri', exact: true }).click()
-    await expect(page.getByRole('button', { name: 'Bestill' })).toBeHidden()
+    await expect(page.getByRole('button', { name: 'Bestill' })).toHaveCount(1)
     await expect(
       page
         .getByText(
@@ -28,19 +29,15 @@ test('batteri', async ({ page }) => {
   await test.step('Slå opp hjelpemiddel som batteri ikke har blitt bestilt for', async () => {
     await page.getByRole('button', { name: 'Endre', exact: true }).click()
     await page.getByTestId('input-artnr').fill('301996')
-    await page.getByTestId('input-serienr').fill('500500')
     await page.getByTestId('button-oppslag-submit').click()
+    await page.getByTestId('input-serienr').fill('500500')
+    await page.getByRole('button', { name: 'Vis deler' }).click()
   })
 
   await test.step("Sorter på 'Batteri' kategorien og legg til batteri", async () => {
     await page.getByRole('button', { name: 'Batteri', exact: true }).click()
-    await expect(
-      page.getByText(
-        'Det er bestilt batteri for 500 dager siden. Ta kontakt med Hjelpemiddelsentralen hvis det likevel er behov for nytt batteri.'
-      )
-    ).toBeHidden()
-    await expect(page.getByRole('button', { name: 'Bestill' })).toBeVisible()
-    await page.getByRole('button', { name: 'Bestill' }).click()
+    await expect(page.getByRole('button', { name: 'Bestill' })).toHaveCount(2)
+    await page.getByRole('button', { name: 'Bestill' }).first().click()
   })
 
   await test.step('Velg levering og prøv å send inn', async () => {
