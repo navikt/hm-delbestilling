@@ -23,8 +23,8 @@ test('happy path', async ({ page }) => {
     await page.locator('button', { hasText: 'Legg til flere deler' }).click()
   })
 
-  await test.step("Sorter på 'Lader' kategorien og klikk 'Bestill'", async () => {
-    await page.getByRole('button', { name: 'Lader', exact: true }).click()
+  await test.step("Sorter på 'Batterilader' kategorien og klikk 'Bestill'", async () => {
+    await page.getByRole('button', { name: 'Batterilader', exact: true }).click()
     await page.locator('button', { hasText: 'Bestill' }).first().click()
   })
 
