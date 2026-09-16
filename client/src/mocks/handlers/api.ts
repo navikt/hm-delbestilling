@@ -318,23 +318,6 @@ const apiHandlers = [
     await delay(250)
     return HttpResponse.json(dellisteMock)
   }),
-
-  http.get<{}, {}, TilgjengeligeHjelpemidlerResponse>(
-    `${DELBESTILLING_PUBLIC_API_PATH}/tilgjengelige-hjelpemidler`,
-    async () => {
-      await delay(250)
-      return HttpResponse.json({
-        'Aurora Standard': ['296142', '296146', '296143', '296147', '296140', '296141', '296144', '296145'],
-        'Aurora Standard XXL': ['296148', '296149'],
-        'Aurora Synkron': ['296151', '296152', '296156', '296153', '296157', '296150', '296154', '296155'],
-      })
-    }
-  ),
-
-  http.post<{}, { hmsnrs: string[] }, string[]>(`${DELBESTILLING_PUBLIC_API_PATH}/deler-til-hmsnrs`, async () => {
-    await delay(250)
-    return HttpResponse.json(['Del 1', 'Del 2', 'Del 3'])
-  }),
 ]
 
 export default apiHandlers

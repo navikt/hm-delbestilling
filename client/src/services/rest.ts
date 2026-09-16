@@ -78,13 +78,6 @@ const hjelpemiddelOppslagPåArtNr = async (hmsnr: string): Promise<HjelpemiddelO
   return await response.json()
 }
 
-const hentTilgjengeligeHjelpemidler = async (): Promise<TilgjengeligeHjelpemidlerResponse> => {
-  const response = await fetch(DELBESTILLING_PUBLIC_API_PATH + '/tilgjengelige-hjelpemidler')
-  await handleResponse(response.clone())
-  return await response.json()
-}
-
-
 const hentBestillinger = async (valg: Valg): Promise<DelbestillingSak[] | undefined> => {
   let bestillinger: DelbestillingSak[] | undefined = undefined
   if (valg === 'mine') {
@@ -162,7 +155,6 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
 export default {
   hjelpemiddelOppslag,
   hjelpemiddelOppslagPåArtNr,
-  hentTilgjengeligeHjelpemidler,
   sendInnBestilling,
   hentBestillinger,
   hentBestillingerForBruker,
