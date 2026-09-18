@@ -54,8 +54,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
   const [submitAttempt, setSubmitAttempt] = useState(false)
 
   const pageSize = 10
-  const errorMessageBeskrivelse =
-    !visHmsnrInputForUkjentDel && !beskrivelse.trim() ? t('leggTilDel.ukjentDel.feilBeskrivelse') : null
+  const errorMessageBeskrivelse = !beskrivelse.trim() ? t('leggTilDel.ukjentDel.feilBeskrivelse') : null
 
   useEffect(() => {
     setPage(1)
