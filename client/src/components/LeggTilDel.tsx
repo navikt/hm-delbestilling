@@ -301,6 +301,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
 
           <Button
             variant="secondary"
+            style={{ backgroundColor: '#fff' }}
             onClick={() => {
               setSubmitAttempt(true)
               if (!errorMessageUkjentDel && !errorMessageBeskrivelse) {
