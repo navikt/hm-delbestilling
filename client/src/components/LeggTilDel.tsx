@@ -8,12 +8,12 @@ import {
   Button,
   Detail,
   Heading,
+  HGrid,
   HStack,
   InfoCard,
   InlineMessage,
   Pagination,
   Search,
-  Stack,
   TextField,
   VStack,
 } from '@navikt/ds-react'
@@ -237,9 +237,8 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
             </BodyLong>
             {visHmsnrInputForUkjentDel ? (
               <>
-                <HStack align="end" gap="space-8" wrap>
+                <HGrid columns="200px max-content" gap="space-8" align="end">
                   <TextField
-                    style={{ width: '110px' }}
                     label={t('oppslag.artnr')}
                     value={hmsnr}
                     onChange={(e) => erGyldigArtnr(e.target.value) && setHmsnr(e.target.value)}
@@ -249,20 +248,21 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                   <Button
                     icon={<ArrowsCirclepathIcon aria-hidden />}
                     variant="tertiary"
+                    size="small"
                     onClick={() => {
                       setHmsnr('')
+                      setBeskrivelse('')
                       setVisHmsnrInputForUkjentDel(false)
                     }}
                   >
                     {t('oppslag.byttTilLevartnr')}
                   </Button>
-                </HStack>
+                </HGrid>
               </>
             ) : (
               <>
-                <HStack align="end" gap="space-8" wrap>
+                <HGrid columns="200px max-content" gap="space-8" align="end">
                   <TextField
-                    style={{ width: '110px' }}
                     label={t('oppslag.levartnr')}
                     value={levArtNr}
                     onChange={(e) => erGyldigLevartnr(e.target.value) && setLevArtNr(e.target.value)}
@@ -272,6 +272,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                   <Button
                     icon={<ArrowsCirclepathIcon aria-hidden />}
                     variant="tertiary"
+                    size="small"
                     onClick={() => {
                       setLevArtNr('')
                       setBeskrivelse('')
@@ -280,18 +281,19 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                   >
                     {t('oppslag.byttTilHmsnr')}
                   </Button>
-                </HStack>
-                <TextField
-                  style={{ width: '400px', maxWidth: '100%' }}
-                  label={t('leggTilDel.ukjentDel.beskrivelse')}
-                  value={beskrivelse}
-                  onChange={(e) => setBeskrivelse(e.target.value)}
-                  maxLength={200}
-                  data-testid="input-ukjent-del-beskrivelse"
-                  error={submitAttempt && errorMessageBeskrivelse}
-                />
+                </HGrid>
               </>
             )}
+
+            <TextField
+              style={{ width: '415px', maxWidth: '100%' }}
+              label={t('leggTilDel.ukjentDel.beskrivelse')}
+              value={beskrivelse}
+              onChange={(e) => setBeskrivelse(e.target.value)}
+              maxLength={200}
+              data-testid="input-ukjent-del-beskrivelse"
+              error={submitAttempt && errorMessageBeskrivelse}
+            />
 
             <InlineMessage status="info" size="small">
               {t('bestillinger.måManueltSaksbehandles')}
@@ -306,7 +308,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                 onLeggTilUkjent({
                   hmsnr: hmsnr || undefined,
                   levArtNr: levArtNr || undefined,
-                  beskrivelse: visHmsnrInputForUkjentDel ? undefined : beskrivelse.trim(),
+                  beskrivelse: beskrivelse.trim() || undefined,
                 })
               }
             }}
