@@ -29,7 +29,7 @@ const Layout = () => {
             {t('felles.overskrift')}
           </Heading>
 
-          <Avstand marginTop={16} marginBottom={32}>
+          <Avstand marginTop={16}>
             <InfoCard data-color="info">
               <InfoCard.Header>
                 <InfoCard.Title>{t('nyhet.tittel')}</InfoCard.Title>
@@ -39,8 +39,8 @@ const Layout = () => {
           </Avstand>
         </Content>
       </Header>
-      <Box background="default" paddingBlock="space-20">
-        <Outlet />
+      <Box background="default" paddingBlock="space-0 space-20">
+          <Outlet />
       </Box>
     </>
   )
