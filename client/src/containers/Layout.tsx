@@ -39,10 +39,8 @@ const Layout = () => {
           </Avstand>
         </Content>
       </Header>
-      <Box background="default" paddingBlock="space-0">
-        <Avstand paddingBottom={20}>
+      <Box background="default" paddingBlock="space-0 space-20">
           <Outlet />
-        </Avstand>
       </Box>
     </>
   )
