@@ -174,7 +174,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                           <InfoOmDel del={del} erFastLagervare={erFastLagervare} />
 
                           {harNyligBlittBestiltBatteri &&
-                          hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
+                            hjelpemiddel.antallDagerSidenSistBatteribestilling !== null ? (
                             <Avstand marginTop={20}>
                               <Detail textColor="subtle" className={infoOmDelStyles.utvidetBredde}>
                                 {t('del.antallDagerSidenSistBatteribestilling', {
@@ -299,22 +299,22 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
             </InlineMessage>
           </VStack>
 
-<Box background="default" borderRadius="12">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setSubmitAttempt(true)
-              if (!errorMessageUkjentDel && !errorMessageBeskrivelse) {
-                onLeggTilUkjent({
-                  hmsnr: hmsnr || undefined,
-                  levArtNr: levArtNr || undefined,
-                  beskrivelse: beskrivelse.trim() || undefined,
-                })
-              }
-            }}
-          >
-            {t('bestillinger.bestill')}
-          </Button>
+          <Box background="default" borderRadius="12">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setSubmitAttempt(true)
+                if (!errorMessageUkjentDel && !errorMessageBeskrivelse) {
+                  onLeggTilUkjent({
+                    hmsnr: hmsnr || undefined,
+                    levArtNr: levArtNr || undefined,
+                    beskrivelse: beskrivelse.trim() || undefined,
+                  })
+                }
+              }}
+            >
+              {t('bestillinger.bestill')}
+            </Button>
           </Box>
         </HStack>
       </Box>
