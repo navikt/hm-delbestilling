@@ -10,13 +10,14 @@ test('bestillerepost prefylles fra tidligere manuell delbestilling', async ({ pa
 
     await page.getByTestId('input-artnr').fill('999911')
     await page.getByTestId('input-ukjent-del-beskrivelse').fill('En ukjent del')
-    await page.getByRole('button', { name: 'Bestill' }).last().click()
+    // { force: true }: knappen overlappes av Rolleswitcher (fast posisjonert dev-banner, kun synlig utenfor prod)
+    await page.getByRole('button', { name: 'Bestill' }).last().click({ force: true })
   })
 
   await test.step('Fyll inn epost, velg levering og send inn', async () => {
     await page.getByLabel('E-postadresse').fill('forste@e2e.no')
     await page.getByTestId('levering-xk-lager').check()
-    await page.locator('button', { hasText: 'Send inn bestilling' }).click()
+    await page.locator('button', { hasText: 'Send inn bestilling' }).click({ force: true })
     await expect(page.getByText('Bestillingen ble sendt inn.')).toBeVisible()
   })
 
@@ -29,7 +30,7 @@ test('bestillerepost prefylles fra tidligere manuell delbestilling', async ({ pa
 
     await page.getByTestId('input-artnr').fill('999922')
     await page.getByTestId('input-ukjent-del-beskrivelse').fill('Enda en ukjent del')
-    await page.getByRole('button', { name: 'Bestill' }).last().click()
+    await page.getByRole('button', { name: 'Bestill' }).last().click({ force: true })
 
     await expect(page.getByLabel('E-postadresse')).toHaveValue('forste@e2e.no')
   })
