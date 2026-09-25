@@ -46,6 +46,10 @@ export interface SisteBatteribestillingResponse {
   antallDagerSiden: number
 }
 
+export interface BestillerepostResponse {
+  epost: string | null
+}
+
 export interface DellisteDel {
   hmsnr: string
   navn: string

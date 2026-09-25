@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 
 import {
+  BestillerepostResponse,
   DelbestillerrolleResponse,
   DelbestillingResponse,
   DellisteResponse,
@@ -152,6 +153,12 @@ const sjekkLoginStatus = async (): Promise<boolean> => {
   return true
 }
 
+const hentSisteBestillerepost = async (): Promise<BestillerepostResponse> => {
+  const response = await fetch(DELBESTILLING_API_PATH + '/delbestilling/bestillerepost')
+  await handleResponse(response.clone())
+  return await response.json()
+}
+
 export default {
   hjelpemiddelOppslag,
   hjelpemiddelOppslagPåArtNr,
@@ -163,4 +170,5 @@ export default {
   sjekkLoginStatus,
   sjekkXKLager,
   hentSisteBatteribestilling,
+  hentSisteBestillerepost,
 }

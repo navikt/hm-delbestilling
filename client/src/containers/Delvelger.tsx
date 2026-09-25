@@ -29,6 +29,7 @@ const Delvelger = () => {
   const [piloter, setPiloter] = useState<Pilot[]>([])
   const [slårOppDeler, setSlårOppDeler] = useState(false)
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
+  const [sisteBestillerepost, setSisteBestillerepost] = useState<string | null>(null)
 
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -61,7 +62,7 @@ const Delvelger = () => {
       ukjenteDeler: [{ delUkjent: del, antall: 1 }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
-      epostTekniker: null,
+      epostTekniker: sisteBestillerepost,
       piloter,
     }
 
@@ -104,6 +105,18 @@ const Delvelger = () => {
 
   useEffect(() => {
     slåOppDeler()
+  }, [])
+
+  useEffect(() => {
+    // Early fetch slik at feltet er klar dersom bestiller går til Utsjekk med ukjent del.
+    ;(async () => {
+      try {
+        const response = await rest.hentSisteBestillerepost()
+        setSisteBestillerepost(response.epost)
+      } catch {
+        // Ignorer feil, brukeren kan fylle inn epost manuelt i Utsjekk
+      }
+    })()
   }, [])
 
   if (slårOppDeler) {
