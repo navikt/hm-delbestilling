@@ -5,6 +5,7 @@ import delBestillingMock from '../../services/delbestilling-mock.json'
 import dellisteMock from '../../services/delliste-mock.json'
 import { DELBESTILLING_API_PATH, DELBESTILLING_PUBLIC_API_PATH } from '../../services/rest'
 import {
+  BestillerepostResponse,
   DelbestillingFeil,
   DelbestillingRequest,
   DelbestillingResponse,
@@ -22,6 +23,7 @@ import { isLocal } from '../../utils/utils'
 
 let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
 let tidligereBestillingerKommune = delBestillingMock as unknown as DelbestillingSak[]
+let sisteBestillerepost: string | null = 'tekniker@nav.no'
 
 const API_PATH = isLocal() ? DELBESTILLING_API_PATH : DELBESTILLING_PUBLIC_API_PATH
 
@@ -288,6 +290,10 @@ const apiHandlers = [
 
       tidligereBestillinger.push(nyDelbestilling)
 
+      if (delbestilling.ukjenteDeler.length > 0 && delbestilling.epostTekniker) {
+        sisteBestillerepost = delbestilling.epostTekniker
+      }
+
       return HttpResponse.json(
         {
           id,
@@ -317,6 +323,11 @@ const apiHandlers = [
   http.get<{}, {}, DellisteResponse>(`${DELBESTILLING_API_PATH}/deler`, async () => {
     await delay(250)
     return HttpResponse.json(dellisteMock)
+  }),
+
+  http.get<{}, {}, BestillerepostResponse>(`${DELBESTILLING_API_PATH}/delbestilling/bestillerepost`, async () => {
+    await delay(250)
+    return HttpResponse.json({ epost: sisteBestillerepost })
   }),
 ]
 
