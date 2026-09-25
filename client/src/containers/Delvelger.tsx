@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
@@ -29,12 +29,14 @@ const Delvelger = () => {
   const [piloter, setPiloter] = useState<Pilot[]>([])
   const [slårOppDeler, setSlårOppDeler] = useState(false)
   const [feilmelding, setFeilmelding] = useState<FeilmeldingInterface | undefined>()
-  const [sisteBestillerepost, setSisteBestillerepost] = useState<string | null>(null)
+  const sisteBestillerepostRef = useRef<Promise<string | null>>(Promise.resolve(null))
 
   const navigate = useNavigate()
   const { t } = useTranslation()
 
   const handleBestill = async (hjelpemiddel: Hjelpemiddel, del: Del) => {
+    const epostTekniker = await sisteBestillerepostRef.current
+
     // TODO
     const handlekurv: Handlekurv = {
       id: uuidv4(),
@@ -45,7 +47,7 @@ const Delvelger = () => {
       ukjenteDeler: [],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
-      epostTekniker: sisteBestillerepost,
+      epostTekniker,
       piloter,
     }
 
@@ -53,6 +55,8 @@ const Delvelger = () => {
   }
 
   const handleBestillUkjent = async (hjelpemiddel: Hjelpemiddel, del: UkjentDel) => {
+    const epostTekniker = await sisteBestillerepostRef.current
+
     const handlekurv: Handlekurv = {
       id: uuidv4(),
       serienr,
@@ -62,7 +66,7 @@ const Delvelger = () => {
       ukjenteDeler: [{ delUkjent: del, antall: 1 }],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
-      epostTekniker: sisteBestillerepost,
+      epostTekniker,
       piloter,
     }
 
@@ -109,14 +113,10 @@ const Delvelger = () => {
 
   useEffect(() => {
     // Early fetch slik at feltet er klar dersom bestiller går til Utsjekk med ukjent del.
-    ;(async () => {
-      try {
-        const response = await rest.hentSisteBestillerepost()
-        setSisteBestillerepost(response.epost)
-      } catch {
-        // Ignorer feil, brukeren kan fylle inn epost manuelt i Utsjekk
-      }
-    })()
+    sisteBestillerepostRef.current = rest
+      .hentSisteBestillerepost()
+      .then((response) => response.epost)
+      .catch(() => null)
   }, [])
 
   if (slårOppDeler) {
