@@ -45,7 +45,7 @@ const Delvelger = () => {
       ukjenteDeler: [],
       levering: undefined,
       harOpplæringPåBatteri: undefined,
-      epostTekniker: null,
+      epostTekniker: sisteBestillerepost,
       piloter,
     }
 
