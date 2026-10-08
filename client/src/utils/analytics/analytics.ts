@@ -38,7 +38,7 @@ function logEvent(eventName: NAV_TAXONOMY | DIGIHOT_TAXONOMY, data?: Record<stri
   }
 
   const logger = getAnalyticsInstance(APP_NAVN)
-  logger(eventName, data)
+  logger.custom(eventName, data)
 }
 
 export const logAccordionÅpnet = (komponentId: string, tittel: string) => {
