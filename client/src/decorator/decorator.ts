@@ -29,7 +29,6 @@ export const initDecorator = () => {
     //   })
     //   .catch((error) => {
     //     console.log('Henting av språk feilet', error)
-    //     Sentry.captureException(error)
     //   })
   } else {
     console.log('hentet språk fra cookies: ' + language)
