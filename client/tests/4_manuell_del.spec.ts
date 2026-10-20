@@ -47,8 +47,30 @@ test('lev.art.nr kan fortsatt legges til uten HMS-oppslag etter avvist hjelpemid
   await expect(page.getByText(/Hmsnr 999999 er et hjelpemiddel/)).toBeVisible()
 
   await page.getByRole('button', { name: 'Oppgi lev.art.nr i stedet' }).click()
-  await page.getByTestId('input-levartnr').fill('999999')
+  await page.getByTestId('input-levartnr').fill('123456')
   await page.getByTestId('input-ukjent-del-beskrivelse').fill('En ukjent del')
   await page.getByRole('button', { name: 'Bestill', exact: true }).last().click({ force: true })
   await expect(page).toHaveURL(/\/utsjekk/)
 })
+
+for (const levArtNr of ['999999', ' 999999 ']) {
+  test(`hjelpemiddelets HMS-nr avvises som lev.art.nr: "${levArtNr}"`, async ({ page }) => {
+    await page.getByRole('button', { name: 'Oppgi lev.art.nr i stedet' }).click()
+    const input = page.getByTestId('input-levartnr')
+    await input.fill(levArtNr)
+    await page.getByTestId('input-ukjent-del-beskrivelse').fill('En ukjent del')
+    await page.getByRole('button', { name: 'Bestill', exact: true }).last().click({ force: true })
+
+    const error = page.getByText(
+      'Dette er HMS-nummeret til hjelpemiddelet du bestiller deler til. Vennligst fyll inn lev.art.nr. til delen du skal bestille i stedet.'
+    )
+    await expect(error).toBeVisible()
+    await expect(input).toHaveAttribute('aria-invalid', 'true')
+    await expect(page).toHaveURL(/\/deler\?/)
+
+    await input.fill('DEL-123')
+    await expect(error).not.toBeVisible()
+    await page.getByRole('button', { name: 'Bestill', exact: true }).last().click({ force: true })
+    await expect(page).toHaveURL(/\/utsjekk/)
+  })
+}

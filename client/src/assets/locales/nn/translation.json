@@ -137,6 +137,7 @@
   "leggTilDel.ukjentDel.erHjelpemiddel": "Hmsnr {{hmsnr}} er eit hjelpemiddel ({{navn}}), og kan derfor ikkje leggjast til som ein del",
   "leggTilDel.ukjentDel.hmsnrAlleredeLagtTil": "Ein del med dette HMS-nr er allereie lagd til.",
   "leggTilDel.ukjentDel.feilLevartnr": "Lev.art.nr må innehalda minst eitt teikn.",
+  "leggTilDel.ukjentDel.levartnrErHjelpemiddeletsHmsnr": "Dette er HMS-nummeret til hjelpemiddelet du bestiller delar til. Ver venleg og fyll inn lev.art.nr. til delen du skal bestilla i staden.",
   "leggTilDel.ukjentDel.levartnrAlleredeLagtTil": "Ein del med dette lev.art.nr er allereie lagt til.",
   "leggTilDel.ukjentDel.beskrivelse": "Beskriv kort kva slags type del dette er",
   "leggTilDel.ukjentDel.feilBeskrivelse": "Du må beskriva kva slags type del dette er.",

@@ -182,7 +182,7 @@ const apiHandlers = [
         },
       })
 
-      return HttpResponse.json(await response.json())
+      return HttpResponse.json(await response.json(), { status: response.status })
     }
   ),
 

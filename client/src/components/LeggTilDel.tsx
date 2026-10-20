@@ -81,13 +81,17 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
         nyErrorMessage = t('leggTilDel.ukjentDel.levartnrAlleredeLagtTil')
       }
 
+      if (levArtNr.trim() === hjelpemiddel.hmsnr) {
+        nyErrorMessage = t('leggTilDel.ukjentDel.levartnrErHjelpemiddeletsHmsnr')
+      }
+
       if (levArtNr.length < 1) {
         nyErrorMessage = t('leggTilDel.ukjentDel.feilLevartnr')
       }
     }
 
     setErrorMessageUkjentDel(nyErrorMessage)
-  }, [hmsnr, levArtNr, visHmsnrInputForUkjentDel, handlekurv])
+  }, [hmsnr, levArtNr, visHmsnrInputForUkjentDel, handlekurv, hjelpemiddel.hmsnr, t])
 
   const harIngenDeler = !hjelpemiddel.deler || hjelpemiddel.deler.length === 0
 
