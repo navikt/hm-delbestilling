@@ -6,6 +6,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
+      "ukjenteDeler": [],
       "deler": [
         {
           "del": {
@@ -33,6 +34,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
+      "ukjenteDeler": [],
       "deler": [
         {
           "del": {
@@ -82,6 +84,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
+      "ukjenteDeler": [],
       "deler": [
         {
           "del": {
@@ -122,6 +125,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
+      "ukjenteDeler": [],
       "deler": [
         {
           "del": {
@@ -149,6 +153,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
+      "ukjenteDeler": [],
       "deler": [
         {
           "del": {
@@ -176,6 +181,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
+      "ukjenteDeler": [],
       "deler": [
         {
           "del": {
@@ -203,6 +209,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
+      "ukjenteDeler": [],
       "deler": [
         {
           "del": {
@@ -247,6 +254,7 @@
       "hmsnr": "236958",
       "serienr": "687273",
       "navn": "Panthera U3 Light",
+      "ukjenteDeler": [],
       "deler": [
         {
           "del": {
@@ -265,6 +273,34 @@
     "opprettet": "2023-10-22T11:33:28.785459",
     "sistOppdatert": "2023-10-22T11:33:28.785459",
     "status": "ANNULLERT",
+    "oebsOrdrenummer": null
+  },
+  {
+    "saksnummer": 9,
+    "delbestilling": {
+      "id": "b92ef3f0-35ef-4d88-a108-b323a0aef199",
+      "hmsnr": "236958",
+      "serienr": null,
+      "brukernr": "1234567",
+      "navn": "Panthera U3 Light",
+      "deler": [],
+      "ukjenteDeler": [
+        {
+          "delUkjent": {
+            "hmsnr": "123456",
+            "levArtNr": null,
+            "beskrivelse": "Svinghjul"
+          },
+          "antall": 1
+        }
+      ],
+      "levering": "TIL_SERVICE_OPPDRAG",
+      "harOpplæringPåBatteri": null,
+      "epostTekniker": "tekniker@nav.no"
+    },
+    "opprettet": "2023-10-23T11:33:28.785459",
+    "sistOppdatert": "2023-10-23T11:33:28.785459",
+    "status": "INNSENDT",
     "oebsOrdrenummer": null
   }
 ]
