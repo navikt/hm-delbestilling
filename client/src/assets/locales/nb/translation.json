@@ -124,6 +124,7 @@
   "oppslag.finnNummer.brukernr": "Hvis hjelpemidlet ikke har serienummer må du oppgi brukernummer (brukernr.). Dette finner du enten i kommunens pasientjournalsystem eller ved å ta kontakt med Nav.",
 
   "leggTilDel.ukjentDel.feilHmsnr": "HMS-nr må inneholde 6 siffer.",
+  "leggTilDel.ukjentDel.erHjelpemiddel": "Hmsnr {{hmsnr}} er et hjelpemiddel ({{navn}}), og kan derfor ikke legges til som en del",
   "leggTilDel.ukjentDel.hmsnrAlleredeLagtTil": "En del med dette HMS-nr er allerede lagt til.",
   "leggTilDel.ukjentDel.feilLevartnr": "Lev.art.nr må inneholde minst ett tegn.",
   "leggTilDel.ukjentDel.levartnrAlleredeLagtTil": "En del med dette lev.art.nr er allerede lagt til.",
