@@ -10,7 +10,7 @@ test('bestillerepost prefylles fra tidligere manuell delbestilling', async ({ pa
 
     await page.getByTestId('input-artnr').fill('999911')
     await page.getByTestId('input-ukjent-del-beskrivelse').fill('En ukjent del')
-    // { force: true }: knappen overlappes av Rolleswitcher (fast posisjonert dev-banner, kun synlig utenfor prod)
+    // { force: true }: knappen overlappes av DebugPanel (fast posisjonert dev-banner, kun synlig utenfor prod)
     await page.getByRole('button', { name: 'Bestill' }).last().click({ force: true })
   })
 

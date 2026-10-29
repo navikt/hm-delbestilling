@@ -33,7 +33,7 @@ import { CustomBox } from '../components/Layout/CustomBox'
 import FlexedStack from '../components/Layout/FlexedStack'
 import LeggTilDel from '../components/LeggTilDel'
 import Lenke from '../components/Lenke'
-import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
+import DebugPanel from '../components/DebugPanel/DebugPanel'
 import rest from '../services/rest'
 import { Del, Delbestilling, Handlekurv, Levering, Pilot, UkjentDel } from '../types/Types'
 import {
@@ -545,7 +545,7 @@ const Utsjekk = () => {
         </>
       </Content>
       {!isProd() && (
-        <Rolleswitcher
+        <DebugPanel
           harXKLager={harXKLager}
           setHarXKLager={setHarXKLager}
           piloter={piloter}

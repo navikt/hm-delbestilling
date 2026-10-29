@@ -10,7 +10,7 @@ import Content from '../components/Layout/Content'
 import { CustomBox } from '../components/Layout/CustomBox'
 import Lenke from '../components/Lenke'
 import OmÅBestilleDeler from '../components/OmÅBestilleDeler'
-import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
+import DebugPanel from '../components/DebugPanel/DebugPanel'
 import useAuth from '../hooks/useAuth'
 import { HjelpemiddelUtenDeler, Pilot } from '../types/Types'
 import { isProd } from '../utils/utils'
@@ -100,7 +100,7 @@ const Index = () => {
           </Avstand>
         </>
       </Content>
-      {!isProd() && <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />}
+      {!isProd() && <DebugPanel piloter={piloter} setPiloter={setPiloter} />}
     </main>
   )
 }

@@ -5,7 +5,7 @@ import { Box, Button, Checkbox, CheckboxGroup, Detail, Heading, TextField } from
 import { Pilot } from '../../types/Types'
 import { Avstand } from '../Avstand'
 
-import styles from './Rolleswitcher.module.css'
+import styles from './DebugPanel.module.css'
 
 interface Props {
   harXKLager?: boolean | undefined
@@ -16,7 +16,7 @@ interface Props {
   setAntallDagerSidenSistBatteribestilling?: (antallDager: number | null) => void
 }
 
-const Rolleswitcher = ({
+const DebugPanel = ({
   harXKLager,
   setHarXKLager,
   piloter,
@@ -67,7 +67,7 @@ const Rolleswitcher = ({
           }}
           tabIndex={-1}
         >
-          Vis Rolleswitcher
+          Vis debugpanel
         </Button>
       </Box>
     )
@@ -113,4 +113,4 @@ const Rolleswitcher = ({
   )
 }
 
-export default Rolleswitcher
+export default DebugPanel

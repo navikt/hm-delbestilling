@@ -10,7 +10,7 @@ import { Avstand } from '../components/Avstand'
 import Content from '../components/Layout/Content'
 import { CustomBox } from '../components/Layout/CustomBox'
 import LeggTilDel from '../components/LeggTilDel'
-import Rolleswitcher from '../components/Rolleswitcher/Rolleswitcher'
+import DebugPanel from '../components/DebugPanel/DebugPanel'
 import useAuth from '../hooks/useAuth'
 import { Del, Handlekurv, Hjelpemiddel, HjelpemiddelUtenDeler, Pilot, UkjentDel } from '../types/Types'
 import { isProd } from '../utils/utils'
@@ -197,7 +197,7 @@ const Delvelger = () => {
         )}
       </Content>
       {!isProd() && (
-        <Rolleswitcher
+        <DebugPanel
           piloter={piloter}
           setPiloter={setPiloter}
           antallDagerSidenSistBatteribestilling={hjelpemiddel?.antallDagerSidenSistBatteribestilling}
