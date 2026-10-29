@@ -1,7 +1,7 @@
-FROM node:lts-alpine AS client-builder
+FROM node:26-alpine AS client-builder
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN npm install -g pnpm@10
 
 WORKDIR /app
 COPY client/package.json client/pnpm-lock.yaml .npmrc ./
