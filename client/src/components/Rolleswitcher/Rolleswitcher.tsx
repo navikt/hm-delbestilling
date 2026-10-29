@@ -1,8 +1,9 @@
 import React, { SetStateAction, useState } from 'react'
 
-import { Box, Button, Checkbox, CheckboxGroup, Detail, Heading } from '@navikt/ds-react'
+import { Box, Button, Checkbox, CheckboxGroup, Detail, Heading, TextField } from '@navikt/ds-react'
 
 import { Pilot } from '../../types/Types'
+import { Avstand } from '../Avstand'
 
 import styles from './Rolleswitcher.module.css'
 
@@ -11,9 +12,18 @@ interface Props {
   setHarXKLager?: React.Dispatch<SetStateAction<boolean | undefined>>
   piloter?: Pilot[]
   setPiloter?: React.Dispatch<SetStateAction<Pilot[]>>
+  antallDagerSidenSistBatteribestilling?: number | null
+  setAntallDagerSidenSistBatteribestilling?: (antallDager: number | null) => void
 }
 
-const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props) => {
+const Rolleswitcher = ({
+  harXKLager,
+  setHarXKLager,
+  piloter,
+  setPiloter,
+  antallDagerSidenSistBatteribestilling,
+  setAntallDagerSidenSistBatteribestilling,
+}: Props) => {
   const [erSkjult, setErSkjult] = useState(false)
 
   const handleChange = (values: string[]) => {
@@ -83,6 +93,21 @@ const Rolleswitcher = ({ harXKLager, setHarXKLager, piloter, setPiloter }: Props
           <Checkbox value={Pilot.BESTILLE_IKKE_FASTE_LAGERVARER}>Pilot for bestille ikke-fast lagervare</Checkbox>
         )} */}
       </CheckboxGroup>
+      {!!setAntallDagerSidenSistBatteribestilling && (
+        <Avstand marginTop={12} marginBottom={12}>
+          <TextField
+            size="small"
+            type="number"
+            label="Dager siden sist batteribytte"
+            description="Tom = aldri byttet"
+            value={antallDagerSidenSistBatteribestilling ?? ''}
+            onChange={(e) => {
+              const verdi = e.target.value
+              setAntallDagerSidenSistBatteribestilling(verdi === '' ? null : Number(verdi))
+            }}
+          />
+        </Avstand>
+      )}
       <Detail>Git-commit: {window.appSettings.GIT_COMMIT}</Detail>
     </Box>
   )

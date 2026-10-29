@@ -196,7 +196,19 @@ const Delvelger = () => {
           </>
         )}
       </Content>
-      {!isProd() && <Rolleswitcher piloter={piloter} setPiloter={setPiloter} />}
+      {!isProd() && (
+        <Rolleswitcher
+          piloter={piloter}
+          setPiloter={setPiloter}
+          antallDagerSidenSistBatteribestilling={hjelpemiddel?.antallDagerSidenSistBatteribestilling}
+          setAntallDagerSidenSistBatteribestilling={
+            hjelpemiddel
+              ? (antallDager) =>
+                  setHjelpemiddel({ ...hjelpemiddel, antallDagerSidenSistBatteribestilling: antallDager })
+              : undefined
+          }
+        />
+      )}
     </main>
   )
 }
