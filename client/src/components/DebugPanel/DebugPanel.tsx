@@ -56,6 +56,11 @@ const DebugPanel = ({
   }
   */
 
+  // Skjul under Playwright-tester, ellers kan panelet dekke knapper testene skal klikke på
+  if (navigator.webdriver) {
+    return null
+  }
+
   if (erSkjult) {
     return (
       <Box className={styles.wrapper} background="raised">
