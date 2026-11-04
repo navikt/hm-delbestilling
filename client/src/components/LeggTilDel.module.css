@@ -1,0 +1,9 @@
+.pagination :global(.aksel-pagination__list) {
+  gap: var(--ax-space-8);
+}
+
+.beskrivelse {
+  width: 100%;
+  max-width: 415px;
+  min-width: 0;
+}
