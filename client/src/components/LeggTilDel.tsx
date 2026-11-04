@@ -265,6 +265,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                   page={page}
                   onPageChange={setPage}
                   count={antallSider}
+                  size="small"
                   boundaryCount={1}
                   siblingCount={0}
                   prevNextTexts={false}
