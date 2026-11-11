@@ -46,11 +46,16 @@ import { isProd } from '../utils/utils'
 
 export interface Valideringsfeil {
   id: 'levering' | 'deler' | 'opplæring-batteri' | 'batteri-bestilt-innen-ett-år' | 'epost-tekniker'
-  type: 'mangler levering' | 'ingen deler' | 'mangler opplæring' | 'batteri-bestilt-innen-ett-år' | 'mangler eller ugyldig epost'
+  type:
+    | 'mangler levering'
+    | 'ingen deler'
+    | 'mangler opplæring'
+    | 'batteri-bestilt-innen-ett-år'
+    | 'mangler eller ugyldig epost'
   melding: string
 }
 
-const MAKS_ANTALL_UKJENT_DEL = 4 
+const MAKS_ANTALL_UKJENT_DEL = 4
 const epostRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const Utsjekk = () => {
@@ -79,10 +84,14 @@ const Utsjekk = () => {
   }, [harXKLager])
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       if (handlekurv && harXKLager === undefined) {
         try {
-          const response = await rest.sjekkXKLager(handlekurv.hjelpemiddel.hmsnr, handlekurv.serienr, handlekurv.brukernr)
+          const response = await rest.sjekkXKLager(
+            handlekurv.hjelpemiddel.hmsnr,
+            handlekurv.serienr,
+            handlekurv.brukernr
+          )
           setHarXKLager(response.xkLager)
         } catch {
           setHarXKLager(false)
@@ -143,7 +152,8 @@ const Utsjekk = () => {
       return {
         ...prev,
         ukjenteDeler: prev.ukjenteDeler.map((handlekurvDel) => {
-          if (handlekurvDel.delUkjent.hmsnr === del.hmsnr && handlekurvDel.delUkjent.levArtNr === del.levArtNr) return { ...handlekurvDel, antall }
+          if (handlekurvDel.delUkjent.hmsnr === del.hmsnr && handlekurvDel.delUkjent.levArtNr === del.levArtNr)
+            return { ...handlekurvDel, antall }
           return handlekurvDel
         }),
       }
@@ -325,7 +335,7 @@ const Utsjekk = () => {
             <Heading level="2" size="small" spacing>
               {t('bestillinger.bestillDelerTil', { navn: handlekurv.hjelpemiddel.navn })}
             </Heading>
-            <HStack gap="space-24" >
+            <HStack gap="space-24">
               <BodyShort>Art.nr. {handlekurv.hjelpemiddel.hmsnr}</BodyShort>
               {handlekurv.brukernr && <BodyShort>Brukernr. {handlekurv.brukernr}</BodyShort>}
               {handlekurv.serienr && <BodyShort>Serienr. {handlekurv.serienr}</BodyShort>}
@@ -351,7 +361,9 @@ const Utsjekk = () => {
                 <Heading level="3" size="medium" spacing id="deler">
                   {t('bestillinger.delerLagtTil')}
                 </Heading>
-                {handlekurv.deler.length === 0 && handlekurv.ukjenteDeler.length === 0 && <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>}
+                {handlekurv.deler.length === 0 && handlekurv.ukjenteDeler.length === 0 && (
+                  <BodyShort>{t('bestillinger.ikkeLagtTilDeler')}</BodyShort>
+                )}
                 {handlekurv.deler.map((delLinje) => (
                   <Avstand marginBottom={8} key={delLinje.del.hmsnr}>
                     <CustomBox>
@@ -409,7 +421,11 @@ const Utsjekk = () => {
                       </VStack>
                       <Box paddingBlock="space-4">
                         <HStack gap="space-4" align="end" justify="space-between">
-                          <Button icon={<TrashIcon />} variant="tertiary" onClick={() => handleSlettUkjentDel(delLinje.delUkjent)}>
+                          <Button
+                            icon={<TrashIcon />}
+                            variant="tertiary"
+                            onClick={() => handleSlettUkjentDel(delLinje.delUkjent)}
+                          >
                             {t('bestillinger.slettDel')}
                           </Button>
                           <Select
@@ -495,25 +511,26 @@ const Utsjekk = () => {
                       {t('bestillinger.epostTekniker.heading')}
                     </Heading>
                     <BodyShort spacing>{t('bestillinger.epostTekniker.description')}</BodyShort>
-                    <TextField
-                      style={{ width: '400px', maxWidth: '100%' }}
-                      label={t('bestillinger.epostTekniker.label')}
-                      error={valideringsFeil.some((feil) => feil.id === 'epost-tekniker')}
-                      type="email"
-                      value={handlekurv.epostTekniker ?? ''}
-                      onChange={(event) => {
-                        const epostTekniker = event.target.value
+                    <Box style={{ width: '100%', maxWidth: '400px', minWidth: 0 }}>
+                      <TextField
+                        label={t('bestillinger.epostTekniker.label')}
+                        error={valideringsFeil.some((feil) => feil.id === 'epost-tekniker')}
+                        type="email"
+                        value={handlekurv.epostTekniker ?? ''}
+                        onChange={(event) => {
+                          const epostTekniker = event.target.value
 
-                        setHandlekurv((prev) =>
-                          prev
-                            ? {
-                              ...prev,
-                              epostTekniker,
-                            }
-                            : undefined,
-                        )
-                      }}
-                    />
+                          setHandlekurv((prev) =>
+                            prev
+                              ? {
+                                  ...prev,
+                                  epostTekniker,
+                                }
+                              : undefined
+                          )
+                        }}
+                      />
+                    </Box>
                   </Avstand>
                 )}
 
@@ -530,8 +547,6 @@ const Utsjekk = () => {
                 </Avstand>
               )}
 
-
-
               <VStack align="center" gap="space-12">
                 <Button loading={senderInnBestilling} onClick={() => sendInnBestilling(handlekurv)}>
                   {t('bestillinger.sendInn')}
@@ -545,12 +560,7 @@ const Utsjekk = () => {
         </>
       </Content>
       {!isProd() && (
-        <DebugPanel
-          harXKLager={harXKLager}
-          setHarXKLager={setHarXKLager}
-          piloter={piloter}
-          setPiloter={setPiloter}
-        />
+        <DebugPanel harXKLager={harXKLager} setHarXKLager={setHarXKLager} piloter={piloter} setPiloter={setPiloter} />
       )}
     </main>
   )

@@ -13,6 +13,7 @@ import {
   InlineMessage,
   Pagination,
   Search,
+  Show,
   TextField,
   VStack,
 } from '@navikt/ds-react'
@@ -33,6 +34,7 @@ import InfoOmDel from './InfoOmDel'
 import TilbehørSpørsmål, { TilbehorInfo } from './TilbehørSpørsmål'
 
 import infoOmDelStyles from './InfoOmDel.module.css'
+import styles from './LeggTilDel.module.css'
 
 interface Props {
   hjelpemiddel: Hjelpemiddel
@@ -256,14 +258,30 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
             )
           })}
           {antallSider > 1 && (
-            <Pagination
-              page={page}
-              onPageChange={setPage}
-              count={antallSider}
-              boundaryCount={1}
-              siblingCount={1}
-              prevNextTexts
-            />
+            <HStack justify="center">
+              <Show below="md" asChild>
+                <Pagination
+                  className={styles.pagination}
+                  page={page}
+                  onPageChange={setPage}
+                  count={antallSider}
+                  size="small"
+                  boundaryCount={1}
+                  siblingCount={0}
+                  prevNextTexts={false}
+                />
+              </Show>
+              <Show above="md" asChild>
+                <Pagination
+                  page={page}
+                  onPageChange={setPage}
+                  count={antallSider}
+                  boundaryCount={1}
+                  siblingCount={1}
+                  prevNextTexts
+                />
+              </Show>
+            </HStack>
           )}
         </>
       )}
@@ -339,7 +357,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
             )}
 
             <TextField
-              style={{ width: '415px', maxWidth: '100%' }}
+              className={styles.beskrivelse}
               label={t('leggTilDel.ukjentDel.beskrivelse')}
               value={beskrivelse}
               disabled={sjekkerHmsnr}
