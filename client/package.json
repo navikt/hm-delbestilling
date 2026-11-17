@@ -6,9 +6,9 @@
   "proxy": "http://localhost:5000",
   "packageManager": "pnpm@10.26.0",
   "dependencies": {
-    "@navikt/aksel-icons": "^8.18.0",
-    "@navikt/ds-css": "^8.18.0",
-    "@navikt/ds-react": "^8.18.0",
+    "@navikt/aksel-icons": "^8.18.23",
+    "@navikt/ds-css": "^8.18.23",
+    "@navikt/ds-react": "^8.18.23",
     "@navikt/nav-dekoratoren-moduler": "^4.5.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "http-status-codes": "^2.3.0",
@@ -25,7 +25,7 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@navikt/aksel": "^8.18.0",
+    "@navikt/aksel": "^8.18.23",
     "@playwright/test": "^1.63.0",
     "@types/debug": "^4.1.13",
     "@types/node": "^20.19.43",
