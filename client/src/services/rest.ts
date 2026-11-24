@@ -5,6 +5,8 @@ import {
   DelbestillerrolleResponse,
   DelbestillingResponse,
   DellisteResponse,
+  DelOppslagFeilResponse,
+  DelOppslagResponse,
   HjelpemiddelOppslagResponse,
   OppslagResponse,
   SisteBatteribestillingResponse,
@@ -73,6 +75,17 @@ const hjelpemiddelOppslagPåArtNr = async (hmsnr: string): Promise<HjelpemiddelO
       'Content-Type': 'application/json',
     },
   })
+
+  await handleResponse(response.clone())
+
+  return await response.json()
+}
+
+const delOppslag = async (
+  oppslag: { hjelpemiddelHmsnr: string } & ({ hmsnr: string } | { levArtNr: string })
+): Promise<DelOppslagResponse | DelOppslagFeilResponse> => {
+  const params = new URLSearchParams(oppslag)
+  const response = await fetchGet(DELBESTILLING_API_PATH + `/deler/oppslag?${params}`)
 
   await handleResponse(response.clone())
 
@@ -162,6 +175,7 @@ const hentSisteBestillerepost = async (): Promise<BestillerepostResponse> => {
 export default {
   hjelpemiddelOppslag,
   hjelpemiddelOppslagPåArtNr,
+  delOppslag,
   sendInnBestilling,
   hentBestillinger,
   hentBestillingerForBruker,
