@@ -342,6 +342,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                     label={t('oppslag.levartnr')}
                     value={levArtNr}
                     onChange={(e) => erGyldigLevartnr(e.target.value) && setLevArtNr(e.target.value)}
+                    disabled={slårOppDel}
                     data-testid="input-levartnr"
                     error={submitAttempt && errorMessageUkjentDel}
                   />
@@ -349,6 +350,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                     icon={<ArrowsCirclepathIcon aria-hidden />}
                     variant="tertiary"
                     size="small"
+                    disabled={slårOppDel}
                     onClick={() => {
                       setLevArtNr('')
                       setBeskrivelse('')
