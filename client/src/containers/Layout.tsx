@@ -28,15 +28,6 @@ const Layout = () => {
           <Heading level="1" size="xlarge">
             {t('felles.overskrift')}
           </Heading>
-
-          <Avstand marginTop={16}>
-            <InfoCard data-color="info">
-              <InfoCard.Header>
-                <InfoCard.Title>{t('nyhet.tittel')}</InfoCard.Title>
-              </InfoCard.Header>
-              <InfoCard.Content>{t('nyhet.innhold')}</InfoCard.Content>
-            </InfoCard>
-          </Avstand>
         </Content>
       </Header>
       <Box background="default" paddingBlock="space-0 space-20">
