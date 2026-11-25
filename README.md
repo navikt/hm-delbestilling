@@ -63,48 +63,9 @@ pnpm run build:server  # Go build
 | 222222 | 555555  | Returnerer hjelpemiddel                       | Kan ikke bestille                                      |
 | 222222 | 666666  | Returnerer hjelpemiddel                       | Kan ikke bestille pga for mange bestillinger siste 24t |
 
-```mermaid
----
-title: Flyt for innsending av delbestilling
----
+## Arkitektur og dataflyt
 
-sequenceDiagram;
-    hm-delbestilling->>hm-delbestilling-api: Send delbestilling;
-    hm-delbestilling-api-->>hm-delbestilling-api: Lagre delbestilling til DB;
-    hm-delbestilling-api-->>hm-oebs-sink: 'hm-OpprettDelbestilling' event;
-    hm-oebs-sink-->>hm-oebs-api-proxy: opprettOrdre;
-    hm-oebs-api-proxy-->>OeBS: opprettOrdre;
-```
-
----
-
-```mermaid
----
-title: Flyt for statusoppdatering av delbestilling (ordre)
----
-
-sequenceDiagram;
-    OeBS-->>hm-oebs-listener: POST /ordrekvittering;
-    hm-oebs-listener-->>hm-soknadsbehandling: hm-ordrekvittering-delbestilling-mottatt
-    hm-soknadsbehandling-->>hm-delbestilling-api: PUT /delbestilling/status/v2/{id}
-```
-
----
-
-```mermaid
----
-title: Flyt for statusoppdatering/skipningsbekreftelse av dellinje (ordrelinje)
----
-
-sequenceDiagram;
-    OeBS-->>hm-oebs-listener: POST /push (skipninsbekreftelser)
-    hm-oebs-listener-->>hm-soknadsbehandling: hm-uvalidert-ordrelinje
-    hm-soknadsbehandling-->>hm-delbestilling-api: PUT /delbestilling/status/dellinje/{ordrenummer}
-```
-
-For skipningsbekreftelse så sendes allerede eventet `hm-uvalidert-ordrelinje` til rapid for bruk i hm-kommune-api, derfor kan hm-soknadsbehandling lytte etter dette. hm-soknadsbehandling plukker da opp mange irrelevante ordrelinjer, men hm-delbestilling-api er i stand til å gjenkjenne hva som er relevant via `ordrenr` (fra OeBS). hm-soknadsbehandling filtrerer på `hjelpemiddeltype == "Del"`, men sender ellers alt videre til hm-delbestilling-api.
-
----
+[Se diagrammer for systemkontekst, tillitsgrenser og bestillingsflyt](docs/arkitektur.md).
 
 ## WCAG
 
