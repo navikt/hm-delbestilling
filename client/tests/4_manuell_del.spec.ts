@@ -41,6 +41,31 @@ for (const [hmsnr, feilmelding] of [
   })
 }
 
+test('maksAntall fra deloppslag styrer antall-valg for manuelt oppgitt del', async ({ page }) => {
+  await page.getByTestId('input-artnr').fill('555555')
+  await page.getByRole('button', { name: 'Bestill', exact: true }).last().click({ force: true })
+  await expect(page).toHaveURL(/\/utsjekk/)
+  await expect(page.getByLabel('Antall').locator('option')).toHaveCount(5)
+})
+
+test('maksAntall fra deloppslag på lev.art.nr styrer antall-valg', async ({ page }) => {
+  await page.getByRole('button', { name: 'Oppgi lev.art.nr i stedet' }).click()
+  await page.getByTestId('input-levartnr').fill('HJUL-5')
+  await page.getByTestId('input-ukjent-del-beskrivelse').fill('Hjul')
+  await page.getByRole('button', { name: 'Bestill', exact: true }).last().click()
+  await expect(page).toHaveURL(/\/utsjekk/)
+  await expect(page.getByLabel('Antall').locator('option')).toHaveCount(5)
+})
+
+test('feil ved oppslag på lev.art.nr hindrer ikke bestilling', async ({ page }) => {
+  await page.getByRole('button', { name: 'Oppgi lev.art.nr i stedet' }).click()
+  await page.getByTestId('input-levartnr').fill('FEIL')
+  await page.getByTestId('input-ukjent-del-beskrivelse').fill('En ukjent del')
+  await page.getByRole('button', { name: 'Bestill', exact: true }).last().click()
+  await expect(page).toHaveURL(/\/utsjekk/)
+  await expect(page.getByLabel('Antall').locator('option')).toHaveCount(4)
+})
+
 test('lev.art.nr kan fortsatt legges til uten HMS-oppslag etter avvist hjelpemiddel', async ({ page }) => {
   await page.getByTestId('input-artnr').fill('999999')
   await page.getByRole('button', { name: 'Bestill', exact: true }).last().click({ force: true })

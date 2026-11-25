@@ -21,7 +21,7 @@ import {
 import FlexedStack from '../components/Layout/FlexedStack'
 import { erGyldigArtnr, erGyldigLevartnr } from '../helpers/utils'
 import rest, { ApiError } from '../services/rest'
-import { OppslagFeil } from '../types/HttpTypes'
+import { DelOppslagFeil } from '../types/HttpTypes'
 import { Del, Handlekurv, Hjelpemiddel, UkjentDel } from '../types/Types'
 
 import { Beskrivelser } from './Beskrivelser/Beskrivelser'
@@ -55,7 +55,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
   const [beskrivelse, setBeskrivelse] = useState('')
   const [errorMessageUkjentDel, setErrorMessageUkjentDel] = useState<string | null>(null)
   const [submitAttempt, setSubmitAttempt] = useState(false)
-  const [sjekkerHmsnr, setSjekkerHmsnr] = useState(false)
+  const [slårOppDel, setSlårOppDel] = useState(false)
   const [oppslagFeil, setOppslagFeil] = useState<string | null>(null)
 
   const pageSize = 10
@@ -111,37 +111,43 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
 
   const handleLeggTilUkjent = async () => {
     setSubmitAttempt(true)
-    if (sjekkerHmsnr || errorMessageUkjentDel || errorMessageBeskrivelse) {
+    if (slårOppDel || errorMessageUkjentDel || errorMessageBeskrivelse) {
       return
     }
 
     setOppslagFeil(null)
-    if (visHmsnrInputForUkjentDel) {
-      setSjekkerHmsnr(true)
-      try {
-        const oppslag = await rest.hjelpemiddelOppslagPåArtNr(hmsnr)
-        if (oppslag.hjelpemiddel) {
-          setOppslagFeil(t('leggTilDel.ukjentDel.erHjelpemiddel', { hmsnr, navn: oppslag.hjelpemiddel.navn }))
-          return
+    let maksAntall: number | undefined = undefined
+    const delId = visHmsnrInputForUkjentDel ? { hmsnr } : { levArtNr: levArtNr.trim() }
+    setSlårOppDel(true)
+    try {
+      const oppslag = await rest.delOppslag({ hjelpemiddelHmsnr: hjelpemiddel.hmsnr, ...delId })
+      if ('feil' in oppslag) {
+        if (oppslag.feil !== DelOppslagFeil.ER_HJELPEMIDDEL) {
+          throw new Error(`Uventet svar ved oppslag av del ${JSON.stringify(delId)}: ${oppslag.feil}`)
         }
-        if (oppslag.feil !== OppslagFeil.TILBYR_IKKE_HJELPEMIDDEL) {
-          throw new Error(`Uventet svar ved sjekk av HMS-nr ${hmsnr}: ${oppslag.feil}`)
-        }
-      } catch (err: unknown) {
-        console.error('Kunne ikke sjekke om HMS-nr er et hjelpemiddel', err)
+        setOppslagFeil(t('leggTilDel.ukjentDel.erHjelpemiddel', { hmsnr, navn: oppslag.hjelpemiddelnavn }))
+        return
+      }
+      maksAntall = oppslag.maksAntall
+    } catch (err: unknown) {
+      // Oppslag på lev.art.nr er kun for å finne maksAntall, så feil skal ikke hindre bestilling
+      if (visHmsnrInputForUkjentDel) {
+        console.error('Kunne ikke slå opp HMS-nr for del', err)
         setOppslagFeil(
           t(err instanceof ApiError && err.isTooManyRequests() ? 'error.forMangeOppslag' : 'error.noeGikkGalt')
         )
         return
-      } finally {
-        setSjekkerHmsnr(false)
       }
+      console.warn('Kunne ikke slå opp lev.art.nr for del, bruker standard maksAntall', err)
+    } finally {
+      setSlårOppDel(false)
     }
 
     onLeggTilUkjent({
       hmsnr: hmsnr || undefined,
       levArtNr: levArtNr || undefined,
       beskrivelse: beskrivelse.trim() || undefined,
+      maksAntall,
     })
   }
 
@@ -308,7 +314,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                         setOppslagFeil(null)
                       }
                     }}
-                    disabled={sjekkerHmsnr}
+                    disabled={slårOppDel}
                     data-testid="input-artnr"
                     error={submitAttempt && (errorMessageUkjentDel || oppslagFeil)}
                   />
@@ -316,7 +322,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                     icon={<ArrowsCirclepathIcon aria-hidden />}
                     variant="tertiary"
                     size="small"
-                    disabled={sjekkerHmsnr}
+                    disabled={slårOppDel}
                     onClick={() => {
                       setHmsnr('')
                       setBeskrivelse('')
@@ -336,6 +342,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                     label={t('oppslag.levartnr')}
                     value={levArtNr}
                     onChange={(e) => erGyldigLevartnr(e.target.value) && setLevArtNr(e.target.value)}
+                    disabled={slårOppDel}
                     data-testid="input-levartnr"
                     error={submitAttempt && errorMessageUkjentDel}
                   />
@@ -343,6 +350,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
                     icon={<ArrowsCirclepathIcon aria-hidden />}
                     variant="tertiary"
                     size="small"
+                    disabled={slårOppDel}
                     onClick={() => {
                       setLevArtNr('')
                       setBeskrivelse('')
@@ -360,7 +368,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
               className={styles.beskrivelse}
               label={t('leggTilDel.ukjentDel.beskrivelse')}
               value={beskrivelse}
-              disabled={sjekkerHmsnr}
+              disabled={slårOppDel}
               onChange={(e) => setBeskrivelse(e.target.value)}
               maxLength={200}
               data-testid="input-ukjent-del-beskrivelse"
@@ -373,7 +381,7 @@ const LeggTilDel = ({ hjelpemiddel, onLeggTil, onLeggTilUkjent, handlekurv }: Pr
           </VStack>
 
           <Box background="default" borderRadius="12">
-            <Button variant="secondary" loading={sjekkerHmsnr} onClick={handleLeggTilUkjent}>
+            <Button variant="secondary" loading={slårOppDel} onClick={handleLeggTilUkjent}>
               {t('bestillinger.bestill')}
             </Button>
           </Box>

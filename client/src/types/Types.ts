@@ -33,6 +33,7 @@ export interface UkjentDel {
   hmsnr: string | undefined
   levArtNr: string | undefined
   beskrivelse?: string
+  maksAntall?: number
 }
 
 export interface Lagerstatus {

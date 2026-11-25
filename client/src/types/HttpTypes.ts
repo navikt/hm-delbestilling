@@ -25,6 +25,20 @@ export interface HjelpemiddelOppslagResponse {
   feil: OppslagFeil | undefined
 }
 
+export interface DelOppslagResponse {
+  del: Del | null
+  maksAntall: number
+}
+
+export interface DelOppslagFeilResponse {
+  feil: DelOppslagFeil
+  hjelpemiddelnavn: string
+}
+
+export enum DelOppslagFeil {
+  'ER_HJELPEMIDDEL' = 'ER_HJELPEMIDDEL',
+}
+
 export interface AlleHjelpemidlerMedDelerResponse {
   hjelpemidlerMedDeler: Hjelpemiddel[]
 }

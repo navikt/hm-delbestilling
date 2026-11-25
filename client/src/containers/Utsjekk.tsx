@@ -434,11 +434,14 @@ const Utsjekk = () => {
                             onChange={(e) => setAntallForUkjentDel(delLinje.delUkjent, Number(e.target.value))}
                             size="small"
                           >
-                            {Array.from(Array(MAKS_ANTALL_UKJENT_DEL), (_, x: number) => (
-                              <option key={x + 1} value={x + 1}>
-                                {x + 1}
-                              </option>
-                            ))}
+                            {Array.from(
+                              Array(delLinje.delUkjent.maksAntall ?? MAKS_ANTALL_UKJENT_DEL),
+                              (_, x: number) => (
+                                <option key={x + 1} value={x + 1}>
+                                  {x + 1}
+                                </option>
+                              )
+                            )}
                           </Select>
                         </HStack>
                       </Box>

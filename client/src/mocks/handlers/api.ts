@@ -10,6 +10,9 @@ import {
   DelbestillingRequest,
   DelbestillingResponse,
   DellisteResponse,
+  DelOppslagFeil,
+  DelOppslagFeilResponse,
+  DelOppslagResponse,
   OppslagFeil,
   OppslagRequest,
   OppslagRequestUtenSerienr,
@@ -18,7 +21,7 @@ import {
   TilgjengeligeHjelpemidlerResponse,
   XKLagerResponse,
 } from '../../types/HttpTypes'
-import { DelbestillingSak, Ordrestatus } from '../../types/Types'
+import { Del, DelbestillingSak, Ordrestatus } from '../../types/Types'
 import { isLocal } from '../../utils/utils'
 
 let tidligereBestillinger = delBestillingMock as unknown as DelbestillingSak[]
@@ -177,6 +180,66 @@ const apiHandlers = [
       const response = await fetch(`${API_PATH}/oppslag-ekstern-dev-hjelpemiddel`, {
         method: 'POST',
         body: JSON.stringify({ hmsnr }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      return HttpResponse.json(await response.json(), { status: response.status })
+    }
+  ),
+
+  http.get<{}, {}, DelOppslagResponse | DelOppslagFeilResponse>(
+    `${DELBESTILLING_API_PATH}/deler/oppslag`,
+    async ({ request }) => {
+      const query = new URL(request.url).searchParams
+      const hjelpemiddelHmsnr = query.get('hjelpemiddelHmsnr')
+      const hmsnr = query.get('hmsnr')
+      const levArtNr = query.get('levArtNr')
+
+      await delay(250)
+
+      if (hmsnr === '333333' || levArtNr === 'FEIL') {
+        throw new HttpResponse('Internal server error', { status: StatusCodes.INTERNAL_SERVER_ERROR })
+      }
+
+      if (hmsnr === '444444') {
+        throw new HttpResponse('Too many requests', { status: StatusCodes.TOO_MANY_REQUESTS })
+      }
+
+      // For lokal testing uten kall mot backend
+      if (hmsnr === '999999') {
+        return HttpResponse.json(
+          { feil: DelOppslagFeil.ER_HJELPEMIDDEL, hjelpemiddelnavn: 'Et helt supert hjelpemiddel' },
+          { status: StatusCodes.UNPROCESSABLE_ENTITY }
+        )
+      }
+
+      if (hmsnr === '555555' || levArtNr === 'HJUL-5') {
+        return HttpResponse.json({
+          del: {
+            navn: 'Hjul til arbeidsstol',
+            hmsnr: '555555',
+            levArtNr: 'HJUL-5',
+            imgs: [],
+            kategori: 'Hjul',
+            maksAntall: 5,
+            defaultAntall: 2,
+            kilde: 'GRUNNDATA',
+            erReservedel: true,
+            erTilbehør: false,
+          } as unknown as Del,
+          maksAntall: 5,
+        })
+      }
+
+      if (isLocal()) {
+        return HttpResponse.json({ del: null, maksAntall: 4 })
+      }
+
+      const response = await fetch(`${API_PATH}/oppslag-ekstern-dev-del`, {
+        method: 'POST',
+        body: JSON.stringify({ hjelpemiddelHmsnr, hmsnr, levArtNr }),
         headers: {
           'Content-Type': 'application/json',
         },
