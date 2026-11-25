@@ -47,7 +47,6 @@ const Index = () => {
             erLoggetInn={erLoggetInn}
           />
 
-
           <Avstand marginTop={24}>
             <Link
               href="#"
@@ -87,7 +86,7 @@ const Index = () => {
                   components={{
                     linkDigihot: (
                       <Lenke
-                        href="https://www.nav.no/samarbeidspartner/bruke-digitale-tjenester"
+                        href="https://www.nav.no/samarbeidspartner/soke-bestille-bytte"
                         target={'_blank'}
                         lenketekst={t('bestillinger.klikkForLesMer')}
                       />
