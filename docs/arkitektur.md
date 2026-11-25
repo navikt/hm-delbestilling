@@ -1,10 +1,5 @@
 # Arkitektur og dataflyt
 
-Diagrammene er et utgangspunkt for trusselmodellering, ikke en ferdig sikkerhetsvurdering.
-De beskriver produksjonskonfigurasjonen og er basert på kildekoden i dette repoet og
-tilknyttede tjenester, se kildene nedenfor. Oppdater dem når integrasjoner eller dataflyt
-endres. Utviklingsmiljø og lokal mocking er ikke vist.
-
 ## Systemkontekst
 
 ```mermaid
@@ -30,10 +25,6 @@ flowchart LR
 ```
 
 ## Dataflyt og tillitsgrenser
-
-Grupperingene viser hvor komponentene hører til, ikke at alle komponenter innenfor en
-gruppe stoler på hverandre. Hver pil mellom selvstendige komponenter er relevant for
-trusselmodelleringen, også innenfor Nais.
 
 ```mermaid
 flowchart LR
